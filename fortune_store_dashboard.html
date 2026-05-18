@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>店舗管理ダッシュボード — AI占いStore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink:    #06071A;
+  --inkP:   #0E0920;
+  --navy:   #0C0E22;
+  --card:   rgba(14,16,40,.88);
+  --card2:  rgba(18,20,48,.92);
+  --gold:   #D4AF37;
+  --goldL:  #E8C84A;
+  --goldD:  #8B6914;
+  --goldP:  #F5E090;
+  --pur:    #7B5EA7;
+  --purL:   #C084FC;
+  --text:   #E8EAF6;
+  --muted:  #8890B8;
+  --dim:    #505878;
+  --ok:     #6EE7B7;
+  --err:    #F87171;
+  --warn:   #FBBF24;
+
+  --mikage-acc: #8BA4E8;
+  --oba-acc:    #D4A0FF;
+  --luna-acc:   #70D4C8;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background: radial-gradient(ellipse at 50% -10%, #1A0B2E 0%, var(--ink) 60%);
+  color:var(--text);
+  font-family:'Noto Serif JP',serif;
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* STARS */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw linear infinite}
+@keyframes tw{0%,100%{opacity:.04}50%{opacity:.65}}
+
+/* NEBULA */
+.nb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+.nb1{width:480px;height:480px;top:-180px;left:-130px;background:radial-gradient(circle,rgba(123,94,167,.13),transparent 70%);animation:nd 22s ease-in-out infinite}
+.nb2{width:380px;height:380px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(74,56,112,.11),transparent 70%);animation:nd 18s ease-in-out infinite reverse}
+@keyframes nd{0%,100%{transform:scale(1)translate(0,0)}40%{transform:scale(1.07)translate(10px,-12px)}70%{transform:scale(.95)translate(-8px,10px)}}
+
+/* HIDDEN */
+.hidden{display:none!important}
+
+/* ============================================================
+   SCREEN WRAPPER
+   ============================================================ */
+.screen{position:relative;z-index:1;min-height:100vh}
+
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+#screen-login{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;padding:1.5rem;
+}
+.login-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;
+  letter-spacing:.18em;color:var(--gold);margin-bottom:.35rem;text-align:center;
+}
+.login-logo em{font-style:italic;font-weight:300}
+.login-eyebrow{
+  font-family:'Playfair Display',serif;font-size:.58rem;letter-spacing:.28em;
+  color:var(--purL);text-transform:uppercase;font-style:italic;text-align:center;
+  margin-bottom:2rem;opacity:.8;
+}
+.login-card{
+  width:100%;max-width:400px;
+  background:var(--card2);
+  border:1px solid rgba(212,175,55,.2);
+  border-radius:22px;
+  padding:2.2rem 1.8rem;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(212,175,55,.1);
+}
+.login-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;
+  letter-spacing:.06em;text-align:center;margin-bottom:1.6rem;color:var(--text);
+}
+.fg{margin-bottom:1.2rem}
+.flbl{display:block;font-size:.66rem;letter-spacing:.14em;color:var(--purL);margin-bottom:.55rem;opacity:.85}
+.finp{
+  width:100%;padding:.75rem 1rem;
+  background:rgba(6,7,26,.82);border:1px solid rgba(123,94,167,.2);
+  border-radius:9px;color:var(--text);font-family:'Noto Serif JP',serif;
+  font-size:.84rem;letter-spacing:.04em;outline:none;
+  transition:border-color .3s,box-shadow .3s;-webkit-appearance:none;
+}
+.finp::placeholder{color:var(--dim)}
+.finp:focus{border-color:rgba(212,175,55,.55);box-shadow:0 0 0 3px rgba(212,175,55,.09)}
+.btn-gold{
+  display:block;width:100%;padding:.92rem 2rem;
+  background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);
+  background-size:220% auto;color:#06080F;font-family:'Noto Serif JP',serif;
+  font-size:.84rem;letter-spacing:.15em;font-weight:500;border:none;border-radius:9px;
+  cursor:pointer;animation:shine 4s linear infinite;
+  transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,175,55,.5)}
+@keyframes shine{0%{background-position:0% center}100%{background-position:220% center}}
+.login-note{text-align:center;font-size:.6rem;color:var(--dim);margin-top:.9rem;letter-spacing:.07em;line-height:1.85}
+.login-err{
+  background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;
+  padding:.65rem .95rem;font-size:.72rem;color:var(--err);
+  letter-spacing:.04em;margin-bottom:1rem;display:none;text-align:center;
+}
+.login-err.show{display:block}
+
+/* ============================================================
+   DASHBOARD SCREEN
+   ============================================================ */
+#screen-dash{flex-direction:column;min-height:100vh}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.3rem;
+  background:linear-gradient(to bottom,rgba(6,7,26,.97) 70%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,175,55,.08);
+}
+.topbar-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;
+  letter-spacing:.14em;color:var(--gold);
+}
+.topbar-logo em{font-style:italic;font-weight:300}
+.topbar-right{display:flex;align-items:center;gap:.8rem}
+.shop-badge{
+  font-size:.6rem;letter-spacing:.1em;color:var(--purL);
+  padding:.22rem .7rem;border:1px solid rgba(192,132,252,.25);border-radius:20px;
+  background:rgba(192,132,252,.06);font-family:'Playfair Display',serif;font-style:italic;
+}
+.btn-logout{
+  font-size:.62rem;letter-spacing:.08em;color:var(--dim);cursor:pointer;
+  padding:.22rem .65rem;border:1px solid rgba(255,255,255,.08);border-radius:5px;
+  background:transparent;transition:all .25s;-webkit-appearance:none;touch-action:manipulation;
+}
+.btn-logout:hover{color:var(--muted);border-color:rgba(255,255,255,.14)}
+
+/* DASH BODY */
+.dash-body{padding:1.4rem 1.2rem 4rem;max-width:700px;margin:0 auto}
+
+/* DATE NAV */
+.date-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.6rem;
+}
+.date-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;
+  letter-spacing:.06em;color:var(--text);
+}
+.date-title em{font-style:italic;color:var(--gold)}
+.period-tabs{display:flex;gap:.45rem}
+.ptab{
+  padding:.32rem .85rem;font-family:'Noto Serif JP',serif;font-size:.65rem;
+  letter-spacing:.07em;cursor:pointer;border-radius:20px;
+  border:1px solid rgba(212,175,55,.2);color:var(--muted);background:transparent;
+  transition:all .3s;-webkit-appearance:none;touch-action:manipulation;
+}
+.ptab.on{background:rgba(212,175,55,.12);border-color:var(--gold);color:var(--gold)}
+
+/* SECTION LABEL */
+.sec-label{
+  font-family:'Playfair Display',serif;font-size:.58rem;letter-spacing:.26em;
+  color:var(--purL);text-transform:uppercase;font-style:italic;
+  margin-bottom:.45rem;opacity:.8;
+}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.5rem}
+@media(min-width:500px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+
+.kpi-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.14);
+  border-radius:16px;padding:1.1rem 1rem;
+  backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.kpi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:60px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.06),transparent 70%);
+  pointer-events:none;
+}
+.kpi-icon{font-size:1.15rem;margin-bottom:.5rem;display:block}
+.kpi-label{font-size:.6rem;letter-spacing:.12em;color:var(--muted);margin-bottom:.35rem}
+.kpi-val{
+  font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
+  color:var(--gold);line-height:1;
+}
+.kpi-val .kpi-unit{font-size:.75rem;color:var(--muted);margin-left:.12rem}
+.kpi-sub{font-size:.6rem;color:var(--dim);margin-top:.35rem;letter-spacing:.05em}
+.kpi-trend{
+  font-size:.6rem;letter-spacing:.06em;margin-top:.3rem;
+  display:flex;align-items:center;gap:.2rem;
+}
+.kpi-trend.up{color:var(--ok)}
+.kpi-trend.down{color:var(--err)}
+
+/* PAYOUT BANNER */
+.payout-banner{
+  background:linear-gradient(135deg,rgba(212,175,55,.1),rgba(123,94,167,.06));
+  border:1px solid rgba(212,175,55,.28);border-radius:14px;
+  padding:1.1rem 1.3rem;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+}
+.payout-ico{font-size:1.6rem;flex-shrink:0}
+.payout-body{flex:1;min-width:160px}
+.payout-label{font-size:.6rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.3rem}
+.payout-amount{
+  font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:300;color:var(--gold);
+}
+.payout-amount .unit{font-size:.78rem;color:var(--muted);margin-left:.1rem}
+.payout-note{font-size:.64rem;color:var(--muted);margin-top:.2rem;letter-spacing:.04em}
+.payout-date-col{text-align:right;flex-shrink:0}
+.payout-date-label{font-size:.58rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.25rem}
+.payout-date{
+  font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;
+  color:var(--purL);letter-spacing:.06em;
+}
+.payout-status{
+  display:inline-block;font-size:.52rem;letter-spacing:.12em;
+  background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.35);
+  color:var(--ok);padding:.14rem .55rem;border-radius:20px;margin-top:.25rem;
+}
+
+/* CHART */
+.chart-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.12);
+  border-radius:16px;padding:1.2rem 1.1rem;margin-bottom:1.5rem;
+}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.chart-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;
+  letter-spacing:.06em;
+}
+.chart-total{
+  font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--gold);
+  letter-spacing:.05em;
+}
+/* Bar chart */
+.bar-chart{display:flex;align-items:flex-end;gap:5px;height:90px;padding:0 2px}
+.bar-wrap{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  min-width:0;
+}
+.bar{
+  width:100%;border-radius:4px 4px 0 0;
+  background:linear-gradient(to top,var(--goldD),var(--gold));
+  transition:height .6s cubic-bezier(.4,0,.2,1);
+  min-height:3px;position:relative;
+}
+.bar.today{
+  background:linear-gradient(to top,var(--goldD),var(--goldL));
+  box-shadow:0 0 14px rgba(212,175,55,.45);
+}
+.bar-lbl{font-size:.5rem;color:var(--dim);letter-spacing:.04em;white-space:nowrap}
+.bar-val{font-size:.5rem;color:var(--muted);letter-spacing:.03em}
+
+/* RANKING */
+.rank-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.12);
+  border-radius:16px;padding:1.2rem 1.1rem;margin-bottom:1.5rem;
+}
+.rank-header{margin-bottom:.9rem}
+.rank-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;
+  letter-spacing:.06em;
+}
+.rank-row{
+  display:flex;align-items:center;gap:.85rem;
+  padding:.75rem .6rem;border-bottom:1px solid rgba(255,255,255,.05);
+  border-radius:10px;transition:background .2s;
+}
+.rank-row:last-child{border-bottom:none}
+.rank-row:hover{background:rgba(212,175,55,.04)}
+.rank-num{
+  font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;
+  width:22px;flex-shrink:0;text-align:center;
+}
+.rank-num.gold{color:var(--gold)}
+.rank-num.silver{color:var(--muted)}
+.rank-num.bronze{color:#CD7F32}
+.rank-emoji{font-size:1.65rem;flex-shrink:0}
+.rank-body{flex:1;min-width:0}
+.rank-name{
+  font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:400;
+  letter-spacing:.05em;color:var(--text);margin-bottom:.16rem;
+}
+.rank-style{font-size:.62rem;color:var(--muted);letter-spacing:.04em}
+.rank-right{text-align:right;flex-shrink:0}
+.rank-count{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;color:var(--gold);
+}
+.rank-count .u{font-size:.62rem;color:var(--muted)}
+.rank-bar-wrap{margin-top:.3rem;height:3px;background:rgba(255,255,255,.07);border-radius:2px;width:60px}
+.rank-bar{height:100%;border-radius:2px;background:var(--gold)}
+
+/* TRANSACTIONS */
+.tx-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.12);
+  border-radius:16px;padding:1.2rem 1.1rem;margin-bottom:1.5rem;
+}
+.tx-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.tx-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;letter-spacing:.06em}
+.tx-all{font-size:.62rem;color:var(--purL);cursor:pointer;letter-spacing:.08em;opacity:.75;transition:opacity .2s}
+.tx-all:hover{opacity:1}
+.tx-row{
+  display:flex;align-items:center;gap:.8rem;padding:.65rem .4rem;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.tx-row:last-child{border-bottom:none}
+.tx-char-ico{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  background:rgba(20,24,52,.8);border:1px solid rgba(212,175,55,.15);
+}
+.tx-body{flex:1;min-width:0}
+.tx-name{font-size:.75rem;color:var(--text);letter-spacing:.04em;margin-bottom:.12rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-meta{font-size:.6rem;color:var(--dim);letter-spacing:.04em}
+.tx-right{text-align:right;flex-shrink:0}
+.tx-amount{
+  font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;color:var(--gold);
+}
+.tx-plan{
+  font-size:.56rem;letter-spacing:.1em;color:var(--muted);margin-top:.12rem;
+}
+.tx-plan.detail{color:var(--purL)}
+
+/* QR SECTION */
+.qr-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.18);
+  border-radius:16px;padding:1.4rem 1.2rem;margin-bottom:1.5rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:1rem;
+}
+@media(min-width:480px){.qr-card{flex-direction:row;text-align:left}}
+.qr-box{
+  width:110px;height:110px;flex-shrink:0;border-radius:12px;
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  padding:8px;box-shadow:0 0 24px rgba(212,175,55,.2);
+}
+.qr-box svg{width:100%;height:100%}
+.qr-body{}
+.qr-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;
+  letter-spacing:.06em;margin-bottom:.35rem;
+}
+.qr-url{
+  font-size:.66rem;color:var(--purL);letter-spacing:.06em;word-break:break-all;
+  margin-bottom:.65rem;
+}
+.qr-btns{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center}
+@media(min-width:480px){.qr-btns{justify-content:flex-start}}
+.btn-sm{
+  padding:.38rem .9rem;font-size:.65rem;letter-spacing:.09em;
+  border-radius:6px;cursor:pointer;-webkit-appearance:none;touch-action:manipulation;
+  transition:all .25s;
+}
+.btn-sm-gold{
+  background:linear-gradient(115deg,var(--goldD),var(--gold),var(--goldL));
+  background-size:200% auto;animation:shine 3s linear infinite;
+  color:#06080F;border:none;font-family:'Noto Serif JP',serif;font-weight:500;
+}
+.btn-sm-outline{
+  border:1px solid rgba(212,175,55,.38);color:var(--gold);background:rgba(212,175,55,.04);
+  font-family:'Noto Serif JP',serif;
+}
+.btn-sm-outline:hover{background:rgba(212,175,55,.1)}
+</style>
+</head>
+<body>
+
+<!-- ATMOSPHERE -->
+<div class="nb nb1"></div>
+<div class="nb nb2"></div>
+<div id="stars"></div>
+
+<!-- ================================================================
+     SCREEN: LOGIN
+     ================================================================ -->
+<div class="screen" id="screen-login">
+  <p class="login-logo"><em>霊視AI占い</em> Store</p>
+  <p class="login-eyebrow">店舗管理ポータル</p>
+
+  <div class="login-card">
+    <h1 class="login-title">店舗ログイン</h1>
+    <div class="login-err" id="login-err">店舗IDまたはパスワードが正しくありません。</div>
+
+    <div class="fg">
+      <label class="flbl" for="l-shopid">店舗ID</label>
+      <input class="finp" type="text" id="l-shopid" placeholder="例：tokyo001" autocomplete="username">
+    </div>
+    <div class="fg" style="margin-bottom:1.5rem">
+      <label class="flbl" for="l-pw">パスワード</label>
+      <input class="finp" type="password" id="l-pw" placeholder="パスワードを入力" autocomplete="current-password">
+    </div>
+    <button type="button" class="btn-gold" onclick="doLogin()">ログインする</button>
+    <p class="login-note">🔒 SSL暗号化通信 ・ このポータルは店舗様専用です</p>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN: DASHBOARD
+     ================================================================ -->
+<div class="screen hidden" id="screen-dash" style="display:flex">
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="topbar-logo"><em>霊視AI</em>占い Store</div>
+    <div class="topbar-right">
+      <div class="shop-badge" id="topbar-shop">tokyo001</div>
+      <button type="button" class="btn-logout" onclick="doLogout()">ログアウト</button>
+    </div>
+  </nav>
+
+  <!-- DASH BODY -->
+  <div class="dash-body">
+
+    <!-- DATE NAV -->
+    <div class="date-nav">
+      <div>
+        <div class="date-title" id="dash-title">今日の<em>売上</em></div>
+      </div>
+      <div class="period-tabs">
+        <button class="ptab on" onclick="setPeriod('today',this)">今日</button>
+        <button class="ptab"    onclick="setPeriod('week',this)">週間</button>
+        <button class="ptab"    onclick="setPeriod('month',this)">月間</button>
+      </div>
+    </div>
+
+    <!-- KPI GRID -->
+    <p class="sec-label">Key Metrics</p>
+    <div class="kpi-grid" id="kpi-grid">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- PAYOUT BANNER -->
+    <p class="sec-label">店舗取り分（売上の30%）</p>
+    <div class="payout-banner" id="payout-banner">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- WEEKLY BAR CHART -->
+    <p class="sec-label">売上推移（直近7日）</p>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">日別売上</div>
+        <div class="chart-total" id="chart-total">—</div>
+      </div>
+      <div class="bar-chart" id="bar-chart"></div>
+    </div>
+
+    <!-- RANKING -->
+    <p class="sec-label">人気キャラクターランキング</p>
+    <div class="rank-card" id="rank-card">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- RECENT TRANSACTIONS -->
+    <p class="sec-label">最近の鑑定履歴</p>
+    <div class="tx-card">
+      <div class="tx-header">
+        <div class="tx-title">直近の鑑定</div>
+        <div class="tx-all">すべて見る ›</div>
+      </div>
+      <div id="tx-list">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <p class="sec-label">自店舗用QRコード</p>
+    <div class="qr-card" id="qr-card">
+      <!-- rendered by JS -->
+    </div>
+
+  </div><!-- /dash-body -->
+</div><!-- /screen-dash -->
+
+<script>
+'use strict';
+
+/* ============================================================
+   STARS
+   ============================================================ */
+(function(){
+  var sf=document.getElementById('stars');
+  for(var i=0;i<110;i++){
+    var s=document.createElement('div'); s.className='star';
+    var z=Math.random()*2.2+.3;
+    s.style.cssText='width:'+z+'px;height:'+z+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*7)+'s;';
+    sf.appendChild(s);
+  }
+})();
+
+var MOCK_KPI = { today:{}, week:{}, month:{} };
+var MOCK_PAYOUT = { today:{}, week:{}, month:{} };
+var DAILY_SALES = [];
+var MOCK_RANK = [];
+var MOCK_TX = [];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var state = {
+  shopId:   null,
+  shopName: null,
+  period:   'today',
+};
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+function doLogin() {
+  var shopId = (document.getElementById('l-shopid').value || '').trim().toLowerCase();
+  var pw     = (document.getElementById('l-pw').value     || '').trim();
+  var errEl  = document.getElementById('login-err');
+  var btn    = document.querySelector('#screen-login .btn-gold');
+  if(btn)btn.disabled=true;
+
+  fetch('/api/shop/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ shopId: shopId, password: pw }),
+  }).then(function(r) {
+    if (!r.ok) throw new Error();
+    return r.json();
+  }).then(function(data) {
+    errEl.classList.remove('show');
+    state.shopId   = shopId;
+    state.shopName = data.name || shopId;
+    document.getElementById('topbar-shop').textContent = state.shopName;
+    document.getElementById('screen-login').classList.add('hidden');
+    document.getElementById('screen-dash').classList.remove('hidden');
+    loadDashboardData('today');
+  }).catch(function() {
+    errEl.classList.add('show');
+    if(btn)btn.disabled=false;
+  });
+}
+
+function loadDashboardData(period) {
+  Promise.all([
+    fetch('/api/shop/metrics?period='+period+'&shopId='+state.shopId).then(function(r){return r.json()}),
+    fetch('/api/shop/payout-status?period='+period+'&shopId='+state.shopId).then(function(r){return r.json()}),
+    fetch('/api/shop/daily-sales?days=7&shopId='+state.shopId).then(function(r){return r.json()}),
+    fetch('/api/shop/character-ranking?shopId='+state.shopId).then(function(r){return r.json()}),
+    fetch('/api/shop/transactions?limit=5&shopId='+state.shopId).then(function(r){return r.json()}),
+  ]).then(function(results) {
+    MOCK_KPI[period]    = results[0];
+    MOCK_PAYOUT[period] = results[1];
+    DAILY_SALES         = results[2];
+    MOCK_RANK           = results[3];
+    MOCK_TX             = results[4];
+    renderDashboard(period);
+  });
+}
+
+/* Enter キー対応 */
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !document.getElementById('screen-login').classList.contains('hidden')) {
+    doLogin();
+  }
+});
+
+function doLogout() {
+  state.shopId = null;
+  document.getElementById('screen-dash').classList.add('hidden');
+  document.getElementById('screen-login').classList.remove('hidden');
+  document.getElementById('l-pw').value = '';
+}
+
+/* ============================================================
+   PERIOD SWITCH
+   ============================================================ */
+function setPeriod(period, btn) {
+  state.period = period;
+  document.querySelectorAll('.ptab').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  loadDashboardData(period);
+}
+
+/* ============================================================
+   DASHBOARD RENDER
+   ============================================================ */
+function renderDashboard(period) {
+  renderKPI(period);
+  renderPayout(period);
+  renderBarChart();
+  renderRanking();
+  renderTransactions();
+  renderQR();
+
+  /* タイトル更新 */
+  var titles = { today:'今日の', week:'今週の', month:'今月の' };
+  document.getElementById('dash-title').innerHTML = titles[period] + '<em>売上</em>';
+}
+
+/* ---- KPI ---- */
+function renderKPI(period) {
+  var d = MOCK_KPI[period];
+  var grid = document.getElementById('kpi-grid');
+
+  grid.innerHTML =
+    kpiCard('💴','売上合計', fmt(d.sales)+'<span class="kpi-unit">円</span>',
+            '<span class="kpi-trend '+d.trendDir+'">'+
+            (d.trendDir==='up'?'▲':'▼')+' '+d.trendSales+' 前期比</span>') +
+    kpiCard('✨','鑑定件数', d.count+'<span class="kpi-unit">件</span>',
+            '平均単価 '+fmt(d.avg)+'円') +
+    kpiCard('👤','新規ユーザー', d.newUsers+'<span class="kpi-unit">人</span>',
+            '全体の '+Math.round(d.newUsers/d.count*100)+'%') +
+    kpiCard('📊','平均単価', fmt(d.avg)+'<span class="kpi-unit">円</span>',
+            '今月目標 500円');
+}
+function kpiCard(icon, label, val, sub) {
+  return '<div class="kpi-card">'+
+    '<span class="kpi-icon">'+icon+'</span>'+
+    '<p class="kpi-label">'+label+'</p>'+
+    '<p class="kpi-val">'+val+'</p>'+
+    '<p class="kpi-sub">'+sub+'</p>'+
+  '</div>';
+}
+
+/* ---- PAYOUT ---- */
+function renderPayout(period) {
+  var d = MOCK_PAYOUT[period];
+  document.getElementById('payout-banner').innerHTML =
+    '<div class="payout-ico">🏦</div>'+
+    '<div class="payout-body">'+
+      '<p class="payout-label">当期の店舗取り分（30%）</p>'+
+      '<p class="payout-amount">'+fmt(d.amount)+'<span class="unit">円</span></p>'+
+      '<p class="payout-note">売上合計の30%が毎月末に振込まれます</p>'+
+    '</div>'+
+    '<div class="payout-date-col">'+
+      '<p class="payout-date-label">次回振込予定日</p>'+
+      '<p class="payout-date">'+d.next+'</p>'+
+      '<span class="payout-status">振込予定</span>'+
+    '</div>';
+}
+
+/* ---- BAR CHART ---- */
+function renderBarChart() {
+  var maxVal = Math.max.apply(null, DAILY_SALES.map(function(d){ return d.val; }));
+  var total  = DAILY_SALES.reduce(function(s,d){ return s+d.val; }, 0);
+  document.getElementById('chart-total').textContent = '7日合計 '+fmt(total)+'円';
+
+  document.getElementById('bar-chart').innerHTML = DAILY_SALES.map(function(d) {
+    var pct = Math.round(d.val / maxVal * 100);
+    return '<div class="bar-wrap">'+
+      '<span class="bar-val">'+fmt(d.val)+'</span>'+
+      '<div class="bar'+(d.today?' today':'')+'" style="height:'+pct+'%"></div>'+
+      '<span class="bar-lbl">'+(d.today?'<b style="color:var(--gold)">今日</b>':d.day)+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+/* ---- RANKING ---- */
+function renderRanking() {
+  var numClass = ['gold','silver','bronze'];
+  document.getElementById('rank-card').innerHTML =
+    '<div class="rank-header"><p class="rank-title">人気キャラランキング（今月）</p></div>'+
+    MOCK_RANK.map(function(r,i){
+      return '<div class="rank-row">'+
+        '<span class="rank-num '+numClass[i]+'">'+(i+1)+'</span>'+
+        '<span class="rank-emoji">'+r.emoji+'</span>'+
+        '<div class="rank-body">'+
+          '<p class="rank-name">'+r.name+'</p>'+
+          '<p class="rank-style">'+r.style+'</p>'+
+        '</div>'+
+        '<div class="rank-right">'+
+          '<p class="rank-count">'+r.count+'<span class="u">件</span></p>'+
+          '<div class="rank-bar-wrap"><div class="rank-bar" style="width:'+r.pct+'%"></div></div>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+}
+
+/* ---- TRANSACTIONS ---- */
+function renderTransactions() {
+  document.getElementById('tx-list').innerHTML = MOCK_TX.map(function(tx){
+    return '<div class="tx-row">'+
+      '<div class="tx-char-ico">'+tx.emoji+'</div>'+
+      '<div class="tx-body">'+
+        '<p class="tx-name">'+tx.char+' — '+tx.name+'</p>'+
+        '<p class="tx-meta">'+tx.time+'</p>'+
+      '</div>'+
+      '<div class="tx-right">'+
+        '<p class="tx-amount">'+fmt(tx.amount)+'<span style="font-size:.65rem;color:var(--muted)">円</span></p>'+
+        '<p class="tx-plan '+tx.plan+'">'+tx.planLabel+'</p>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ---- QR CODE ---- */
+function renderQR() {
+  var shopId = state.shopId || '';
+  var baseUrl = window.location.origin || '';
+  var url = baseUrl + '/tsukiyomi_unified.html?shop_id=' + shopId;
+  var qrSvg = buildMockQR(shopId);
+
+  document.getElementById('qr-card').innerHTML =
+    '<div class="qr-box">'+qrSvg+'</div>'+
+    '<div class="qr-body">'+
+      '<p class="qr-title" style="font-family:\'Cormorant Garamond\',serif;font-size:1.05rem;font-weight:300;letter-spacing:.06em;margin-bottom:.35rem">自店舗用QRコード</p>'+
+      '<p class="qr-url">'+url+'</p>'+
+      '<div class="qr-btns">'+
+        '<button type="button" class="btn-sm btn-sm-gold" onclick="downloadQR()">ダウンロード</button>'+
+        '<button type="button" class="btn-sm btn-sm-outline" onclick="copyURL(\''+url+'\')">URLをコピー</button>'+
+      '</div>'+
+      '<p style="font-size:.58rem;color:var(--dim);margin-top:.65rem;letter-spacing:.06em">店内に印刷して設置してください。来店したお客様が読み取り、占いを利用できます。</p>'+
+    '</div>';
+}
+
+/* ---- QR SVG ---- */
+function buildMockQR(shopId) {
+  var seed = shopId.split('').reduce(function(a,c){ return a+c.charCodeAt(0); },0);
+  var cells = 11;
+  var size  = 94;
+  var cellSz= size / cells;
+  var rects = '';
+  /* コーナーマーカー */
+  ['0,0','0,7','7,0'].forEach(function(pos){
+    var xy = pos.split(',').map(Number);
+    rects += '<rect x="'+(xy[0]*cellSz+1)+'" y="'+(xy[1]*cellSz+1)+'" width="'+(3*cellSz-2)+'" height="'+(3*cellSz-2)+'" rx="2" fill="#000"/>';
+    rects += '<rect x="'+(xy[0]*cellSz+cellSz*.4)+'" y="'+(xy[1]*cellSz+cellSz*.4)+'" width="'+(cellSz*2.2)+'" height="'+(cellSz*2.2)+'" rx="1" fill="#fff"/>';
+    rects += '<rect x="'+(xy[0]*cellSz+cellSz*.75)+'" y="'+(xy[1]*cellSz+cellSz*.75)+'" width="'+(cellSz*1.5)+'" height="'+(cellSz*1.5)+'" rx="1" fill="#000"/>';
+  });
+  /* ランダムドット */
+  for(var r=0;r<cells;r++){
+    for(var c=0;c<cells;c++){
+      if((r<4&&c<4)||(r<4&&c>6)||(r>6&&c<4)) continue;
+      var v=(seed*(r*13+c*7+17))%100;
+      if(v>45){
+        rects+='<rect x="'+(c*cellSz+.5)+'" y="'+(r*cellSz+.5)+'" width="'+(cellSz-1)+'" height="'+(cellSz-1)+'" rx="1" fill="#000"/>';
+      }
+    }
+  }
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+size+' '+size+'" width="'+size+'" height="'+size+'"><rect width="'+size+'" height="'+size+'" fill="#fff"/>'+rects+'</svg>';
+}
+
+/* ---- UTILS ---- */
+function fmt(n){ return n.toLocaleString('ja-JP'); }
+
+function copyURL(url){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).catch(function(){
+      var ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    });
+  } else {
+    var ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  }
+}
+
+function downloadQR(){
+  var svg=document.querySelector('#qr-card .qr-box svg');
+  if(!svg)return;
+  var blob=new Blob([svg.outerHTML],{type:'image/svg+xml'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='qr_'+state.shopId+'.svg';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
