@@ -530,11 +530,19 @@ var state = {
 /* ============================================================
    LOGIN
    ============================================================ */
+/* ダッシュボード初期表示用のプレースホルダーデータ */
+var DEFAULT_KPI   = { sales:0, count:0, avg:0, newUsers:0, trendSales:'--', trendDir:'up' };
+var DEFAULT_PAY   = { amount:0, next:'--', status:'--' };
+var DEFAULT_DAILY = [];
+var DEFAULT_RANK  = [];
+var DEFAULT_TX    = [];
+
 function doLogin() {
   var shopId = (document.getElementById('l-shopid').value || '').trim().toLowerCase();
   var pw     = (document.getElementById('l-pw').value     || '').trim();
   var errEl  = document.getElementById('login-err');
   var btn    = document.querySelector('#screen-login .btn-gold');
+  if (!shopId || !pw) { errEl.classList.add('show'); return; }
   if(btn)btn.disabled=true;
 
   fetch('/api/shop/auth/login', {
@@ -545,26 +553,36 @@ function doLogin() {
     if (!r.ok) throw new Error();
     return r.json();
   }).then(function(data) {
-    errEl.classList.remove('show');
-    state.shopId   = shopId;
-    state.shopName = data.name || shopId;
-    document.getElementById('topbar-shop').textContent = state.shopName;
-    document.getElementById('screen-login').classList.add('hidden');
-    document.getElementById('screen-dash').classList.remove('hidden');
-    loadDashboardData('today');
+    loginSuccess(shopId, data.name || shopId);
   }).catch(function() {
+    /* API未接続時はIDとPWが入力されていればダッシュボードを表示（開発用） */
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      loginSuccess(shopId, shopId + '（ローカル）');
+      return;
+    }
     errEl.classList.add('show');
     if(btn)btn.disabled=false;
   });
 }
 
+function loginSuccess(shopId, shopName) {
+  var errEl = document.getElementById('login-err');
+  errEl.classList.remove('show');
+  state.shopId   = shopId;
+  state.shopName = shopName;
+  document.getElementById('topbar-shop').textContent = shopName;
+  document.getElementById('screen-login').classList.add('hidden');
+  document.getElementById('screen-dash').classList.remove('hidden');
+  loadDashboardData('today');
+}
+
 function loadDashboardData(period) {
   Promise.all([
-    fetch('/api/shop/metrics?period='+period+'&shopId='+state.shopId).then(function(r){return r.json()}),
-    fetch('/api/shop/payout-status?period='+period+'&shopId='+state.shopId).then(function(r){return r.json()}),
-    fetch('/api/shop/daily-sales?days=7&shopId='+state.shopId).then(function(r){return r.json()}),
-    fetch('/api/shop/character-ranking?shopId='+state.shopId).then(function(r){return r.json()}),
-    fetch('/api/shop/transactions?limit=5&shopId='+state.shopId).then(function(r){return r.json()}),
+    fetch('/api/shop/metrics?period='+period+'&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_KPI}),
+    fetch('/api/shop/payout-status?period='+period+'&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_PAY}),
+    fetch('/api/shop/daily-sales?days=7&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_DAILY}),
+    fetch('/api/shop/character-ranking?shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_RANK}),
+    fetch('/api/shop/transactions?limit=5&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_TX}),
   ]).then(function(results) {
     MOCK_KPI[period]    = results[0];
     MOCK_PAYOUT[period] = results[1];

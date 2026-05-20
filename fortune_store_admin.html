@@ -603,6 +603,15 @@ function doLogin(){
     document.getElementById('screen-admin').classList.remove('hidden');
     loadAllData();
   }).catch(function(){
+    /* API未接続時はlocalhost環境のみ管理画面を表示（開発用） */
+    if(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'){
+      err.classList.remove('show');
+      document.getElementById('sb-user').textContent=id+' (admin)';
+      document.getElementById('screen-login').classList.add('hidden');
+      document.getElementById('screen-admin').classList.remove('hidden');
+      renderAll();
+      return;
+    }
     err.classList.add('show');
     if(btn)btn.disabled=false;
   });
@@ -610,10 +619,10 @@ function doLogin(){
 
 function loadAllData(){
   Promise.all([
-    fetch('/api/admin/shops').then(function(r){return r.json()}),
-    fetch('/api/admin/characters').then(function(r){return r.json()}),
-    fetch('/api/admin/menus').then(function(r){return r.json()}),
-    fetch('/api/admin/history').then(function(r){return r.json()}),
+    fetch('/api/admin/shops').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
+    fetch('/api/admin/characters').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
+    fetch('/api/admin/menus').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
+    fetch('/api/admin/history').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
   ]).then(function(results){
     SHOPS=results[0];CHARS_DATA=results[1];MENUS_DATA=results[2];HISTORY_DATA=results[3];
     renderAll();

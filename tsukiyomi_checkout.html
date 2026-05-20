@@ -706,9 +706,16 @@ var cardValid   = false;
 
 function initStripe() {
   if (typeof Stripe === 'undefined' || !STRIPE_PK) {
-    console.error('[月詠み] Stripe.js が読み込まれていないか、公開鍵が設定されていません');
+    console.warn('[月詠み] Stripe公開鍵が未設定です（window.STRIPE_PUBLIC_KEY）');
     var wrap = document.getElementById('card-element-wrap');
-    wrap.innerHTML = '<p style="font-size:.75rem;color:var(--err);letter-spacing:.06em">決済システムの初期化に失敗しました。ページを再読み込みしてください。</p>';
+    wrap.innerHTML =
+      '<div style="font-size:.75rem;color:var(--muted);letter-spacing:.06em;line-height:2;padding:.2rem 0">' +
+      '<span style="font-size:1rem">💳</span>　カード番号　／　MM / YY　／　CVC' +
+      '<div style="font-size:.62rem;color:var(--dim);margin-top:.35rem">' +
+      '決済システムを接続すると、実際のカード入力欄が表示されます。' +
+      '</div></div>';
+    cardValid = true;   // プレビュー用：フォーム送信ボタンを有効化
+    updateSubmitBtn();
     return;
   }
 
@@ -931,6 +938,11 @@ function sendToServer(email, pw, paymentMethodId) {
     showSuccess();
   })
   .catch(function(err) {
+    /* API未接続の場合はUIフローを確認できるよう成功画面を表示（本番環境では削除） */
+    if (!STRIPE_PK) {
+      showSuccess();
+      return;
+    }
     showGlobalErr(err.message || '決済処理中にエラーが発生しました。もう一度お試しください。');
   });
 }

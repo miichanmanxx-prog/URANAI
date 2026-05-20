@@ -488,6 +488,17 @@ body{
 <div class="nb nb3"></div>
 <div id="stars"></div>
 
+<!-- ログイン必須画面（APIに繋がるまで表示） -->
+<div id="screen-login-required" style="display:none;position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem">
+  <div style="text-align:center;max-width:380px">
+    <div style="font-size:3rem;margin-bottom:1.2rem;animation:twinkle 3s ease-in-out infinite">🌙</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.12em;color:#D4AF37;margin-bottom:.4rem"><em>月詠み</em>占い</p>
+    <p style="font-size:.68rem;letter-spacing:.2em;color:#C084FC;margin-bottom:2rem;font-style:italic">MY PAGE</p>
+    <p style="font-size:.82rem;color:#8890B8;line-height:1.9;letter-spacing:.05em;margin-bottom:2rem">マイページを表示するには<br>ログインが必要です。</p>
+    <a href="tsukiyomi_unified.html" style="display:inline-block;padding:.9rem 2.4rem;background:linear-gradient(115deg,#8B6914,#D4AF37,#E8C84A,#D4AF37);background-size:220% auto;animation:shine 4s linear infinite;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.14em;font-weight:500;border:none;border-radius:10px;text-decoration:none;cursor:pointer">ログイン・新規登録へ</a>
+  </div>
+</div>
+
 <div class="page">
 
   <!-- ── SITE HEADER ── -->
@@ -648,10 +659,11 @@ var historyShown = HISTORY_PAGE_SIZE;
   buildStars();
   renderMenuCards();
   renderHistory();
+
   Promise.all([
-    fetch('/api/user/profile').then(function(r) { if (!r.ok) throw new Error(); return r.json(); }),
-    fetch('/api/user/moon-profile').then(function(r) { if (!r.ok) throw new Error(); return r.json(); }),
-    fetch('/api/user/history').then(function(r) { if (!r.ok) throw new Error(); return r.json(); }),
+    fetch('/api/user/profile').then(function(r) { if (!r.ok) throw new Error('profile'); return r.json(); }),
+    fetch('/api/user/moon-profile').then(function(r) { if (!r.ok) throw new Error('moon'); return r.json(); }),
+    fetch('/api/user/history').then(function(r) { if (!r.ok) throw new Error('history'); return r.json(); }),
   ]).then(function(results) {
     Object.assign(USER, results[0]);
     Object.assign(USER_MOON, results[1]);
@@ -660,7 +672,9 @@ var historyShown = HISTORY_PAGE_SIZE;
     renderUserInfo();
     renderHistory();
   }).catch(function() {
-    window.location.href = 'tsukiyomi_unified.html';
+    /* 未ログイン or API未接続 — ログイン案内を表示 */
+    document.getElementById('screen-login-required').style.display = 'flex';
+    document.querySelector('.page').style.display = 'none';
   });
 })();
 
