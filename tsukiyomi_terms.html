@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>利用規約 | 月詠み占い</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+JP:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #07081C;
+    --gold: #D4AF37;
+    --goldL: #E8C84A;
+    --goldD: #8B6914;
+    --goldP: #F5E090;
+    --pur: #7B5EA7;
+    --purL: #C084FC;
+    --purD: #4A3870;
+    --text: #E8EAF6;
+    --muted: #8890B8;
+    --dim: #505878;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(ellipse at 50% -5%, #1E0B38 0%, #07081C 55%);
+    min-height: 100vh;
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    opacity: 0;
+    animation: pageIn .5s ease .05s forwards;
+  }
+
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Stars */
+  #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle linear infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: .03; }
+    50%       { opacity: .7; }
+  }
+
+  /* Nebula orbs */
+  .nb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+  .nb1 { width: 520px; height: 520px; top: -80px; left: -120px; background: rgba(123,94,167,.14); animation: drift 24s ease-in-out infinite; }
+  .nb2 { width: 400px; height: 400px; bottom: -100px; right: -80px; background: rgba(74,56,112,.11); animation: drift 19s ease-in-out infinite reverse; }
+  .nb3 { width: 300px; height: 300px; top: 40%; right: 5%; background: rgba(212,175,55,.06); animation: drift 28s ease-in-out 5s infinite; }
+  @keyframes drift {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    33%       { transform: scale(1.06) translate(12px, -18px); }
+    66%       { transform: scale(.96) translate(-10px, 14px); }
+  }
+
+  /* Layout */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1.2rem 5rem;
+  }
+
+  /* Page header */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 0 1rem;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--muted);
+    font-size: .82rem;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color .2s;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .back-link:hover { color: var(--purL); }
+  .site-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--gold), var(--goldL));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: .05em;
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: linear-gradient(158deg, rgba(14,10,36,.95), rgba(8,5,24,.98));
+    border: 1px solid rgba(139,92,246,.18);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 16px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(139,92,246,.08);
+  }
+
+  /* Hero card */
+  .hero-card {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    margin-bottom: 1.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-topline {
+    height: 2px;
+    background: linear-gradient(90deg, var(--pur), var(--gold), var(--pur));
+    border-radius: 2px;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+  }
+  .hero-moon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: .8rem;
+    animation: moonGlow 3s ease-in-out infinite;
+  }
+  @keyframes moonGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(212,175,55,.3)); }
+    50%       { filter: drop-shadow(0 0 20px rgba(212,175,55,.7)); }
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--gold), var(--goldL), var(--goldP));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: .06em;
+    margin-bottom: .5rem;
+  }
+  .hero-subtitle {
+    font-size: .82rem;
+    font-style: italic;
+    color: var(--purL);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    margin-bottom: .9rem;
+  }
+  .施行日-chip {
+    display: inline-block;
+    font-size: .72rem;
+    color: var(--dim);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+    border: 1px solid rgba(80,88,120,.35);
+    border-radius: 20px;
+    padding: .2rem .75rem;
+    letter-spacing: .04em;
+  }
+
+  /* Article cards */
+  .article-card {
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .article-header {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    margin-bottom: .9rem;
+  }
+  .article-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--goldD), var(--gold));
+    border-radius: 20px;
+    padding: .22rem .75rem;
+    font-size: .72rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: .08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .article-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: .04em;
+  }
+  .article-body {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: .88rem;
+    color: rgba(232,234,246,.82);
+    line-height: 1.85;
+  }
+  .article-body ul {
+    list-style: none;
+    margin-top: .5rem;
+  }
+  .article-body ul li {
+    padding: .18rem 0 .18rem 1.2rem;
+    position: relative;
+  }
+  .article-body ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+  .article-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139,92,246,.2), transparent);
+    margin: .9rem 0;
+  }
+
+  /* Back footer */
+  .back-footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .9rem;
+  }
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    border: 1.5px solid rgba(123,94,167,.5);
+    background: transparent;
+    color: var(--purL);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: .88rem;
+    padding: .65rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, color .2s;
+    text-decoration: none;
+  }
+  .btn-back:hover {
+    border-color: var(--purL);
+    background: rgba(123,94,167,.12);
+    color: #fff;
+  }
+  .footer-copy {
+    font-size: .72rem;
+    color: var(--dim);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="nb nb1"></div>
+<div class="nb nb2"></div>
+<div class="nb nb3"></div>
+
+<div class="page">
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <button class="back-link" onclick="goBack()">← 戻る</button>
+    <span class="site-logo">月詠み占い</span>
+  </header>
+
+  <!-- Hero Card -->
+  <div class="hero-card glass-card">
+    <div class="hero-topline"></div>
+    <span class="hero-moon">⚖️</span>
+    <h1 class="hero-title">利用規約</h1>
+    <p class="hero-subtitle">「安心して運命鑑定をご利用いただくために」</p>
+    <span class="施行日-chip">2026年5月1日 施行</span>
+  </div>
+
+  <!-- 第1条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第１条</span>
+      <span class="article-title">サービス内容</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      本サービス「月詠み占い」は、月星座・タロット・星占いなどを用いた占い・運勢鑑定・運命分析コンテンツを提供するサービスです。サービスは随時追加・更新されます。
+    </div>
+  </div>
+
+  <!-- 第2条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第２条</span>
+      <span class="article-title">会員登録</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      ユーザーは正確な情報を入力して登録するものとします。虚偽の情報による登録は禁止され、発覚した場合はアカウントを停止することがあります。登録に必要な情報は、お名前・メールアドレス・パスワードです。
+    </div>
+  </div>
+
+  <!-- 第3条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第３条</span>
+      <span class="article-title">禁止事項</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      以下の行為を禁止します：
+      <ul>
+        <li>不正アクセスおよびシステムへの攻撃行為</li>
+        <li>他のユーザーへの迷惑行為・嫌がらせ</li>
+        <li>サービスの運営を妨害する行為</li>
+        <li>虚偽情報による登録・利用</li>
+        <li>鑑定コンテンツの無断転載・複製・商用利用</li>
+        <li>法令または公序良俗に反する行為</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 第4条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第４条</span>
+      <span class="article-title">鑑定結果について</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      鑑定結果はエンターテインメントを目的として提供されており、結果の正確性・実現性・完全性を保証するものではありません。医療・法律・財務などの専門的判断の代替として利用しないでください。
+    </div>
+  </div>
+
+  <!-- 第5条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第５条</span>
+      <span class="article-title">アカウント管理</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      アカウントのID・パスワードの管理はユーザー自身の責任とします。第三者への譲渡・貸与は禁止します。不正利用の疑いがある場合は速やかにご連絡ください。
+    </div>
+  </div>
+
+  <!-- 第6条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第６条</span>
+      <span class="article-title">サービス変更・終了</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      サービスの内容・価格・仕様は予告なく変更される場合があります。また、運営上の都合によりサービスを停止・終了することがあります。
+    </div>
+  </div>
+
+  <!-- 第7条 -->
+  <div class="article-card glass-card">
+    <div class="article-header">
+      <span class="article-badge">第７条</span>
+      <span class="article-title">免責事項</span>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      本サービスの利用によって発生した損害（直接・間接問わず）について、運営者は法令上の責任を超えた責任を負いません。
+    </div>
+  </div>
+
+  <!-- Back Footer -->
+  <div class="back-footer">
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+    <p class="footer-copy">© 2026 月詠み占い</p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Stars
+  (function() {
+    var container = document.getElementById('stars');
+    for (var i = 0; i < 100; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      var size = (Math.random() * (2.5 - 0.3) + 0.3).toFixed(2);
+      s.style.cssText = [
+        'width:'  + size + 'px',
+        'height:' + size + 'px',
+        'left:'   + (Math.random() * 100).toFixed(2) + '%',
+        'top:'    + (Math.random() * 100).toFixed(2) + '%',
+        'animation-duration:' + (Math.random() * (6 - 2) + 2).toFixed(2) + 's',
+        'animation-delay:-'   + (Math.random() * 7).toFixed(2) + 's'
+      ].join(';');
+      container.appendChild(s);
+    }
+  })();
+
+  // Back navigation
+  function goBack() {
+    if (document.referrer && document.referrer.includes(location.hostname)) {
+      history.back();
+    } else {
+      window.location.href = 'tsukiyomi_unified.html';
+    }
+  }
+</script>
+</body>
+</html>

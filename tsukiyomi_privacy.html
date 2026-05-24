@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー | 月詠み占い</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+JP:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #07081C;
+      --gold: #D4AF37;
+      --goldL: #E8C84A;
+      --goldD: #8B6914;
+      --goldP: #F5E090;
+      --pur: #7B5EA7;
+      --purL: #C084FC;
+      --purD: #4A3870;
+      --text: #E8EAF6;
+      --muted: #8890B8;
+      --dim: #505878;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: radial-gradient(ellipse at 50% -5%, #1E0B38 0%, #07081C 55%);
+      min-height: 100vh;
+      color: var(--text);
+      opacity: 0;
+      animation: pageIn .5s ease .05s forwards;
+    }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Stars ── */
+    #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle linear infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: .03; }
+      50%       { opacity: .7; }
+    }
+
+    /* ── Nebula orbs ── */
+    .nb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+    .nb1 { width: 520px; height: 520px; top: -120px; left: -160px; background: rgba(123,94,167,.14); animation: drift 24s ease-in-out infinite; }
+    .nb2 { width: 400px; height: 400px; bottom: -100px; right: -120px; background: rgba(74,56,112,.11); animation: drift 19s ease-in-out infinite reverse; }
+    .nb3 { width: 300px; height: 300px; top: 40%; right: 5%; background: rgba(212,175,55,.06); animation: drift 28s ease-in-out 5s infinite; }
+
+    @keyframes drift {
+      0%   { transform: scale(1) translate(0, 0); }
+      33%  { transform: scale(1.05) translate(12px, -18px); }
+      66%  { transform: scale(.97) translate(-10px, 14px); }
+      100% { transform: scale(1) translate(0, 0); }
+    }
+
+    /* ── Layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1.2rem 5rem;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 0 1rem;
+    }
+    .back-link {
+      font-family: 'Noto Serif JP', serif;
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color .2s;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .back-link:hover { color: var(--goldL); }
+    .site-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--gold), var(--goldL));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: .04em;
+    }
+
+    /* ── Hero card ── */
+    .hero-card {
+      background: linear-gradient(158deg, rgba(10,14,40,.96), rgba(6,8,28,.99));
+      border: 1px solid rgba(100,140,220,.2);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 48px rgba(0,0,0,.5), inset 0 1px 0 rgba(100,160,255,.07);
+      text-align: center;
+      padding: 2.5rem 2rem;
+      margin-bottom: 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-top-line {
+      height: 3px;
+      background: linear-gradient(90deg, rgba(60,100,200,.5), rgba(139,92,246,.8), rgba(100,160,255,.5));
+      border-radius: 2px 2px 0 0;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+    }
+    .hero-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 55%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(80,130,255,.09), transparent 65%);
+      pointer-events: none;
+    }
+    .hero-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: .8rem;
+      filter: drop-shadow(0 0 16px rgba(80,140,255,.4));
+      animation: lockGlow 3s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes lockGlow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(80,140,255,.35)); }
+      50%       { filter: drop-shadow(0 0 26px rgba(120,180,255,.65)); }
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(160,210,255,.95), rgba(180,220,255,1), rgba(140,190,255,.9));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .5rem;
+      letter-spacing: .06em;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-subtitle {
+      font-size: .85rem;
+      font-style: italic;
+      color: rgba(160,200,255,.75);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      margin-bottom: .9rem;
+      opacity: .85;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-date-chip {
+      display: inline-block;
+      font-size: .72rem;
+      color: var(--dim);
+      border: 1px solid rgba(80,88,120,.35);
+      border-radius: 20px;
+      padding: .18rem .75rem;
+      letter-spacing: .05em;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Section cards ── */
+    .section-card {
+      background: linear-gradient(158deg, rgba(10,14,40,.96), rgba(6,8,28,.99));
+      border: 1px solid rgba(100,140,220,.16);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.42), inset 0 1px 0 rgba(100,160,255,.05);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.2rem;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .section-card:hover {
+      border-color: rgba(100,160,255,.26);
+      box-shadow: 0 16px 48px rgba(0,0,0,.48), 0 0 28px rgba(80,130,220,.06);
+    }
+
+    /* Section number badge */
+    .section-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(80,130,220,.18);
+      line-height: 1;
+      letter-spacing: -.02em;
+      float: right;
+      margin-top: -.3rem;
+      margin-left: .8rem;
+      user-select: none;
+    }
+    .section-badge {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .68rem;
+      font-variant: small-caps;
+      letter-spacing: .14em;
+      font-weight: 600;
+      color: rgba(140,190,255,.7);
+      border: 1px solid rgba(100,160,255,.22);
+      border-radius: 20px;
+      padding: .2rem .75rem;
+      margin-bottom: .7rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: rgba(200,225,255,.92);
+      letter-spacing: .06em;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .deco-diamond { color: rgba(100,160,255,.55); margin-right: .45rem; font-size: .9rem; }
+
+    /* Body text */
+    .section-body p {
+      font-size: .86rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 2.05;
+      letter-spacing: .04em;
+    }
+    .section-body p + p { margin-top: .8rem; }
+
+    /* Bullet list */
+    .privacy-list {
+      list-style: none;
+      margin: .6rem 0 0;
+      padding: 0;
+    }
+    .privacy-list li {
+      font-size: .84rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 2;
+      letter-spacing: .04em;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .privacy-list li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: rgba(100,160,255,.45);
+      font-size: .6rem;
+      top: .45rem;
+    }
+
+    /* Info highlight box */
+    .info-box {
+      margin-top: .9rem;
+      padding: .85rem 1rem;
+      background: rgba(60,100,200,.07);
+      border: 1px solid rgba(100,160,255,.14);
+      border-radius: 10px;
+      font-size: .78rem;
+      color: rgba(160,200,255,.65);
+      line-height: 1.85;
+      letter-spacing: .04em;
+    }
+
+    /* ── Back footer ── */
+    .back-footer {
+      text-align: center;
+      padding-top: 2.5rem;
+    }
+    .back-btn {
+      display: inline-block;
+      padding: .75rem 2.4rem;
+      background: rgba(100,140,220,.08);
+      border: 1px solid rgba(100,160,255,.28);
+      border-radius: 50px;
+      color: rgba(160,200,255,.8);
+      font-family: 'Noto Serif JP', serif;
+      font-size: .8rem;
+      font-weight: 300;
+      letter-spacing: .1em;
+      cursor: pointer;
+      transition: background .25s, border-color .25s, color .25s;
+      -webkit-appearance: none;
+      margin-bottom: 1.6rem;
+    }
+    .back-btn:hover {
+      background: rgba(100,140,220,.18);
+      border-color: rgba(140,190,255,.45);
+      color: rgba(200,225,255,.95);
+    }
+    .footer-copy {
+      font-size: .6rem;
+      color: var(--dim);
+      letter-spacing: .1em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="nb nb1"></div>
+<div class="nb nb2"></div>
+<div class="nb nb3"></div>
+<div id="stars"></div>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="page-header">
+    <button class="back-link" onclick="goBack()">← 戻る</button>
+    <span class="site-logo"><em>月詠み</em>占い</span>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero-card">
+    <div class="hero-top-line"></div>
+    <div class="hero-glow"></div>
+    <span class="hero-emoji">🔒</span>
+    <h1 class="hero-title">プライバシーポリシー</h1>
+    <p class="hero-subtitle">「あなたの大切な情報を、月の守りのもとに」</p>
+    <span class="hero-date-chip">2026年5月1日 施行</span>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-card">
+    <span class="section-num">01</span>
+    <div class="section-badge">Privacy · Information</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>取得する情報</h2>
+    <div class="section-body">
+      <p>当サービスでは、より良い鑑定体験を提供するために以下の情報を取得します。</p>
+      <ul class="privacy-list">
+        <li>お名前（ニックネームでのご登録も可能です）</li>
+        <li>メールアドレス</li>
+        <li>パスワード（暗号化して安全に保存します）</li>
+        <li>サービスのご利用履歴・鑑定履歴</li>
+        <li>アクセス情報（IPアドレス・ブラウザ情報・端末情報など）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-card">
+    <span class="section-num">02</span>
+    <div class="section-badge">Privacy · Purpose</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>利用目的</h2>
+    <div class="section-body">
+      <p>取得した情報は、以下の目的のみに利用します。</p>
+      <ul class="privacy-list">
+        <li>サービスの提供・運営・維持管理</li>
+        <li>ログイン認証・アカウント管理</li>
+        <li>カスタマーサポートへの対応</li>
+        <li>サービスの改善・新機能の開発</li>
+        <li>重要なお知らせ・メンテナンス情報の配信</li>
+      </ul>
+      <div class="info-box">
+        ご登録いただいた情報は、上記の目的以外に使用することはありません。
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-card">
+    <span class="section-num">03</span>
+    <div class="section-badge">Privacy · Management</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>個人情報の管理</h2>
+    <div class="section-body">
+      <p>取得した個人情報は、適切なセキュリティ対策を施した上で厳重に管理します。</p>
+      <p>法令に定める場合を除き、ご本人の同意なく第三者に提供・開示・売却することは一切ありません。個人情報への不正アクセス・漏洩・改ざん・滅失を防ぐため、適切な安全管理措置を講じます。</p>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-card">
+    <span class="section-num">04</span>
+    <div class="section-badge">Privacy · Third Party</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>外部サービスの利用</h2>
+    <div class="section-body">
+      <p>サービス提供にあたり、以下のような外部サービスを利用する場合があります。</p>
+      <ul class="privacy-list">
+        <li>決済処理サービス（クレジットカード情報は当サービスでは保管しません）</li>
+        <li>アクセス解析ツール（サービス改善のための匿名データ分析）</li>
+        <li>メール配信サービス（重要なお知らせの送信）</li>
+      </ul>
+      <p style="margin-top:.8rem">各外部サービスのプライバシーポリシーについては、各事業者のポリシーをご確認ください。</p>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-card">
+    <span class="section-num">05</span>
+    <div class="section-badge">Privacy · Cookie</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>Cookieについて</h2>
+    <div class="section-body">
+      <p>当サービスでは、ログイン状態の維持・利便性の向上およびサービス改善のためにCookieおよびLocalStorageを使用することがあります。</p>
+      <p>ブラウザの設定によりCookieを無効にすることも可能ですが、一部機能（ログイン状態の保持など）が制限される場合があります。</p>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-card">
+    <span class="section-num">06</span>
+    <div class="section-badge">Privacy · Revision</div>
+    <h2 class="section-title"><span class="deco-diamond">◆</span>ポリシーの改定</h2>
+    <div class="section-body">
+      <p>本プライバシーポリシーは、法令の改正・サービス内容の変更・その他の事情に応じて改定される場合があります。</p>
+      <p>重要な変更がある場合は、サービス上のお知らせまたはメールにてご連絡します。最新のポリシーは常に本ページをご確認ください。</p>
+      <div class="info-box">
+        ご不明な点がございましたら、サービス内のお問い合わせフォームよりご連絡ください。
+      </div>
+    </div>
+  </div>
+
+  <!-- Back footer -->
+  <div class="back-footer">
+    <button class="back-btn" onclick="goBack()">← 戻る</button>
+    <p class="footer-copy">© 2026 月詠み占い. All rights reserved.</p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Stars
+  (function() {
+    var container = document.getElementById('stars');
+    for (var i = 0; i < 100; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      var size = Math.random() * 2.2 + 0.3;
+      s.style.cssText = [
+        'width:'  + size + 'px',
+        'height:' + size + 'px',
+        'left:'   + (Math.random() * 100) + '%',
+        'top:'    + (Math.random() * 100) + '%',
+        'animation-duration:' + (Math.random() * 4 + 2) + 's',
+        'animation-delay:'    + (Math.random() * 7)     + 's'
+      ].join(';');
+      container.appendChild(s);
+    }
+  })();
+
+  // Back navigation
+  function goBack() {
+    if (document.referrer && document.referrer.includes(location.hostname)) {
+      history.back();
+    } else {
+      window.location.href = 'tsukiyomi_unified.html';
+    }
+  }
+</script>
+</body>
+</html>
