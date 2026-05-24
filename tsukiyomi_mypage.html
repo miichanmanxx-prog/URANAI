@@ -481,9 +481,10 @@ body{
   -webkit-appearance:none;touch-action:manipulation;
 }
 /* ── ページフェードイン ── */
-body{opacity:0;animation:pageIn .55s ease .05s forwards}
-@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-body.page-out{opacity:0 !important;transform:translateY(-4px) !important;transition:opacity .35s ease,transform .35s ease !important}
+body{opacity:0;animation:pageIn .5s ease .04s forwards}
+@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
+  transition:opacity .35s ease,transform .35s ease !important;animation:none !important}
 </style>
 </head>
 <body>
@@ -492,16 +493,29 @@ body.page-out{opacity:0 !important;transform:translateY(-4px) !important;transit
 <div class="nb nb3"></div>
 <div id="stars"></div>
 
-<!-- ログイン必須画面（APIに繋がるまで表示） -->
-<div id="screen-login-required" style="display:none;position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem">
+<!-- ── ログイン必須オーバーレイ ── -->
+<div id="screen-login-required" style="display:none;position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);
+  flex-direction:column;align-items:center;justify-content:center;padding:2rem">
   <div style="text-align:center;max-width:380px">
-    <div style="font-size:3rem;margin-bottom:1.2rem;animation:twinkle 3s ease-in-out infinite">🌙</div>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.12em;color:#D4AF37;margin-bottom:.4rem"><em>月詠み</em>占い</p>
-    <p style="font-size:.68rem;letter-spacing:.2em;color:#C084FC;margin-bottom:2rem;font-style:italic">MY PAGE</p>
-    <p style="font-size:.82rem;color:#8890B8;line-height:1.9;letter-spacing:.05em;margin-bottom:2rem">マイページを表示するには<br>ログインが必要です。</p>
-    <a href="tsukiyomi_unified.html" style="display:inline-block;padding:.9rem 2.4rem;background:linear-gradient(115deg,#8B6914,#D4AF37,#E8C84A,#D4AF37);background-size:220% auto;animation:shine 4s linear infinite;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.14em;font-weight:500;border:none;border-radius:10px;text-decoration:none;cursor:pointer">ログイン・新規登録へ</a>
+    <div style="font-size:3.2rem;margin-bottom:1.2rem;animation:twinkle 3s ease-in-out infinite;
+      filter:drop-shadow(0 0 22px rgba(212,175,55,.5))">🌙</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
+      letter-spacing:.14em;color:#D4AF37;margin-bottom:.4rem"><em>月詠み</em>占い</p>
+    <p style="font-size:.62rem;letter-spacing:.22em;color:#C084FC;margin-bottom:2rem;
+      font-style:italic;text-transform:uppercase">My Page</p>
+    <p style="font-size:.8rem;color:#8890B8;line-height:2;letter-spacing:.06em;margin-bottom:2.4rem">
+      マイページを表示するには<br>ログインが必要です。</p>
+    <a href="tsukiyomi_unified.html" style="display:inline-block;padding:.95rem 2.6rem;
+      background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
+      background-size:240% auto;animation:pageIn 0s,btnShine 4s linear infinite;
+      color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.16em;
+      font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;
+      text-decoration:none;cursor:pointer;
+      box-shadow:0 4px 30px rgba(139,92,246,.38)">ログイン・新規登録へ</a>
   </div>
 </div>
+@keyframes btnShine{0%{background-position:200% center}100%{background-position:-200% center}}
 
 <div class="page">
 
@@ -612,9 +626,59 @@ body.page-out{opacity:0 !important;transform:translateY(-4px) !important;transit
 <script>
 'use strict';
 
-var USER = {};
-var USER_MOON = {};
+/* ============================================================
+   Auth helpers  ─  localStorage-based (mirrors tsukiyomi_unified.html)
+   ============================================================ */
+function getAuth(){
+  try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}
+}
+function clearAuth(){localStorage.removeItem('tsukiyomi_auth');}
+function fadeToPage(url){
+  document.body.classList.add('page-out');
+  setTimeout(function(){window.location.href=url;},380);
+}
 
+/* ============================================================
+   ユーザーデータ（実装時はバックエンドAPIから取得）
+   ============================================================ */
+/* ============================================================
+   ユーザーデータ（実装時: GET /api/user/profile で取得）
+   ============================================================ */
+var USER = {
+  name:        'さくら',
+  memberSince: '2026年3月12日',
+  email:       'sakura@example.com',
+  // 生年月日・性別は初回課金時に登録済み
+  birthDate:   '1990-05-15',
+  gender:      '女性',
+};
+
+/* ============================================================
+   月相データ（実装時: バックエンドのAIがUSER.birthDateから計算し返す）
+   エンドポイント例: GET /api/user/moon-profile
+   レスポンス例:
+   {
+     moonPhase:         '満月',
+     moonIcon:          '🌕',
+     personalityType:   '豊かな感性の引き寄せ人',
+     personalityKeyword:'感受性が高く、存在するだけで場を明るく照らす。人を引き付ける不思議な魅力の持ち主。',
+     moonMessage:       'あなたは満月の夜に生まれました。生まれ持つ豊かな感性と引き寄せの力は、周囲を優しく照らす光となります。',
+     moonEmoji:         '🌕',  // phase-badge用
+   }
+   ============================================================ */
+var USER_MOON = {
+  moonPhase:         '満月',
+  moonIcon:          '🌕',
+  personalityType:   '豊かな感性の引き寄せ人',
+  personalityKeyword:'感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。',
+  moonMessage:       'あなたは<em>満月</em>の夜に生まれました。生まれ持つ豊かな感性と引き寄せの力は、周囲を優しく照らす光となります。',
+  moonEmoji:         '🌕',
+};
+
+/* ============================================================
+   占いメニューデータ
+   実装時はAPIまたは管理画面から動的に取得
+   ============================================================ */
 var MENUS = [
   {
     id:       'personality',
@@ -651,53 +715,109 @@ var MENUS = [
   },
 ];
 
-var HISTORY_ALL = [];
+/* ============================================================
+   過去の鑑定履歴データ
+   実装時はGET /api/user/history から取得
+   ============================================================ */
+var HISTORY_ALL = [
+  {
+    id:      'h001',
+    date:    '2026年5月16日',
+    menuId:  'tarot',
+    emoji:   '🃏',
+    menu:    'あの人の本音',
+    plan:    'deep',
+    amount:  500,
+    result:  'タロットが映し出したのは「月の女神」のカードです。あなたの気になるあの人は、今まさに言葉にできない深い感情を抱えています。それはあなたへの特別な想いである可能性が非常に高く、動き出すタイミングが近づいています。',
+    blurTxt: 'その日付と、あなたが取るべき具体的な一言が、深掘り鑑定で明かされます。月が告げる最適なタイミングは……',
+    isLight: false,
+  },
+  {
+    id:      'h002',
+    date:    '2026年5月10日',
+    menuId:  'personality',
+    emoji:   '🌙',
+    menu:    'あなたの本当の性格',
+    plan:    'light',
+    amount:  100,
+    result:  'あなたは水のように深く、静かな内側に広大な世界を持っています。感情の機微を敏感に感じ取り、言葉にならない空気を読む力は、誰もが追いつけないほどです。',
+    blurTxt: 'あなたが誰にも話したことのない、本当の自分の姿は……人を惹きつける理由は外見や言葉ではなく、あなたが無意識に発しているエネルギーにあります。',
+    isLight: true,
+  },
+  {
+    id:      'h003',
+    date:    '2026年4月28日',
+    menuId:  'monthly',
+    emoji:   '✨',
+    menu:    '今月、何が起きるのか',
+    plan:    'deep',
+    amount:  500,
+    result:  '満月のパワーが最高潮に達する今月は、あなたの魅力と運気が共に頂点に向かいます。感情が豊かに満ちるこの時期、正直な気持ちを表現することが大きな転機を生みます。恋愛運は今月最高潮。',
+    blurTxt: '転機が訪れる正確な日付と、その日にすべき行動が、詳細鑑定に記されています。',
+    isLight: false,
+  },
+  {
+    id:      'h004',
+    date:    '2026年4月15日',
+    menuId:  'tarot',
+    emoji:   '🃏',
+    menu:    'あの人の本音',
+    plan:    'light',
+    amount:  100,
+    result:  '「花の予言」カードが引き当てられました。二人の縁が今まさに咲こうとしていることを告げています。あなたとあの人の間には、すでに目に見えない糸が結ばれています。',
+    blurTxt: 'その花が完全に開くために、今あなたに必要な勇気とは……',
+    isLight: true,
+  },
+  {
+    id:      'h005',
+    date:    '2026年3月30日',
+    menuId:  'personality',
+    emoji:   '🌙',
+    menu:    'あなたの本当の性格',
+    plan:    'deep',
+    amount:  500,
+    result:  'あなたの月相は「満月」。感情が満ちるタイミングに生まれたあなたは、存在するだけで周囲を明るくします。独自の視点と創造力は、あなたを他の誰とも違う唯一無二の存在にします。',
+    blurTxt: 'その輝きが最も評価される環境の選び方、そして今後の開花タイミングとは……',
+    isLight: false,
+  },
+];
 
 var HISTORY_PAGE_SIZE = 3;
 var historyShown = HISTORY_PAGE_SIZE;
-
-/* ============================================================
-   Auth helpers (localStorage-based, mirrors unified.html)
-   ============================================================ */
-function getAuth(){try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}}
-function clearAuth(){localStorage.removeItem('tsukiyomi_auth');}
-function fadeToPage(url){
-  document.body.classList.add('page-out');
-  setTimeout(function(){window.location.href=url;},380);
-}
 
 /* ============================================================
    初期化
    ============================================================ */
 (function init() {
   buildStars();
-  renderMenuCards();
-  renderHistory();
 
+  /* ── Auth check ── */
   var auth = getAuth();
   if (!auth || !auth.token) {
-    /* 未ログイン */
-    document.getElementById('screen-login-required').style.display = 'flex';
-    document.querySelector('.page').style.display = 'none';
+    var overlay = document.getElementById('screen-login-required');
+    if (overlay) { overlay.style.display = 'flex'; }
+    var page = document.querySelector('.page');
+    if (page) { page.style.display = 'none'; }
     return;
   }
 
-  /* ログイン済み: localStorage からユーザー情報を注入 */
-  Object.assign(USER, {
-    name:        auth.name        || '月詠みユーザー',
-    memberSince: auth.memberSince || '2026年5月',
-    email:       auth.email       || ''
-  });
-  Object.assign(USER_MOON, {
-    moonIcon:          auth.moonIcon          || '🌕',
-    moonPhase:         auth.moonPhase         || '満月',
-    moonEmoji:         auth.moonEmoji         || '🌕',
-    moonMessage:       auth.moonMessage       || '心の奥にある真実が、今夜語りかけています。',
-    personalityType:   auth.personalityType   || '豊かな感性の引き寄せ人',
-    personalityKeyword:auth.personalityKeyword|| '感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。'
-  });
+  /* ── Populate USER from localStorage ── */
+  if (auth.name)        USER.name        = auth.name;
+  if (auth.memberSince) USER.memberSince = auth.memberSince;
+  if (auth.email)       USER.email       = auth.email;
+
+  /* ── Populate USER_MOON from localStorage ── */
+  if (auth.moonIcon)           USER_MOON.moonIcon           = auth.moonIcon;
+  if (auth.moonPhase)          USER_MOON.moonPhase          = auth.moonPhase;
+  if (auth.moonEmoji)          USER_MOON.moonEmoji          = auth.moonEmoji;
+  if (auth.personalityType)    USER_MOON.personalityType    = auth.personalityType;
+  if (auth.personalityKeyword) USER_MOON.personalityKeyword = auth.personalityKeyword;
+  /* Build rich moon message */
+  USER_MOON.moonMessage = 'あなたは<em>' + USER_MOON.moonPhase + '</em>のエネルギーの中にいます。' +
+    (auth.moonMessage ? auth.moonMessage : '内側に宿る光が、あなたの道を照らしています。');
 
   renderUserInfo();
+  renderMenuCards();
   renderHistory();
 })();
 
@@ -728,6 +848,13 @@ function renderUserInfo() {
   document.getElementById('user-name').textContent    = USER.name;
   document.getElementById('member-since').textContent = '会員登録：' + USER.memberSince;
 
+  /* ── 月相データ（USER_MOON から注入）
+       実装時: API レスポンスを受け取ったあと、USER_MOON に代入してから呼ぶ
+       例: fetch('/api/user/moon-profile').then(r=>r.json()).then(data=>{
+             Object.assign(USER_MOON, data);
+             renderUserInfo();
+           });
+  ── */
   document.getElementById('moon-phase-icon').textContent  = USER_MOON.moonIcon;
   document.getElementById('moon-phase-name').textContent  = USER_MOON.moonPhase;
   document.getElementById('moon-type-name').textContent   = USER_MOON.personalityType;
@@ -834,17 +961,29 @@ function loadMore() {
 
 /* ============================================================
    占いプラン選択ハンドラ
+   実装時：Stripe Checkout セッション作成 → リダイレクト
    ============================================================ */
 function handlePlanSelect(menuId, plan, price) {
   var menu = MENUS.find(function (m) { return m.id === menuId; });
   if (!menu) return;
 
+  /* ── 決済ページへ遷移（実装例） ── */
   var url = 'tsukiyomi_checkout.html' +
     '?plan=' + (plan === 'deep' ? 'deep' : 'light') +
     '&menu=' + menuId +
     '&price=' + price;
 
-  window.location.href = url;
+  console.log('[月詠みMyPage] 決済へ:', { menuId: menuId, plan: plan, price: price, url: url });
+
+  /* デモ確認アラート（本番では削除してリダイレクト） */
+  var planLabel = plan === 'deep' ? '詳細鑑定' : '簡易鑑定';
+  if (confirm(
+    '【' + menu.title + '】\n' +
+    planLabel + ' — ' + price.toLocaleString('ja-JP') + '円\n\n' +
+    'お支払いページへ進みますか？'
+  )) {
+    window.location.href = url;
+  }
 }
 
 /* ============================================================
@@ -905,6 +1044,7 @@ function handleUpgrade() {
 
 /* ============================================================
    ログアウト
+   実装時：セッション削除 → ログイン画面へリダイレクト
    ============================================================ */
 function handleLogout() {
   clearAuth();
