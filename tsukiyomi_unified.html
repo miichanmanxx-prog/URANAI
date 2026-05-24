@@ -257,10 +257,10 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .rev-tail{font-size:.63rem;color:rgba(212,175,55,.45);letter-spacing:.1em;font-family:'Playfair Display',serif;font-style:italic}
 /* MODAL */
 /* ── 会員登録モーダル glassmorphism ── */
-.modal-bg{position:fixed;inset:0;z-index:600;background:rgba(4,5,18,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.2rem;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal-bg.open{opacity:1;pointer-events:auto}
-.modal-card{width:100%;max-width:440px;background:linear-gradient(165deg,rgba(16,10,44,.99),rgba(8,5,28,1));border:1px solid rgba(139,92,246,.28);border-radius:24px;padding:0;box-shadow:0 28px 80px rgba(0,0,0,.82),0 0 60px rgba(139,92,246,.1),inset 0 1px 0 rgba(180,140,255,.1);overflow:hidden;transform:translateY(14px);transition:transform .38s cubic-bezier(.4,0,.2,1)}
-.modal-bg.open .modal-card{transform:translateY(0)}
+.modal-bg{position:fixed;inset:0;z-index:600;background:rgba(4,5,18,.88);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);display:flex;align-items:center;justify-content:center;padding:1.2rem;opacity:0;pointer-events:none;transition:opacity .38s ease,backdrop-filter .38s ease,-webkit-backdrop-filter .38s ease}
+.modal-bg.open{opacity:1;pointer-events:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.modal-card{width:100%;max-width:440px;background:linear-gradient(165deg,rgba(16,10,44,.99),rgba(8,5,28,1));border:1px solid rgba(139,92,246,.28);border-radius:24px;padding:0;box-shadow:0 28px 80px rgba(0,0,0,.82),0 0 60px rgba(139,92,246,.1),inset 0 1px 0 rgba(180,140,255,.1);overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .42s cubic-bezier(.34,1.56,.64,1),opacity .38s ease;opacity:0}
+.modal-bg.open .modal-card{transform:translateY(0) scale(1);opacity:1}
 /* モーダルヘッダー (グロー領域) */
 .modal-glass-hd{position:relative;padding:2rem 1.8rem 1.4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.14),transparent 68%);border-bottom:1px solid rgba(139,92,246,.14)}
 .modal-glass-hd::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.55),rgba(212,175,55,.35),rgba(139,92,246,.55),transparent)}
@@ -333,9 +333,10 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-fade-p{font-size:.85rem;line-height:2.2;color:rgba(200,190,235,.85);letter-spacing:.04em;margin-bottom:.7rem}
 .mk-fade-p:last-child{margin-bottom:0}
 .mk-fade-veil{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to bottom,transparent 0%,rgba(10,7,30,.22) 20%,rgba(10,7,30,.65) 50%,rgba(10,7,30,.93) 78%,rgba(10,7,30,.99) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.mk-read-unlock{padding:.85rem 1.7rem 1.1rem;display:flex;align-items:center;gap:.55rem;border-top:1px solid rgba(139,92,246,.12)}
-.mk-read-unlock-ico{font-size:.72rem;color:var(--goldD);opacity:.72}
-.mk-read-unlock-txt{font-size:.7rem;color:var(--goldD);letter-spacing:.05em;opacity:.82}
+.mk-read-unlock{padding:.85rem 1.7rem 1.1rem;display:flex;align-items:center;gap:.55rem;border-top:1px solid rgba(139,92,246,.12);transition:background .2s}
+.mk-read-unlock:hover{background:rgba(139,92,246,.06)}
+.mk-read-unlock-ico{font-size:.72rem;color:rgba(180,140,255,.82);opacity:.72}
+.mk-read-unlock-txt{font-size:.7rem;color:rgba(180,140,255,.82);letter-spacing:.05em;opacity:.82}
 /* 今の運気カード（白ベース・他カードと統一） */
 .mk-phase-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.2);border-radius:18px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}.mk-phase-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.16)}
 .mk-phase-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(139,92,246,.14)}
@@ -357,7 +358,8 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-compat-fade{position:relative;max-height:96px;overflow:hidden;margin-bottom:.5rem}
 .mk-compat-fade-txt{font-size:.8rem;line-height:2.15;color:rgba(200,190,235,.85);letter-spacing:.04em}
 .mk-compat-veil{position:absolute;bottom:0;left:0;right:0;height:72%;background:linear-gradient(to bottom,transparent 0%,rgba(10,7,30,.28) 22%,rgba(10,7,30,.68) 52%,rgba(10,7,30,.95) 80%,rgba(10,7,30,.99) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.mk-compat-foot{padding:.7rem 1.7rem 1rem;font-size:.68rem;color:rgba(180,140,255,.75);letter-spacing:.06em}
+.mk-compat-foot{padding:.7rem 1.7rem 1rem;font-size:.68rem;color:rgba(180,140,255,.75);letter-spacing:.06em;transition:background .2s}
+.mk-compat-foot:hover{background:rgba(139,92,246,.06)}
 /* 会員登録CTAセクション */
 .mk-reg-section{background:linear-gradient(168deg,rgba(10,12,38,.99),rgba(6,8,22,1));border:1px solid rgba(123,94,167,.38);border-radius:20px;padding:2.2rem 1.8rem 2.4rem;position:relative;overflow:hidden;text-align:center}
 .mk-reg-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.2),transparent 56%),radial-gradient(ellipse at 50% 100%,rgba(212,175,55,.08),transparent 52%);pointer-events:none}
@@ -368,8 +370,8 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-reg-text p{font-family:'Noto Serif JP',serif;font-size:.8rem;color:var(--muted);line-height:2.2;letter-spacing:.05em;margin-bottom:.55rem}
 .mk-reg-sep{padding-top:.5rem}
 .mk-reg-sign{font-family:'Cormorant Garamond',serif;font-size:.96rem !important;color:var(--purL) !important;font-style:italic;letter-spacing:.06em;padding-top:.5rem}
-.mk-reg-btn{display:block;width:100%;padding:1.15rem 1.5rem;background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.17em;font-weight:500;border:none;border-radius:11px;cursor:pointer;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 30px rgba(212,175,55,.5),0 0 0 1px rgba(212,175,55,.18),0 0 60px rgba(212,175,55,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;z-index:1;margin-top:.2rem}
-.mk-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,175,55,.62),0 0 80px rgba(212,175,55,.18)}
+.mk-reg-btn{display:block;width:100%;padding:1.15rem 1.5rem;background:linear-gradient(115deg,rgba(70,30,130,.92) 0%,rgba(139,92,246,.9) 38%,rgba(180,120,255,.92) 62%,rgba(139,92,246,.9) 100%);background-size:240% auto;color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.17em;font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;cursor:pointer;animation:planBtnShine 4s linear infinite,planBtnPulse 2.6s ease-in-out infinite;box-shadow:0 4px 30px rgba(139,92,246,.38),0 0 60px rgba(139,92,246,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;z-index:1;margin-top:.2rem}
+.mk-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 50px rgba(139,92,246,.55),0 0 90px rgba(180,140,255,.2)}
 .mk-reg-sub{font-size:.61rem;color:var(--dim);margin-top:.85rem;letter-spacing:.06em;position:relative;z-index:1}
 /* 鑑定メニューカード */
 .mk-menu-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.24em;color:rgba(212,175,55,.55);text-transform:uppercase;text-align:center;margin:1.5rem 0 .9rem;position:relative;z-index:1}
@@ -606,7 +608,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
   <a class="logo" href="#" onclick="onLogo();return false"><em>月詠み</em>占い</a>
   <div class="hbtns">
     <button class="hbtn hbtn-l" onclick="openModal()">ログイン</button>
-    <button class="hbtn hbtn-r" onclick="goCheckout(\'light\')">会員登録</button>
+    <button class="hbtn hbtn-r" onclick="openModal()">会員登録</button>
   </div>
 </header>
 
@@ -1228,7 +1230,7 @@ function submitForm(){
     if(!ST.planId){showFormErr('鑑定プランを選択してください');return}
     var ch=CHARS[ST.charKey],plan=ch.plans.find(function(p){return p.id===ST.planId});
     updSteps(3);
-    window.location.href='tsukiyomi_checkout.html?plan='+(plan.id==='detail'?'deep':'light')+'&menu='+ST.charKey+'&price='+plan.p+'&shop_id='+(SHOP_ID||'unknown');
+    openModal();
     return;
   }
   show('scr-loading');runLoad(function(){renderResult()});
@@ -1558,7 +1560,7 @@ function drawP(){
         '<div class="mk-read-body">'+
           '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.personality)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
-        '<div class="mk-read-unlock">'+
+        '<div class="mk-read-unlock" onclick="openModal()" style="cursor:pointer">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
           '<span class="mk-read-unlock-txt">会員登録して全文を読む</span>'+
         '</div>'+
@@ -1577,7 +1579,7 @@ function drawP(){
         '<div class="mk-read-body">'+
           '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.destiny)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
-        '<div class="mk-read-unlock">'+
+        '<div class="mk-read-unlock" onclick="openModal()" style="cursor:pointer">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
           '<span class="mk-read-unlock-txt">会員登録して全文を読む</span>'+
         '</div>'+
@@ -1623,7 +1625,7 @@ function drawP(){
             '<div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div>'+
           '</div>'+
         '</div>'+
-        '<div class="mk-compat-foot">🔓 会員登録して詳細を読む</div>'+
+        '<div class="mk-compat-foot" onclick="openModal()" style="cursor:pointer">🔓 会員登録して詳細を読む</div>'+
       '</div>'+
     '</div>';
 
@@ -1682,7 +1684,7 @@ function drawP(){
         '</div>'+
 
         /* ── 登録ボタン */
-        '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを視る</button>'+
+        '<button class="mk-reg-btn" onclick="openModal()">無料登録して続きを視る</button>'+
         '<p class="mk-reg-sub">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
       '</div>'+
     '</div>';
@@ -1924,7 +1926,7 @@ function drawM(){
           '</ul>'+
         '</div>'+
       '</div>'+
-      '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを読む</button>'+
+      '<button class="mk-reg-btn" onclick="openModal()">無料登録して続きを読む</button>'+
       '<p class="mk-reg-sub">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
     '</div>'+
   '</div>';
@@ -2123,7 +2125,7 @@ function drawTR(idx){
             '</ul>'+
           '</div>'+
         '</div>'+
-        '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを視る</button>'+
+        '<button class="mk-reg-btn" onclick="openModal()">無料登録して続きを視る</button>'+
         '<p class="mk-reg-sub">\U0001f512 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
       '</div>'+
     '</div>';
@@ -2135,7 +2137,7 @@ function drawTR(idx){
   setTimeout(initScrollFade,80);
 }
 
-function goCheckout(plan){var url='tsukiyomi_checkout.html?plan='+plan+'&menu='+ST.menu;if(IS_STORE&&SHOP_ID)url+='&shop_id='+SHOP_ID;window.location.href=url}
+function goCheckout(plan){openModal();}
 function openModal(){
   var errEl=document.getElementById('modal-err');
   if(errEl)errEl.style.display='none';
