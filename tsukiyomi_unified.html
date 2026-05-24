@@ -352,9 +352,25 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-reg-text p{font-family:'Noto Serif JP',serif;font-size:.8rem;color:var(--muted);line-height:2.2;letter-spacing:.05em;margin-bottom:.55rem}
 .mk-reg-sep{padding-top:.5rem}
 .mk-reg-sign{font-family:'Cormorant Garamond',serif;font-size:.96rem !important;color:var(--purL) !important;font-style:italic;letter-spacing:.06em;padding-top:.5rem}
-.mk-reg-btn{display:block;width:100%;padding:1.15rem 1.5rem;background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.17em;font-weight:500;border:none;border-radius:11px;cursor:pointer;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 30px rgba(212,175,55,.5),0 0 0 1px rgba(212,175,55,.18),0 0 60px rgba(212,175,55,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;z-index:1;margin-top:1.7rem}
+.mk-reg-btn{display:block;width:100%;padding:1.15rem 1.5rem;background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.17em;font-weight:500;border:none;border-radius:11px;cursor:pointer;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 30px rgba(212,175,55,.5),0 0 0 1px rgba(212,175,55,.18),0 0 60px rgba(212,175,55,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;z-index:1;margin-top:.2rem}
 .mk-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,175,55,.62),0 0 80px rgba(212,175,55,.18)}
 .mk-reg-sub{font-size:.61rem;color:var(--dim);margin-top:.85rem;letter-spacing:.06em;position:relative;z-index:1}
+/* 鑑定メニューカード */
+.mk-menu-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.24em;color:rgba(212,175,55,.55);text-transform:uppercase;text-align:center;margin:1.5rem 0 .9rem;position:relative;z-index:1}
+.mk-menu-grid{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.5rem;position:relative;z-index:1;text-align:left}
+.mk-menu-card{background:rgba(255,255,255,.04);border:1px solid rgba(123,94,167,.32);border-radius:14px;padding:1.2rem 1.35rem;position:relative;overflow:hidden}
+.mk-menu-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.1),transparent 65%);pointer-events:none}
+.mk-menu-card.hot{border-color:rgba(212,175,55,.45);background:rgba(212,175,55,.04);box-shadow:0 0 30px rgba(212,175,55,.09)}
+.mk-menu-card.hot::before{background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.09),transparent 62%)}
+.mk-menu-badge{position:absolute;top:.8rem;right:.95rem;font-size:.48rem;letter-spacing:.1em;color:#06080F;background:linear-gradient(135deg,#8B6914,#D4AF37);padding:.18rem .58rem;border-radius:20px}
+.mk-menu-price-row{display:flex;align-items:baseline;gap:.55rem;margin-bottom:.65rem;position:relative;z-index:1}
+.mk-menu-price{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:var(--muted);line-height:1}
+.mk-menu-price.gold{color:var(--gold);text-shadow:0 0 12px rgba(212,175,55,.32)}
+.mk-menu-price .yen{font-size:.78rem;color:var(--dim);margin-left:.07rem}
+.mk-menu-name{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--text);letter-spacing:.08em;font-style:italic}
+.mk-menu-list{list-style:none;margin:0;padding:0;position:relative;z-index:1}
+.mk-menu-list li{font-size:.71rem;color:var(--muted);line-height:1.78;padding:.07rem 0;display:flex;align-items:flex-start;gap:.42rem;letter-spacing:.03em}
+.mk-menu-list li::before{content:'✦';color:var(--gold);opacity:.55;font-size:.52rem;flex-shrink:0;margin-top:.22rem}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 </style>
 </head>
@@ -1223,19 +1239,57 @@ function drawP(){
   var regCta=
     '<div class="mk-section mk-scroll-fade">'+
       '<div class="mk-reg-section">'+
-        '<p class="mk-reg-rule">━━━━━━━━</p>'+
+
+        /* ── ミカゲのメッセージ（短縮版） */
+        '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
         '<p class="mk-reg-prelude">まだ、</p>'+
         '<p class="mk-reg-headline">月はあなたの運命を<br>語り終えていません。</p>'+
         '<div class="mk-reg-text">'+
-          '<p>今あなたの中で揺れている感情。</p>'+
-          '<p>離れていく人、<br>なぜか忘れられない記憶。</p>'+
-          '<p>それらは偶然ではなく、<br>月の巡りが映し出しているものです。</p>'+
-          '<p class="mk-reg-sep">この先では、</p>'+
-          '<p>あなたが今、<br>本当は何を恐れているのか。</p>'+
-          '<p>そして、<br>どんな未来へ導かれているのかを、</p>'+
-          '<p class="mk-reg-sign">陰陽師ミカゲが<br>さらに深く読み解きます。</p>'+
+          '<p>今、あなたが抱えている迷いも、<br>離れていく人の意味も。</p>'+
+          '<p class="mk-reg-sign">その答えを、陰陽師ミカゲが<br>さらに深く読み解きます。</p>'+
         '</div>'+
-        '<p class="mk-reg-rule">━━━━━━━━</p>'+
+        '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
+
+        /* ── 鑑定メニュー */
+        '<p class="mk-menu-lbl">✦ 鑑定メニュー ✦</p>'+
+        '<div class="mk-menu-grid">'+
+
+          /* 100円プラン */
+          '<div class="mk-menu-card">'+
+            '<div class="mk-menu-price-row">'+
+              '<span class="mk-menu-price">100<span class="yen">円</span></span>'+
+              '<span class="mk-menu-name">基本鑑定 解放</span>'+
+            '</div>'+
+            '<ul class="mk-menu-list">'+
+              '<li>基本の性格 全文</li>'+
+              '<li>人生テーマ 全文</li>'+
+              '<li>今の運気 詳細</li>'+
+              '<li>開運アドバイス</li>'+
+            '</ul>'+
+          '</div>'+
+
+          /* 500円プラン */
+          '<div class="mk-menu-card hot">'+
+            '<span class="mk-menu-badge">深読み</span>'+
+            '<div class="mk-menu-price-row">'+
+              '<span class="mk-menu-price gold">500<span class="yen">円</span></span>'+
+              '<span class="mk-menu-name">深読み鑑定</span>'+
+            '</div>'+
+            '<ul class="mk-menu-list">'+
+              '<li>一言診断</li>'+
+              '<li>基本の性格</li>'+
+              '<li>裏の性格</li>'+
+              '<li>隠れた才能</li>'+
+              '<li>恋愛運</li>'+
+              '<li>仕事運</li>'+
+              '<li>魂の課題（人生テーマ）</li>'+
+              '<li>開運アドバイス</li>'+
+            '</ul>'+
+          '</div>'+
+
+        '</div>'+
+
+        /* ── 登録ボタン */
         '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを視る</button>'+
         '<p class="mk-reg-sub">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
       '</div>'+
