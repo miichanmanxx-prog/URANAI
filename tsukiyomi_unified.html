@@ -320,15 +320,15 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-read-unlock{padding:.85rem 1.7rem 1.1rem;display:flex;align-items:center;gap:.55rem;border-top:1px solid rgba(212,175,55,.1)}
 .mk-read-unlock-ico{font-size:.72rem;color:var(--goldD);opacity:.72}
 .mk-read-unlock-txt{font-size:.7rem;color:var(--goldD);letter-spacing:.05em;opacity:.82}
-/* 今の運気カード（ダーク） */
-.mk-phase-card{background:linear-gradient(158deg,rgba(14,16,48,.99),rgba(8,10,28,1));border:1px solid rgba(123,94,167,.34);border-radius:18px;padding:1.6rem 1.7rem;position:relative;overflow:hidden}
-.mk-phase-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.15),transparent 64%);pointer-events:none}
-.mk-phase-hd{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;position:relative;z-index:1}
+/* 今の運気カード（白ベース・他カードと統一） */
+.mk-phase-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden}
+.mk-phase-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(212,175,55,.1)}
 .mk-phase-ico{font-size:.92rem}
-.mk-phase-lbl{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--purL);letter-spacing:.12em;font-style:italic}
-.mk-phase-status{background:rgba(212,175,55,.09);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:.7rem 1.1rem;margin-bottom:1rem;position:relative;z-index:1}
-.mk-phase-status-txt{font-family:'Cormorant Garamond',serif;font-size:1.08rem;color:var(--gold);letter-spacing:.08em;font-style:italic;line-height:1.55}
-.mk-phase-body{font-size:.82rem;line-height:2.2;color:var(--muted);letter-spacing:.04em;position:relative;z-index:1}
+.mk-phase-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#1A1A2E;letter-spacing:.1em;font-style:italic}
+.mk-phase-inner{padding:1.1rem 1.7rem 1.4rem}
+.mk-phase-status{background:rgba(212,175,55,.07);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:.7rem 1.1rem;margin-bottom:.9rem}
+.mk-phase-status-txt{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--goldD);letter-spacing:.08em;font-style:italic;line-height:1.55}
+.mk-phase-body{font-size:.83rem;line-height:2.2;color:#3A3A5A;letter-spacing:.04em}
 /* 相性カード */
 .mk-compat-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden}
 .mk-compat-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(212,175,55,.1)}
@@ -342,28 +342,19 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-compat-fade-txt{font-size:.8rem;line-height:2.15;color:#4A4A6A;letter-spacing:.04em}
 .mk-compat-veil{position:absolute;bottom:0;left:0;right:0;height:78%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.9) 32%,transparent 100%);backdrop-filter:blur(3.5px);-webkit-backdrop-filter:blur(3.5px)}
 .mk-compat-foot{padding:.7rem 1.7rem 1rem;font-size:.68rem;color:var(--goldD);opacity:.72;letter-spacing:.06em}
-/* CTAセクション */
-.mk-cta{background:linear-gradient(165deg,rgba(12,16,46,.99),rgba(8,10,28,1));border:1px solid rgba(212,175,55,.34);border-radius:20px;padding:2.1rem 1.7rem 2.3rem;position:relative;overflow:hidden}
-.mk-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.12),transparent 60%),radial-gradient(ellipse at 50% 100%,rgba(212,175,55,.07),transparent 55%);pointer-events:none}
-.mk-cta-eyebrow{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.28em;color:var(--purL);text-align:center;margin-bottom:.65rem;opacity:.8;font-style:italic;position:relative;z-index:1}
-.mk-cta-hd{font-family:'Cormorant Garamond',serif;font-size:1.18rem;color:var(--gold);text-align:center;letter-spacing:.1em;margin-bottom:.55rem;position:relative;z-index:1;text-shadow:0 0 22px rgba(212,175,55,.42)}
-.mk-cta-sub{font-size:.76rem;color:var(--muted);text-align:center;line-height:1.95;margin-bottom:1.7rem;letter-spacing:.03em;position:relative;z-index:1}
-.mk-plans{display:flex;flex-direction:column;gap:1.1rem;margin-bottom:.9rem;position:relative;z-index:1}
-.mk-plan{border-radius:14px;padding:1.35rem 1.4rem;border:1px solid rgba(212,175,55,.26);background:rgba(255,255,255,.03);position:relative;overflow:hidden}
-.mk-plan.hot{border-color:rgba(212,175,55,.58);background:linear-gradient(148deg,rgba(24,20,54,.96),rgba(14,12,36,.99));box-shadow:0 0 38px rgba(212,175,55,.13)}
-.mk-plan.hot::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.1),transparent 62%);pointer-events:none}
-.mk-plan-badge{position:absolute;top:.85rem;right:1.1rem;font-size:.5rem;letter-spacing:.1em;color:#06080F;background:linear-gradient(135deg,#8B6914,#D4AF37);padding:.2rem .62rem;border-radius:20px}
-.mk-plan-price{font-family:'Cormorant Garamond',serif;font-size:1.58rem;color:var(--gold);margin-bottom:.12rem;text-shadow:0 0 14px rgba(212,175,55,.34)}
-.mk-plan-price .yen{font-size:.82rem;color:var(--muted);margin-left:.12rem}
-.mk-plan-name{font-family:'Cormorant Garamond',serif;font-size:.94rem;color:var(--text);letter-spacing:.07em;margin-bottom:.52rem}
-.mk-plan-items{list-style:none;margin:0 0 .95rem;padding:0}
-.mk-plan-items li{font-size:.72rem;color:var(--muted);line-height:1.78;padding:.08rem 0;display:flex;align-items:flex-start;gap:.45rem}
-.mk-plan-items li::before{content:'✦';color:var(--gold);opacity:.62;font-size:.54rem;flex-shrink:0;margin-top:.26rem}
-.mkp-btn{display:block;width:100%;padding:.95rem 1.5rem;text-align:center;border-radius:9px;border:none;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.1em;cursor:pointer;transition:all .25s;-webkit-appearance:none;touch-action:manipulation}
-.mkp-btn.gold{background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-weight:500;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 24px rgba(212,175,55,.42)}
-.mkp-btn.outline{background:transparent;color:var(--text);border:1px solid rgba(212,175,55,.4)}
-.mkp-btn.gold:hover,.mkp-btn.outline:hover{transform:translateY(-2px)}
-.mk-secure{display:flex;align-items:center;justify-content:center;gap:.45rem;font-size:.62rem;color:var(--dim);margin-top:1.1rem;letter-spacing:.04em;position:relative;z-index:1}
+/* 会員登録CTAセクション */
+.mk-reg-section{background:linear-gradient(168deg,rgba(10,12,38,.99),rgba(6,8,22,1));border:1px solid rgba(123,94,167,.38);border-radius:20px;padding:2.2rem 1.8rem 2.4rem;position:relative;overflow:hidden;text-align:center}
+.mk-reg-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.2),transparent 56%),radial-gradient(ellipse at 50% 100%,rgba(212,175,55,.08),transparent 52%);pointer-events:none}
+.mk-reg-rule{font-family:'Cormorant Garamond',serif;font-size:.62rem;color:rgba(212,175,55,.38);letter-spacing:.22em;margin:.9rem 0;position:relative;z-index:1}
+.mk-reg-prelude{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--purL);letter-spacing:.1em;margin-bottom:.35rem;font-style:italic;position:relative;z-index:1}
+.mk-reg-headline{font-family:'Cormorant Garamond',serif;font-size:1.42rem;color:var(--gold);letter-spacing:.07em;line-height:1.8;margin-bottom:1.5rem;text-shadow:0 0 24px rgba(212,175,55,.45);position:relative;z-index:1}
+.mk-reg-text{position:relative;z-index:1;margin-bottom:.2rem}
+.mk-reg-text p{font-family:'Noto Serif JP',serif;font-size:.8rem;color:var(--muted);line-height:2.2;letter-spacing:.05em;margin-bottom:.55rem}
+.mk-reg-sep{padding-top:.5rem}
+.mk-reg-sign{font-family:'Cormorant Garamond',serif;font-size:.96rem !important;color:var(--purL) !important;font-style:italic;letter-spacing:.06em;padding-top:.5rem}
+.mk-reg-btn{display:block;width:100%;padding:1.15rem 1.5rem;background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.17em;font-weight:500;border:none;border-radius:11px;cursor:pointer;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 30px rgba(212,175,55,.5),0 0 0 1px rgba(212,175,55,.18),0 0 60px rgba(212,175,55,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;z-index:1;margin-top:1.7rem}
+.mk-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,175,55,.62),0 0 80px rgba(212,175,55,.18)}
+.mk-reg-sub{font-size:.61rem;color:var(--dim);margin-top:.85rem;letter-spacing:.06em;position:relative;z-index:1}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 </style>
 </head>
@@ -1162,7 +1153,7 @@ function drawP(){
         '</div>'+
         '<div class="mk-read-unlock">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
-          '<span class="mk-read-unlock-txt">続きを解放して全文を読む</span>'+
+          '<span class="mk-read-unlock-txt">会員登録して全文を読む</span>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -1181,7 +1172,7 @@ function drawP(){
         '</div>'+
         '<div class="mk-read-unlock">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
-          '<span class="mk-read-unlock-txt">続きを解放して全文を読む</span>'+
+          '<span class="mk-read-unlock-txt">会員登録して全文を読む</span>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -1194,10 +1185,12 @@ function drawP(){
           '<span class="mk-phase-ico">✦</span>'+
           '<span class="mk-phase-lbl">今のあなたの運気</span>'+
         '</div>'+
-        '<div class="mk-phase-status">'+
-          '<p class="mk-phase-status-txt">今のあなたは '+esc(pat.phaseStatus)+' にいます</p>'+
+        '<div class="mk-phase-inner">'+
+          '<div class="mk-phase-status">'+
+            '<p class="mk-phase-status-txt">今のあなたは '+esc(pat.phaseStatus)+' にいます</p>'+
+          '</div>'+
+          '<p class="mk-phase-body">'+esc(pat.phaseBody)+'</p>'+
         '</div>'+
-        '<p class="mk-phase-body">'+esc(pat.phaseBody)+'</p>'+
       '</div>'+
     '</div>';
 
@@ -1222,54 +1215,37 @@ function drawP(){
             '<div class="mk-compat-veil"></div>'+
           '</div>'+
         '</div>'+
-        '<div class="mk-compat-foot">🔓 続きを解放して詳細を読む</div>'+
+        '<div class="mk-compat-foot">🔓 会員登録して詳細を読む</div>'+
       '</div>'+
     '</div>';
 
-  /* ── CTAセクション */
-  var cta=
+  /* ── 会員登録CTAセクション */
+  var regCta=
     '<div class="mk-section mk-scroll-fade">'+
-      '<div class="mk-cta">'+
-        '<p class="mk-cta-eyebrow">✦ 陰陽師ミカゲ 完全鑑定 ✦</p>'+
-        '<p class="mk-cta-hd">続きを解放する</p>'+
-        '<p class="mk-cta-sub">性格・テーマ・運気・相性——<br>あなたの本当の物語を、ミカゲが全て読み解きます。</p>'+
-        '<div class="mk-plans">'+
-          '<div class="mk-plan">'+
-            '<div class="mk-plan-price">100<span class="yen">円</span></div>'+
-            '<div class="mk-plan-name">基本鑑定 解放</div>'+
-            '<ul class="mk-plan-items">'+
-              '<li>基本の性格（全文）</li>'+
-              '<li>人生のテーマ（全文）</li>'+
-              '<li>今の運気詳細</li>'+
-              '<li>開運アドバイス</li>'+
-            '</ul>'+
-            '<button class="mkp-btn outline" onclick="goCheckout(\'light\')">続きを解放する（100円）</button>'+
-          '</div>'+
-          '<div class="mk-plan hot">'+
-            '<span class="mk-plan-badge">おすすめ</span>'+
-            '<div class="mk-plan-price">500<span class="yen">円</span></div>'+
-            '<div class="mk-plan-name">深読み鑑定</div>'+
-            '<ul class="mk-plan-items">'+
-              '<li>基本の性格・人生のテーマ（全文）</li>'+
-              '<li>裏の性格・隠れた才能</li>'+
-              '<li>恋愛運・仕事運</li>'+
-              '<li>魂の課題と手放すべきもの</li>'+
-              '<li>相性の詳細（深読み）</li>'+
-              '<li>今年の転機と注意すべき月</li>'+
-              '<li>陰陽師ミカゲからの個別メッセージ</li>'+
-            '</ul>'+
-            '<button class="mkp-btn gold" onclick="goCheckout(\'deep\')">深読み鑑定を受ける（500円）</button>'+
-          '</div>'+
+      '<div class="mk-reg-section">'+
+        '<p class="mk-reg-rule">━━━━━━━━</p>'+
+        '<p class="mk-reg-prelude">まだ、</p>'+
+        '<p class="mk-reg-headline">月はあなたの運命を<br>語り終えていません。</p>'+
+        '<div class="mk-reg-text">'+
+          '<p>今あなたの中で揺れている感情。</p>'+
+          '<p>離れていく人、<br>なぜか忘れられない記憶。</p>'+
+          '<p>それらは偶然ではなく、<br>月の巡りが映し出しているものです。</p>'+
+          '<p class="mk-reg-sep">この先では、</p>'+
+          '<p>あなたが今、<br>本当は何を恐れているのか。</p>'+
+          '<p>そして、<br>どんな未来へ導かれているのかを、</p>'+
+          '<p class="mk-reg-sign">陰陽師ミカゲが<br>さらに深く読み解きます。</p>'+
         '</div>'+
-        '<div class="mk-secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div>'+
+        '<p class="mk-reg-rule">━━━━━━━━</p>'+
+        '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを視る</button>'+
+        '<p class="mk-reg-sub">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
       '</div>'+
     '</div>';
 
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
-    topVisual+card1+card2+card3+card4+card5+cta+
-    menuNav('personality')+topBtn()+'<div style="height:2rem"></div></div>';
+    topVisual+card1+card2+card3+card4+card5+regCta+
+    topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
 function drawM(){
