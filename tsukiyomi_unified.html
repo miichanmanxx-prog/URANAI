@@ -372,6 +372,45 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-menu-list li{font-size:.71rem;color:var(--muted);line-height:1.78;padding:.07rem 0;display:flex;align-items:flex-start;gap:.42rem;letter-spacing:.03em}
 .mk-menu-list li::before{content:'✦';color:var(--gold);opacity:.55;font-size:.52rem;flex-shrink:0;margin-top:.22rem}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+/* 星読みのおばあちゃん result screen */
+.oba-ring-wrap{display:flex;justify-content:center;margin:1rem 0;position:relative}
+.oba-ring-canvas{position:relative;flex-shrink:0}
+.oba-ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.oba-ring-yr{font-size:.63rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.1rem}
+.oba-ring-mo{font-size:1.55rem;font-family:'Cormorant Garamond',serif;color:var(--goldP);letter-spacing:.05em;line-height:1.1}
+.oba-ring-phase{font-size:1.5rem;margin-top:.25rem}
+.oba-dot{position:absolute;width:32px;height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.oba-dot-num{font-size:.53rem;color:var(--muted);line-height:1.1;letter-spacing:0}
+.oba-dot-ico{font-size:.66rem;line-height:1}
+.oba-dot-today{background:rgba(212,175,55,.18);border-color:rgba(212,175,55,.65);box-shadow:0 0 8px rgba(212,175,55,.3)}
+.oba-dot-today .oba-dot-num{color:var(--gold);font-weight:700}
+.oba-dot-lucky{background:rgba(134,239,172,.12);border-color:rgba(134,239,172,.48);box-shadow:0 0 7px rgba(134,239,172,.28)}
+.oba-dot-lucky .oba-dot-num{color:#86EFAC}
+.oba-dot-caution{background:rgba(251,146,60,.1);border-color:rgba(251,146,60,.42);box-shadow:0 0 6px rgba(251,146,60,.22)}
+.oba-dot-caution .oba-dot-num{color:#FB923C}
+.oba-legend{display:flex;justify-content:center;gap:1.4rem;margin:.4rem 0 .9rem}
+.oba-leg-item{display:flex;align-items:center;gap:.35rem;font-size:.64rem;color:var(--muted);letter-spacing:.04em}
+.oba-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.oba-theme-wrap{width:100%;max-width:540px;text-align:center;margin:.4rem 0 1.1rem;padding:0 1rem}
+.oba-theme-label{font-size:.7rem;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:.35rem}
+.oba-theme-title{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--goldP);letter-spacing:.05em;line-height:1.25;margin-bottom:.45rem}
+.oba-theme-sub{font-size:.82rem;color:var(--text);line-height:1.92;opacity:.9}
+.oba-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden;width:100%;max-width:540px;margin-top:1.1rem}
+.oba-card-hd{padding:.82rem 1.5rem .58rem;border-bottom:1px solid rgba(212,175,55,.12)}
+.oba-card-label{font-size:.68rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.18rem}
+.oba-card-title{font-family:'Cormorant Garamond',serif;font-size:1.16rem;color:#1A1A2E;letter-spacing:.04em}
+.oba-card-body{padding:1rem 1.5rem 1.2rem}
+.oba-fade-wrap{position:relative;max-height:215px;overflow:hidden}
+.oba-fade-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem}
+.oba-fade-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.85) 35%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
+.oba-day-tag{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .82rem;border-radius:20px;font-size:.76rem;margin-bottom:.52rem}
+.oba-day-tag.lucky{background:rgba(134,239,172,.12);border:1px solid rgba(134,239,172,.38);color:#15803D}
+.oba-day-tag.caution{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.3);color:#C2410C}
+.oba-day-msg{font-size:.82rem;line-height:1.92;color:#3A3A5A;letter-spacing:.035em}
+.oba-msg-wrap{position:relative;max-height:175px;overflow:hidden}
+.oba-msg-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
+.oba-msg-veil{position:absolute;bottom:0;left:0;right:0;height:52%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.82) 38%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
+.oba-section{width:100%;max-width:540px;margin-top:1.3rem}
 </style>
 </head>
 <body>
@@ -1302,42 +1341,250 @@ function drawP(){
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
+/* ── 星読みのおばあちゃん 月相8パターン ──────────────── */
+var MONTHLY_OBA=[
+  /* 0: 新月 */
+  {phase:'新月',phaseIcon:'🌑',
+   theme:'静寂が芽吹く月',
+   themeMsg:'星が「待て」と言っている。焦るより、今は種を蒔く準備をするとき。',
+   flow:'今月のあんたには、じっとしている勇気が必要や。星がな、「まだ動くな」って言うてるのが聞こえへんか？ 無理に前に進もうとすると、かえって大事なものを見落とす。\n\n内側から何かが変わり始める予感——それはあんたの感覚が正しい。人間関係でも、仕事でも、今月は「選ぶ」より「受け取る」姿勢が吉やで。\n\n月末になるにつれ、ずっとモヤがかかってたことが急に晴れる日が来る。そこまでは、ゆっくり自分のペースで。',
+   luckyLabels:[
+     {msg:'月のエネルギーが最も満ちる日。思い切って動いた行動が、しっかり実る。'},
+     {msg:'人との縁が結ばれやすい。会いたい人に連絡するなら、この日や。'}
+   ],
+   cautionLabel:{msg:'焦って動くと空回り。体も疲れやすいから、早めに休むこと。'},
+   obaMsg:'あんたな、自分では気づいてへんやろうけど——最近、ちゃんと頑張ってるで。誰も褒めてくれへんくても、星はちゃんと見てるから。\n\nただな、一つだけ言わせてもらうわ。あんたはずっと「準備ができてから」って先延ばしにしてることがある。星は今月、そこに気づかせるために動いてるねん。怖くてもええ、不完全でもええ——あと一歩、踏み出してみ。'},
+  /* 1: 三日月 */
+  {phase:'三日月',phaseIcon:'🌒',
+   theme:'扉を開ける月',
+   themeMsg:'新しい何かが始まる予兆が漂っている。チャンスは「気づいた人」にしか来ない。',
+   flow:'三日月は「始まり」の月や。今月のあんたには、今まで避けてきた何かに向き合う機会が訪れる。怖いと思うなら、それはチャンスのサインやで。\n\n人間関係に小さな変化が起きやすい。新しい出会いは、意外な場所から。古い縁が復活することもある——どちらも大切に受け取ること。\n\n三日月の光は細くても、確かに照らしてる。小さな一歩が、月末には大きな流れに変わっとる。',
+   luckyLabels:[
+     {msg:'三日月が力を増す日。新しいことを始めるには最高のタイミング。'},
+     {msg:'直感が冴える日。なんとなく気になったことを、素直に行動に移してみ。'}
+   ],
+   cautionLabel:{msg:'人の言葉に振り回されやすい時期。自分の軸だけは、ぶらさんといてや。'},
+   obaMsg:'あんたが今悩んでることな、実はもう答えは出てるんやで。ただ、勇気がなくて動けへんだけちゃうか？ おばあちゃんには全部見えてるんやから、隠さんでええよ。\n\n星がな、今月のあんたに言うてることがある。「信じてみ」って。何を信じるんかって？ それはあんた自身のことや。自分を信じて動いた結果が、今月の末に答えを出してくれる。'},
+  /* 2: 上弦の月 */
+  {phase:'上弦の月',phaseIcon:'🌓',
+   theme:'決断の月',
+   themeMsg:'半分欠けた月が映すのは、迷いと行動の境界線。決める力が、今月の鍵。',
+   flow:'上弦の月は「選択」を迫ってくる。今月のあんたは、ずっと先送りにしてきた何かを、決めなあかん局面に立たされる。これは星の意地悪やない——成長のための「試験」や。\n\n仕事や目標においては、中途半端な状態を抜け出す転機が来る。どちらかを選ぶことで、もう一方への未練が消えていく——それが今月の流れやで。\n\n上弦の月の後半は、物事が加速する。前半の「迷い」を乗り越えたあんたには、思わぬ追い風が吹いてくる。',
+   luckyLabels:[
+     {msg:'決断を下すには最適な日。ためらいを捨てて、腹を決めて動いてみ。'},
+     {msg:'努力が形になる日。コツコツやってきたことが、ようやく評価される。'}
+   ],
+   cautionLabel:{msg:'八方美人になりやすい日。全員に良い顔しようとすると、全員に嘘をつくことになるで。'},
+   obaMsg:'おばあちゃん、あんたの顔を見ればわかるわ。今「どうしよう」って迷ってること、あるやろ。二つのうちどっちかを選ばなあかんやつ。\n\n正直に言うわ。あんたはもう、心の中で答え出てるんやで。怖いから確認したくて、ぐるぐるしてるだけや。その「怖い方」が正解やと、おばあちゃんは思う。楽な方を選ぶことが、必ずしも幸せにつながるとは限らへん——星はそれを、今月教えようとしてる。'},
+  /* 3: 十三夜月 */
+  {phase:'十三夜月',phaseIcon:'🌔',
+   theme:'豊かさを受け取る月',
+   themeMsg:'満月の一歩手前。今まで蒔いた種が、実り始める予感がする月。',
+   flow:'今月のあんたには、これまでの頑張りが「形」になって戻ってくる流れがある。期待していなかったところから、嬉しい知らせが届くこともあるで。\n\n人間関係において、ずっと気になってた人との距離が縮まるきっかけが生まれやすい。受け身でいると通り過ぎる——ちゃんと自分から動くことや。\n\nただ、全てが順調に見える時ほど、足元をすくわれやすい。浮かれすぎず、地に足をつけて受け取ること。',
+   luckyLabels:[
+     {msg:'豊かさのエネルギーが流れ込む日。感謝の気持ちを誰かに伝えてみ。'},
+     {msg:'人脈が広がる日。新しい場所に顔を出すと、予想外の縁がつながる。'}
+   ],
+   cautionLabel:{msg:'油断が招くミスに注意。調子がいい時こそ、確認をおろそかにしたらあかん。'},
+   obaMsg:'あんたな、最近「なんか報われへん」って思うこと、あったんとちゃう？ おばあちゃんにはわかるんや。でもな、それは全部無駄じゃなかった。\n\n今月の星はな、あんたに「受け取り上手」になることを教えようとしてる。謙遜しすぎて「いえ、大したことないです」って言ってしまうやろ。褒められたら「ありがとう」って素直に言えるようになり。幸せは、受け取る練習をした人のところに来るんやから。'},
+  /* 4: 満月 */
+  {phase:'満月',phaseIcon:'🌕',
+   theme:'真実が照らされる月',
+   themeMsg:'満月は隠れたものを暴く。今月は、ごまかしが効かない——でもそれが、本当の解放につながる。',
+   flow:'満月の月は、全てが明るみに出る。今まで蓋をしてきた感情や、見て見ぬふりをしてきた問題が、急に浮き上がってくることがあるで。怖くない——これが本当の意味での「浄化」や。\n\n人間関係では、誤解が解けたり、逆に本音がぶつかり合う出来事が起きやすい。どちらにせよ、月末には「すっきり」する感覚があるはず。\n\n満月の力は強烈やから、感情が揺れやすい時期でもある。揺れていいんや。揺れた後に、本当の自分の答えが見えてくる。',
+   luckyLabels:[
+     {msg:'満月パワーが最高潮。大事な話し合いや決断は、この日に持ってくると吉。'},
+     {msg:'直感が最も鋭い日。夢や直感に素直に従ってみ。答えが降りてくる。'}
+   ],
+   cautionLabel:{msg:'感情が高ぶりやすい。言わなくていいことを言ってしまう前に、一呼吸置くことや。'},
+   obaMsg:'あんた、今月は何かが「終わる」感じがするかもしれへん。でもな、それは怖いことやない——終わることで、次が始まるんや。\n\n満月はな、見たくないものも全部照らしてしまう。でも、おばあちゃんが思うに、あんたが本当に恐れてるのは「失うこと」やなくて、「変わること」やと思う。変わることを、今月の星は背中を押してくれてる。勇気を持って、手放してみ。'},
+  /* 5: 十六夜月 */
+  {phase:'十六夜月',phaseIcon:'🌖',
+   theme:'内省と手放しの月',
+   themeMsg:'ゆっくりと欠けていく月のように、今は「足す」より「引く」季節。',
+   flow:'今月は「引き算」の月や。何かを手に入れようとするより、今あるものを見直し、不要なものを手放す流れが吉と出てる。人間関係もそう——疲れる縁を、静かに整理していくとき。\n\n仕事や目標においては、無理に前進するより、今月の成果を振り返り、次への準備をする方が実りが大きい。焦りは禁物や。\n\n十六夜の月はな、「満ちた後の知恵」を持ってる。今月のあんたには、経験から学んだことを活かす局面が来る。',
+   luckyLabels:[
+     {msg:'整理整頓が吉。部屋を片付けると、頭の中も整理される不思議な日や。'},
+     {msg:'過去の縁が意味を持つ日。久しぶりの連絡が、思わぬ展開につながる。'}
+   ],
+   cautionLabel:{msg:'新しいことを始めるには不向きな時期。今は守りを固めること。'},
+   obaMsg:'おばあちゃんが見てきた中でな、一番損してる人って、全部一人で抱えてしまう人やねん。あんた、そのタイプやろ。「迷惑かけたくない」って、助けを求めることを諦めてへんか？\n\n今月はな、素直に「助けて」って言える練習をしてみ。それが弱さやなくて、本当の強さやから。星はな、あんたが一人で戦うのをやめたとき、一番大きな力を貸してくれる。'},
+  /* 6: 下弦の月 */
+  {phase:'下弦の月',phaseIcon:'🌗',
+   theme:'手放しと再生の月',
+   themeMsg:'月の光が半分になったとき、人は本当に必要なものを知る。',
+   flow:'下弦の月は「終わりに向かう」エネルギーを持ってる。でも怖くない——これは「再生のための終わり」やから。今月は、古いパターンや思い込みを手放す絶好の機会が巡ってくる。\n\n特に「もう変わらへんと思ってた」ことに変化が起き始める。長く続いた状況に、突然出口が見えることがあるで。\n\n月末には、「これでよかった」という解放感が訪れる。今月の流れに逆らわず、手放すことを恐れなければ——次のサイクルでの大きな飛躍につながっていく。',
+   luckyLabels:[
+     {msg:'古いものを断つに最適な日。思い切って手放した分だけ、新しいものが入ってくる。'},
+     {msg:'癒しの日。自分を労わることに集中して。疲れてた心が、不思議と軽くなる。'}
+   ],
+   cautionLabel:{msg:'執着が判断を曇らせやすい。「もったいない」より「もっといい未来」を選ぶ勇気を。'},
+   obaMsg:'あんた、ずっと手放せへんものがあるんやろ。おばあちゃんにはわかるわ。それは人やったり、夢やったり、思い込みやったり——。\n\n一つだけ聞いてみ。それを握りしめてて、今のあんたは幸せか？ 答えが「いいえ」やったら、今月がその答えを出す時や。手放した後の空白が怖い——でも、その空白にこそ、次の幸せが入ってくる。'},
+  /* 7: 有明月 */
+  {phase:'有明月',phaseIcon:'🌘',
+   theme:'夜明け前の静寂の月',
+   themeMsg:'一番暗い夜の後に、必ず夜明けが来る。今月はその「直前」に立っているあなたへ。',
+   flow:'有明月は「夜明け前」の月や。今月のあんたは、長く続いた試練が終わりに近づいてる感覚があるかもしれへん。もう少しだけ、辛抱するとき。\n\n「もうダメや」と思うタイミングほど、実は転機の直前やったりする。星はそれを知ってるから、今月は特にあんたを見守ってる。\n\n月末近くに、ずっと待ってた「変化のサイン」が届く。それを見逃さないように、アンテナを張っておくことや。今は力を蓄える時期——次のサイクルのための準備が、着々と整ってるで。',
+   luckyLabels:[
+     {msg:'夜明けのエネルギーが最も強い日。長く悩んでたことに、急に答えが見えてくる。'},
+     {msg:'縁が動く日。諦めていた人や機会が、思わぬ形で戻ってくることがある。'}
+   ],
+   cautionLabel:{msg:'焦りが最大の敵になる日。「まだか」と思うほど遅くなる——星のタイミングを信じること。'},
+   obaMsg:'おばあちゃんな、あんたのこと、ちゃんと心配してるんやで。最近しんどいことが続いてたやろ。一人でずっと抱えてきたんやろうなって、星を見てたらわかった。\n\n聞いてや。あんたがしんどいのはな、弱いからやない——感じる力が強いんや。全部受け取ってしまうから、傷つくんや。でも、その感受性こそが、あんたの一番の才能でもある。もうすぐ、星があんたの重荷を下ろしてくれる日が来る。それまでは、自分を責めんといてや。'}
+];
+function buildObaRing(yr,mo,td,dm,ld1,ld2,cd1,phIdx){
+  var ref=new Date(2024,0,11);
+  var R=108,sz=268,cx=sz/2,cy=sz/2;
+  var dots='';
+  for(var d=1;d<=dm;d++){
+    var theta=(-90+(d-1)*(360/dm))*Math.PI/180;
+    var x=Math.round((cx+R*Math.cos(theta))*10)/10;
+    var y=Math.round((cy+R*Math.sin(theta))*10)/10;
+    var dt=new Date(yr,mo,d),diff=(dt-ref)/86400000;
+    var ph=Math.floor(((diff%29.53)+29.53)%29.53/29.53*8);
+    var cls='oba-dot';
+    if(d===td)cls+=' oba-dot-today';
+    else if(d===ld1||d===ld2)cls+=' oba-dot-lucky';
+    else if(d===cd1)cls+=' oba-dot-caution';
+    dots+='<div class="'+cls+'" style="left:'+(x-16)+'px;top:'+(y-16)+'px">'+
+      '<span class="oba-dot-num">'+d+'</span>'+
+      '<span class="oba-dot-ico">'+MOON_ICONS[ph]+'</span>'+
+    '</div>';
+  }
+  return '<div class="oba-ring-wrap mk-scroll-fade">'+
+    '<div class="oba-ring-canvas" style="width:'+sz+'px;height:'+sz+'px;position:relative">'+
+    dots+
+    '<div class="oba-ring-center">'+
+      '<div class="oba-ring-yr">'+yr+'年</div>'+
+      '<div class="oba-ring-mo">'+(mo+1)+'月</div>'+
+      '<div class="oba-ring-phase">'+MOON_ICONS[phIdx]+'</div>'+
+    '</div>'+
+    '</div>'+
+  '</div>';
+}
 function drawM(){
-  var idx=phaseIdx(getBirthVal('f-birth')),md=MONTHLY[idx];
   var name=(document.getElementById('f-name').value||'あんた').trim();
+  var birth=getBirthVal('f-birth');
+  var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+  var idx=phaseIdx(birth);
+  var pat=MONTHLY_OBA[idx];
   var now=new Date(),yr=now.getFullYear(),mo=now.getMonth(),td=now.getDate();
-  var ref=new Date(2024,0,11),fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
-  var cal='<div class="cal-wrap" style="max-width:540px"><div class="cal-hdr">'+yr+'年'+(mo+1)+'月</div><div class="cal-grid">';
-  DOWS.forEach(function(d){cal+='<div class="cal-dow">'+d+'</div>'});
-  for(var i=0;i<fd;i++)cal+='<div></div>';
-  for(var d=1;d<=dm;d++){var dt=new Date(yr,mo,d),diff=(dt-ref)/86400000,ph=Math.floor(((diff%29.53)+29.53)%29.53/29.53*8);cal+='<div class="cal-day'+(d===td?' today':'')+'"><span class="cal-num">'+d+'</span><span class="cal-ico">'+MOON_ICONS[ph]+'</span></div>'}
-  cal+='</div></div>';
-  var banner=mkBanner('⭐','rgba(212,160,255,1)','linear-gradient(135deg,rgba(58,42,90,.9),rgba(26,16,48,.95))','星座占い / 月間運勢','星読みのおばちゃん');
-  var obaBlur='でもな、一番大事なことはまだ言うてへんねん。'+esc(md.b);
-  function panel(id,lbl,s,t,on){return'<div class="tab-panel'+(on?' on':'')+'" id="tp-'+id+'"><div class="frow"><span class="flbl2">'+lbl+'</span><div class="fstars">'+stars(s)+'</div></div><p class="fcomment" style="font-style:italic">'+t+'</p>'+bz(obaBlur)+'</div>'}
-  var fort='<div class="fort-card" style="width:100%;max-width:540px"><div class="tabs-row"><div class="tab-btn on" onclick="mTab(\'overall\',this)">総合運</div><div class="tab-btn" onclick="mTab(\'love\',this)">恋愛運</div><div class="tab-btn" onclick="mTab(\'money\',this)">金運</div><div class="tab-btn" onclick="mTab(\'point\',this)">今月のポイント</div></div><div class="tab-body">'+
-    panel('overall','総合運',md.o.s,'ほんまにな、'+esc(md.o.t)+' 星はうそつかへんから、ちゃんと聞いといてや。',true)+
-    panel('love','恋愛運',md.l.s,'あんたの恋愛な──'+esc(md.l.t)+' 遠慮してる場合やないで！',false)+
-    panel('money','金運',md.m.s,'お金のことやけど、'+esc(md.m.t)+' 無駄遣いは星が怒るで。',false)+
-    '<div class="tab-panel" id="tp-point"><p class="fcomment" style="padding:.3rem 0;font-style:italic">'+esc(md.p)+' おばちゃんが言うんやから間違いない。</p>'+bz(obaBlur)+'</div></div></div>';
-  var prem='<div class="prem" style="max-width:540px;border-radius:0 0 16px 16px"><p class="prem-lbl">✦ おばちゃんがズバッと教えること ✦</p><ul class="prem-list"><li><span class="pl-ico">📅</span><div class="pl-txt"><strong>転機の日付ズバリ</strong>動いたらアカン日と、絶対動くべき日</div></li><li><span class="pl-ico">💰</span><div class="pl-txt"><strong>今月の金運ピーク</strong>お金が動く日を星が教えてくれてる</div></li><li><span class="pl-ico">💕</span><div class="pl-txt"><strong>恋愛の急所</strong>今月アプローチすべきタイミング、教えたるわ</div></li></ul><div class="cta-stack"><button class="btn-gold" onclick="goCheckout(\'deep\')" style="border-radius:9px">おばちゃんに全部教えてもらう（300円）</button><button class="btn-outline" onclick="goCheckout(\'light\')">ざっくり聞く（100円）</button></div><div class="secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div></div>';
+  var dm=new Date(yr,mo+1,0).getDate();
+  var ld1=(seed%12)+5; if(ld1>dm)ld1=dm-3;
+  var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
+  var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
+  var banner=mkBanner('⭐','rgba(180,140,220,1)','linear-gradient(135deg,rgba(45,28,78,.9),rgba(18,10,38,.97))','星座占い / 月間運勢','星読みのおばあちゃん');
+  var ring=buildObaRing(yr,mo,td,dm,ld1,ld2,cd1,idx);
+  var legend='<div class="oba-legend mk-scroll-fade">'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(134,239,172,.5)"></div>強運日</div>'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(251,146,60,.45)"></div>注意日</div>'+
+  '</div>';
+  var themeSection='<div class="oba-section mk-scroll-fade">'+
+    '<div class="oba-theme-wrap">'+
+      '<div class="oba-theme-label">今月のテーマ</div>'+
+      '<div class="oba-theme-title">'+esc(pat.theme)+'</div>'+
+      '<div class="oba-theme-sub">'+esc(pat.themeMsg)+'</div>'+
+    '</div>'+
+  '</div>';
+  var flowParas=pat.flow.split('\n\n').filter(function(p){return p.trim()});
+  var flowHtml=flowParas.map(function(p){return'<p class="oba-fade-p">'+esc(p.trim())+'</p>'}).join('');
+  var flowCard='<div class="oba-section mk-scroll-fade">'+
+    '<div class="oba-card">'+
+      '<div class="oba-card-hd"><div class="oba-card-label">Monthly Flow</div><div class="oba-card-title">今月の流れ</div></div>'+
+      '<div class="oba-card-body">'+
+        '<div class="oba-fade-wrap">'+flowHtml+'<div class="oba-fade-veil"></div></div>'+
+        '<p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.06em">✦ 続きは会員登録後にお読みいただけます ✦</p>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  var luckyHtml='';
+  pat.luckyLabels.forEach(function(lk,i){
+    var dayNum=i===0?ld1:ld2;
+    luckyHtml+='<div style="margin-bottom:.88rem">'+
+      '<div class="oba-day-tag lucky">✦ '+(mo+1)+'月'+dayNum+'日（強運日）</div>'+
+      '<p class="oba-day-msg">'+esc(lk.msg)+'</p>'+
+    '</div>';
+  });
+  var luckyCard='<div class="oba-section mk-scroll-fade">'+
+    '<div class="oba-card">'+
+      '<div class="oba-card-hd"><div class="oba-card-label">Lucky Days</div><div class="oba-card-title">強運日</div></div>'+
+      '<div class="oba-card-body">'+luckyHtml+'</div>'+
+    '</div>'+
+  '</div>';
+  var cautionCard='<div class="oba-section mk-scroll-fade">'+
+    '<div class="oba-card">'+
+      '<div class="oba-card-hd"><div class="oba-card-label">Caution</div><div class="oba-card-title">注意日</div></div>'+
+      '<div class="oba-card-body">'+
+        '<div class="oba-day-tag caution">⚠ '+(mo+1)+'月'+cd1+'日（注意日）</div>'+
+        '<p class="oba-day-msg">'+esc(pat.cautionLabel.msg)+'</p>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  var msgParas=pat.obaMsg.split('\n\n').filter(function(p){return p.trim()});
+  var msgHtml=msgParas.map(function(p){return'<p class="oba-msg-p">'+esc(p.trim())+'</p>'}).join('');
+  var msgCard='<div class="oba-section mk-scroll-fade">'+
+    '<div class="oba-card">'+
+      '<div class="oba-card-hd"><div class="oba-card-label">Message from おばあちゃん</div><div class="oba-card-title">おばあちゃんより</div></div>'+
+      '<div class="oba-card-body">'+
+        '<p style="font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+'へ —</p>'+
+        '<div class="oba-msg-wrap">'+msgHtml+'<div class="oba-msg-veil"></div></div>'+
+        '<p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.06em">✦ 続きは会員登録後にお読みいただけます ✦</p>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  var regCta='<div class="oba-section mk-scroll-fade">'+
+    '<div class="mk-reg-section">'+
+      '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
+      '<p class="mk-reg-prelude">ここから先は、</p>'+
+      '<p class="mk-reg-headline">あんたの"運命の深層"を<br>読む内容になります。</p>'+
+      '<div class="mk-reg-text">'+
+        '<p>今月起きることの「理由」と、<br>その先にある「転機の正確な日付」。</p>'+
+        '<p class="mk-reg-sign">おばあちゃんが全部、<br>ズバリ言うてあげる。</p>'+
+      '</div>'+
+      '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
+      '<p class="mk-menu-lbl">✦ 鑑定メニュー ✦</p>'+
+      '<div class="mk-menu-grid">'+
+        '<div class="mk-menu-card">'+
+          '<div class="mk-menu-price-row">'+
+            '<span class="mk-menu-price">100<span class="yen">円</span></span>'+
+            '<span class="mk-menu-name">今月の流れ 解放</span>'+
+          '</div>'+
+          '<ul class="mk-menu-list">'+
+            '<li>今月の流れ 全文</li>'+
+            '<li>強運日 詳細</li>'+
+            '<li>注意日の過ごし方</li>'+
+            '<li>開運アドバイス</li>'+
+          '</ul>'+
+        '</div>'+
+        '<div class="mk-menu-card hot">'+
+          '<span class="mk-menu-badge">深読み</span>'+
+          '<div class="mk-menu-price-row">'+
+            '<span class="mk-menu-price gold">500<span class="yen">円</span></span>'+
+            '<span class="mk-menu-name">おばあちゃんの深読み</span>'+
+          '</div>'+
+          '<ul class="mk-menu-list">'+
+            '<li>今月の流れ 全文</li>'+
+            '<li>強運日・注意日の全詳細</li>'+
+            '<li>おばあちゃんメッセージ 全文</li>'+
+            '<li>転機の日付ズバリ</li>'+
+            '<li>恋愛・仕事の急所</li>'+
+            '<li>来月の動き方</li>'+
+          '</ul>'+
+        '</div>'+
+      '</div>'+
+      '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを読む</button>'+
+      '<p class="mk-reg-sub">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理</p>'+
+    '</div>'+
+  '</div>';
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
-    '<p class="ph-lead" style="margin-bottom:1.2rem">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>'+
-    cal+fort+prem+menuNav('monthly')+topBtn()+'<div style="height:2rem"></div></div>';
+    '<p class="ph-lead mk-scroll-fade" style="margin-bottom:.5rem">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>'+
+    ring+legend+themeSection+flowCard+luckyCard+cautionCard+msgCard+regCta+
+    topBtn()+'<div style="height:2rem"></div></div>';
+  setTimeout(initScrollFade,80);
 }
-  var idx=phaseIdx(getBirthVal('f-birth')),md=MONTHLY[idx];
-  var now=new Date(),yr=now.getFullYear(),mo=now.getMonth(),td=now.getDate();
-  var ref=new Date(2024,0,11),fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
-  var cal='<div class="cal-wrap" style="max-width:540px"><div class="cal-hdr">'+yr+'年'+(mo+1)+'月</div><div class="cal-grid">';
-  DOWS.forEach(function(d){cal+='<div class="cal-dow">'+d+'</div>'});
-  for(var i=0;i<fd;i++)cal+='<div></div>';
-  for(var d=1;d<=dm;d++){var dt=new Date(yr,mo,d),diff=(dt-ref)/86400000,ph=Math.floor(((diff%29.53)+29.53)%29.53/29.53*8);cal+='<div class="cal-day'+(d===td?' today':'')+'">'+'<span class="cal-num">'+d+'</span><span class="cal-ico">'+MOON_ICONS[ph]+'</span></div>'}
-  cal+='</div></div>';
-  function panel(id,lbl,s,t,on){return'<div class="tab-panel'+(on?' on':'')+'" id="tp-'+id+'"><div class="frow"><span class="flbl2">'+lbl+'</span><div class="fstars">'+stars(s)+'</div></div><p class="fcomment">'+esc(t)+'</p>'+bz(md.b)+'</div>'}
-  var fort='<div class="fort-card" style="width:100%;max-width:540px"><div class="tabs-row"><div class="tab-btn on" onclick="mTab(\'overall\',this)">総合運</div><div class="tab-btn" onclick="mTab(\'love\',this)">恋愛運</div><div class="tab-btn" onclick="mTab(\'money\',this)">金運</div><div class="tab-btn" onclick="mTab(\'point\',this)">今月のポイント</div></div><div class="tab-body">'+panel('overall','総合運',md.o.s,md.o.t,true)+panel('love','恋愛運',md.l.s,md.l.t,false)+panel('money','金運',md.m.s,md.m.t,false)+'<div class="tab-panel" id="tp-point"><p class="fcomment" style="padding:.3rem 0">'+esc(md.p)+'</p>'+bz(md.b)+'</div></div></div>';
-  var prem='<div class="prem" style="max-width:540px;border-radius:0 0 16px 16px"><p class="prem-lbl">✦ 本当の未来を知る ✦</p><ul class="prem-list"><li><span class="pl-ico">📅</span><div class="pl-txt"><strong>転機が訪れる正確な日付</strong>あなたの運命の分岐点</div></li><li><span class="pl-ico">💰</span><div class="pl-txt"><strong>今月の金運ピークデー</strong>動かすべき金額の目安</div></li><li><span class="pl-ico">💕</span><div class="pl-txt"><strong>恋愛の最適タイミング</strong>月があなたの恋を後押しする瞬間</div></li></ul><div class="cta-stack"><button class="btn-gold" onclick="goCheckout(\'deep\')">本当の未来を知る（深掘り 500円）</button><button class="btn-outline" onclick="goCheckout(\'light\')">続きを見る（100円）</button></div><div class="secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div></div>';
 function mTab(nm,el){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('on')});if(el)el.classList.add('on');var p=document.getElementById('tp-'+nm);if(p)p.classList.add('on')}
 function drawT(){
   tarotPicked=-1;
