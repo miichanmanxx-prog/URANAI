@@ -283,6 +283,50 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .fcard[data-m="tarot"].sel       { border-color:#70D4C8 !important; box-shadow:0 0 0 2px #70D4C8,0 0 40px rgba(112,212,200,.35),0 18px 52px rgba(0,0,0,.55) !important; }
 .fcard-check { position:absolute;top:.9rem;right:.95rem;width:26px;height:26px;border-radius:50%;background:var(--gold);border:2px solid var(--gold);color:#06080F;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;box-shadow:0 0 14px rgba(212,175,55,.5); }
 @media(min-width:680px){.fortune-select{grid-template-columns:repeat(3,1fr)!important}}
+
+/* ── 陰陽師ミカゲ 新結果画面 ──────────────────────────── */
+.mv-wrap{width:100%;max-width:540px;text-align:center;padding:2rem 1.2rem 1.6rem;background:linear-gradient(165deg,rgba(14,16,44,.98),rgba(8,10,28,1));border:1px solid rgba(123,94,167,.28);border-radius:20px 20px 0 0;position:relative;overflow:hidden;margin-bottom:0}
+.mv-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.18),transparent 60%);pointer-events:none}
+.mv-icons{font-size:2.6rem;line-height:1;margin-bottom:.7rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(212,175,55,.4))}
+.mv-x{font-size:1rem;color:rgba(212,175,55,.55);margin:0 .4rem;vertical-align:middle}
+.mv-tag{font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.25em;color:var(--purL);text-transform:uppercase;opacity:.8;margin-bottom:.6rem;position:relative;z-index:1}
+.mv-title{font-family:'Cormorant Garamond',serif;font-size:1.42rem;color:var(--gold);letter-spacing:.12em;line-height:1.5;margin-bottom:.35rem;position:relative;z-index:1;text-shadow:0 0 28px rgba(212,175,55,.5)}
+.mv-title-en{font-family:'Playfair Display',serif;font-size:.62rem;color:var(--purL);letter-spacing:.18em;opacity:.72;position:relative;z-index:1}
+.mk-card{width:100%;max-width:540px;margin-bottom:0;border-left:1px solid rgba(123,94,167,.22);border-right:1px solid rgba(123,94,167,.22)}
+.mk-catch-card{padding:1.6rem 1.5rem 1.8rem;background:#FAF9F6;border-top:1px solid rgba(212,175,55,.2);border-bottom:none}
+.mk-catch-lbl{font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:var(--goldD);text-transform:uppercase;opacity:.78;margin-bottom:.85rem;text-align:center}
+.mk-catch-body{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:#1A1A2E;line-height:1.9;letter-spacing:.06em;text-align:center;font-style:italic;text-shadow:0 0 1px rgba(139,94,167,.08)}
+.mk-catch-sub{font-size:.76rem;color:#4A4A7A;line-height:1.9;letter-spacing:.04em;text-align:center;margin-top:.65rem;padding-top:.65rem;border-top:1px solid rgba(212,175,55,.12)}
+.mk-blur-card{background:#FAF9F6;border-top:1px solid rgba(212,175,55,.1);position:relative;overflow:hidden}
+.mk-blur-hd{padding:1.1rem 1.5rem .7rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid rgba(212,175,55,.1)}
+.mk-blur-ico{font-size:.9rem;color:var(--goldD);opacity:.7}
+.mk-blur-lbl{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:#1A1A2E;letter-spacing:.1em;font-style:italic}
+.mk-blur-lock{margin-left:auto;font-size:.78rem;color:rgba(123,94,167,.55)}
+.mk-blur-body{padding:.9rem 1.5rem 1.4rem;position:relative}
+.mk-blur-txt{font-size:.79rem;line-height:2.1;color:#4A4A6A;letter-spacing:.04em;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 68%);mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 68%)}
+.mkb-veil{position:absolute;bottom:0;left:0;right:0;height:72%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.82) 48%,transparent 100%);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.mk-cta{width:100%;max-width:540px;background:linear-gradient(165deg,rgba(14,18,50,.99),rgba(8,12,30,1));border:1px solid rgba(212,175,55,.3);border-top:none;border-radius:0 0 20px 20px;padding:1.8rem 1.5rem 2.1rem;position:relative;overflow:hidden}
+.mk-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.09),transparent 60%);pointer-events:none}
+.mk-cta-lbl{font-family:'Playfair Display',serif;font-size:.58rem;letter-spacing:.24em;color:var(--purL);text-align:center;margin-bottom:1.3rem;opacity:.82;font-style:italic}
+.mk-cta-note{font-size:.72rem;color:var(--muted);text-align:center;line-height:1.8;margin-bottom:1.4rem;letter-spacing:.03em}
+.mk-plans{display:flex;flex-direction:column;gap:.9rem;margin-bottom:1rem}
+.mk-plan{border-radius:12px;padding:1.15rem 1.3rem;cursor:pointer;border:1px solid rgba(212,175,55,.22);background:rgba(255,255,255,.03);transition:all .25s;position:relative;overflow:hidden}
+.mk-plan.hot{border-color:rgba(212,175,55,.5);background:linear-gradient(145deg,rgba(22,18,50,.95),rgba(14,12,36,.98));box-shadow:0 0 32px rgba(212,175,55,.12)}
+.mk-plan.hot::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.09),transparent 65%);pointer-events:none}
+.mk-plan-badge{position:absolute;top:.7rem;right:.9rem;font-size:.5rem;letter-spacing:.1em;color:#06080F;background:linear-gradient(135deg,#8B6914,#D4AF37);padding:.18rem .55rem;border-radius:20px}
+.mk-plan-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold);margin-bottom:.15rem;text-shadow:0 0 14px rgba(212,175,55,.35)}
+.mk-plan-price .yen{font-size:.82rem;color:var(--muted);margin-left:.1rem}
+.mk-plan-name{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--text);letter-spacing:.07em;margin-bottom:.4rem}
+.mk-plan-items{list-style:none;margin:0;padding:0}
+.mk-plan-items li{font-size:.7rem;color:var(--muted);line-height:1.7;padding:.1rem 0;display:flex;align-items:flex-start;gap:.45rem}
+.mk-plan-items li::before{content:'✦';color:var(--gold);opacity:.65;font-size:.55rem;flex-shrink:0;margin-top:.22rem}
+.mkp-btn{display:block;width:100%;padding:.9rem 1.5rem;text-align:center;border-radius:8px;border:none;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.1em;cursor:pointer;margin-top:.85rem;transition:all .25s;-webkit-appearance:none;touch-action:manipulation}
+.mkp-btn.gold{background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);background-size:220% auto;color:#06080F;font-weight:500;animation:shine 4s linear infinite,gpulse 2.2s ease-in-out infinite;box-shadow:0 4px 22px rgba(212,175,55,.38)}
+.mkp-btn.outline{background:transparent;color:var(--text);border:1px solid rgba(212,175,55,.38)}
+.mkp-btn.gold:hover,.mkp-btn.outline:hover{transform:translateY(-2px)}
+.mk-secure{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.63rem;color:var(--dim);margin-top:.9rem;letter-spacing:.04em}
+@keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mv-icons{animation:mkfloat 4s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -764,34 +808,221 @@ function runLoad(cb){
 function renderResult(){show('scr-result');if(ST.menu==='personality')drawP();else if(ST.menu==='monthly')drawM();else drawT()}
 function menuNav(cur){var others=['personality','monthly','tarot'].filter(function(m){return m!==cur});return'<div class="around"><div class="around-t">✦ 別の視点でも占ってみる ✦</div>'+others.map(function(m){var mt=MENU_META[m];return'<div class="around-btn" onclick="ST.menu=\''+m+'\';renderResult()"><span class="a-ico">'+mt.ico+'</span><span class="a-lbl">'+mt.lbl+'</span><span class="a-arr">›</span></div>'}).join('')+'</div>'}
 function topBtn(){return'<div style="width:100%;margin-top:1rem"><button class="btn-outline" onclick="show(\'scr-top\')">← トップへ戻る</button></div>'}
+/* ── 陰陽師ミカゲ 月相×五行 20パターン ─────────────── */
+var MIKAGE_PATTERNS=[
+  /* 新月 × 木 */
+  {moon:'新月',moonIcon:'🌑',elem:'木',elemIcon:'🌿',title:'静かな芽吹きの魂',titleEn:'New Moon · Wood',
+   catchCopy:'あなたの内側には、まだ誰も見ていない可能性の種が眠っています。',
+   catchSub:'新月の静寂と木の生命力が重なる今、その芽吹きの刻が静かに訪れようとしている。',
+   personality:'あなたは新月と木の気を宿す、内向きの成長力に満ちた魂です。表に出るより、深く根を張ることを好みます。感情を外に出すのが苦手に見えて、その実、内側では誰よりも豊かな思索の森が広がっています。人に話す前に、ひとりで長い時間をかけて物事を育てる——それがあなたのやり方です。焦りを感じることもありますが、木は急いで育てようとすると折れてしまう。あなたの才能は、その静かな深さの中にこそ根ざしています。',
+   destiny:'あなたの人生のテーマは「静かな革命」です。大きな声を出さずとも、あなたの存在は周囲の景色をじわりと変えていきます。節目節目で、自分でも気づかないうちに誰かの人生に光を灯している——それがあなたの役割です。新月の周期のように、ゼロからのスタートを何度も経験するかもしれません。けれどその度に、前より深く、前より豊かになっていきます。木が年輪を重ねるように、あなたの魂は今この瞬間も静かに厚みを増しています。'},
+  /* 新月 × 火 */
+  {moon:'新月',moonIcon:'🌑',elem:'火',elemIcon:'🔥',title:'闇に宿る炎の意志',titleEn:'New Moon · Fire',
+   catchCopy:'見えない場所でこそ、あなたの炎は最も純粋に燃えています。',
+   catchSub:'新月の暗闇に燃える火——それは他の誰にも真似できない、あなただけの光の在り方。',
+   personality:'新月と火の気を持つあなたは、静かな外見の奥に烈しい意志を秘めた人です。感情を表に出すことは少ないですが、ひとたび心に決めたことへの集中力は、周囲の誰もが追いつけないほどです。夜中に独りで何かに没頭している時、あなたは最も輝いています。焦りや苛立ちを感じることもありますが、それはあなたの炎が外に出口を求めているサイン。その情熱を注ぐ対象が定まった時、あなたは止まれなくなります。',
+   destiny:'あなたの人生のテーマは「見えない炎で世界を照らすこと」です。スポットライトを浴びなくても、あなたが動いた痕跡は必ず残ります。誰かが諦めかけた時にそっと背を押す言葉、ずっと続けてきた仕事の結果——それがある日突然、大きな光として現れます。新月の暗闇は終わりではなく、次の満月への助走。あなたの炎が最も必要とされる場所へ向かう道が、今まさに開かれようとしています。'},
+  /* 新月 × 土 */
+  {moon:'新月',moonIcon:'🌑',elem:'土',elemIcon:'🌍',title:'大地に還る魂の根',titleEn:'New Moon · Earth',
+   catchCopy:'あなたの存在そのものが、誰かにとっての安全な場所になっています。',
+   catchSub:'新月の静けさと土の安定が重なるとき、あなたの最も深い力が目を覚ます。',
+   personality:'新月と土の気を持つあなたは、揺るぎない安心感を与える存在です。多くを語らなくとも、その場にいるだけで空気が落ち着く——そんな力をあなたは生まれつき持っています。変化が苦手に思えることもありますが、それは臆病さではなく、大切なものを守るための本能です。信頼した人には深く、誠実に関わります。時に自分の感情を後回しにしすぎることがありますが、大地も雨が降らなければ乾いてしまいます。',
+   destiny:'あなたの人生のテーマは「礎になること」です。目立たなくとも、あなたがいることで多くのものが成り立っています。人生の節目に、誰かから「あなたのおかげで」という言葉を受け取る瞬間がきます——それがどれほど大きな意味を持つか、あなた自身がまだ知らないだけです。新月のリセットエネルギーが今、あなたに「受け取ること」の許可を与えています。与えるだけでなく、受け取る勇気があなたの次の扉を開きます。'},
+  /* 新月 × 金 */
+  {moon:'新月',moonIcon:'🌑',elem:'金',elemIcon:'✨',title:'磨かれゆく光の核',titleEn:'New Moon · Metal',
+   catchCopy:'あなたの中の本質的な輝きは、まだ誰にも見せていない状態で存在しています。',
+   catchSub:'新月と金の気が重なる今——あなたの魂は次の輝きのために静かに研がれている。',
+   personality:'新月と金の気を持つあなたは、完璧を求める鋭い感性の持ち主です。自分に厳しく、妥協を嫌う一面がありますが、それはあなたの「本物だけを残したい」という純粋な意志の表れです。人間関係においても、表面的なつながりより深い信頼を求めます。言葉少なに見えて、発した言葉の一つひとつには重みがあります。自分を磨き続けることへの執着は、時に孤独をもたらしますが、その孤独の中でこそあなたの核心が結晶化されていきます。',
+   destiny:'あなたの人生のテーマは「純化と解放」です。不純物を取り除き続けることで、あなたの本当の姿が現れてきます。過去に手放してきたもの、諦めてきたことの数々——それはすべて、あなたをより純粋にするための必要な過程でした。新月のゼロポイントにいる今、これまでの磨きの成果が形になる時期が近づいています。あなたの輝きを恐れずに見せること——それが、次の扉を開く鍵です。'},
+  /* 新月 × 水 */
+  {moon:'新月',moonIcon:'🌑',elem:'水',elemIcon:'💧',title:'深淵に眠る予言者',titleEn:'New Moon · Water',
+   catchCopy:'あなたが感じ取っている「気配」は、ほとんどの場合、正しい。',
+   catchSub:'新月の闇と水の深さが交わる場所に、あなたの最も鋭い直感が宿っている。',
+   personality:'新月と水の気を持つあなたは、言語化できない感覚で世界を読む人です。論理より先に答えを知っている、なぜかわからないけれど確信がある——そういう経験をよく持つはずです。感受性が非常に高く、他者の感情を自分のものとして感じてしまうため、人混みや激しい感情の場で疲弊しやすいことがあります。けれどそれはあなたの弱さではなく、深海魚のような希少な感知能力の代償です。静かな環境でこそ、あなたの最高の叡智が流れ出します。',
+   destiny:'あなたの人生のテーマは「見えないものを見る者」です。占い、心理、芸術、医療、教育——どの分野であれ、あなたは「言葉にならない本質」を扱う仕事に縁があります。新月の深い静寂の中で、次のビジョンがすでにあなたの中に降り始めています。他の人が気づく前にあなたは知っている——その能力を信頼することが、人生最大の転換点につながります。'},
+  /* 三日月 × 木 */
+  {moon:'三日月',moonIcon:'🌒',elem:'木',elemIcon:'🌿',title:'伸びゆく若葉の志',titleEn:'Crescent · Wood',
+   catchCopy:'あなたが今感じている「もう少し先へ」という感覚は、正しい方向を指しています。',
+   catchSub:'三日月の光が初めて夜空に現れるように——あなたの可能性は今まさに輪郭を持ちはじめた。',
+   personality:'三日月と木の気を持つあなたは、成長への意欲と繊細な感受性を合わせ持つ人です。好奇心が旺盛で、常に新しいことを学び、自分をアップデートしていこうとする向上心があります。一方で、成長の途中にいることへの焦りや、「まだ足りない」という感覚につきまとわれることも。でもそれはあなたの木の気が、次の高みを本能的に感じ取っているからです。誰かに認められなくても、あなたは確実に伸びています。',
+   destiny:'あなたの人生のテーマは「丁寧な成長」です。三日月のように、細い光でも確かに存在感を示すように——あなたの積み重ねは、ある日突然大きな形になって現れます。今の努力が報われないと感じる時期があるかもしれません。でも木は土の中でまず根を広げてから、上に伸びます。見えないところで広がっているあなたの根の深さが、次の跳躍の基盤になります。'},
+  /* 三日月 × 火 */
+  {moon:'三日月',moonIcon:'🌒',elem:'火',elemIcon:'🔥',title:'宵の炎、夢の予兆',titleEn:'Crescent · Fire',
+   catchCopy:'あなたの中で何かが動きはじめています。その予感を、どうか見逃さないで。',
+   catchSub:'三日月の宵に灯る炎——まだ小さくとも、やがて夜空を照らす光になる。',
+   personality:'三日月と火の気を持つあなたは、情熱と感受性がきわめて鋭く、何かを感じた瞬間に全力で動ける人です。アイデアが次々と湧いてきて、そのたびに心が躍る——そういう瞬間を大切にしてください。衝動的に見えることもありますが、それはあなたの火の気が本物の価値を嗅ぎ分けているからです。反面、燃え尽きやすい面もあります。三日月の細い光のように、少しずつ輝きを増していくリズムを覚えることが、あなたの火を長持ちさせる秘訣です。',
+   destiny:'あなたの人生のテーマは「情熱を育てること」です。一度点火したら消えない炎を持つあなたは、何かひとつのことに深く打ち込んだ時、誰も追いつけない高みに達します。今感じている「もっとやりたい」という気持ちは、三日月が満月へと満ちていく前触れ。その火を信じて進んでいく先に、あなたが本当に輝ける場所があります。'},
+  /* 三日月 × 土 */
+  {moon:'三日月',moonIcon:'🌒',elem:'土',elemIcon:'🌍',title:'確かな一歩の大地',titleEn:'Crescent · Earth',
+   catchCopy:'急がなくていい。あなたの一歩一歩には、確かな重みと意味があります。',
+   catchSub:'三日月が夜ごと満ちていくように——あなたの着実な歩みが、やがて大きな形になる。',
+   personality:'三日月と土の気を持つあなたは、一見ゆっくりに見えても、確実に前進し続ける持続力の人です。焦らず、丁寧に、誠実に——その姿勢が周囲から深い信頼を生み出します。新しいことへの挑戦にためらいを感じる時もありますが、それはリスクを冷静に見極めているあなたの土の知恵です。慎重さと粘り強さが合わさったとき、あなたは誰よりも遠くへ到達します。',
+   destiny:'あなたの人生のテーマは「着実な積み重ねが奇跡を生む」です。一度決めたことを諦めずに続ける——それがあなたの最大の武器です。三日月が日を重ねて満月になるように、今のあなたの地道な努力が、必ず目に見える形になる日が来ます。その日まで、土が雨を吸い込むように、経験を深く自分の中に蓄えてください。'},
+  /* 三日月 × 金 */
+  {moon:'三日月',moonIcon:'🌒',elem:'金',elemIcon:'✨',title:'宵星の如き鋭感',titleEn:'Crescent · Metal',
+   catchCopy:'まだ完成していないからこそ、あなたの感性は今最も鋭く研がれています。',
+   catchSub:'三日月の細い光が宵の空に鋭く輝くように——あなたの直感は今、最高点に達しつつある。',
+   personality:'三日月と金の気を持つあなたは、まだ発展途上の才能を自覚しながらも、その才能の本物さを内側で知っている人です。センスが良く、美意識が高く、偽物を見破る嗅覚に長けています。しかし「まだ足りない」という感覚が常につきまとい、自己評価が低くなりがちです。三日月は細くても確かに空にある——今のあなたの輝きはもう、十分に本物です。',
+   destiny:'あなたの人生のテーマは「完璧でなくても輝いていい」と知ることです。金の気は研磨によって輝きを増しますが、研磨される前から金は金です。今の自分をもう少し信じることが、あなたの才能が世に出るための扉を開きます。三日月が満ちるように、あなたの準備は今まさに完成に近づいています。'},
+  /* 三日月 × 水 */
+  {moon:'三日月',moonIcon:'🌒',elem:'水',elemIcon:'💧',title:'流れ始めた予感の川',titleEn:'Crescent · Water',
+   catchCopy:'あなたが最近「なんとなく」感じていることに、大切なメッセージが隠れています。',
+   catchSub:'三日月の光が水面に映るように——あなたの直感はもう、次の答えを映し始めている。',
+   personality:'三日月と水の気を持つあなたは、変化の予感を誰よりも早く感じ取る感受性の持ち主です。まだはっきりとは見えないけれど、何かが動きはじめているという感覚を大切にしてください。水は低いところへ流れながら、最終的に海へと到達します。あなたもまた、遠回りに見える道を通りながら、確実に自分の海へ向かっています。感情の波に揺れることもありますが、それはあなたの水の気が正直に世界を感じている証拠です。',
+   destiny:'あなたの人生のテーマは「流れに乗ること」です。抵抗せず、しかし流されすぎず——水のように柔らかく、しかし確実に目指す場所へ向かうこと。今あなたの周囲で動き始めている変化は、あなたを連れていくためのものです。三日月が満ちる前に、その流れに乗る準備を整えてください。'},
+  /* 半月 × 木 */
+  {moon:'半月',moonIcon:'🌓',elem:'木',elemIcon:'🌿',title:'決断の枝、分かれ道',titleEn:'Half Moon · Wood',
+   catchCopy:'あなたは今、二つの道の前に立っています。どちらを選んでも、あなたは正しい。',
+   catchSub:'半月が光と影を同時に持つように——あなたの中の葛藤は、成長の証です。',
+   personality:'半月と木の気を持つあなたは、内外のバランスを保ちながら前進する判断力の人です。どちらかに偏りすぎず、複数の視点から物事を見る能力に長けています。選択を迫られた時に悩む傾向がありますが、それはあなたの木の気が両方の価値を正しく認識しているからです。悩むことを責めないでください——深く悩んだ末の決断が、あなたを最もふさわしい場所へ連れていきます。',
+   destiny:'あなたの人生のテーマは「選択を恐れないこと」です。半月は必ず満月になります。今あなたが感じている迷いは、満ちていく途中の過程です。どちらを選んでも、あなたの木の根は新しい土地でも深く張っていきます。今必要なのは、完璧な選択より、選んだ後に全力を尽くす覚悟です。'},
+  /* 半月 × 火 */
+  {moon:'半月',moonIcon:'🌓',elem:'火',elemIcon:'🔥',title:'迷いの中の灼熱',titleEn:'Half Moon · Fire',
+   catchCopy:'あなたの情熱は今、どこへ向かうべきかを探しています。答えはもう、内側にある。',
+   catchSub:'半月の光が迷う夜道を照らすように——あなたの炎は今、正しい方向を示しはじめている。',
+   personality:'半月と火の気を持つあなたは、情熱と判断力が同居する、行動の人です。何かに火がついたら猪突猛進になれますが、今はその火をどこへ向けるか吟味している段階かもしれません。半月は光と影が半々——それはあなたの中の「やりたい」と「どうすれば」が拮抗している状態です。その葛藤を否定しないでください。火は燃やす対象が定まった時、最大の力を発揮します。',
+   destiny:'あなたの人生のテーマは「方向性を定めた情熱」です。やみくもに燃えるのではなく、狙いを定めて点火する——その違いを今、あなたは学んでいます。半月を越えた先に、あなたの情熱が本当に輝く場所が見えてきます。その時が来たら、迷わず飛び込んでください。'},
+  /* 半月 × 土 */
+  {moon:'半月',moonIcon:'🌓',elem:'土',elemIcon:'🌍',title:'大地の均衡を守る者',titleEn:'Half Moon · Earth',
+   catchCopy:'あなたはいつも、物事のバランスを保とうとしています。その力は貴重です。',
+   catchSub:'半月と土の気が重なる今——あなたの調整力が、周囲に見えない安定をもたらしている。',
+   personality:'半月と土の気を持つあなたは、グループの中でバランサーとして機能する人です。誰かが偏ったり、関係が壊れそうになった時、自然と均衡を保とうとする力があります。自分の意見を出すより、全体が上手くいくことを優先してしまうことがありますが、それはあなたの土の気の調和への本能です。その力は非常に貴重ですが、時にはあなた自身の望みを優先することも、大切な均衡の一部です。',
+   destiny:'あなたの人生のテーマは「自分自身をも大切にするバランス」です。他者のための土台になり続けることは美しいですが、土もまた水と太陽を必要とします。今の半月のエネルギーは、あなたに「自分の望みも地図に入れていい」と伝えています。受け取ることと与えることの均衡が取れた時、あなたの人生は新しい豊かさを迎えます。'},
+  /* 半月 × 金 */
+  {moon:'半月',moonIcon:'🌓',elem:'金',elemIcon:'✨',title:'天秤の上の純金',titleEn:'Half Moon · Metal',
+   catchCopy:'あなたは今、手放すものと残すものを見極める、大事な時期にいます。',
+   catchSub:'半月と金の気が重なる今——本物だけを残すための選別が静かに始まっている。',
+   personality:'半月と金の気を持つあなたは、不要なものを取り除き、本質だけを残そうとする選別の力に優れた人です。人間関係も仕事も、表面的なものには満足できず、本物の価値を求め続けます。その基準の高さが、時に孤立感や完璧主義のプレッシャーをもたらすことも。でも半月が光と影を持ちながらも美しいように、すべてが完璧でなくとも、あなたの金の輝きは本物です。',
+   destiny:'あなたの人生のテーマは「本物を選び続けること」です。妥協しない姿勢がもたらす孤独は、より純粋な輝きへの道です。今あなたが天秤にかけているものの選択は、次の5年を大きく左右します。金の気に従い、本当に価値があると感じるものだけを手元に残してください。それがあなたの人生の質を決定的に変えます。'},
+  /* 半月 × 水 */
+  {moon:'半月',moonIcon:'🌓',elem:'水',elemIcon:'💧',title:'潮目に立つ感知者',titleEn:'Half Moon · Water',
+   catchCopy:'あなたは今、何かが変わる直前の空気を感じ取っています。',
+   catchSub:'半月の潮位が変わるように——あなたの周囲では今、見えない転換点が近づいている。',
+   personality:'半月と水の気を持つあなたは、潮の変わり目を感じる鋭敏な感知力を持つ人です。人の気持ちの変化、状況の転換点、来るべき変化の予感——それらをいち早くキャッチするアンテナが常に働いています。その繊細さは時に重荷になることもありますが、潮目を読む力は極めて希少な才能です。感じ取ったことを言葉にすることへの恐れを少しずつ手放していくと、あなたの真価が発揮されます。',
+   destiny:'あなたの人生のテーマは「感知力を信頼すること」です。今あなたが感じている「何かが動いている」という感覚は正しいです。半月を境に潮が変わるように、あなたの人生にも近いうちに大きな転換が訪れます。その波を恐れず、水のように柔らかく受け入れる準備を今から整えておいてください。'},
+  /* 満月 × 木 */
+  {moon:'満月',moonIcon:'🌕',elem:'木',elemIcon:'🌿',title:'満開の樹、誰かの宿',titleEn:'Full Moon · Wood',
+   catchCopy:'あなたはすでに、誰かの「帰りたい場所」になっています。',
+   catchSub:'満月に照らされた大樹のように——あなたの存在が、多くの人の心の拠り所になっている。',
+   personality:'満月と木の気を持つあなたは、豊かな包容力と揺るぎない安心感を持つ存在です。その場にいるだけで空気が柔らかくなり、人が集まってくる——あなたにはそういう引力があります。表現力も豊かで、言葉や行動で人の心を動かすことができます。ただ、すべての人を受け入れようとするあまり、自分が消耗していることに気づきにくい面もあります。満ちた月も、翌日から欠けていく——自分をメンテナンスする権利があなたにはあります。',
+   destiny:'あなたの人生のテーマは「与えることと受け取ること、両方の完全な循環」です。木が実を結び、その実がまた種になるように、あなたの善意や行動は必ず巡り巡って戻ってきます。満月のエネルギーが今、あなたの蒔いてきた種の収穫の時期を告げています。喜んで受け取ってください——それがあなたに与えた人への、最大の恩返しです。'},
+  /* 満月 × 火 */
+  {moon:'満月',moonIcon:'🌕',elem:'火',elemIcon:'🔥',title:'天に燃ゆる覚醒の炎',titleEn:'Full Moon · Fire',
+   catchCopy:'あなたの存在は今、最高の輝きに達しています。',
+   catchSub:'満月の光と火の気が重なる今——あなたの魂は、かつてない高みに向かって燃え上がっている。',
+   personality:'満月と火の気を持つあなたは、カリスマ性と情熱が最高潮に達している、まさに今が旬の魂です。人を惹きつけ、場の空気を変え、行動で示す——あなたが本気を出した時の力は、本人が思っている以上に大きいです。感情が豊かで表現力も高く、喜怒哀楽が鮮明です。ただ満月の炎は美しい反面、近づきすぎると焼けることも。自分を燃やし尽くさないよう、時々炎を鎮める時間も大切にしてください。',
+   destiny:'あなたの人生のテーマは「情熱で歴史を動かすこと」です。大げさではありません。あなたが本気で信じてやり続けたことが、周囲の誰かの人生を変えた、または変える——そういう生き方があなたには与えられています。満月の今、あなたの火が最も必要とされている場所へ向かう扉が開いています。迷わず進んでください。'},
+  /* 満月 × 土 */
+  {moon:'満月',moonIcon:'🌕',elem:'土',elemIcon:'🌍',title:'豊穣の大地、収穫の時',titleEn:'Full Moon · Earth',
+   catchCopy:'あなたが長い間かけて育ててきたものが、今まさに実りの時を迎えています。',
+   catchSub:'満月と土の気が重なる今——あなたの蒔いた種が、豊かな実りとなって返ってくる。',
+   personality:'満月と土の気を持つあなたは、長い年月をかけて豊かさを育ててきた、収穫期の魂です。誠実さ、忍耐力、一貫性——これらを当たり前のようにこなしてきたあなたの周囲には、深い信頼関係が積み上がっています。自分ではわからなくても、あなたは多くの人の「拠り所」です。大地が季節の移り変わりをすべて受け止めるように、あなたは様々な経験を深く消化し、豊かさに変えてきました。',
+   destiny:'あなたの人生のテーマは「豊かさを分かち合うこと」です。蓄えてきた豊かさ——知識でも、経験でも、愛でも——が今、分かち合う時期を迎えています。満月の収穫エネルギーが今、あなたの長年の積み重ねに対して「受け取っていい」と告げています。遠慮しないでください。あなたが受け取ることで、次の循環が始まります。'},
+  /* 満月 × 金 */
+  {moon:'満月',moonIcon:'🌕',elem:'金',elemIcon:'✨',title:'完成した光の結晶',titleEn:'Full Moon · Metal',
+   catchCopy:'あなたが長い間磨き続けてきた輝きが、今まさに完成の瞬間を迎えています。',
+   catchSub:'満月の光が金の結晶を照らすように——あなたの本質的な輝きが、今最も鮮明に見えている。',
+   personality:'満月と金の気を持つあなたは、長い磨きの末に完成に近づいた、純粋な輝きの魂です。妥協を知らず、本物だけを求め続けてきた旅の途上で、今あなたは一つの完成形に到達しています。その輝きを他者に見せることへの照れや恐れがあるかもしれませんが、磨かれた金は光を反射してこそその本質を発揮します。あなたの輝きは、受け取る人がいてこそ完成します。',
+   destiny:'あなたの人生のテーマは「完成した輝きを世界に示すこと」です。長い準備期間を経て、今あなたは舞台に立つ時を迎えています。金の気と満月のエネルギーが重なる今は、これまでの努力が最大限に報われる時期です。自分の輝きを信じて、舞台の中央に立ってください。それが今のあなたに求められていることです。'},
+  /* 満月 × 水 */
+  {moon:'満月',moonIcon:'🌕',elem:'水',elemIcon:'💧',title:'月海に満ちる叡智',titleEn:'Full Moon · Water',
+   catchCopy:'あなたの中に、言葉にならない「答え」が今夜、満ちようとしています。',
+   catchSub:'満月が海を満たすように——あなたの叡智と直感が今、最高潮に達している。',
+   personality:'満月と水の気を持つあなたは、感受性と直感力が頂点に達した、最も深い洞察の持ち主です。満月の夜、水面に映る月のように、あなたの感知力は今最高の鮮明度にあります。他者の言葉の裏を読む力、状況の本質を見抜く力、言語化される前の感情を察する力——これらが今のあなたには備わっています。ただ、あまりにも多くを感じ取りすぎて疲弊しやすい時期でもあります。意識的に境界線を引く練習も大切です。',
+   destiny:'あなたの人生のテーマは「叡智を語ること」です。今あなたの中に満ちている洞察や感知は、あなた一人に留めておくには惜しいものです。満月の水は、月光を受けて最も美しく輝きます——あなたの叡智も、誰かに伝えることでその真価を発揮します。今感じていることを、言葉にする勇気を持ってください。その言葉は、必要な人のところへ届きます。'}
+];
+
 function drawP(){
-  var idx=phaseIdx(getBirthVal('f-birth'));
-  var ph=PHASES[idx],el=ELEMS[idx],pd=PERS[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
+  var birth=getBirthVal('f-birth');
+  /* 生年月日＋名前のハッシュでパターンを決定（同じ人は常に同じ結果） */
+  var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+  var pat=MIKAGE_PATTERNS[seed%20];
   var banner=mkBanner('🌙','rgba(139,164,232,1)','linear-gradient(135deg,rgba(26,36,80,.9),rgba(13,17,40,.95))','五行思想 / 性格鑑定','陰陽師ミカゲ');
-  var intro='…'+esc(name)+'殿。五行の気脈を辿り、あなたの宿命の輪郭を読み解き申した。'+esc(pd.i);
+
+  /* ── カード② 基本の性格（ぼかしあり） */
+  var card2=
+    '<div class="mk-card mk-blur-card">'+
+      '<div class="mk-blur-hd">'+
+        '<span class="mk-blur-ico">🌿</span>'+
+        '<span class="mk-blur-lbl">基本の性格</span>'+
+        '<span class="mk-blur-lock">🔒</span>'+
+      '</div>'+
+      '<div class="mk-blur-body">'+
+        '<p class="mk-blur-txt">'+esc(pat.personality)+'</p>'+
+        '<div class="mkb-veil"></div>'+
+      '</div>'+
+    '</div>';
+
+  /* ── カード③ 人生のテーマ（ぼかしあり） */
+  var card3=
+    '<div class="mk-card mk-blur-card" style="border-bottom:1px solid rgba(123,94,167,.22)">'+
+      '<div class="mk-blur-hd">'+
+        '<span class="mk-blur-ico">🌙</span>'+
+        '<span class="mk-blur-lbl">人生のテーマ</span>'+
+        '<span class="mk-blur-lock">🔒</span>'+
+      '</div>'+
+      '<div class="mk-blur-body">'+
+        '<p class="mk-blur-txt">'+esc(pat.destiny)+'</p>'+
+        '<div class="mkb-veil"></div>'+
+      '</div>'+
+    '</div>';
+
+  /* ── CTAセクション */
+  var cta=
+    '<div class="mk-cta">'+
+      '<p class="mk-cta-lbl">✦ 陰陽師ミカゲが明かす完全鑑定 ✦</p>'+
+      '<p class="mk-cta-note">基本の性格・人生のテーマの全文、そして宿命の転機——<br>続きを解放して、あなたの本当の物語を知ってください。</p>'+
+      '<div class="mk-plans">'+
+        '<div class="mk-plan">'+
+          '<div class="mk-plan-price">100<span class="yen">円</span></div>'+
+          '<div class="mk-plan-name">簡易鑑定</div>'+
+          '<ul class="mk-plan-items">'+
+            '<li>基本の性格（全文）</li>'+
+            '<li>人生のテーマ（全文）</li>'+
+          '</ul>'+
+          '<button class="mkp-btn outline" onclick="goCheckout(\'light\')">続きを解放する</button>'+
+        '</div>'+
+        '<div class="mk-plan hot">'+
+          '<span class="mk-plan-badge">人気</span>'+
+          '<div class="mk-plan-price">500<span class="yen">円</span></div>'+
+          '<div class="mk-plan-name">奥義鑑定・完全解放</div>'+
+          '<ul class="mk-plan-items">'+
+            '<li>基本の性格・人生のテーマ（全文）</li>'+
+            '<li>五行が示す隠れた才能</li>'+
+            '<li>宿命の人間関係と縁の理</li>'+
+            '<li>開運の刻・最適タイミング</li>'+
+            '<li>今年の転機と注意すべき月</li>'+
+            '<li>あなたに宿る霊的資質</li>'+
+            '<li>陰陽師ミカゲからの個別メッセージ</li>'+
+          '</ul>'+
+          '<button class="mkp-btn gold" onclick="goCheckout(\'deep\')">奥義鑑定を受ける</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="mk-secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div>'+
+    '</div>';
+
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
-    '<p class="ph-lead">── あなたの五行・月相 ──</p>'+
-    '<div style="position:relative;width:100px;height:100px;margin:0 auto .9rem"><div class="moon-gfx moon-md" style="position:relative;z-index:2"></div><div class="moon-ring" style="width:128px;height:128px"></div></div>'+
-    '<div class="ph-name">'+esc(ph.name)+'</div>'+
-    '<div class="ph-mean" style="margin-bottom:1.8rem">'+esc(ph.msg)+'</div>'+
-    '<div class="elem-card" style="width:100%;max-width:540px"><span class="ea">'+el.a+'</span><div class="ee">'+esc(el.en)+'</div><span class="ep">'+el.p+'</span><div class="et">'+esc(el.t)+'</div><div class="esep"></div><div class="ek">'+esc(el.k)+'</div></div>'+
-    '<div class="rcard" style="max-width:540px">'+
-      '<div class="rcard-hd"><div class="rdate">'+todayStr()+' 五行鑑定 ── 陰陽師ミカゲより</div><div class="rttl">'+esc(name)+'殿の、宿命の本質</div></div>'+
-      '<div class="rbody"><p class="rtxt" style="font-style:italic">'+intro+'</p>'+
-        '<p class="rknife">されど、最も肝要なることは──</p>'+
-        bz('五行が示す「'+esc(el.t)+'」の相を持つあなたには、'+esc(pd.b)+'。その秘められし力が開花する刻は、月の運行と深く結びついておりまする。')+
-        '<p class="rhook">五行の奥義が示す、'+esc(name)+'殿の隠れし才と転機とは……</p>'+
+    /* ── トップビジュアル */
+    '<div class="mv-wrap" style="width:100%;max-width:540px">'+
+      '<div class="mv-icons">'+
+        pat.moonIcon+
+        '<span class="mv-x">×</span>'+
+        pat.elemIcon+
       '</div>'+
+      '<p class="mv-tag">月相 × 属性</p>'+
+      '<p class="mv-title">'+esc(pat.title)+'</p>'+
+      '<p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p>'+
     '</div>'+
-    '<div class="prem" style="max-width:540px">'+
-      '<p class="prem-lbl">✦ 陰陽師ミカゲが明かすこと ✦</p>'+
-      '<ul class="prem-list"><li><span class="pl-ico">⚡</span><div class="pl-txt"><strong>五行が示す隠れた才能</strong>まだ誰も知らぬあなたの力の源</div></li><li><span class="pl-ico">🌙</span><div class="pl-txt"><strong>宿命の人間関係</strong>なぜその方と引き合うのか、五行が語る縁の理</div></li><li><span class="pl-ico">📿</span><div class="pl-txt"><strong>開運の刻</strong>あなたの力が最も発揮される時期と行動指針</div></li></ul>'+
-      '<div class="cta-stack"><button class="btn-gold" onclick="goCheckout(\'light\')" style="border-radius:9px">続きを解放する（簡易鑑定 100円）</button><button class="btn-outline" onclick="goCheckout(\'deep\')">奥義鑑定・完全解放（500円）</button></div>'+
-      '<div class="secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div>'+
+    /* ── カード① 一言診断（全文表示） */
+    '<div class="mk-card mk-catch-card">'+
+      '<p class="mk-catch-lbl">✦ 一言診断 ✦</p>'+
+      '<p class="mk-catch-body">'+esc(pat.catchCopy)+'</p>'+
+      '<p class="mk-catch-sub">'+esc(pat.catchSub)+'</p>'+
     '</div>'+
+    card2+card3+cta+
     menuNav('personality')+topBtn()+'<div style="height:2rem"></div></div>';
 }
 function drawM(){
