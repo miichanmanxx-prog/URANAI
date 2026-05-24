@@ -505,10 +505,16 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 @keyframes lunaParticleFloat{0%{bottom:-6px;opacity:0;transform:translateX(0) scale(.8)}18%{opacity:.72}82%{opacity:.32}100%{bottom:calc(100% + 6px);opacity:0;transform:translateX(16px) scale(1.1)}}
 /* ルナからのメッセージ */
 .luna-char-msg{width:100%;max-width:540px;margin-top:1.1rem}
-.luna-char-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(212,175,55,.14);border-radius:18px;padding:1.4rem 1.5rem 1.6rem;text-align:center}
+.luna-char-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(212,175,55,.14);border-radius:18px;padding:1.4rem 1.5rem 0;text-align:center;overflow:hidden}
 .luna-char-deco{font-size:.68rem;color:rgba(212,175,55,.38);letter-spacing:.28em;margin-bottom:.9rem}
-.luna-char-text{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(220,210,245,.85);line-height:2.2;letter-spacing:.05em;white-space:pre-wrap;text-align:left;font-style:italic}
-.luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;margin-top:1.1rem;text-align:right;font-style:italic}
+/* ルナメッセージ ぼかしラップ — 50%見せて途中で切る */
+.luna-char-blur-wrap{position:relative;max-height:210px;overflow:hidden;padding-bottom:0}
+.luna-char-text{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(220,210,245,.85);line-height:2.2;letter-spacing:.05em;white-space:pre-wrap;text-align:left;font-style:italic;padding-bottom:.5rem}
+.luna-char-veil{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to bottom,transparent 0%,rgba(12,7,36,.22) 20%,rgba(12,7,36,.62) 48%,rgba(12,7,36,.93) 76%,rgba(12,7,36,.99) 100%);backdrop-filter:blur(3px)}
+.luna-char-cta{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:.72rem;color:rgba(212,175,55,.92);letter-spacing:.18em;animation:lunaCharCTAGlow 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes lunaCharCTAGlow{0%,100%{opacity:.6;text-shadow:0 0 10px rgba(212,175,55,.45)}50%{opacity:1;text-shadow:0 0 18px rgba(212,175,55,.88),0 0 34px rgba(180,140,40,.4)}}
+.luna-char-sign-wrap{padding:.8rem 1.5rem 1.2rem}
+.luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
 </style>
 </head>
 <body>
@@ -1953,8 +1959,14 @@ function drawTR(idx){
     '<div class="luna-char-msg mk-scroll-fade">'+
       '<div class="luna-char-glass">'+
         '<div class="luna-char-deco">── Luna からあなたへ ──</div>'+
-        '<p class="luna-char-text">'+esc(lunaMsg)+'</p>'+
-        '<div class="luna-char-sign">タロット女子ルナ \U0001f319</div>'+
+        '<div class="luna-char-blur-wrap">'+
+          '<p class="luna-char-text">'+esc(lunaMsg)+'</p>'+
+          '<div class="luna-char-veil"></div>'+
+          '<div class="luna-char-cta">✦ 運命の続きを解読する ✦</div>'+
+        '</div>'+
+        '<div class="luna-char-sign-wrap">'+
+          '<div class="luna-char-sign">タロット女子ルナ \U0001f319</div>'+
+        '</div>'+
       '</div>'+
     '</div>';
   var ctaSection=
