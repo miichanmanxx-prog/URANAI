@@ -413,13 +413,9 @@
     }
   })();
 
-  // Back navigation
+  // Back navigation (新しいタブで開かれるため直接遷移)
   function goBack() {
-    if (document.referrer && document.referrer.includes(location.hostname)) {
-      history.back();
-    } else {
-      window.location.href = 'tsukiyomi_unified.html';
-    }
+    window.location.href = 'tsukiyomi_unified.html';
   }
 </script>
 </body>
