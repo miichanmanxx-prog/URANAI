@@ -71,6 +71,21 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .gbtn{flex:1;padding:.65rem;text-align:center;border:1px solid rgba(123,94,167,.22);border-radius:8px;color:var(--muted);font-family:'Noto Serif JP',serif;font-size:.78rem;cursor:pointer;background:rgba(7,9,26,.82);transition:all .3s;-webkit-appearance:none;touch-action:manipulation}
 .gbtn.on,.gbtn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.07)}
 .char-count{text-align:right;font-size:.58rem;color:var(--dim);margin-top:.28rem}
+/* 生年月日プルダウン */
+.birth-row{display:flex;gap:.45rem}
+.fsel-birth{
+  flex:1;padding:.75rem .4rem .75rem .7rem;
+  background:rgba(7,9,26,.82);
+  border:1px solid rgba(123,94,167,.22);border-radius:8px;
+  color:var(--text);font-family:'Noto Serif JP',serif;font-size:.83rem;
+  outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23D4AF37' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .45rem center;
+  transition:border-color .3s,box-shadow .3s;
+}
+.fsel-birth:focus{border-color:rgba(212,175,55,.55);box-shadow:0 0 0 3px rgba(212,175,55,.09)}
+.fsel-birth option{background:#0E1035;color:var(--text)}
 /* MENU CARDS */
 .menu-cards{display:grid;grid-template-columns:1fr;gap:1rem;width:100%;max-width:860px}
 @media(min-width:640px){.menu-cards{grid-template-columns:repeat(3,1fr)}}
@@ -305,7 +320,11 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
     </div>
     <div class="fg">
       <label class="flbl">生年月日</label>
-      <input class="finp" type="date" id="top-birth" value="1990-05-15">
+      <div class="birth-row">
+        <select class="fsel-birth" id="top-birth-y" onchange="updateDays('top-birth')"><option value="">年</option></select>
+        <select class="fsel-birth" id="top-birth-m" onchange="updateDays('top-birth')"><option value="">月</option></select>
+        <select class="fsel-birth" id="top-birth-d"><option value="">日</option></select>
+      </div>
     </div>
     <div class="fg" style="margin-bottom:0">
       <label class="flbl">性別</label>
@@ -512,18 +531,20 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
       <label class="flbl">お名前（ニックネーム可）<span class="req">必須</span></label>
       <input class="finp" type="text" id="f-name" placeholder="例：さくら">
     </div>
-    <div class="frow2" style="margin-bottom:1.35rem">
-      <div class="fg">
-        <label class="flbl">生年月日<span class="req">必須</span></label>
-        <input class="finp" type="date" id="f-birth" value="1990-01-01">
+    <div class="fg" style="margin-bottom:1.1rem">
+      <label class="flbl">生年月日<span class="req">必須</span></label>
+      <div class="birth-row">
+        <select class="fsel-birth" id="f-birth-y" onchange="updateDays('f-birth')"><option value="">年</option></select>
+        <select class="fsel-birth" id="f-birth-m" onchange="updateDays('f-birth')"><option value="">月</option></select>
+        <select class="fsel-birth" id="f-birth-d"><option value="">日</option></select>
       </div>
-      <div class="fg">
-        <label class="flbl">性別</label>
-        <div class="gender-row">
-          <button class="gbtn on" onclick="sg(this)">女性</button>
-          <button class="gbtn"    onclick="sg(this)">男性</button>
-          <button class="gbtn"    onclick="sg(this)">他</button>
-        </div>
+    </div>
+    <div class="fg" style="margin-bottom:1.35rem">
+      <label class="flbl">性別</label>
+      <div class="gender-row">
+        <button class="gbtn on" onclick="sg(this)">女性</button>
+        <button class="gbtn"    onclick="sg(this)">男性</button>
+        <button class="gbtn"    onclick="sg(this)">他</button>
       </div>
     </div>
     <div class="fg hidden" id="fg-consult">
@@ -604,7 +625,62 @@ var DOWS=['日','月','火','水','木','金','土'];
 var tarotPicked=-1;
 var SCREENS=['scr-top','scr-char','scr-form','scr-loading','scr-result'];
 function show(id){SCREENS.forEach(function(s){var el=document.getElementById(s);if(el)el.classList.add('hidden')});var el=document.getElementById(id);if(el)el.classList.remove('hidden');window.scrollTo(0,0)}
-(function(){buildStars();show(IS_STORE?'scr-char':'scr-top')})();
+
+/* ── 生年月日プルダウン ────────────────────────────── */
+function buildBirthSelects(){
+  var now=new Date(),curY=now.getFullYear();
+  ['top-birth','f-birth'].forEach(function(p){
+    var sy=document.getElementById(p+'-y');
+    var sm=document.getElementById(p+'-m');
+    if(!sy||!sm)return;
+    /* 年（1940〜現在年） */
+    for(var y=curY;y>=1940;y--){
+      var o=document.createElement('option');
+      o.value=String(y);o.textContent=y+'年';
+      sy.appendChild(o);
+    }
+    /* 月 */
+    for(var m=1;m<=12;m++){
+      var o2=document.createElement('option');
+      o2.value=(m<10?'0':'')+m;o2.textContent=m+'月';
+      sm.appendChild(o2);
+    }
+    /* 日（初期は31日まで） */
+    updateDays(p);
+  });
+}
+function updateDays(p){
+  var sy=document.getElementById(p+'-y');
+  var sm=document.getElementById(p+'-m');
+  var sd=document.getElementById(p+'-d');
+  if(!sd)return;
+  var prevD=sd.value;
+  var y=sy?parseInt(sy.value)||2000:2000;
+  var m=sm?parseInt(sm.value)||1:1;
+  var maxD=new Date(y,m,0).getDate(); /* その月の最終日 */
+  sd.innerHTML='<option value="">日</option>';
+  for(var d=1;d<=maxD;d++){
+    var o=document.createElement('option');
+    o.value=(d<10?'0':'')+d;o.textContent=d+'日';
+    sd.appendChild(o);
+  }
+  if(prevD&&parseInt(prevD)<=maxD)sd.value=prevD;
+}
+function getBirthVal(p){
+  var y=(document.getElementById(p+'-y')||{}).value||'';
+  var m=(document.getElementById(p+'-m')||{}).value||'';
+  var d=(document.getElementById(p+'-d')||{}).value||'';
+  return(y&&m&&d)?y+'-'+m+'-'+d:'';
+}
+function copyBirth(src,dst){
+  ['y','m','d'].forEach(function(k){
+    var s=document.getElementById(src+'-'+k);
+    var t=document.getElementById(dst+'-'+k);
+    if(s&&t){t.value=s.value;}
+  });
+}
+
+(function(){buildStars();buildBirthSelects();show(IS_STORE?'scr-char':'scr-top')})();
 function buildStars(){var sf=document.getElementById('stars');for(var i=0;i<120;i++){var s=document.createElement('div');s.className='star';var z=Math.random()*2.2+.3;s.style.cssText='width:'+z+'px;height:'+z+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s;';sf.appendChild(s)}}
 function phaseIdx(ds){if(!ds)return 4;var d=new Date(ds);var n=d.getFullYear()+(d.getMonth()+1)+d.getDate();return((n%8)+8)%8}
 function todayStr(){var d=new Date();return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'}
@@ -641,10 +717,10 @@ function showFormErr(msg){
   el.textContent=msg;el.style.display=msg?'block':'none';
 }
 function startFortune(){
-  var name=(document.getElementById('top-name').value||'').trim(),birth=(document.getElementById('top-birth').value||'').trim();
+  var name=(document.getElementById('top-name').value||'').trim(),birth=getBirthVal('top-birth');
   if(!name||!birth){showTopErr('お名前と生年月日を入力してください');return}
   showTopErr('');
-  document.getElementById('f-name').value=name;document.getElementById('f-birth').value=birth;
+  document.getElementById('f-name').value=name;copyBirth('top-birth','f-birth');
   document.getElementById('char-banner').classList.add('hidden');document.getElementById('fg-consult').classList.add('hidden');document.getElementById('fg-plan').classList.add('hidden');
   var mb=document.getElementById('menu-banner');mb.textContent='── '+MENU_META[ST.menu].lbl+' を選択中 ──';mb.classList.remove('hidden');
   show('scr-form');
@@ -664,7 +740,7 @@ function selPlan(el,id){ST.planId=id;document.querySelectorAll('#plan-cards .pla
 function backToChar(){ST.charKey=null;ST.planId=null;updSteps(1);show('scr-char')}
 function updCnt(){document.getElementById('cnt').textContent=(document.getElementById('f-consult').value||'').length}
 function submitForm(){
-  var name=(document.getElementById('f-name').value||'').trim(),birth=(document.getElementById('f-birth').value||'').trim();
+  var name=(document.getElementById('f-name').value||'').trim(),birth=getBirthVal('f-birth');
   if(!name||!birth){showFormErr('お名前と生年月日を入力してください');return}
   if(IS_STORE){
     if(!ST.charKey){showFormErr('鑑定師を選択してください');return}
@@ -678,7 +754,7 @@ function submitForm(){
   show('scr-loading');runLoad(function(){renderResult()});
 }
 function runLoad(cb){
-  var idx=phaseIdx(document.getElementById('f-birth').value),ph=PHASES[idx];
+  var idx=phaseIdx(getBirthVal('f-birth')),ph=PHASES[idx];
   document.getElementById('l-ico').textContent=ph.icon;document.getElementById('l-phase').textContent=ph.name;document.getElementById('l-sub').textContent=ph.mean;
   var msgs=['月と交信中…','あなたの星を読み解いています…','月明かりが答えを導いています…','鑑定書を紡いでいます…'],mi=0,mel=document.getElementById('l-msg');
   mel.textContent=msgs[0];var iv=setInterval(function(){mi=(mi+1)%msgs.length;mel.textContent=msgs[mi]},820);
@@ -689,7 +765,7 @@ function renderResult(){show('scr-result');if(ST.menu==='personality')drawP();el
 function menuNav(cur){var others=['personality','monthly','tarot'].filter(function(m){return m!==cur});return'<div class="around"><div class="around-t">✦ 別の視点でも占ってみる ✦</div>'+others.map(function(m){var mt=MENU_META[m];return'<div class="around-btn" onclick="ST.menu=\''+m+'\';renderResult()"><span class="a-ico">'+mt.ico+'</span><span class="a-lbl">'+mt.lbl+'</span><span class="a-arr">›</span></div>'}).join('')+'</div>'}
 function topBtn(){return'<div style="width:100%;margin-top:1rem"><button class="btn-outline" onclick="show(\'scr-top\')">← トップへ戻る</button></div>'}
 function drawP(){
-  var idx=phaseIdx(document.getElementById('f-birth').value);
+  var idx=phaseIdx(getBirthVal('f-birth'));
   var ph=PHASES[idx],el=ELEMS[idx],pd=PERS[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
   var banner=mkBanner('🌙','rgba(139,164,232,1)','linear-gradient(135deg,rgba(26,36,80,.9),rgba(13,17,40,.95))','五行思想 / 性格鑑定','陰陽師ミカゲ');
@@ -719,7 +795,7 @@ function drawP(){
     menuNav('personality')+topBtn()+'<div style="height:2rem"></div></div>';
 }
 function drawM(){
-  var idx=phaseIdx(document.getElementById('f-birth').value),md=MONTHLY[idx];
+  var idx=phaseIdx(getBirthVal('f-birth')),md=MONTHLY[idx];
   var name=(document.getElementById('f-name').value||'あんた').trim();
   var now=new Date(),yr=now.getFullYear(),mo=now.getMonth(),td=now.getDate();
   var ref=new Date(2024,0,11),fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
@@ -743,7 +819,7 @@ function drawM(){
     '<p class="ph-lead" style="margin-bottom:1.2rem">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>'+
     cal+fort+prem+menuNav('monthly')+topBtn()+'<div style="height:2rem"></div></div>';
 }
-  var idx=phaseIdx(document.getElementById('f-birth').value),md=MONTHLY[idx];
+  var idx=phaseIdx(getBirthVal('f-birth')),md=MONTHLY[idx];
   var now=new Date(),yr=now.getFullYear(),mo=now.getMonth(),td=now.getDate();
   var ref=new Date(2024,0,11),fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
   var cal='<div class="cal-wrap" style="max-width:540px"><div class="cal-hdr">'+yr+'年'+(mo+1)+'月</div><div class="cal-grid">';
