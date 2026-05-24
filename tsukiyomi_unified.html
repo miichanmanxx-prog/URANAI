@@ -391,15 +391,15 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .oba-cal-today{background:rgba(212,175,55,.11);border:1px solid rgba(212,175,55,.52);box-shadow:0 0 12px rgba(212,175,55,.22),inset 0 0 8px rgba(212,175,55,.06)}
 .oba-cal-today .oba-cal-num{color:var(--gold);font-weight:700}
 .oba-cal-today .oba-cal-ico{opacity:.92}
-/* lucky day — gold glow pulse */
-.oba-cal-lucky{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.28);animation:obaGlow 3.2s ease-in-out infinite}
-.oba-cal-lucky .oba-cal-num{color:#D4AF37}
+/* lucky day — emerald green glow */
+.oba-cal-lucky{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.32);animation:obaGlow 3.2s ease-in-out infinite}
+.oba-cal-lucky .oba-cal-num{color:#34D399}
 .oba-cal-lucky .oba-cal-ico{animation:obaMoonFloat 3.2s ease-in-out infinite;opacity:.9}
-@keyframes obaGlow{0%,100%{box-shadow:0 0 5px rgba(212,175,55,.1)}50%{box-shadow:0 0 18px rgba(212,175,55,.42),0 0 30px rgba(212,175,55,.1)}}
-@keyframes obaMoonFloat{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.2);opacity:1}}
-/* caution day — soft red-purple */
-.oba-cal-caution{background:rgba(140,68,118,.07);border:1px solid rgba(140,68,118,.26)}
-.oba-cal-caution .oba-cal-num{color:rgba(200,130,180,.88)}
+@keyframes obaGlow{0%,100%{box-shadow:0 0 5px rgba(52,211,153,.1)}50%{box-shadow:0 0 16px rgba(52,211,153,.38),0 0 26px rgba(52,211,153,.1)}}
+@keyframes obaMoonFloat{0%,100%{transform:scale(1);opacity:.78}50%{transform:scale(1.18);opacity:1}}
+/* caution day — deep violet purple */
+.oba-cal-caution{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.28)}
+.oba-cal-caution .oba-cal-num{color:rgba(167,139,250,.88)}
 /* empty cell */
 .oba-cal-empty{pointer-events:none}
 /* legend */
@@ -421,8 +421,8 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .oba-fade-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem}
 .oba-fade-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.85) 35%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
 .oba-day-tag{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .82rem;border-radius:20px;font-size:.76rem;margin-bottom:.52rem}
-.oba-day-tag.lucky{background:rgba(134,239,172,.12);border:1px solid rgba(134,239,172,.38);color:#15803D}
-.oba-day-tag.caution{background:rgba(140,68,118,.08);border:1px solid rgba(140,68,118,.3);color:#9B3D72}
+.oba-day-tag.lucky{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.36);color:#059669}
+.oba-day-tag.caution{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.3);color:#7C3AED}
 .oba-day-msg{font-size:.82rem;line-height:1.92;color:#3A3A5A;letter-spacing:.035em}
 .oba-msg-wrap{position:relative;max-height:175px;overflow:hidden}
 .oba-msg-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
@@ -1494,8 +1494,8 @@ function drawM(){
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
-    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(134,239,172,.5)"></div>強運日</div>'+
-    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(160,80,140,.55)"></div>注意日</div>'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(52,211,153,.6)"></div>強運日</div>'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(139,92,246,.6)"></div>注意日</div>'+
   '</div>';
   var themeSection='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-theme-wrap">'+
