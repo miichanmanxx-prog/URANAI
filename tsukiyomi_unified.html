@@ -372,29 +372,46 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-menu-list li{font-size:.71rem;color:var(--muted);line-height:1.78;padding:.07rem 0;display:flex;align-items:flex-start;gap:.42rem;letter-spacing:.03em}
 .mk-menu-list li::before{content:'✦';color:var(--gold);opacity:.55;font-size:.52rem;flex-shrink:0;margin-top:.22rem}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-/* 星読みのおばあちゃん result screen */
-.oba-ring-wrap{display:flex;justify-content:center;margin:1rem 0;position:relative}
-.oba-ring-canvas{position:relative;flex-shrink:0}
-.oba-ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
-.oba-ring-yr{font-size:.63rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.1rem}
-.oba-ring-mo{font-size:1.55rem;font-family:'Cormorant Garamond',serif;color:var(--goldP);letter-spacing:.05em;line-height:1.1}
-.oba-ring-phase{font-size:1.5rem;margin-top:.25rem}
-.oba-dot{position:absolute;width:32px;height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
-.oba-dot-num{font-size:.53rem;color:var(--muted);line-height:1.1;letter-spacing:0}
-.oba-dot-ico{font-size:.66rem;line-height:1}
-.oba-dot-today{background:rgba(212,175,55,.18);border-color:rgba(212,175,55,.65);box-shadow:0 0 8px rgba(212,175,55,.3)}
-.oba-dot-today .oba-dot-num{color:var(--gold);font-weight:700}
-.oba-dot-lucky{background:rgba(134,239,172,.12);border-color:rgba(134,239,172,.48);box-shadow:0 0 7px rgba(134,239,172,.28)}
-.oba-dot-lucky .oba-dot-num{color:#86EFAC}
-.oba-dot-caution{background:rgba(251,146,60,.1);border-color:rgba(251,146,60,.42);box-shadow:0 0 6px rgba(251,146,60,.22)}
-.oba-dot-caution .oba-dot-num{color:#FB923C}
+/* 星読みのおばあちゃん result screen — grid calendar */
+/* ── calendar container ── */
+.oba-cal-outer{width:100%;max-width:540px}
+.oba-cal-glass{background:linear-gradient(158deg,rgba(18,12,44,.93),rgba(8,6,24,.96));border:1px solid rgba(123,94,167,.22);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
+.oba-cal-hdr{display:flex;align-items:baseline;justify-content:center;gap:.55rem;padding:.9rem 1.2rem .62rem;border-bottom:1px solid rgba(123,94,167,.13)}
+.oba-cal-yr{font-size:.68rem;color:var(--muted);letter-spacing:.14em}
+.oba-cal-mo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--goldP);letter-spacing:.08em}
+.oba-cal-dows{display:grid;grid-template-columns:repeat(7,1fr);padding:.55rem .62rem .28rem}
+.oba-cal-dow{text-align:center;font-size:.6rem;color:rgba(180,160,220,.52);letter-spacing:.06em;padding:.16rem 0}
+.oba-cal-dow:first-child{color:rgba(220,130,130,.58)}
+.oba-cal-dow:last-child{color:rgba(130,160,225,.58)}
+.oba-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:.18rem .62rem .88rem}
+.oba-cal-cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;padding:.34rem .06rem .26rem;min-height:42px}
+.oba-cal-num{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:rgba(220,210,245,.75);line-height:1;letter-spacing:.01em}
+.oba-cal-ico{font-size:.58rem;line-height:1;margin-top:.1rem;opacity:.58}
+/* today */
+.oba-cal-today{background:rgba(212,175,55,.11);border:1px solid rgba(212,175,55,.52);box-shadow:0 0 12px rgba(212,175,55,.22),inset 0 0 8px rgba(212,175,55,.06)}
+.oba-cal-today .oba-cal-num{color:var(--gold);font-weight:700}
+.oba-cal-today .oba-cal-ico{opacity:.92}
+/* lucky day — gold glow pulse */
+.oba-cal-lucky{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.28);animation:obaGlow 3.2s ease-in-out infinite}
+.oba-cal-lucky .oba-cal-num{color:#D4AF37}
+.oba-cal-lucky .oba-cal-ico{animation:obaMoonFloat 3.2s ease-in-out infinite;opacity:.9}
+@keyframes obaGlow{0%,100%{box-shadow:0 0 5px rgba(212,175,55,.1)}50%{box-shadow:0 0 18px rgba(212,175,55,.42),0 0 30px rgba(212,175,55,.1)}}
+@keyframes obaMoonFloat{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.2);opacity:1}}
+/* caution day — soft red-purple */
+.oba-cal-caution{background:rgba(140,68,118,.07);border:1px solid rgba(140,68,118,.26)}
+.oba-cal-caution .oba-cal-num{color:rgba(200,130,180,.88)}
+/* empty cell */
+.oba-cal-empty{pointer-events:none}
+/* legend */
 .oba-legend{display:flex;justify-content:center;gap:1.4rem;margin:.4rem 0 .9rem}
 .oba-leg-item{display:flex;align-items:center;gap:.35rem;font-size:.64rem;color:var(--muted);letter-spacing:.04em}
 .oba-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* theme */
 .oba-theme-wrap{width:100%;max-width:540px;text-align:center;margin:.4rem 0 1.1rem;padding:0 1rem}
 .oba-theme-label{font-size:.7rem;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:.35rem}
 .oba-theme-title{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--goldP);letter-spacing:.05em;line-height:1.25;margin-bottom:.45rem}
 .oba-theme-sub{font-size:.82rem;color:var(--text);line-height:1.92;opacity:.9}
+/* cards */
 .oba-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden;width:100%;max-width:540px;margin-top:1.1rem}
 .oba-card-hd{padding:.82rem 1.5rem .58rem;border-bottom:1px solid rgba(212,175,55,.12)}
 .oba-card-label{font-size:.68rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.18rem}
@@ -405,7 +422,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .oba-fade-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.85) 35%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
 .oba-day-tag{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .82rem;border-radius:20px;font-size:.76rem;margin-bottom:.52rem}
 .oba-day-tag.lucky{background:rgba(134,239,172,.12);border:1px solid rgba(134,239,172,.38);color:#15803D}
-.oba-day-tag.caution{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.3);color:#C2410C}
+.oba-day-tag.caution{background:rgba(140,68,118,.08);border:1px solid rgba(140,68,118,.3);color:#9B3D72}
 .oba-day-msg{font-size:.82rem;line-height:1.92;color:#3A3A5A;letter-spacing:.035em}
 .oba-msg-wrap{position:relative;max-height:175px;overflow:hidden}
 .oba-msg-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
@@ -1432,33 +1449,33 @@ var MONTHLY_OBA=[
    cautionLabel:{msg:'焦りが最大の敵になる日。「まだか」と思うほど遅くなる——星のタイミングを信じること。'},
    obaMsg:'おばあちゃんな、あんたのこと、ちゃんと心配してるんやで。最近しんどいことが続いてたやろ。一人でずっと抱えてきたんやろうなって、星を見てたらわかった。\n\n聞いてや。あんたがしんどいのはな、弱いからやない——感じる力が強いんや。全部受け取ってしまうから、傷つくんや。でも、その感受性こそが、あんたの一番の才能でもある。もうすぐ、星があんたの重荷を下ろしてくれる日が来る。それまでは、自分を責めんといてや。'}
 ];
-function buildObaRing(yr,mo,td,dm,ld1,ld2,cd1,phIdx){
+function buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1){
   var ref=new Date(2024,0,11);
-  var R=108,sz=268,cx=sz/2,cy=sz/2;
-  var dots='';
+  var fd=new Date(yr,mo,1).getDay();
+  var DOWS_JP=['日','月','火','水','木','金','土'];
+  var dowHtml=DOWS_JP.map(function(d){return'<div class="oba-cal-dow">'+d+'</div>'}).join('');
+  var cells='';
+  for(var i=0;i<fd;i++)cells+='<div class="oba-cal-cell oba-cal-empty"></div>';
   for(var d=1;d<=dm;d++){
-    var theta=(-90+(d-1)*(360/dm))*Math.PI/180;
-    var x=Math.round((cx+R*Math.cos(theta))*10)/10;
-    var y=Math.round((cy+R*Math.sin(theta))*10)/10;
     var dt=new Date(yr,mo,d),diff=(dt-ref)/86400000;
     var ph=Math.floor(((diff%29.53)+29.53)%29.53/29.53*8);
-    var cls='oba-dot';
-    if(d===td)cls+=' oba-dot-today';
-    else if(d===ld1||d===ld2)cls+=' oba-dot-lucky';
-    else if(d===cd1)cls+=' oba-dot-caution';
-    dots+='<div class="'+cls+'" style="left:'+(x-16)+'px;top:'+(y-16)+'px">'+
-      '<span class="oba-dot-num">'+d+'</span>'+
-      '<span class="oba-dot-ico">'+MOON_ICONS[ph]+'</span>'+
+    var cls='oba-cal-cell';
+    if(d===td)cls+=' oba-cal-today';
+    else if(d===ld1||d===ld2)cls+=' oba-cal-lucky';
+    else if(d===cd1)cls+=' oba-cal-caution';
+    cells+='<div class="'+cls+'">'+
+      '<span class="oba-cal-num">'+d+'</span>'+
+      '<span class="oba-cal-ico">'+MOON_ICONS[ph]+'</span>'+
     '</div>';
   }
-  return '<div class="oba-ring-wrap mk-scroll-fade">'+
-    '<div class="oba-ring-canvas" style="width:'+sz+'px;height:'+sz+'px;position:relative">'+
-    dots+
-    '<div class="oba-ring-center">'+
-      '<div class="oba-ring-yr">'+yr+'年</div>'+
-      '<div class="oba-ring-mo">'+(mo+1)+'月</div>'+
-      '<div class="oba-ring-phase">'+MOON_ICONS[phIdx]+'</div>'+
-    '</div>'+
+  return '<div class="oba-cal-outer mk-scroll-fade">'+
+    '<div class="oba-cal-glass">'+
+      '<div class="oba-cal-hdr">'+
+        '<span class="oba-cal-yr">'+yr+'年</span>'+
+        '<span class="oba-cal-mo">'+(mo+1)+'月の暦</span>'+
+      '</div>'+
+      '<div class="oba-cal-dows">'+dowHtml+'</div>'+
+      '<div class="oba-cal-grid">'+cells+'</div>'+
     '</div>'+
   '</div>';
 }
@@ -1474,11 +1491,11 @@ function drawM(){
   var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
   var banner=mkBanner('⭐','rgba(180,140,220,1)','linear-gradient(135deg,rgba(45,28,78,.9),rgba(18,10,38,.97))','星座占い / 月間運勢','星読みのおばあちゃん');
-  var ring=buildObaRing(yr,mo,td,dm,ld1,ld2,cd1,idx);
+  var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(134,239,172,.5)"></div>強運日</div>'+
-    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(251,146,60,.45)"></div>注意日</div>'+
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(160,80,140,.55)"></div>注意日</div>'+
   '</div>';
   var themeSection='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-theme-wrap">'+
@@ -1581,7 +1598,7 @@ function drawM(){
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
     '<p class="ph-lead mk-scroll-fade" style="margin-bottom:.5rem">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>'+
-    ring+legend+themeSection+flowCard+luckyCard+cautionCard+msgCard+regCta+
+    cal+legend+themeSection+flowCard+luckyCard+cautionCard+msgCard+regCta+
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
