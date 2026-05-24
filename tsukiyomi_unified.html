@@ -256,17 +256,33 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .rev-line{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.18),transparent);margin-bottom:.7rem}
 .rev-tail{font-size:.63rem;color:rgba(212,175,55,.45);letter-spacing:.1em;font-family:'Playfair Display',serif;font-style:italic}
 /* MODAL */
-.modal-bg{position:fixed;inset:0;z-index:600;background:rgba(8,9,26,.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1.2rem;opacity:0;pointer-events:none;transition:opacity .3s}
+/* ── 会員登録モーダル glassmorphism ── */
+.modal-bg{position:fixed;inset:0;z-index:600;background:rgba(4,5,18,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.2rem;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-bg.open{opacity:1;pointer-events:auto}
-.modal-card{width:100%;max-width:420px;background:linear-gradient(165deg,rgba(20,24,52,.98),rgba(13,17,44,1));border:1px solid rgba(212,175,55,.24);border-radius:20px;padding:2rem 1.8rem 1.8rem;box-shadow:0 24px 64px rgba(0,0,0,.7),inset 0 1px 0 rgba(212,175,55,.12);transform:translateY(12px);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.modal-card{width:100%;max-width:440px;background:linear-gradient(165deg,rgba(16,10,44,.99),rgba(8,5,28,1));border:1px solid rgba(139,92,246,.28);border-radius:24px;padding:0;box-shadow:0 28px 80px rgba(0,0,0,.82),0 0 60px rgba(139,92,246,.1),inset 0 1px 0 rgba(180,140,255,.1);overflow:hidden;transform:translateY(14px);transition:transform .38s cubic-bezier(.4,0,.2,1)}
 .modal-bg.open .modal-card{transform:translateY(0)}
-.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.modal-ttl{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:var(--gold);letter-spacing:.1em}
-.modal-x{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;transition:background .2s}
-.modal-x:hover{background:rgba(255,255,255,.12)}
-.modal-note{font-size:.65rem;color:var(--dim);text-align:center;letter-spacing:.08em;line-height:1.8;margin-top:1.1rem}
-.modal-reg{display:block;text-align:center;margin-top:1rem;font-size:.72rem;color:var(--gold);cursor:pointer;opacity:.8;text-decoration:underline;text-underline-offset:3px;transition:opacity .2s}
-.modal-reg:hover{opacity:1}
+/* モーダルヘッダー (グロー領域) */
+.modal-glass-hd{position:relative;padding:2rem 1.8rem 1.4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.14),transparent 68%);border-bottom:1px solid rgba(139,92,246,.14)}
+.modal-glass-hd::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.55),rgba(212,175,55,.35),rgba(139,92,246,.55),transparent)}
+.modal-close-btn{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:.78rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;transition:background .2s}
+.modal-close-btn:hover{background:rgba(255,255,255,.12)}
+.modal-moon-ico{font-size:2.4rem;line-height:1;margin-bottom:.7rem;display:block;animation:mkfloat 4.2s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(139,92,246,.5))}
+.modal-main-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:rgba(220,210,245,.96);letter-spacing:.1em;margin-bottom:.35rem}
+.modal-main-sub{font-size:.66rem;color:var(--muted);letter-spacing:.08em;line-height:1.7;font-style:italic}
+/* モーダルボディ (フォーム領域) */
+.modal-glass-body{padding:1.5rem 1.8rem 1.6rem}
+/* 入力フィールド focus: 紫グロー */
+.modal-glass-body .finp:focus,.modal-glass-body .ftxt:focus{border-color:rgba(139,92,246,.65);box-shadow:0 0 0 3px rgba(139,92,246,.12),0 0 18px rgba(139,92,246,.08)}
+/* 登録ボタン */
+.modal-reg-btn{display:block;width:100%;padding:1.1rem 1.5rem;background:linear-gradient(115deg,rgba(70,30,130,.92) 0%,rgba(139,92,246,.9) 38%,rgba(180,120,255,.92) 62%,rgba(139,92,246,.9) 100%);background-size:240% auto;border:1px solid rgba(180,140,255,.35);border-radius:14px;color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.86rem;letter-spacing:.16em;font-weight:400;cursor:pointer;animation:planBtnShine 4s linear infinite,planBtnPulse 2.6s ease-in-out infinite;box-shadow:0 4px 24px rgba(139,92,246,.38),0 0 50px rgba(139,92,246,.1);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;margin-bottom:.8rem}
+.modal-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(139,92,246,.55),0 0 70px rgba(180,140,255,.18)}
+.modal-reg-btn:active{transform:translateY(0)}
+/* 下部テキスト */
+.modal-note{font-size:.6rem;color:var(--dim);text-align:center;letter-spacing:.07em;line-height:1.75;margin-bottom:.6rem}
+.modal-alt-link{font-size:.67rem;color:var(--muted);text-align:center;letter-spacing:.04em}
+.modal-alt-link span{color:rgba(180,140,255,.82);cursor:pointer;text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.modal-alt-link span:hover{color:rgba(210,180,255,.95)}
+
 /* FOOTER */
 .page-footer{width:100%;max-width:860px;padding:2rem 0 1rem;margin-top:2rem;border-top:1px solid rgba(212,175,55,.08);text-align:center}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold);letter-spacing:.15em;margin-bottom:.7rem}
@@ -899,22 +915,42 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 <!-- LOGIN MODAL -->
 <div class="modal-bg" id="modal" onclick="onMBg(event)">
   <div class="modal-card">
-    <div class="modal-hd">
-      <div class="modal-ttl">🌙 ログイン</div>
-      <button class="modal-x" onclick="closeModal()">✕</button>
+
+    <!-- ヘッダー：月アイコン＋タイトル -->
+    <div class="modal-glass-hd">
+      <button class="modal-close-btn" onclick="closeModal()">✕</button>
+      <span class="modal-moon-ico">🌙</span>
+      <h2 class="modal-main-title">月の導きへようこそ</h2>
+      <p class="modal-main-sub">無料登録で鑑定書がすぐに読めます</p>
     </div>
-    <div class="fg">
-      <label class="flbl" for="m-email">メールアドレス</label>
-      <input class="finp" type="email" id="m-email" placeholder="example@mail.com">
+
+    <!-- フォーム -->
+    <div class="modal-glass-body">
+      <div class="fg">
+        <label class="flbl" for="m-name">お名前</label>
+        <input class="finp" type="text" id="m-name" placeholder="山田 花子" autocomplete="name">
+      </div>
+      <div class="fg">
+        <label class="flbl" for="m-email">メールアドレス</label>
+        <input class="finp" type="email" id="m-email" placeholder="example@mail.com" autocomplete="email">
+      </div>
+      <div class="fg">
+        <label class="flbl" for="m-pw">パスワード</label>
+        <input class="finp" type="password" id="m-pw" placeholder="8文字以上" autocomplete="new-password">
+      </div>
+      <div class="fg" style="margin-bottom:1.3rem">
+        <label class="flbl" for="m-pw2">パスワード（確認）</label>
+        <input class="finp" type="password" id="m-pw2" placeholder="もう一度入力してください" autocomplete="new-password">
+      </div>
+
+      <p id="modal-err" style="display:none;font-size:.7rem;color:#F87171;text-align:center;margin-bottom:.85rem;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);border-radius:8px;padding:.55rem .9rem"></p>
+
+      <button class="modal-reg-btn" onclick="doRegister()">無料登録して鑑定を始める</button>
+
+      <p class="modal-note">🔒 SSL暗号化 ・ 個人情報保護方針に基づき管理<br>登録後すぐに鑑定書が閲覧できます</p>
+      <p class="modal-alt-link">すでに会員の方は <span onclick="doLoginSwitch()">こちらからログイン</span></p>
     </div>
-    <div class="fg" style="margin-bottom:1.4rem">
-      <label class="flbl" for="m-pw">パスワード</label>
-      <input class="finp" type="password" id="m-pw" placeholder="パスワード">
-    </div>
-    <p id="modal-err" style="display:none;font-size:.7rem;color:#F87171;text-align:center;margin-bottom:.6rem;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:6px;padding:.5rem .8rem"></p>
-    <button class="btn-gold" onclick="doLogin()" style="font-size:.82rem;padding:.9rem 1.5rem">ログインする</button>
-    <p class="modal-note">🔒 SSL暗号化通信 ・ 個人情報保護</p>
-    <span class="modal-reg" onclick="closeModal();location.href='tsukiyomi_checkout.html'">まだ会員でない方は → 会員登録</span>
+
   </div>
 </div>
 
@@ -2100,10 +2136,35 @@ function drawTR(idx){
 }
 
 function goCheckout(plan){var url='tsukiyomi_checkout.html?plan='+plan+'&menu='+ST.menu;if(IS_STORE&&SHOP_ID)url+='&shop_id='+SHOP_ID;window.location.href=url}
-function openModal(){document.getElementById('modal').classList.add('open');document.getElementById('m-email').value='';document.getElementById('m-pw').value=''}
+function openModal(){
+  var errEl=document.getElementById('modal-err');
+  if(errEl)errEl.style.display='none';
+  ['m-name','m-email','m-pw','m-pw2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('modal').classList.add('open');
+}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function onMBg(e){if(e.target===document.getElementById('modal'))closeModal()}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
+function doRegister(){
+  var name=(document.getElementById('m-name').value||'').trim();
+  var email=(document.getElementById('m-email').value||'').trim();
+  var pw=(document.getElementById('m-pw').value||'').trim();
+  var pw2=(document.getElementById('m-pw2').value||'').trim();
+  var errEl=document.getElementById('modal-err');
+  function showErr(msg){if(errEl){errEl.textContent=msg;errEl.style.display='block';}}
+  if(!name){showErr('お名前を入力してください');return}
+  if(!email||!email.includes('@')){showErr('有効なメールアドレスを入力してください');return}
+  if(!pw||pw.length<8){showErr('パスワードは8文字以上で入力してください');return}
+  if(pw!==pw2){showErr('パスワードが一致しません');return}
+  if(errEl)errEl.style.display='none';
+  fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,password:pw})})
+    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+    .then(function(){closeModal();window.location.href='tsukiyomi_mypage.html';})
+    .catch(function(err){showErr('登録に失敗しました。しばらくしてから再度お試しください。');});
+}
+function doLoginSwitch(){
+  window.location.href='tsukiyomi_login.html';
+}
 function doLogin(){
   var email=(document.getElementById('m-email').value||'').trim(),pw=(document.getElementById('m-pw').value||'').trim();
   var errEl=document.getElementById('modal-err');
