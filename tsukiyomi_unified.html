@@ -526,6 +526,58 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-cta-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.7rem;color:rgba(180,140,255,.92);letter-spacing:.14em;animation:lunaCTAGlow 2.8s ease-in-out infinite;pointer-events:none}
 .oba-cta-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.7rem;color:rgba(140,190,255,.92);letter-spacing:.14em;animation:obaCTAGlow 2.8s ease-in-out infinite;pointer-events:none}
 @keyframes obaCTAGlow{0%,100%{opacity:.6;text-shadow:0 0 10px rgba(100,160,255,.45)}50%{opacity:1;text-shadow:0 0 18px rgba(130,190,255,.82),0 0 32px rgba(80,130,220,.35)}}
+/* ── メインページ プランカード glassmorphism ── */
+.plan-glass-wrap{width:100%;max-width:860px}
+.plan-glass-grid{display:flex;flex-direction:column;gap:1.1rem;width:100%;margin-bottom:1.4rem}
+@media(min-width:580px){.plan-glass-grid{flex-direction:row;align-items:flex-start}}
+/* 共通カードベース */
+.plan-glass-card{position:relative;border-radius:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:hidden;padding:1.8rem 1.6rem 2rem;text-align:center;transition:transform .28s,box-shadow .28s}
+.plan-glass-card:hover{transform:translateY(-4px)}
+/* 100円プラン — 青〜シルバー系 */
+.plan-glass-card.light{background:linear-gradient(158deg,rgba(14,22,54,.88),rgba(8,14,36,.92));border:1px solid rgba(130,175,240,.22);box-shadow:0 4px 32px rgba(80,130,220,.08),inset 0 1px 0 rgba(180,210,255,.07);flex:1}
+.plan-glass-card.light::before{content:'';position:absolute;top:0;left:0;right:0;height:52%;background:radial-gradient(ellipse at 50% 0%,rgba(100,160,240,.1),transparent 68%);pointer-events:none}
+/* 500円プラン — 紫〜金の高級感 */
+.plan-glass-card.deep{background:linear-gradient(158deg,rgba(28,14,58,.95),rgba(12,7,32,.98));border:1px solid rgba(212,175,55,.32);box-shadow:0 4px 42px rgba(212,175,55,.12),0 0 80px rgba(139,92,246,.07),inset 0 1px 0 rgba(212,175,55,.08);flex:1.06;animation:planDeepGlow 4s ease-in-out infinite}
+.plan-glass-card.deep::before{content:'';position:absolute;top:0;left:0;right:0;height:55%;background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.1),transparent 65%),radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.08),transparent 78%);pointer-events:none}
+@keyframes planDeepGlow{0%,100%{box-shadow:0 4px 42px rgba(212,175,55,.1),0 0 60px rgba(139,92,246,.06)}50%{box-shadow:0 4px 52px rgba(212,175,55,.18),0 0 90px rgba(139,92,246,.1),0 0 130px rgba(212,175,55,.06)}}
+/* おすすめバッジ */
+.plan-glass-badge{position:absolute;top:1rem;right:1rem;font-size:.5rem;letter-spacing:.14em;color:#06080F;background:linear-gradient(135deg,#8B6914,#D4AF37 50%,#E8C84A);padding:.2rem .7rem;border-radius:20px;font-weight:500}
+/* ラベル */
+.plan-glass-lbl{font-family:'Playfair Display',serif;font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-style:italic;opacity:.7;margin-bottom:.75rem;position:relative;z-index:1}
+.plan-glass-card.light .plan-glass-lbl{color:rgba(160,200,255,.85)}
+.plan-glass-card.deep .plan-glass-lbl{color:var(--purL)}
+/* 金額 */
+.plan-glass-price{font-family:'Cormorant Garamond',serif;font-size:2rem;line-height:1;margin-bottom:.3rem;position:relative;z-index:1}
+.plan-glass-price .yen{font-size:.88rem;margin-left:.12rem}
+.plan-glass-card.light .plan-glass-price{color:rgba(180,215,255,.88)}
+.plan-glass-card.light .plan-glass-price .yen{color:var(--muted)}
+.plan-glass-card.deep .plan-glass-price{color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,.45)}
+.plan-glass-card.deep .plan-glass-price .yen{color:rgba(212,175,55,.65)}
+/* プラン名 */
+.plan-glass-name{font-family:'Cormorant Garamond',serif;font-size:1.08rem;letter-spacing:.08em;margin-bottom:1.1rem;line-height:1.3;position:relative;z-index:1}
+.plan-glass-card.light .plan-glass-name{color:rgba(210,225,255,.9)}
+.plan-glass-card.deep .plan-glass-name{color:var(--goldP)}
+/* 区切り線 */
+.plan-glass-div{width:44px;height:1px;margin:0 auto .95rem;position:relative;z-index:1}
+.plan-glass-card.light .plan-glass-div{background:linear-gradient(90deg,transparent,rgba(130,175,240,.4),transparent)}
+.plan-glass-card.deep .plan-glass-div{background:linear-gradient(90deg,transparent,rgba(212,175,55,.5),transparent)}
+/* 特典リスト */
+.plan-glass-list{list-style:none;margin:0;padding:0;position:relative;z-index:1;text-align:left}
+.plan-glass-list li{font-size:.76rem;line-height:2.1;letter-spacing:.04em;padding:.28rem 0;display:flex;align-items:flex-start;gap:.55rem;border-bottom:1px solid rgba(255,255,255,.045)}
+.plan-glass-list li:last-child{border-bottom:none}
+.plan-glass-list li::before{content:'◆';flex-shrink:0;margin-top:.18rem;font-size:.6rem}
+.plan-glass-card.light .plan-glass-list li{color:rgba(190,210,250,.82)}
+.plan-glass-card.light .plan-glass-list li::before{color:rgba(130,180,240,.6)}
+.plan-glass-card.deep .plan-glass-list li{color:rgba(220,205,245,.85)}
+.plan-glass-card.deep .plan-glass-list li::before{color:rgba(212,175,55,.7)}
+/* 共通登録ボタン */
+.plan-reg-btn{display:block;width:100%;max-width:420px;margin:0 auto .9rem;padding:1.15rem 2rem;background:linear-gradient(115deg,rgba(80,40,140,.9) 0%,rgba(139,92,246,.85) 38%,rgba(180,120,255,.88) 62%,rgba(139,92,246,.85) 100%);background-size:240% auto;border:1px solid rgba(180,140,255,.38);border-radius:50px;color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.9rem;letter-spacing:.18em;font-weight:400;cursor:pointer;animation:planBtnShine 4s linear infinite,planBtnPulse 2.6s ease-in-out infinite;box-shadow:0 4px 30px rgba(139,92,246,.35),0 0 60px rgba(139,92,246,.12);transition:transform .25s,box-shadow .25s;-webkit-appearance:none;touch-action:manipulation;position:relative;overflow:hidden}
+.plan-reg-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);background-size:240% auto;animation:planBtnShine 4s linear infinite;pointer-events:none}
+.plan-reg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 50px rgba(139,92,246,.55),0 0 90px rgba(180,140,255,.2)}
+.plan-reg-btn:active{transform:translateY(0)}
+@keyframes planBtnShine{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes planBtnPulse{0%,100%{box-shadow:0 4px 30px rgba(139,92,246,.35),0 0 60px rgba(139,92,246,.12)}50%{box-shadow:0 4px 38px rgba(139,92,246,.5),0 0 80px rgba(180,140,255,.18)}}
+.plan-reg-sub{font-size:.6rem;color:var(--dim);text-align:center;letter-spacing:.06em;margin-bottom:.5rem}
 </style>
 </head>
 <body>
@@ -658,32 +710,46 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 
   <div class="divider" style="max-width:860px"><div class="div-l"></div><div class="div-s">✦</div><div class="div-l"></div></div>
 
-  <div style="width:100%;max-width:860px">
+  <div class="plan-glass-wrap">
     <p class="eyebrow" style="margin-bottom:.4rem">Plan</p>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,4vw,1.65rem);font-weight:300;letter-spacing:.07em;text-align:center;margin-bottom:.5rem">あなたに<em style="font-style:italic;color:var(--gold)">合ったプラン</em>を選んでください</h2>
-    <p style="font-size:.74rem;color:var(--muted);text-align:center;letter-spacing:.04em;line-height:1.9;margin-bottom:1.6rem">どちらも匿名で試せます。まずは100円から。</p>
-    <div class="cmp-grid">
-      <div class="cmp-card">
-        <p style="font-family:'Playfair Display',serif;font-size:.58rem;letter-spacing:.24em;color:var(--purL);text-transform:uppercase;font-style:italic;margin-bottom:.7rem;opacity:.75">Light Reading</p>
-        <div class="cmp-price">100<span class="yen">円</span></div>
-        <div class="cmp-name">ライト占い</div>
-        <div class="cmp-feat"><span class="cmp-dot">◆</span><span>月星座から読み取る<strong>表面的な性格の概要</strong></span></div>
-        <div class="cmp-feat"><span class="cmp-dot">◆</span><span>今月の運勢の<strong>ざっくりとした流れ</strong></span></div>
-        <div class="cmp-feat" style="border-bottom:none;margin-bottom:1.2rem"><span class="cmp-dot">◆</span><span>タロット<strong>冒頭メッセージのみ</strong></span></div>
-        <button class="btn-outline" onclick="goCheckout(\'light\')">まずここから試す（100円）</button>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,4vw,1.65rem);font-weight:300;letter-spacing:.07em;text-align:center;margin-bottom:.5rem">月詠みの<em style="font-style:italic;color:var(--gold)">鑑定プラン</em></h2>
+    <p style="font-size:.74rem;color:var(--muted);text-align:center;letter-spacing:.04em;line-height:1.9;margin-bottom:1.6rem">会員登録後、すぐに鑑定書が閲覧できます。</p>
+
+    <div class="plan-glass-grid">
+
+      <!-- 100円プラン -->
+      <div class="plan-glass-card light">
+        <p class="plan-glass-lbl">Light Reading</p>
+        <div class="plan-glass-price">100<span class="yen">円</span></div>
+        <div class="plan-glass-name">月の導き鑑定</div>
+        <div class="plan-glass-div"></div>
+        <ul class="plan-glass-list">
+          <li>月星座から読み取る表面的な性格の概要</li>
+          <li>今月の運勢のざっくりとした流れ</li>
+          <li>タロット冒頭メッセージのみ</li>
+        </ul>
       </div>
-      <div class="cmp-card hot">
-        <div class="cmp-hot">人気 No.1</div>
-        <p style="font-family:'Playfair Display',serif;font-size:.58rem;letter-spacing:.24em;color:var(--purL);text-transform:uppercase;font-style:italic;margin-bottom:.7rem;opacity:.75">Deep Reading</p>
-        <div class="cmp-price">500<span class="yen">円</span></div>
-        <div class="cmp-name">深掘り占い</div>
-        <div class="cmp-feat"><span class="cmp-dot h">◆</span><span><strong>転機の正確な日付</strong>と具体的な行動</span></div>
-        <div class="cmp-feat"><span class="cmp-dot h">◆</span><span>恋愛・金運・仕事の<strong>ピークデーと地雷日</strong></span></div>
-        <div class="cmp-feat" style="border-bottom:none;margin-bottom:1.2rem"><span class="cmp-dot h">◆</span><span>3メニュー<strong>すべて制限なし</strong></span></div>
-        <button class="btn-gold" onclick="goCheckout(\'deep\')" style="margin-bottom:.65rem">本当の未来を知る（500円）</button>
-        <div class="secure">🔒<span>SSL暗号化 ・ いつでもキャンセル可能</span></div>
+
+      <!-- 500円プラン -->
+      <div class="plan-glass-card deep">
+        <div class="plan-glass-badge">おすすめ</div>
+        <p class="plan-glass-lbl">Deep Reading</p>
+        <div class="plan-glass-price">500<span class="yen">円</span></div>
+        <div class="plan-glass-name">運命深層鑑定</div>
+        <div class="plan-glass-div"></div>
+        <ul class="plan-glass-list">
+          <li>魂の本質と人生テーマ</li>
+          <li>恋愛・仕事・金運の深層解析</li>
+          <li>強運日・転機日・注意日の開示</li>
+          <li>未来を動かす行動指針</li>
+        </ul>
       </div>
+
     </div>
+
+    <!-- 共通登録ボタン -->
+    <button class="plan-reg-btn" onclick="openModal()">会員登録して鑑定を見る</button>
+    <p class="plan-reg-sub">🔒 SSL暗号化 ・ 会員登録は無料です</p>
   </div>
 
   <div class="divider" style="max-width:860px"><div class="div-l"></div><div class="div-s">◈</div><div class="div-l"></div></div>
