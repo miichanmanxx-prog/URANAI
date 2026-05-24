@@ -620,6 +620,73 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 /* ── ページ遷移フェードアウト ── */
 body{transition:opacity .38s ease}
 body.page-out{opacity:0 !important}
+/* ── 利用規約/プライバシーポリシー オーバーレイ ── */
+.legal-bg{position:fixed;inset:0;z-index:700;background:rgba(3,4,16,.82);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.2rem;opacity:0;pointer-events:none;
+  transition:opacity .28s ease}
+.legal-bg.open{opacity:1;pointer-events:auto}
+.legal-card{width:100%;max-width:480px;max-height:82vh;
+  background:linear-gradient(165deg,rgba(14,9,38,.99),rgba(7,4,22,1));
+  border:1px solid rgba(139,92,246,.24);border-radius:22px;
+  box-shadow:0 24px 72px rgba(0,0,0,.85),0 0 50px rgba(139,92,246,.08),
+    inset 0 1px 0 rgba(180,140,255,.08);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(16px) scale(.97);
+  transition:transform .36s cubic-bezier(.34,1.4,.64,1),opacity .28s ease;
+  opacity:0}
+.legal-bg.open .legal-card{transform:translateY(0) scale(1);opacity:1}
+.legal-hd{flex-shrink:0;position:relative;
+  padding:1.5rem 1.8rem 1.1rem;
+  background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.1),transparent 65%);
+  border-bottom:1px solid rgba(139,92,246,.12)}
+.legal-hd::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(139,92,246,.5),rgba(212,175,55,.3),rgba(139,92,246,.5),transparent)}
+.legal-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:300;
+  letter-spacing:.1em;color:rgba(220,210,245,.96);display:block;margin-bottom:.15rem}
+.legal-subtitle{font-size:.6rem;color:var(--muted);letter-spacing:.08em;font-style:italic}
+.legal-close{position:absolute;top:1.1rem;right:1.1rem;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:var(--muted);font-size:.75rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-appearance:none;transition:background .2s}
+.legal-close:hover{background:rgba(255,255,255,.14)}
+.legal-body{flex:1;overflow-y:auto;padding:1.4rem 1.8rem;
+  scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.3) transparent}
+.legal-body::-webkit-scrollbar{width:4px}
+.legal-body::-webkit-scrollbar-track{background:transparent}
+.legal-body::-webkit-scrollbar-thumb{background:rgba(139,92,246,.3);border-radius:2px}
+/* 条文カード */
+.legal-article{margin-bottom:1.1rem;padding:1rem 1.2rem;
+  background:rgba(139,92,246,.04);
+  border:1px solid rgba(139,92,246,.1);border-radius:12px}
+.legal-article:last-child{margin-bottom:0}
+.legal-art-num{font-size:.54rem;letter-spacing:.2em;color:rgba(139,92,246,.7);
+  font-family:'Playfair Display',serif;font-style:italic;
+  margin-bottom:.3rem;display:block}
+.legal-art-title{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:400;
+  color:rgba(220,210,245,.9);letter-spacing:.05em;margin-bottom:.55rem}
+.legal-art-body{font-size:.76rem;color:rgba(190,185,220,.78);
+  line-height:1.95;letter-spacing:.03em;
+  font-family:'Noto Serif JP',serif;font-weight:300}
+.legal-art-body ul{list-style:none;margin-top:.4rem}
+.legal-art-body ul li{padding:.12rem 0 .12rem 1.2rem;position:relative}
+.legal-art-body ul li::before{content:'◆';position:absolute;left:0;
+  font-size:.5rem;line-height:2.3;color:rgba(139,92,246,.6)}
+/* フッターボタン */
+.legal-foot{flex-shrink:0;padding:1rem 1.8rem 1.4rem;
+  border-top:1px solid rgba(139,92,246,.1);text-align:center}
+.legal-back-btn{display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 2rem;
+  border:1px solid rgba(139,92,246,.38);
+  background:rgba(139,92,246,.08);
+  color:rgba(190,160,255,.9);
+  font-family:'Noto Serif JP',serif;font-size:.78rem;letter-spacing:.1em;
+  border-radius:50px;cursor:pointer;
+  -webkit-appearance:none;transition:all .22s}
+.legal-back-btn:hover{background:rgba(139,92,246,.18);border-color:rgba(180,140,255,.55)}
 </style>
 </head>
 <body>
@@ -939,6 +1006,23 @@ body.page-out{opacity:0 !important}
 </section>
 
 <!-- LOGIN MODAL -->
+<!-- ═══ 利用規約 / プライバシーポリシー オーバーレイ ═══ -->
+<div class="legal-bg" id="legal-modal">
+  <div class="legal-card">
+    <div class="legal-hd">
+      <span class="legal-title" id="legal-modal-title">利用規約</span>
+      <span class="legal-subtitle" id="legal-modal-sub">月詠み占い</span>
+      <button class="legal-close" onclick="closeLegalModal()">✕</button>
+    </div>
+    <div class="legal-body" id="legal-modal-body">
+      <!-- JS で内容注入 -->
+    </div>
+    <div class="legal-foot">
+      <button class="legal-back-btn" onclick="closeLegalModal()">← 閉じて登録に戻る</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal" onclick="onMBg(event)">
   <div class="modal-card view-reg" id="modal-card">
 
@@ -971,7 +1055,7 @@ body.page-out{opacity:0 !important}
         <div class="modal-terms">
           <input class="modal-terms-chk" type="checkbox" id="m-terms" onchange="onTermsChange()">
           <label class="modal-terms-lbl" for="m-terms">
-            <a href="tsukiyomi_terms.html" target="_blank">利用規約</a>および<a href="tsukiyomi_privacy.html" target="_blank">プライバシーポリシー</a>に同意する
+            <a href="#" onclick="openLegalModal('terms');return false">利用規約</a>および<a href="#" onclick="openLegalModal('privacy');return false">プライバシーポリシー</a>に同意する
           </label>
         </div>
 
@@ -2240,6 +2324,79 @@ function doLogout(){
   document.body.classList.add('page-out');
   setTimeout(function(){window.location.reload();},400);
 }
+/* ══════════════════════════════════════════
+   利用規約 / プライバシーポリシー オーバーレイ
+   ══════════════════════════════════════════ */
+var LEGAL_CONTENT = {
+  terms: {
+    title: '利用規約',
+    sub: '安心して運命鑑定をご利用いただくために',
+    articles: [
+      { num: '第1条', title: 'サービス内容',
+        body: '本サービス「月詠み占い」は、月星座・タロット・星占いなどを用いた占い・運勢鑑定・運命分析コンテンツを提供するサービスです。サービスは随時追加・更新されます。' },
+      { num: '第2条', title: '会員登録',
+        body: 'ユーザーは正確な情報を入力して登録するものとします。虚偽の情報による登録は禁止され、発覚した場合はアカウントを停止することがあります。登録に必要な情報はお名前・メールアドレス・パスワードです。' },
+      { num: '第3条', title: '禁止事項',
+        items: ['不正アクセスおよびシステムへの攻撃行為', '他のユーザーへの迷惑行為・嫌がらせ', 'サービスの運営を妨害する行為', '虚偽情報による登録・利用', '鑑定コンテンツの無断転載・複製・商用利用', '法令または公序良俗に反する行為'] },
+      { num: '第4条', title: '鑑定結果について',
+        body: '鑑定結果はエンターテインメントを目的として提供されており、結果の正確性・実現性・完全性を保証するものではありません。医療・法律・財務などの専門的判断の代替としてご利用にならないでください。' },
+      { num: '第5条', title: 'アカウント管理',
+        body: 'アカウントのID・パスワードの管理はユーザー自身の責任とします。第三者への譲渡・貸与は禁止します。不正利用の疑いがある場合は速やかにご連絡ください。' },
+      { num: '第6条', title: 'サービス変更・終了',
+        body: 'サービスの内容・価格・仕様は予告なく変更される場合があります。また、運営上の都合によりサービスを停止・終了することがあります。' },
+      { num: '第7条', title: '免責事項',
+        body: '本サービスの利用によって発生した損害（直接・間接問わず）について、運営者は法令上の責任を超えた責任を負いません。' }
+    ]
+  },
+  privacy: {
+    title: 'プライバシーポリシー',
+    sub: 'あなたの大切な情報を、月の守りのもとに',
+    articles: [
+      { num: '01', title: '取得する情報',
+        items: ['お名前（ニックネーム可）', 'メールアドレス', 'パスワード（暗号化して保存）', 'サービスのご利用履歴・鑑定履歴', 'アクセス情報（IPアドレス・ブラウザ情報など）'] },
+      { num: '02', title: '利用目的',
+        items: ['サービスの提供・運営', 'ログイン認証・アカウント管理', 'カスタマーサポートへの対応', 'サービスの改善・新機能の開発', '重要なお知らせの配信'] },
+      { num: '03', title: '個人情報の管理',
+        body: '取得した個人情報は適切なセキュリティ対策を施して管理します。法令に定める場合を除き、ご本人の同意なく第三者に提供・開示することはありません。' },
+      { num: '04', title: '外部サービスの利用',
+        body: 'サービス提供にあたり、決済処理・アクセス解析・メール配信などの外部サービスを利用することがあります。各外部サービスのプライバシーポリシーについては、各事業者のポリシーをご確認ください。' },
+      { num: '05', title: 'Cookieについて',
+        body: '当サービスでは、利便性の向上およびサービス改善のためCookieを使用することがあります。ブラウザの設定によりCookieを無効にすることも可能ですが、一部機能が制限される場合があります。' },
+      { num: '06', title: 'ポリシーの改定',
+        body: '本プライバシーポリシーは、法令の改正やサービス内容の変更に応じて改定される場合があります。重要な変更がある場合はサービス上でお知らせします。' }
+    ]
+  }
+};
+function openLegalModal(type) {
+  var data = LEGAL_CONTENT[type];
+  if (!data) return;
+  document.getElementById('legal-modal-title').textContent = data.title;
+  document.getElementById('legal-modal-sub').textContent   = data.sub;
+  var body = document.getElementById('legal-modal-body');
+  body.innerHTML = data.articles.map(function(a) {
+    var content = '';
+    if (a.items) {
+      content = '<ul>' + a.items.map(function(i){ return '<li>'+i+'</li>'; }).join('') + '</ul>';
+    } else {
+      content = '<p>' + (a.body||'') + '</p>';
+    }
+    return '<div class="legal-article">' +
+      '<span class="legal-art-num">' + a.num + '</span>' +
+      '<div class="legal-art-title">' + a.title + '</div>' +
+      '<div class="legal-art-body">' + content + '</div>' +
+      '</div>';
+  }).join('');
+  body.scrollTop = 0;
+  document.getElementById('legal-modal').classList.add('open');
+}
+function closeLegalModal() {
+  document.getElementById('legal-modal').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('legal-modal').classList.contains('open')) {
+    closeLegalModal();
+  }
+});
 function goCheckout(plan){openModal('reg');}
 /* ── モーダル制御 ─────────────────────────────── */
 function openModal(view){
