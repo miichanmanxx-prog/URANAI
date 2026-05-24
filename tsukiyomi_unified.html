@@ -428,6 +428,58 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .oba-msg-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
 .oba-msg-veil{position:absolute;bottom:0;left:0;right:0;height:52%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.82) 38%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
 .oba-section{width:100%;max-width:540px;margin-top:1.3rem}
+/* ── タロット女子ルナ 月相オラクル v2 ── */
+.luna-draw-zone{display:flex;flex-direction:column;align-items:center;padding:1.2rem 1rem 2rem;width:100%}
+.luna-draw-phase{font-size:.64rem;color:rgba(180,160,220,.52);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem;text-align:center}
+.luna-draw-intro{font-size:.82rem;color:var(--muted);text-align:center;line-height:2.1;letter-spacing:.05em;margin-bottom:2rem;font-style:italic}
+.luna-draw-stage{margin:0 auto 1.6rem}
+.luna-card-back{width:150px;height:248px;border-radius:16px;background:linear-gradient(168deg,rgba(28,18,62,.98),rgba(10,6,32,1));border:1px solid rgba(123,94,167,.42);cursor:pointer;position:relative;overflow:hidden;box-shadow:0 0 28px rgba(123,94,167,.2),0 4px 24px rgba(0,0,0,.55);animation:lunaPulse 3.5s ease-in-out infinite;transition:transform .22s,box-shadow .22s;display:flex;align-items:center;justify-content:center}
+.luna-card-back:hover{transform:scale(1.04) translateY(-5px);box-shadow:0 0 42px rgba(123,94,167,.4),0 8px 32px rgba(0,0,0,.55)}
+.luna-card-back::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,175,55,.16);border-radius:10px;pointer-events:none}
+.luna-card-back::after{content:'✦';position:absolute;top:11px;right:11px;font-size:.5rem;color:rgba(212,175,55,.28)}
+.luna-card-back.luna-flipping{animation:lunaFlip .65s ease forwards}
+@keyframes lunaPulse{0%,100%{box-shadow:0 0 20px rgba(123,94,167,.16),0 4px 24px rgba(0,0,0,.5)}50%{box-shadow:0 0 40px rgba(123,94,167,.38),0 4px 24px rgba(0,0,0,.5)}}
+@keyframes lunaFlip{0%{transform:rotateY(0) scale(1)}40%{transform:rotateY(70deg) scale(.92)}100%{transform:rotateY(90deg) scale(.9);opacity:0}}
+.luna-card-inner-deco{display:flex;flex-direction:column;align-items:center;gap:.85rem;position:relative;z-index:1}
+.luna-card-big-moon{font-size:3rem;animation:lunaFloatA 4.2s ease-in-out infinite}
+@keyframes lunaFloatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.luna-card-tap-txt{font-size:.66rem;color:rgba(180,160,220,.58);letter-spacing:.16em;font-style:italic}
+.luna-draw-footer{font-size:.68rem;color:rgba(180,160,220,.4);letter-spacing:.1em;text-align:center;font-style:italic}
+/* Result: card visual */
+.luna-card-visual{width:100%;max-width:540px;display:flex;flex-direction:column;align-items:center;padding:1.6rem 1.2rem 1.5rem;background:linear-gradient(168deg,rgba(20,12,52,.96),rgba(8,5,26,.98));border:1px solid rgba(123,94,167,.24);border-radius:22px;margin-top:1rem;box-shadow:0 0 40px rgba(123,94,167,.12),inset 0 1px 0 rgba(255,255,255,.05)}
+.luna-numeral{font-family:'Cormorant Garamond',serif;font-size:.8rem;color:rgba(212,175,55,.52);letter-spacing:.38em;margin-bottom:.4rem}
+.luna-icon{font-size:2.9rem;animation:lunaFloatA 4.2s ease-in-out infinite;margin:.25rem 0}
+.luna-arcana-name{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--goldP);letter-spacing:.12em;margin:.22rem 0;line-height:1.1}
+.luna-div{width:50px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent);margin:1rem 0}
+.luna-moon-nm{font-size:.76rem;color:rgba(180,160,220,.76);letter-spacing:.1em;margin-bottom:.2rem;font-style:italic}
+.luna-elem-nm{font-size:.68rem;color:var(--muted);letter-spacing:.08em;margin-bottom:.85rem}
+.luna-kw-wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:.42rem}
+.luna-kw{font-size:.68rem;color:rgba(180,160,220,.8);border:1px solid rgba(123,94,167,.35);border-radius:20px;padding:.2rem .7rem;letter-spacing:.06em}
+/* Message section */
+.luna-msg-section{width:100%;max-width:540px;text-align:center;padding:1.4rem 1.4rem 1rem;margin-top:1rem}
+.luna-msg-deco{font-size:.72rem;color:rgba(212,175,55,.35);letter-spacing:.28em;margin:.55rem 0}
+.luna-msg-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);line-height:2.2;letter-spacing:.05em;font-style:italic;margin:0}
+/* Fortune grid */
+.luna-fortune-wrap{width:100%;max-width:540px;margin-top:1.1rem}
+.luna-fortune-glass{background:linear-gradient(158deg,rgba(18,12,44,.92),rgba(8,6,24,.96));border:1px solid rgba(123,94,167,.2);border-radius:18px;padding:1rem 1.4rem 1.2rem}
+.luna-fortune-title{text-align:center;font-size:.67rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.88rem}
+.luna-fortune-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.luna-fortune-item{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.luna-fortune-label{font-size:.64rem;color:var(--muted);letter-spacing:.08em}
+.luna-stars-row{display:flex;gap:.18rem}
+.luna-star-on{color:#D4AF37;font-size:.7rem}
+.luna-star-off{color:rgba(255,255,255,.14);font-size:.7rem}
+/* Section cards */
+.luna-section{width:100%;max-width:540px;margin-top:1.1rem}
+.luna-section-glass{background:#FAF9F6;border:1px solid rgba(123,94,167,.15);border-radius:18px;overflow:hidden}
+.luna-section-hd{padding:.8rem 1.5rem .55rem;border-bottom:1px solid rgba(123,94,167,.1)}
+.luna-section-label{font-size:.66rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem}
+.luna-section-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#1A1A2E;letter-spacing:.04em}
+.luna-section-body{padding:1rem 1.5rem 1.2rem}
+.luna-blur-wrap{position:relative;max-height:195px;overflow:hidden}
+.luna-body-p{font-size:.84rem;line-height:2.18;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem}
+.luna-blur-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.85) 35%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
+.luna-unlock-hint{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.06em}
 </style>
 </head>
 <body>
@@ -762,8 +814,119 @@ var PHASES=[{icon:'🌑',name:'新月',mean:'始まりとリセットの象徴',
 var ELEMS=[{a:'🐺',en:'WATER / Deep',p:'♆',t:'深淵',k:'直感 ・ 神秘 ・ 共感力'},{a:'🦅',en:'AIR / Sharp',p:'♅',t:'鋭敏',k:'知性 ・ 自由 ・ 探求心'},{a:'🦁',en:'FIRE / Bold',p:'♂',t:'情熱',k:'勇気 ・ 行動力 ・ カリスマ'},{a:'🌿',en:'EARTH / Calm',p:'♀',t:'安定',k:'忍耐 ・ 誠実 ・ 創造性'},{a:'🦋',en:'AIR / Airy',p:'☿',t:'颯爽',k:'表現力 ・ 感受性 ・ 美意識'},{a:'🌊',en:'WATER / Flow',p:'☽',t:'流水',k:'柔軟性 ・ 共感 ・ 癒し'},{a:'🔥',en:'FIRE / Flame',p:'☉',t:'炎',k:'情熱 ・ 独創性 ・ 強さ'},{a:'🌸',en:'EARTH / Bloom',p:'♃',t:'開花',k:'優しさ ・ 包容力 ・ 豊かさ'}];
 var PERS=[{i:'あなたは水のように深く、静かな内側に広大な世界を持っています。感情の機微を敏感に感じ取り、言葉にならない空気を読む力は誰もが追いつけないほどです。',k:'あなたが誰にも話したことのない、本当の自分の姿は──',b:'実はあなた自身も気づいていないほど強い「引力」を持っています。その力が最も発揮されるのは、あなたが素直に自分を開いた瞬間です。月が照らすこの時期、その開き方を学ぶ最大のチャンスが訪れています。'},{i:'あなたの頭の中では、いつも何かが動いています。人よりも早く物事を把握し、新しい視点でアイデアを生み出す能力は、生まれながらの才能です。',k:'あなたがまだ誰にも打ち明けていない、本当の夢は──',b:'自由への渇望と、人とのつながりへの願望。その両方を同時に満たす生き方が、実はすでにあなたの目の前に現れています。'},{i:'あなたの中には、炎のような情熱と、それを制御する強い意志が共存しています。行動力と決断力は、周囲の人が密かに羨む資質です。',k:'あなたが今、最も強く望んでいることは──',b:'その情熱の向け先が定まったとき、あなたは誰も止められない存在になります。月が照らすのは、その正しい方向です。'},{i:'あなたは大地のように揺るぎない安定感を持っています。信頼され、頼られることが多いあなたの周りには、自然と人が集まります。',k:'あなたが本当は疲れていることは──',b:'その頼もしさの陰に、誰にも見せない繊細さを隠していませんか。月は今、そのやさしさを守るためのエネルギーの使い方を伝えています。'},{i:'あなたは風のように自由で、美しいものへの感性が際立っています。あなたが作り出す雰囲気や言葉は、人の心に深く残ります。',k:'あなたが気づかぬうちに惹きつけているのは──',b:'その繊細さが最大の武器になる時期が到来しています。今こそ、あなた本来の輝きを解き放つとき。'},{i:'あなたは流れる水のように、状況に応じて自分を変えられる柔軟性を持っています。共感力が高く、人の痛みを自分のことのように感じます。',k:'あなたが今いちばん手放せないものは──',b:'その癒しの力は、あなた自身も誰かに癒されることを必要としています。手放すべきものと受け取るべきものが明らかになる瞬間が近づいています。'},{i:'あなたは太陽のように、存在するだけで周囲を明るくします。独自の視点と創造力は、あなたを他の誰とも違う唯一無二の存在にします。',k:'あなたが本当に輝ける場所は──',b:'その輝きを恐れて、わざと自分を小さく見せてしまうことはありませんか。月が教えるのは、あなたの本来の大きさを受け入れる方法です。'},{i:'あなたは大地に咲く花のように、周囲に豊かさをもたらします。包容力と温かさは、傷ついた人を自然と引き寄せ、癒す力があります。',k:'あなたが誰かのために我慢していることは──',b:'その優しさが搾取されていませんか。月の光は今、あなた自身の幸福を最優先にすることの重要性を強く示しています。'}];
 var MONTHLY=[{o:{s:4,t:'新月のエネルギーが、あなたの新しいスタートを力強く後押しします。'},l:{s:5,t:'素直な気持ちを伝えることが最大のチャンスを生みます。'},m:{s:3,t:'お金の流れを整えるのに良い時期です。'},p:'今月のテーマは「始まり」。最初の10日間のうちに行動することが鍵。',b:'転機が訪れる正確な日付と行動が、深掘り鑑定で明かされます……'},{o:{s:3,t:'内側で静かに力を蓄えるタイミングです。'},l:{s:4,t:'じっくりと育てる愛情が花開く時期。'},m:{s:3,t:'慎重に動くことが賢明な時期です。'},p:'今月は「準備と観察」のテーマ。',b:'月末にかけて、準備してきたことが突然形になる瞬間が訪れます……'},{o:{s:5,t:'今月は動けば動くほど、良い結果が返ってきます。'},l:{s:5,t:'あなたから動くことが正解です。'},m:{s:4,t:'積極的な動きが実を結ぶ時期です。'},p:'今月は「決断と行動」。',b:'特定の日に金運の窓が開きます。その日付は……'},{o:{s:4,t:'これまで頑張ってきたことが、少しずつ認められ始めます。'},l:{s:3,t:'感謝を言葉にすることで距離が縮まります。'},m:{s:4,t:'臨時収入や昇給の可能性があります。'},p:'今月のテーマは「収穫への準備」。',b:'転機が訪れる正確な日付と避けるべき落とし穴とは……'},{o:{s:5,t:'あなたの魅力と運気が共に頂点に向かいます。'},l:{s:5,t:'想いを伝えることが最大の幸運を引き寄せます。'},m:{s:5,t:'思い切った行動が大きなリターンをもたらします。'},p:'今月は「感情の解放」がテーマ。',b:'今月中に人生を変える出会いが訪れる可能性が極めて高いです……'},{o:{s:3,t:'不要なものを手放すことで、大切なものが輝いて見えてきます。'},l:{s:4,t:'本当の自分を見せることを恐れないで。'},m:{s:3,t:'執着を手放すことでお金の流れが改善されていきます。'},p:'今月は「解放と浄化」のテーマ。',b:'今月中に手放すべき3つのこととは……'},{o:{s:4,t:'静かな環境の中で浮かぶ答えが、あなたの本質を教えてくれます。'},l:{s:3,t:'じっくり向き合う姿勢が今月の恋愛を豊かにします。'},m:{s:3,t:'今月は守りの時期。'},p:'今月のテーマは「本質の発見」。',b:'月の中頃に一度だけ動いても良いタイミングがあります……'},{o:{s:3,t:'表面的には静かに見えても、内側では重要な変化が起きています。'},l:{s:3,t:'観察から得た洞察が次の行動を正確なものにします。'},m:{s:2,t:'計画を立て、情報を集めることに時間を使いましょう。'},p:'今月のテーマは「準備と静観」。',b:'この静けさの終わりに訪れる変化のタイミングとは……'}];
-var TAROT=[{sym:'✦',ico:'🌙',nm:'月の女神',sub:'直感と感受性の象徴',i:'タロットが引き寄せたのは「月の女神」。気になるあの人が言葉にできない深い感情を今まさに抱えているサインです。',k:'あの人があなたに対して今、秘めている感情は──',b:'思っていた以上に複雑で深い想いです。動き出すタイミングが近づいています。その日付と、あなたが取るべき一言とは……'},{sym:'◈',ico:'⭐',nm:'星の導き',sub:'希望と未来への道標',i:'「星の導き」のカードが示すのは、あの人が今、希望を抱きながらもある迷いの中にいること。',k:'あの人がどうしても答えを出せずにいるのは──',b:'その迷いがもうすぐ解消され、はっきりとした形を取り始めることを告げています。そのタイミングとは……'},{sym:'🌸',ico:'🌸',nm:'花の予言',sub:'縁と開花の予兆',i:'「花の予言」カードは、二人の縁が今まさに咲こうとしていることを告げています。',k:'その花が完全に開くために、今あなたに必要なのは──',b:'一つの小さな勇気です。あなたが動くべき具体的なタイミングとは……'}];
-var CHARS={mikage:{e:'🌙',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',n:'星読みのおばちゃん',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',n:'タロット女子ルナ',s:'タロット / 優しく寄り添う',plans:[{id:'basic',n:'基本鑑定',d:'3枚引きタロットで現状と近未来を読む',p:300,b:''},{id:'detail',n:'詳細鑑定',d:'10枚ケルト十字展開による深い洞察',p:800,b:'人気'}]}};
+var LUNA_CARDS=[
+  {id:0,arcana:'愚者',num:'0',moon:'緑の三日月',elem:'木 × 三日月',keywords:['旅立ち','自由','可能性','好奇心'],icon:'🌱',
+   msg:'準備が整う日など、永遠に来ないかもしれません。\nあなたの心はもう、出発を待っています。',
+   situation:'今のあなたは、心の中でずっと「始めたいこと」を温め続けています。でも何かを理由にして、一歩を踏み出せないでいる。「まだ早い」「失敗したらどうしよう」——そんな言葉が、気づかないうちにあなたの足を縛っています。あの人への気持ちも、新しい挑戦も、本当はもう答えが出ているのに、確認することが怖い。準備を重ねることで、行動しなくていい理由を探し続けていませんか。',
+   advice:'怖いと感じている方向に向かって、今月は小さな一歩だけ踏み出してみてください。完璧な準備など永遠に来ません。最初の一歩は、いつも不完全なものです。',
+   love:3,work:4,money:2},
+  {id:1,arcana:'魔術師',num:'I',moon:'白金の満月',elem:'金 × 満月',keywords:['才能','創造','現実化','開花'],icon:'✨',
+   msg:'あなたにはもう、必要なものが全て揃っています。\n足りないのは道具ではなく、それを使う勇気です。',
+   situation:'今のあなたは、自分の才能や力を過小評価している部分があります。「自分なんて」「もっとすごい人がいる」——そんな思いが心の奥にあって、本来の自分を出せていない。でも実は、あなたの周りの人は、あなたが思っている以上にあなたの可能性に気づいています。持っている才能を使わずにいることが、今の停滞を生んでいます。',
+   advice:'今月は、自分を「まだ未熟だ」と言い訳にすることをやめてみてください。今のあなたで、十分に始められます。',
+   love:4,work:5,money:4},
+  {id:2,arcana:'女教皇',num:'II',moon:'青い新月',elem:'水 × 新月',keywords:['直感','秘密','潜在意識','静寂'],icon:'🌙',
+   msg:'今は語る時ではありません。\nあなたの沈黙の中に、まだ誰も知らない答えが眠っています。',
+   situation:'今のあなたは、感じていることを言葉にできなくて、ひとりで抱えている何かがあります。直感で「これは違う」と感じているのに、うまく説明できないまま流されてしまっていることがあるかもしれない。その感覚は正しいのです。あなたの内側は、表に出ている言葉よりもずっと多くのことをすでに知っています。',
+   advice:'今月は、自分の直感を論理で否定しないでください。説明できなくても、感じていることには意味があります。',
+   love:3,work:3,money:3},
+  {id:3,arcana:'女帝',num:'III',moon:'翠の満ち月',elem:'木 × 満月',keywords:['愛','豊穣','癒し','包容力'],icon:'🌿',
+   msg:'愛することに、あなたはとても上手です。\nでも、自分を愛することは、まだ練習中かもしれない。',
+   situation:'今のあなたは、誰かのために多くのものを注いでいます。感情も、時間も、エネルギーも——与えることへの惜しみなさが、あなたの大きな魅力です。でも今、そのバランスが少し偏っています。受け取ることへの遠慮や、自分のニーズを後回しにする癖が、心を少しずつ疲れさせています。誰かを愛する力と、自分を愛する力は、本来同じはずです。',
+   advice:'今月は自分への愛情を、誰かへの愛情と同じだけ注いでみてください。それはわがままではありません。',
+   love:5,work:3,money:4},
+  {id:4,arcana:'皇帝',num:'IV',moon:'黄金の半月',elem:'土 × 半月',keywords:['支配','秩序','守護','安定'],icon:'⚜️',
+   msg:'あなたが守っているものは確かに大切です。\nでも、ひとりで背負いすぎていませんか。',
+   situation:'今のあなたは、責任感が強く、しっかりしていなければという感覚の中にいます。誰かを守らなければ、きちんとしなければ——そのプレッシャーを自分に課し続けています。そのせいで、本当は助けを求めたい場面でも「自分が弱くてはいけない」と感じてしまっている。その強さは本物ですが、内側では疲れが積み重なっていませんか。',
+   advice:'「助けを求めること」は弱さではありません。力のある人ほど、それがわかっています。今月は誰かに頼ってみてください。',
+   love:2,work:5,money:5},
+  {id:5,arcana:'法王',num:'V',moon:'白の導月',elem:'金 × 新月',keywords:['教え','導き','信頼','精神性'],icon:'🕊️',
+   msg:'「正しいこと」と「あなたが望むこと」は、\n本当に同じでしょうか。',
+   situation:'今のあなたは、誰かの期待や一般的な「正解」に沿って動いている部分があります。本当はもっとこうしたい、という声が心の奥にあるのに、「こうあるべき」という枠に自分を合わせようとしている。その枠がどこから来たものなのか、本当に自分が選んだものなのか——一度立ち止まって問い直す時が来ています。',
+   advice:'今月は一つだけ、「ルールではなく自分の心」に従った選択をしてみてください。その小さな選択が、大きな変化の入口になります。',
+   love:3,work:4,money:3},
+  {id:6,arcana:'恋人',num:'VI',moon:'桃色の双月',elem:'火 × 水',keywords:['共鳴','結びつき','選択','愛情'],icon:'🌸',
+   msg:'あなたは今、何かを選ばなければならない場所にいます。\nその迷いの中に、あなたの本当の望みが見えています。',
+   situation:'今のあなたの心には、二つの引力があります。どちらも大切で、どちらも諦めたくない——その葛藤が今の状況をつくっています。恋愛において、または人生の何かの選択において、あなたは「どちらが正しいか」ではなく「自分は何を望んでいるか」という問いに向き合うことを求められています。答えを先延ばしにすればするほど、心のコストが積み重なっていきます。',
+   advice:'どちらが正しいかではなく、どちらがあなたにとって本当かを問いかけてみてください。その答えはすでに内側にあります。',
+   love:5,work:3,money:3},
+  {id:7,arcana:'戦車',num:'VII',moon:'燃える三日月',elem:'火 × 三日月',keywords:['突進','行動','勢い','勝利'],icon:'⚡',
+   msg:'あなたの推進力は本物です。\nただ、行き先を決める前に、一度立ち止まっていいかもしれません。',
+   situation:'今のあなたは、目標に向かって力強く動いています。あるいは、動かなければいけない状況に置かれています。その勢いは確かな力ですが、感情を後回しにして「とにかく前に」と走り続けているため、内側が追いついていない部分があります。目的地に着いた時、本当にそこへ行きたかったのか——その問いを持つことが大切な時期です。',
+   advice:'今月は、走り続けることと同じくらい、立ち止まることを大切にしてください。速さより方向が重要な時期です。',
+   love:3,work:5,money:4},
+  {id:8,arcana:'力',num:'VIII',moon:'赤金の満月',elem:'火 × 金',keywords:['意志','情熱','本能制御','覚悟'],icon:'🔥',
+   msg:'あなたが今向き合っているものは、\nあなたが乗り越えられるから現れています。',
+   situation:'今のあなたは、何か大きなものと格闘しています。それは外側の状況かもしれないし、自分の中の恐れや衝動かもしれない。「もう限界かもしれない」と感じることもあるかもしれませんが、あなたにはそれを乗りこなせる意志の強さが最初から備わっています。強さは感情を消すことではなく、感情を持ちながら前を向くことです。',
+   advice:'今月のあなたには、恐れているものの目を静かに見返す力があります。力で抑えるのではなく、優しく向き合ってみてください。',
+   love:4,work:4,money:3},
+  {id:9,arcana:'隠者',num:'IX',moon:'灰色の細月',elem:'土 × 新月',keywords:['孤独','探索','内省','真理'],icon:'🕯️',
+   msg:'今は誰かのそばにいるより、\n自分自身のそばにいることが必要な時期です。',
+   situation:'今のあなたは、意識的に、あるいは無意識のうちに、人との距離を置いている部分があります。社交的な場に疲れを感じたり、一人になることで初めてほっとできる——そんな状態にあるかもしれません。これは孤立ではなく、内側の声に耳を傾けるための必要な静寂です。その静けさの中にこそ、ずっと探していた答えが待っています。',
+   advice:'自分だけの時間を、罪悪感なく取ってください。その静けさの中に、次の方向を示す灯が見えてきます。',
+   love:2,work:3,money:3},
+  {id:10,arcana:'運命の輪',num:'X',moon:'巡る五色月',elem:'五行融合',keywords:['循環','転機','運命','流れ'],icon:'♾️',
+   msg:'今の流れは、あなたが作ったものではありません。\nでも、その流れをどう乗るかは、あなたが決められます。',
+   situation:'今のあなたの周りでは、自分ではコントロールできない変化が起きています。状況が変わる予感、あるいはもうすでに変わり始めている感覚——その流れに対して不安と期待が混在しているかもしれません。運命の輪は、良いことも悪いことも同じ速さで巡ることを教えています。今どちら側にいても、それは必ず動いていきます。',
+   advice:'流れに逆らうより、流れの中で自分の舵だけを持っていることを意識してください。変化を受け入れる勇気が、今月の鍵です。',
+   love:4,work:4,money:4},
+  {id:11,arcana:'正義',num:'XI',moon:'蒼白の半月',elem:'金 × 水',keywords:['判断','均衡','真実','冷静さ'],icon:'⚖️',
+   msg:'あなたは自分に正直であろうとしています。\nそれが今、最も難しく、最も必要なことです。',
+   situation:'今のあなたは、ある事柄について「これが本当のことだ」という確信を内側に持っています。でもそれを認めることで現状が変わってしまうことへの恐れもある。見て見ぬふりをしていた何かと、正直に向き合う局面に来ています。正義のカードは、真実を見ることが最終的にはあなたを楽にすることを伝えています。',
+   advice:'今月は、見たくなかったことと正直に向き合ってみてください。その勇気が、次の自由への扉を開きます。',
+   love:3,work:4,money:4},
+  {id:12,arcana:'吊るされた男',num:'XII',moon:'逆さ青月',elem:'水 × 半月',keywords:['停滞','視点転換','犠牲','内面化'],icon:'🌊',
+   msg:'止まっているように見えますが、\n今のあなたは、ゆっくりと深くなっています。',
+   situation:'今のあなたは、状況が進んでいないように感じているかもしれません。努力しているのに結果が出ない、待っているのに何も動かない——そのもどかしさの中にいる可能性があります。でも吊るされた男のカードは、この「停滞」が実は視点を変えるための大切な時間であることを示しています。焦ることが、唯一の敵です。',
+   advice:'今月は「何もしないこと」を選ぶことも、一つの正解です。この静止の中から、やがて全く新しい視点が生まれてきます。',
+   love:3,work:2,money:2},
+  {id:13,arcana:'死神',num:'XIII',moon:'赤い半月',elem:'火 × 半月',keywords:['終焉','変化','再生','切り替わり'],icon:'🥀',
+   msg:'何かが終わろうとしています。\nそれはきっと、新しいものへの入口です。',
+   situation:'今のあなたの人生で、一つの章が閉じようとしています。それは関係性かもしれない、仕事上の何かかもしれない、あるいは自分の中の古い考え方かもしれない。終わりを前にして、何かを手放せない気持ちがあるかもしれませんが、死神のカードが示す変化は、決して呪いではありません。終わらせることを恐れていることが、実は一番の停滞になっています。',
+   advice:'今月は、終わりを悼みながら、その先に目を向ける準備を少しずつ始めてください。終わりの中に、必ず新しい始まりがあります。',
+   love:3,work:3,money:3},
+  {id:14,arcana:'節制',num:'XIV',moon:'蒼白の満ち月',elem:'水 × 金',keywords:['調和','癒し','中庸','浄化'],icon:'💧',
+   msg:'あなたが今いる場所は、急いで離れる必要はありません。\nゆっくり、溶け合わせていく時間です。',
+   situation:'今のあなたには、何か二つのものをうまく統合しようとしているテーマがあります。感情と理性、個人の時間と誰かとの時間、夢と現実——どちらも大切で、どちらかを切り捨てたくない。節制のカードは、焦らず少しずつ混ぜ合わせていくことで、やがて美しいバランスが生まれることを告げています。今は治癒の途中です。',
+   advice:'今月は急がずに、一つ一つを丁寧に扱ってみてください。心が癒される速度を、尊重することが大切な時期です。',
+   love:4,work:4,money:4},
+  {id:15,arcana:'悪魔',num:'XV',moon:'黒い蝕月',elem:'火 × 土',keywords:['執着','欲望','支配','依存'],icon:'🌑',
+   msg:'あなたを縛っているものは、\n実は自分で鎖を外せる場所に留め金があります。',
+   situation:'今のあなたは、何かに縛られているような感覚がある状況にいます。やめたいのにやめられない、距離を置きたいのに置けない、抜け出したいのに方法が見えない——その「鎖」は外からかかっているのではなく、あなた自身が手放す選択をしていない部分があるかもしれません。依存しているのは弱さではなく、怖さです。',
+   advice:'今月は、一つだけ「手放す」と決めてみてください。全部でなくていい。一つの選択が、連鎖的に自由をもたらします。',
+   love:2,work:3,money:3},
+  {id:16,arcana:'塔',num:'XVI',moon:'砕けた紅月',elem:'火 × 金',keywords:['崩壊','雷','衝撃','強制変化'],icon:'⚡',
+   msg:'崩れているものは、\n最初から崩れるべきものだったのかもしれません。',
+   situation:'今のあなたの周りで、予期しない出来事や突然の変化が起きているか、あるいは起きる予感があります。安定していると思っていたものが揺らいでいる。それは恐ろしいことですが、塔のカードは、その崩壊の中に必要な解体があることを伝えています。崩れてはじめて、本当に大切なものが見えてきます。',
+   advice:'今月は、崩れたものを嘆くより、何が残っているかを見てください。本物は必ず、この中に残っています。',
+   love:2,work:2,money:2},
+  {id:17,arcana:'星',num:'XVII',moon:'銀の三日月',elem:'水 × 木',keywords:['希望','願い','回復','導き'],icon:'⭐',
+   msg:'あなたが諦めかけていたもの。\nまだ光は消えていません。',
+   situation:'今のあなたは、疲れを抱えながらも、どこかで希望を手放していない部分があります。傷ついて、失望して、それでも「もしかしたら」と思い続けている——その柔らかい部分こそが、星のカードが照らしているあなたの本質です。その希望は正しく、願い続けることに意味があります。星は必ずあなたを見ています。',
+   advice:'今月は、自分に優しくすることから始めてください。傷ついた心は急には癒えないけれど、確かに回復していきます。',
+   love:4,work:4,money:4},
+  {id:18,arcana:'月',num:'XVIII',moon:'深藍の満月',elem:'水 × 水',keywords:['幻想','不安','夢','潜在世界'],icon:'🌕',
+   msg:'今の不安は、現実ではなく\nあなたの心が作り出した影かもしれません。',
+   situation:'今のあなたは、はっきりしない不安の中にいます。「何かが起きる気がする」「見えない何かが怖い」——漠然とした恐れが心を占めている状況かもしれません。月のカードは、その不安が必ずしも現実を映していないことを示しています。あなたの感情は正しいですが、その解釈は修正が必要かもしれない。実際に起きていることと、恐れていることは別物です。',
+   advice:'今月は、頭の中の不安な声に従って行動するのではなく、一度立ち止まって「本当にそうなのか」を確認してみてください。',
+   love:3,work:2,money:3},
+  {id:19,arcana:'太陽',num:'XIX',moon:'金の満月',elem:'金 × 火',keywords:['成功','喜び','活力','解放'],icon:'☀️',
+   msg:'今のあなたには、\n本来の輝きを取り戻す流れが来ています。',
+   situation:'今のあなたには、何かが解放されていく流れが来ています。ずっと曇っていたものが晴れ始める感覚、あるいはこれから晴れていく予感——太陽のカードはそれを告げています。長い間、自分を小さく見せていたり、我慢していたことがあれば、それがようやく報われる時期に差し掛かっています。あなたの存在そのものが、誰かの光になっています。',
+   advice:'今月のあなたには、自分を隠す必要がありません。ありのままのあなたが、最も輝いています。それを受け取ってください。',
+   love:5,work:5,money:5},
+  {id:20,arcana:'審判',num:'XX',moon:'白炎の昇月',elem:'火 × 金',keywords:['復活','覚醒','呼び声','再起'],icon:'🌅',
+   msg:'あなたに、呼びかける声が聞こえますか。\nそれはずっと前から、あなたを待っていました。',
+   situation:'今のあなたは、過去のどこかを手放して新しい自分へと変わるタイミングに立っています。昔の失敗、古い傷、ずっと引きずってきた後悔——それらを裁くのは他の誰でもなく、あなた自身です。自分を赦すことから、次の章が始まります。その声は外側から来るものではなく、あなたの内側にずっとあったものです。',
+   advice:'今月は、自分を許す言葉を一つ、心の中で声に出してみてください。その一言が、新しい扉を開きます。',
+   love:4,work:4,money:4},
+  {id:21,arcana:'世界',num:'XXI',moon:'五輝月',elem:'全属性',keywords:['完成','統合','循環','到達'],icon:'🌍',
+   msg:'あなたは今、\n一つの長い旅の終わりと始まりの境界線に立っています。',
+   situation:'今のあなたは、長い時間をかけて積み重ねてきたことが、ある種の完成に近づいています。終わりではなく、統合——これまでの経験がつながって、一つの形になっていく感覚があるはずです。世界のカードは、あなたが望んでいた到達点への扉が開きつつあることを告げています。全てのことに意味があったと、やがてわかる時が来ます。',
+   advice:'今月のあなたには、遠慮なく全てを受け取ってください。それだけのものを、あなたはすでに積み重ねています。',
+   love:5,work:5,money:5}
+];
+var CHARS={mikage:{e:'🌙',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',n:'星読みのおばちゃん',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
 var MENU_META={personality:{ico:'🌙',lbl:'あなたの本当の性格'},monthly:{ico:'✨',lbl:'今月、何が起きるか'},tarot:{ico:'🃏',lbl:'こころの本音'}};
 var MOON_ICONS=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
 var DOWS=['日','月','火','水','木','金','土'];
@@ -1603,67 +1766,160 @@ function drawM(){
   setTimeout(initScrollFade,80);
 }
 function mTab(nm,el){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('on')});if(el)el.classList.add('on');var p=document.getElementById('tp-'+nm);if(p)p.classList.add('on')}
+function lunaStars(n){var s='';for(var i=1;i<=5;i++)s+='<span class="luna-star-'+(i<=n?'on':'off')+'">&#9670;</span>';return'<div class="luna-stars-row">'+s+'</div>'}
+function lunaReveal(){
+  var el=document.getElementById('luna-tap-card');
+  if(!el)return;
+  el.classList.add('luna-flipping');
+  el.style.pointerEvents='none';
+  setTimeout(function(){drawTR(ST._lunaCard)},680);
+}
 function drawT(){
-  tarotPicked=-1;
-  var cards=TAROT.map(function(tc,i){return'<div class="flip-card" id="fc'+i+'" onclick="flipC('+i+')"><div class="flip-inner"><div class="flip-f"><div class="flip-pattern">'+tc.sym+'</div></div><div class="flip-b"><div class="flip-ico">'+tc.ico+'</div><div class="flip-nm">'+esc(tc.nm)+'</div></div></div></div>'}).join('');
-  var banner=mkBanner('🃏','rgba(112,212,200,1)','linear-gradient(135deg,rgba(30,58,74,.9),rgba(10,24,32,.95))','タロット / あの人の本音','タロット女子ルナ');
+  var name=(document.getElementById('f-name').value||'あなた').trim();
+  var birth=getBirthVal('f-birth');
+  var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+  ST._lunaCard=seed%22;
+  var banner=mkBanner('\U0001f3b3','rgba(140,120,220,1)','linear-gradient(135deg,rgba(30,20,68,.92),rgba(10,6,32,.97))','タロット / 月相オラクル','タロット女子ルナ');
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
-    '<p class="ph-lead">── ルナのタロット ──</p>'+
-    '<div style="position:relative;width:80px;height:80px;margin:0 auto .9rem"><div class="moon-gfx moon-sm" style="position:relative;z-index:2"></div><div class="moon-ring" style="width:104px;height:104px"></div></div>'+
-    '<div class="ph-name" style="margin-bottom:.3rem">あの人の本音</div>'+
-    '<div class="ph-mean" style="margin-bottom:.8rem">月夜に浮かびあがる真実</div>'+
-    '<p style="font-size:.76rem;color:var(--muted);text-align:center;line-height:1.9;letter-spacing:.05em;margin-bottom:.5rem">ルナより：<em style="color:var(--goldP);font-style:italic">ゆっくり深呼吸して、心を落ち着けてみてください。</em></p>'+
-    '<p class="tarot-lead">あなたの手が自然と惹かれる<br>カードを1枚だけ選んでね。<br>心の声に従って大丈夫です。</p>'+
-    '<div class="tarot-grid">'+cards+'</div></div>';
+    '<div class="luna-draw-zone">'+
+      '<p class="luna-draw-phase">月相オラクル × 大アルカナ</p>'+
+      '<p class="luna-draw-intro">深く息を吸って、心を静かにしてください。<br>月がすでに、あなたの一枚を選んでいます。</p>'+
+      '<div class="luna-draw-stage">'+
+        '<div class="luna-card-back" id="luna-tap-card" onclick="lunaReveal()">'+
+          '<div class="luna-card-inner-deco">'+
+            '<div class="luna-card-big-moon">\U0001f319</div>'+
+            '<div class="luna-card-tap-txt">タップして引く</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<p class="luna-draw-footer">カードはすでに、あなたを選んでいます。</p>'+
+    '</div>'+
+    topBtn()+'<div style="height:2rem"></div></div>';
 }
-  tarotPicked=-1;
-  var cards=TAROT.map(function(tc,i){return'<div class="flip-card" id="fc'+i+'" onclick="flipC('+i+')"><div class="flip-inner"><div class="flip-f"><div class="flip-pattern">'+tc.sym+'</div></div><div class="flip-b"><div class="flip-ico">'+tc.ico+'</div><div class="flip-nm">'+esc(tc.nm)+'</div></div></div></div>'}).join('');
-function flipC(idx){if(tarotPicked!==-1)return;tarotPicked=idx;var fc=document.getElementById('fc'+idx);if(fc)fc.classList.add('flipped');setTimeout(function(){drawTR(idx)},800)}
 function drawTR(idx){
-  var tc=TAROT[idx];
+  var tc=LUNA_CARDS[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
-  // ルナ口調でラップ
-  var lunaIntro=''+esc(name)+'さん、このカードを引いたんですね……。'+esc(tc.i)+' カードはきっと、あなたに伝えたいことがあって現れてくれたんだと思います。';
-  var lunaKnife=esc(tc.k);
-  var lunaBlur=esc(tc.b)+' ルナが一緒に読み解きます。';
-  var lunaHook='ルナから'+esc(name)+'さんへ、最も大切なメッセージは……';
+  var banner=mkBanner('\U0001f3b3','rgba(140,120,220,1)','linear-gradient(135deg,rgba(30,20,68,.92),rgba(10,6,32,.97))','タロット / 月相オラクル','タロット女子ルナ');
+  var kwHtml=tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
+  var cardVis=
+    '<div class="luna-card-visual mk-scroll-fade">'+
+      '<div class="luna-numeral">'+esc(tc.num)+'</div>'+
+      '<div class="luna-icon">'+tc.icon+'</div>'+
+      '<div class="luna-arcana-name">'+esc(tc.arcana)+'</div>'+
+      '<div class="luna-div"></div>'+
+      '<div class="luna-moon-nm">'+esc(tc.moon)+'</div>'+
+      '<div class="luna-elem-nm">('+esc(tc.elem)+')</div>'+
+      '<div class="luna-kw-wrap">'+kwHtml+'</div>'+
+    '</div>';
+  var msgLines=tc.msg.split('\n').map(function(l){return esc(l.trim())}).join('<br>');
+  var msgSection=
+    '<div class="luna-msg-section mk-scroll-fade">'+
+      '<div class="luna-msg-deco">✶ ✶ ✶</div>'+
+      '<p class="luna-msg-text">'+msgLines+'</p>'+
+      '<div class="luna-msg-deco">✶ ✶ ✶</div>'+
+    '</div>';
+  var fortuneSection=
+    '<div class="luna-fortune-wrap mk-scroll-fade">'+
+      '<div class="luna-fortune-glass">'+
+        '<div class="luna-fortune-title">今日の運勢</div>'+
+        '<div class="luna-fortune-grid">'+
+          '<div class="luna-fortune-item">'+
+            '<div class="luna-fortune-label">恋愛運</div>'+
+            lunaStars(tc.love)+
+          '</div>'+
+          '<div class="luna-fortune-item">'+
+            '<div class="luna-fortune-label">仕事運</div>'+
+            lunaStars(tc.work)+
+          '</div>'+
+          '<div class="luna-fortune-item">'+
+            '<div class="luna-fortune-label">金運</div>'+
+            lunaStars(tc.money)+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  var sitSection=
+    '<div class="luna-section mk-scroll-fade">'+
+      '<div class="luna-section-glass">'+
+        '<div class="luna-section-hd">'+
+          '<div class="luna-section-label">Current State</div>'+
+          '<div class="luna-section-title">今の現状</div>'+
+        '</div>'+
+        '<div class="luna-section-body">'+
+          '<div class="luna-blur-wrap"><p class="luna-body-p">'+esc(tc.situation)+'</p><div class="luna-blur-veil"></div></div>'+
+          '<p class="luna-unlock-hint">✶ 続きは会員登録後にお読みいただけます ✶</p>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  var advSection=
+    '<div class="luna-section mk-scroll-fade">'+
+      '<div class="luna-section-glass">'+
+        '<div class="luna-section-hd">'+
+          '<div class="luna-section-label">Advice</div>'+
+          '<div class="luna-section-title">開運アドバイス</div>'+
+        '</div>'+
+        '<div class="luna-section-body">'+
+          '<div class="luna-blur-wrap"><p class="luna-body-p">'+esc(tc.advice)+'</p><div class="luna-blur-veil"></div></div>'+
+          '<p class="luna-unlock-hint">✶ 続きは会員登録後にお読みいただけます ✶</p>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  var ctaSection=
+    '<div class="luna-section mk-scroll-fade">'+
+      '<div class="mk-reg-section">'+
+        '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
+        '<p class="mk-reg-prelude">まだ、</p>'+
+        '<p class="mk-reg-headline">月はあなたの運命を<br>語り終えていません。</p>'+
+        '<div class="mk-reg-text">'+
+          '<p>今あなたが感じている孤独も、<br>言葉にできなかった不安も。</p>'+
+          '<p>本当は、あなた自身が<br>気づいているはずなのです。</p>'+
+          '<p class="mk-reg-sign">タロット女子ルナが、<br>月の導きとともに<br>静かに読み解いていきます。</p>'+
+        '</div>'+
+        '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
+        '<p class="mk-menu-lbl">✶ 鑑定メニュー ✶</p>'+
+        '<div class="mk-menu-grid">'+
+          '<div class="mk-menu-card">'+
+            '<div class="mk-menu-price-row">'+
+              '<span class="mk-menu-price">100<span class="yen">円</span></span>'+
+              '<span class="mk-menu-name">基本鑑定 解放</span>'+
+            '</div>'+
+            '<ul class="mk-menu-list">'+
+              '<li>今日の運勢 詳細</li>'+
+              '<li>今の現状 全文</li>'+
+              '<li>開運アドバイス 全文</li>'+
+            '</ul>'+
+          '</div>'+
+          '<div class="mk-menu-card hot">'+
+            '<span class="mk-menu-badge">深読み</span>'+
+            '<div class="mk-menu-price-row">'+
+              '<span class="mk-menu-price gold">500<span class="yen">円</span></span>'+
+              '<span class="mk-menu-name">深読み鑑定</span>'+
+            '</div>'+
+            '<ul class="mk-menu-list">'+
+              '<li>今日の運勢 詳細</li>'+
+              '<li>今の現状 全文</li>'+
+              '<li>問題の本質</li>'+
+              '<li>未来の流れ</li>'+
+              '<li>1ヶ月以内の転機</li>'+
+              '<li>やるべき行動 / NG行動</li>'+
+              '<li>ルナからのメッセージ</li>'+
+            '</ul>'+
+          '</div>'+
+        '</div>'+
+        '<button class="mk-reg-btn" onclick="window.location.href=\'tsukiyomi_checkout.html\'">会員登録して続きを視る</button>'+
+        '<p class="mk-reg-sub">\U0001f512 SSL暗号化 ・ 個人情報保護方针に基づき管理</p>'+
+      '</div>'+
+    '</div>';
   document.getElementById('result-inner').innerHTML=
-    '<div class="res-wrap">'+
-    '<div class="back-btn" onclick="drawT()">← カード選択に戻る</div>'+
-    '<p class="ph-lead">── '+esc(name)+'さんが選んだカード ──</p>'+
-    '<div style="font-size:3.8rem;text-align:center;margin:.5rem 0;animation:fa 4s ease-in-out infinite">'+tc.ico+'</div>'+
-    '<div class="ph-name" style="margin-bottom:.3rem">'+esc(tc.nm)+'</div>'+
-    '<div class="ph-mean" style="margin-bottom:1.8rem">'+esc(tc.sub)+'</div>'+
-    '<div class="rcard" style="max-width:540px">'+
-      '<div class="rcard-hd">'+
-        '<div class="rdate">'+todayStr()+' タロット女子ルナより</div>'+
-        '<div class="rttl">あの人が今あなたに抱いている気持ち</div>'+
-      '</div>'+
-      '<div class="rbody">'+
-        '<p class="rtxt">'+lunaIntro+'</p>'+
-        '<p class="rknife">'+lunaKnife+'</p>'+
-        '<div class="bzone"><div style="position:relative;padding-bottom:.5rem"><p class="bzone-txt">'+lunaBlur+'</p><div class="bveil"></div></div></div>'+
-        '<p class="rhook">'+lunaHook+'</p>'+
-      '</div>'+
-    '</div>'+
-    '<div class="prem" style="max-width:540px">'+
-      '<p class="prem-lbl">✦ ルナが二人の未来を読み解くこと ✦</p>'+
-      '<ul class="prem-list">'+
-        '<li><span class="pl-ico">💌</span><div class="pl-txt"><strong>あの人の本当の気持ち</strong>言葉にならない感情をルナが丁寧に読み解きます</div></li>'+
-        '<li><span class="pl-ico">🌸</span><div class="pl-txt"><strong>二人の関係が動くタイミング</strong>カードが示す転機の瞬間</div></li>'+
-        '<li><span class="pl-ico">🧭</span><div class="pl-txt"><strong>あなたへのアドバイス</strong>後悔しないために、ルナからの具体的な言葉</div></li>'+
-      '</ul>'+
-      '<div class="cta-stack">'+
-        '<button class="btn-gold" onclick="goCheckout(\'deep\')" style="border-radius:9px">ルナに全部教えてもらう（800円）</button>'+
-        '<button class="btn-outline" onclick="goCheckout(\'light\')">冒頭だけ読む（300円）</button>'+
-      '</div>'+
-      '<div class="secure">🔒<span>SSL暗号化決済 ・ いつでもキャンセル可能</span></div>'+
-    '</div>'+
-    menuNav('tarot')+topBtn()+
-    '<div style="height:2rem"></div></div>';
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="drawT()">← カードを引き直す</div>'+
+    cardVis+msgSection+fortuneSection+sitSection+advSection+ctaSection+
+    topBtn()+'<div style="height:2rem"></div></div>';
+  setTimeout(initScrollFade,80);
 }
+
 function goCheckout(plan){var url='tsukiyomi_checkout.html?plan='+plan+'&menu='+ST.menu;if(IS_STORE&&SHOP_ID)url+='&shop_id='+SHOP_ID;window.location.href=url}
 function openModal(){document.getElementById('modal').classList.add('open');document.getElementById('m-email').value='';document.getElementById('m-pw').value=''}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
