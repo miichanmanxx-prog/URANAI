@@ -299,49 +299,49 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 /* セクション共通ラッパー */
 .mk-section{width:100%;max-width:540px;margin-top:1.3rem}
 /* 一言診断カード */
-.mk-catch-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.22);border-radius:18px;padding:1.9rem 1.7rem 2rem;text-align:center}
+.mk-catch-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.22);border-radius:18px;padding:1.9rem 1.7rem 2rem;text-align:center;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}.mk-catch-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.18)}
 .mk-catch-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.25em;color:var(--goldD);text-transform:uppercase;opacity:.76;margin-bottom:1rem}
 .mk-catch-intro{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:#6A6A8A;letter-spacing:.1em;margin-bottom:.3rem}
-.mk-catch-label{font-family:'Cormorant Garamond',serif;font-size:1.52rem;color:#1A1A2E;letter-spacing:.06em;line-height:1.55;margin-bottom:.7rem;font-style:italic}
+.mk-catch-label{font-family:'Cormorant Garamond',serif;font-size:1.52rem;color:rgba(220,210,245,.95);letter-spacing:.06em;line-height:1.55;margin-bottom:.7rem;font-style:italic}
 .mk-catch-divider{width:52px;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.65),transparent);margin:0 auto .82rem}
-.mk-catch-copy{font-size:.86rem;color:#3A3A5A;line-height:2;letter-spacing:.04em;margin-bottom:.65rem}
+.mk-catch-copy{font-size:.86rem;color:rgba(200,190,235,.85);line-height:2;letter-spacing:.04em;margin-bottom:.65rem}
 .mk-catch-note{font-family:'Playfair Display',serif;font-size:.58rem;color:var(--purL);letter-spacing:.13em;opacity:.65;font-style:italic}
 /* 性格・テーマカード（文章途中ぼかし） */
-.mk-read-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden}
-.mk-read-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(212,175,55,.1)}
+.mk-read-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.2);border-radius:18px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}.mk-read-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.16)}
+.mk-read-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(139,92,246,.14)}
 .mk-read-ico{font-size:1rem;opacity:.82}
-.mk-read-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#1A1A2E;letter-spacing:.1em;font-style:italic}
+.mk-read-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:rgba(220,210,245,.92);letter-spacing:.1em;font-style:italic}
 .mk-read-lock{margin-left:auto;font-size:.75rem;opacity:.52}
 .mk-read-body{padding:1.2rem 1.7rem 0;position:relative}
 .mk-fade-wrap{position:relative;max-height:232px;overflow:hidden}
-.mk-fade-p{font-size:.85rem;line-height:2.2;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.7rem}
+.mk-fade-p{font-size:.85rem;line-height:2.2;color:rgba(200,190,235,.85);letter-spacing:.04em;margin-bottom:.7rem}
 .mk-fade-p:last-child{margin-bottom:0}
-.mk-fade-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.94) 28%,rgba(250,249,246,.45) 65%,transparent 100%);backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px)}
-.mk-read-unlock{padding:.85rem 1.7rem 1.1rem;display:flex;align-items:center;gap:.55rem;border-top:1px solid rgba(212,175,55,.1)}
+.mk-fade-veil{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to bottom,transparent 0%,rgba(10,7,30,.22) 20%,rgba(10,7,30,.65) 50%,rgba(10,7,30,.93) 78%,rgba(10,7,30,.99) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.mk-read-unlock{padding:.85rem 1.7rem 1.1rem;display:flex;align-items:center;gap:.55rem;border-top:1px solid rgba(139,92,246,.12)}
 .mk-read-unlock-ico{font-size:.72rem;color:var(--goldD);opacity:.72}
 .mk-read-unlock-txt{font-size:.7rem;color:var(--goldD);letter-spacing:.05em;opacity:.82}
 /* 今の運気カード（白ベース・他カードと統一） */
-.mk-phase-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden}
-.mk-phase-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(212,175,55,.1)}
+.mk-phase-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.2);border-radius:18px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}.mk-phase-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.16)}
+.mk-phase-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(139,92,246,.14)}
 .mk-phase-ico{font-size:.92rem}
-.mk-phase-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#1A1A2E;letter-spacing:.1em;font-style:italic}
+.mk-phase-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:rgba(220,210,245,.92);letter-spacing:.1em;font-style:italic}
 .mk-phase-inner{padding:1.1rem 1.7rem 1.4rem}
 .mk-phase-status{background:rgba(212,175,55,.07);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:.7rem 1.1rem;margin-bottom:.9rem}
 .mk-phase-status-txt{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--goldD);letter-spacing:.08em;font-style:italic;line-height:1.55}
-.mk-phase-body{font-size:.83rem;line-height:2.2;color:#3A3A5A;letter-spacing:.04em}
+.mk-phase-body{font-size:.83rem;line-height:2.2;color:rgba(200,190,235,.85);letter-spacing:.04em}
 /* 相性カード */
-.mk-compat-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden}
-.mk-compat-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(212,175,55,.1)}
-.mk-compat-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#1A1A2E;letter-spacing:.1em;font-style:italic}
+.mk-compat-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.2);border-radius:18px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}.mk-compat-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.16)}
+.mk-compat-hd{padding:1.2rem 1.7rem .9rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(139,92,246,.14)}
+.mk-compat-lbl{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:rgba(220,210,245,.92);letter-spacing:.1em;font-style:italic}
 .mk-compat-lock{margin-left:auto;font-size:.75rem;opacity:.52}
 .mk-compat-body{padding:1.1rem 1.7rem .4rem}
 .mk-compat-tags{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:.9rem}
 .mk-compat-tag{padding:.3rem .85rem;border-radius:20px;font-size:.66rem;letter-spacing:.09em;border:1px solid rgba(212,175,55,.35);color:var(--goldD);background:rgba(212,175,55,.07)}
-.mk-compat-type{font-size:.81rem;color:#3A3A5A;line-height:1.9;margin-bottom:.75rem;letter-spacing:.03em;font-style:italic}
+.mk-compat-type{font-size:.81rem;color:rgba(200,190,235,.85);line-height:1.9;margin-bottom:.75rem;letter-spacing:.03em;font-style:italic}
 .mk-compat-fade{position:relative;max-height:96px;overflow:hidden;margin-bottom:.5rem}
-.mk-compat-fade-txt{font-size:.8rem;line-height:2.15;color:#4A4A6A;letter-spacing:.04em}
-.mk-compat-veil{position:absolute;bottom:0;left:0;right:0;height:78%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.9) 32%,transparent 100%);backdrop-filter:blur(3.5px);-webkit-backdrop-filter:blur(3.5px)}
-.mk-compat-foot{padding:.7rem 1.7rem 1rem;font-size:.68rem;color:var(--goldD);opacity:.72;letter-spacing:.06em}
+.mk-compat-fade-txt{font-size:.8rem;line-height:2.15;color:rgba(200,190,235,.85);letter-spacing:.04em}
+.mk-compat-veil{position:absolute;bottom:0;left:0;right:0;height:72%;background:linear-gradient(to bottom,transparent 0%,rgba(10,7,30,.28) 22%,rgba(10,7,30,.68) 52%,rgba(10,7,30,.95) 80%,rgba(10,7,30,.99) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.mk-compat-foot{padding:.7rem 1.7rem 1rem;font-size:.68rem;color:rgba(180,140,255,.75);letter-spacing:.06em}
 /* 会員登録CTAセクション */
 .mk-reg-section{background:linear-gradient(168deg,rgba(10,12,38,.99),rgba(6,8,22,1));border:1px solid rgba(123,94,167,.38);border-radius:20px;padding:2.2rem 1.8rem 2.4rem;position:relative;overflow:hidden;text-align:center}
 .mk-reg-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.2),transparent 56%),radial-gradient(ellipse at 50% 100%,rgba(212,175,55,.08),transparent 52%);pointer-events:none}
@@ -412,21 +412,21 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .oba-theme-title{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--goldP);letter-spacing:.05em;line-height:1.25;margin-bottom:.45rem}
 .oba-theme-sub{font-size:.82rem;color:var(--text);line-height:1.92;opacity:.9}
 /* cards */
-.oba-card{background:#FAF9F6;border:1px solid rgba(212,175,55,.18);border-radius:18px;overflow:hidden;width:100%;max-width:540px;margin-top:1.1rem}
-.oba-card-hd{padding:.82rem 1.5rem .58rem;border-bottom:1px solid rgba(212,175,55,.12)}
+.oba-card{background:linear-gradient(158deg,rgba(10,14,38,.94),rgba(6,8,22,.97));border:1px solid rgba(100,140,220,.2);border-radius:18px;overflow:hidden;width:100%;max-width:540px;margin-top:1.1rem;position:relative;transition:transform .25s,box-shadow .25s}.oba-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(100,140,220,.14)}
+.oba-card-hd{padding:.82rem 1.5rem .58rem;border-bottom:1px solid rgba(100,140,220,.14)}
 .oba-card-label{font-size:.68rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.18rem}
-.oba-card-title{font-family:'Cormorant Garamond',serif;font-size:1.16rem;color:#1A1A2E;letter-spacing:.04em}
+.oba-card-title{font-family:'Cormorant Garamond',serif;font-size:1.16rem;color:rgba(210,225,255,.92);letter-spacing:.04em}
 .oba-card-body{padding:1rem 1.5rem 1.2rem}
 .oba-fade-wrap{position:relative;max-height:215px;overflow:hidden}
-.oba-fade-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem}
-.oba-fade-veil{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.85) 35%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
+.oba-fade-p{font-size:.84rem;line-height:2.15;color:rgba(190,205,240,.85);letter-spacing:.04em;margin-bottom:.65rem}
+.oba-fade-veil{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to bottom,transparent 0%,rgba(8,11,30,.22) 20%,rgba(8,11,30,.65) 50%,rgba(8,11,30,.93) 78%,rgba(8,11,30,.99) 100%);backdrop-filter:blur(3px)}
 .oba-day-tag{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .82rem;border-radius:20px;font-size:.76rem;margin-bottom:.52rem}
 .oba-day-tag.lucky{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.36);color:#059669}
 .oba-day-tag.caution{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.3);color:#7C3AED}
-.oba-day-msg{font-size:.82rem;line-height:1.92;color:#3A3A5A;letter-spacing:.035em}
+.oba-day-msg{font-size:.82rem;line-height:1.92;color:rgba(190,205,240,.85);letter-spacing:.035em}
 .oba-msg-wrap{position:relative;max-height:175px;overflow:hidden}
-.oba-msg-p{font-size:.84rem;line-height:2.15;color:#3A3A5A;letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
-.oba-msg-veil{position:absolute;bottom:0;left:0;right:0;height:52%;background:linear-gradient(to top,rgba(250,249,246,1) 0%,rgba(250,249,246,.82) 38%,rgba(250,249,246,0) 100%);backdrop-filter:blur(2.5px)}
+.oba-msg-p{font-size:.84rem;line-height:2.15;color:rgba(190,205,240,.85);letter-spacing:.04em;margin-bottom:.65rem;font-style:italic}
+.oba-msg-veil{position:absolute;bottom:0;left:0;right:0;height:58%;background:linear-gradient(to bottom,transparent 0%,rgba(8,11,30,.22) 20%,rgba(8,11,30,.65) 50%,rgba(8,11,30,.93) 78%,rgba(8,11,30,.99) 100%);backdrop-filter:blur(3px)}
 .oba-section{width:100%;max-width:540px;margin-top:1.3rem}
 /* ── タロット女子ルナ 月相オラクル v2 ── */
 .luna-draw-zone{display:flex;flex-direction:column;align-items:center;padding:1.2rem 1rem 2rem;width:100%}
@@ -471,7 +471,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .luna-star-off{color:rgba(255,255,255,.14);font-size:.7rem}
 /* Section cards — dark immersive */
 .luna-section{width:100%;max-width:540px;margin-top:1.1rem}
-.luna-section-glass{background:linear-gradient(158deg,rgba(15,10,40,.96),rgba(8,5,25,.98));border:1px solid rgba(123,94,167,.18);border-radius:18px;overflow:hidden}
+.luna-section-glass{background:linear-gradient(158deg,rgba(15,10,40,.96),rgba(8,5,25,.98));border:1px solid rgba(123,94,167,.18);border-radius:18px;overflow:hidden;transition:transform .25s,box-shadow .25s}.luna-section-glass:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(123,94,167,.14)}
 .luna-section-hd{padding:.8rem 1.5rem .55rem;border-bottom:1px solid rgba(123,94,167,.12)}
 .luna-section-label{font-size:.66rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem}
 .luna-section-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(220,210,245,.9);letter-spacing:.04em}
@@ -515,6 +515,17 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 @keyframes lunaCharCTAGlow{0%,100%{opacity:.6;text-shadow:0 0 10px rgba(212,175,55,.45)}50%{opacity:1;text-shadow:0 0 18px rgba(212,175,55,.88),0 0 34px rgba(180,140,40,.4)}}
 .luna-char-sign-wrap{padding:.8rem 1.5rem 1.2rem}
 .luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
+/* ── 共通バナー（glassmorphism premium） ── */
+.mk-banner{width:100%;max-width:540px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.4rem;position:relative;overflow:hidden}
+.mk-banner-ava{font-size:2.4rem;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
+.mk-banner-info{flex:1;min-width:0}
+.mk-banner-lbl{font-family:'Playfair Display',serif;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:.28rem;font-style:italic}
+.mk-banner-name{font-family:'Cormorant Garamond',serif;font-size:1.22rem;color:#E8EAF6;letter-spacing:.08em;line-height:1.2;margin-bottom:.22rem}
+.mk-banner-sub{font-size:.62rem;color:var(--muted);letter-spacing:.07em;font-style:italic;opacity:.78}
+/* ── 共通CTAヒント（ぼかし内発光テキスト） ── */
+.mk-cta-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.7rem;color:rgba(180,140,255,.92);letter-spacing:.14em;animation:lunaCTAGlow 2.8s ease-in-out infinite;pointer-events:none}
+.oba-cta-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.7rem;color:rgba(140,190,255,.92);letter-spacing:.14em;animation:obaCTAGlow 2.8s ease-in-out infinite;pointer-events:none}
+@keyframes obaCTAGlow{0%,100%{opacity:.6;text-shadow:0 0 10px rgba(100,160,255,.45)}50%{opacity:1;text-shadow:0 0 18px rgba(130,190,255,.82),0 0 32px rgba(80,130,220,.35)}}
 </style>
 </head>
 <body>
@@ -1409,7 +1420,7 @@ function drawP(){
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
   var pat=MIKAGE_PATTERNS[seed%20];
-  var banner=mkBanner('🌙','rgba(139,164,232,1)','linear-gradient(135deg,rgba(26,36,80,.9),rgba(13,17,40,.95))','五行思想 / 性格鑑定','陰陽師ミカゲ');
+  var banner=mkBanner('🌙','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
 
   /* ── トップビジュアル */
   var topVisual=
@@ -1443,7 +1454,7 @@ function drawP(){
           '<span class="mk-read-lock">🔒</span>'+
         '</div>'+
         '<div class="mk-read-body">'+
-          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.personality)+'<div class="mk-fade-veil"></div></div>'+
+          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.personality)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
         '<div class="mk-read-unlock">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
@@ -1462,7 +1473,7 @@ function drawP(){
           '<span class="mk-read-lock">🔒</span>'+
         '</div>'+
         '<div class="mk-read-body">'+
-          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.destiny)+'<div class="mk-fade-veil"></div></div>'+
+          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.destiny)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
         '<div class="mk-read-unlock">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
@@ -1507,6 +1518,7 @@ function drawP(){
           '<div class="mk-compat-fade">'+
             '<p class="mk-compat-fade-txt">'+esc(cp.detail)+'</p>'+
             '<div class="mk-compat-veil"></div>'+
+            '<div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div>'+
           '</div>'+
         '</div>'+
         '<div class="mk-compat-foot">🔓 会員登録して詳細を読む</div>'+
@@ -1712,7 +1724,7 @@ function drawM(){
   var ld1=(seed%12)+5; if(ld1>dm)ld1=dm-3;
   var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
-  var banner=mkBanner('⭐','rgba(180,140,220,1)','linear-gradient(135deg,rgba(45,28,78,.9),rgba(18,10,38,.97))','星座占い / 月間運勢','星読みのおばあちゃん');
+  var banner=mkBanner('⭐','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
@@ -1732,8 +1744,7 @@ function drawM(){
     '<div class="oba-card">'+
       '<div class="oba-card-hd"><div class="oba-card-label">Monthly Flow</div><div class="oba-card-title">今月の流れ</div></div>'+
       '<div class="oba-card-body">'+
-        '<div class="oba-fade-wrap">'+flowHtml+'<div class="oba-fade-veil"></div></div>'+
-        '<p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.06em">✦ 続きは会員登録後にお読みいただけます ✦</p>'+
+        '<div class="oba-fade-wrap">'+flowHtml+'<div class="oba-fade-veil"></div><div class="oba-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
       '</div>'+
     '</div>'+
   '</div>';
@@ -1767,8 +1778,7 @@ function drawM(){
       '<div class="oba-card-hd"><div class="oba-card-label">Message from おばあちゃん</div><div class="oba-card-title">おばあちゃんより</div></div>'+
       '<div class="oba-card-body">'+
         '<p style="font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+'へ —</p>'+
-        '<div class="oba-msg-wrap">'+msgHtml+'<div class="oba-msg-veil"></div></div>'+
-        '<p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.06em">✦ 続きは会員登録後にお読みいただけます ✦</p>'+
+        '<div class="oba-msg-wrap">'+msgHtml+'<div class="oba-msg-veil"></div><div class="oba-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
       '</div>'+
     '</div>'+
   '</div>';
@@ -1838,7 +1848,7 @@ function drawT(){
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
   ST._lunaCard=seed%22;
-  var banner=mkBanner('\U0001f3b3','rgba(140,120,220,1)','linear-gradient(135deg,rgba(30,20,68,.92),rgba(10,6,32,.97))','タロット / 月相オラクル','タロット女子ルナ');
+  var banner=mkBanner('\U0001f0cf','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
@@ -1861,7 +1871,7 @@ function drawTR(idx){
   var tc=LUNA_CARDS[idx];
   var lv=LUNA_LOVE[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
-  var banner=mkBanner('\U0001f3b3','rgba(140,120,220,1)','linear-gradient(135deg,rgba(30,20,68,.92),rgba(10,6,32,.97))','タロット / 月相オラクル','タロット女子ルナ');
+  var banner=mkBanner('\U0001f0cf','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
   var kwHtml=tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
   var cardVis=
     '<div class="luna-card-visual mk-scroll-fade">'+
@@ -2038,11 +2048,17 @@ function doLogin(){
     .catch(function(){if(errEl){errEl.textContent='メールアドレスまたはパスワードが正しくありません';errEl.style.display='block';}});
 }
 
-function mkBanner(emoji,color,bg,label,charName){
-  return '<div style="display:flex;align-items:center;gap:.9rem;padding:.9rem 1.2rem;background:'+bg+';border:1px solid '+color.replace('1)','0.28)')+';border-radius:14px;margin-bottom:1.4rem;width:100%;max-width:540px">'
-    +'<div style="font-size:2rem;width:48px;height:48px;border-radius:50%;background:'+bg+';border:1px solid '+color.replace('1)','0.35)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+emoji+'</div>'
-    +'<div><p style="font-size:.58rem;color:'+color+';letter-spacing:.12em;margin-bottom:.18rem;font-family:Playfair Display,serif;font-style:italic">'+label+'</p>'
-    +'<p style="font-family:Cormorant Garamond,serif;font-size:1.1rem;font-weight:400;color:#E8EAF6;letter-spacing:.08em">'+charName+'</p></div></div>';
+function mkBanner(emoji,color,bg,label,charName,sub){
+  var ac=color.replace('1)','0.28)'),acG=color.replace('1)','0.13)'),acA=color.replace('1)','0.38)');
+  return '<div class="mk-banner" style="background:'+bg+';border:1px solid '+ac+'">'+
+    '<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,'+acG+',transparent 65%);pointer-events:none"></div>'+
+    '<div class="mk-banner-ava" style="background:'+bg+';border:1px solid '+acA+';filter:drop-shadow(0 0 14px '+acG+')">'+emoji+'</div>'+
+    '<div class="mk-banner-info">'+
+      '<p class="mk-banner-lbl" style="color:'+color+'">'+label+'</p>'+
+      '<p class="mk-banner-name">'+charName+'</p>'+
+      (sub?'<p class="mk-banner-sub">'+sub+'</p>':'')+
+    '</div>'+
+  '</div>';
 }
 </script>
 </body>
