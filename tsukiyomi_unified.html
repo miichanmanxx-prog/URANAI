@@ -612,6 +612,14 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .modal-login-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(60,130,255,.5),0 0 70px rgba(140,200,255,.16)}
 .modal-login-btn:active{transform:translateY(0)}
 @keyframes loginBtnPulse{0%,100%{box-shadow:0 4px 24px rgba(60,120,240,.32),0 0 50px rgba(100,160,255,.08)}50%{box-shadow:0 4px 32px rgba(60,130,255,.48),0 0 70px rgba(130,190,255,.14)}}
+/* ── ログイン済みヘッダーボタン ── */
+.hbtn-mypage{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.4);color:rgba(200,170,255,.92)}
+.hbtn-mypage:hover{background:rgba(139,92,246,.22)}
+.hbtn-logout{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);color:rgba(255,160,140,.9);font-weight:400}
+.hbtn-logout:hover{background:rgba(248,113,113,.16)}
+/* ── ページ遷移フェードアウト ── */
+body{transition:opacity .38s ease}
+body.page-out{opacity:0 !important}
 </style>
 </head>
 <body>
@@ -2187,6 +2195,51 @@ function drawTR(idx){
   setTimeout(initScrollFade,80);
 }
 
+/* ══════════════════════════════════════════
+   Auth helpers (localStorage-based)
+   ══════════════════════════════════════════ */
+var MOCK_ACCOUNTS=[
+  {email:'test@example.com',password:'test1234',name:'テストユーザー'}
+];
+var MOON_DEFAULTS=[
+  {moonIcon:'🌕',moonPhase:'満月',moonEmoji:'🌕',moonMessage:'感情が満ちる今、心の奥にある真実が語りかけています。',personalityType:'豊かな感性の引き寄せ人',personalityKeyword:'感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。'},
+  {moonIcon:'🌑',moonPhase:'新月',moonEmoji:'🌑',moonMessage:'静かな始まりの中に、次の奇跡の種が宿っています。',personalityType:'深淵なる内省家',personalityKeyword:'内側に広大な世界を持ち、直感力と神秘的な引力で人を惹きつける。'},
+  {moonIcon:'🌓',moonPhase:'上弦の月',moonEmoji:'🌓',moonMessage:'迷いを手放し、前へ踏み出すタイミングが訪れています。',personalityType:'決断と行動の実現者',personalityKeyword:'強い意志と行動力で道を切り開く、カリスマ的な存在感の持ち主。'},
+  {moonIcon:'🌗',moonPhase:'下弦の月',moonEmoji:'🌗',moonMessage:'過去を静かに振り返り、本質へと向かう月。',personalityType:'静かなる洞察者',personalityKeyword:'物事の本質を見抜く深い洞察力と、揺るぎない精神的な安定感を持つ。'}
+];
+function getAuth(){try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}}
+function setAuth(data){localStorage.setItem('tsukiyomi_auth',JSON.stringify(data));}
+function clearAuth(){localStorage.removeItem('tsukiyomi_auth');}
+function fadeToPage(url){
+  document.body.classList.add('page-out');
+  setTimeout(function(){window.location.href=url;},400);
+}
+function initAuthHeader(){
+  var auth=getAuth();
+  var btns=document.querySelectorAll('.hbtns .hbtn');
+  if(!btns||btns.length<2)return;
+  var btnL=btns[0],btnR=btns[1];
+  if(auth&&auth.token){
+    btnL.textContent='マイページ';
+    btnL.className='hbtn hbtn-mypage';
+    btnL.onclick=function(){fadeToPage('tsukiyomi_mypage.html');};
+    btnR.textContent='ログアウト';
+    btnR.className='hbtn hbtn-logout';
+    btnR.onclick=doLogout;
+  } else {
+    btnL.textContent='ログイン';
+    btnL.className='hbtn hbtn-l';
+    btnL.onclick=function(){openModal('login');};
+    btnR.textContent='会員登録';
+    btnR.className='hbtn hbtn-r';
+    btnR.onclick=function(){openModal('reg');};
+  }
+}
+function doLogout(){
+  clearAuth();
+  document.body.classList.add('page-out');
+  setTimeout(function(){window.location.reload();},400);
+}
 function goCheckout(plan){openModal('reg');}
 /* ── モーダル制御 ─────────────────────────────── */
 function openModal(view){
@@ -2206,6 +2259,7 @@ function openModal(view){
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function onMBg(e){if(e.target===document.getElementById('modal'))closeModal()}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
+document.addEventListener('DOMContentLoaded',function(){initAuthHeader();});
 function modalSwitchView(v){
   var card=document.getElementById('modal-card');
   if(!card)return;
@@ -2238,10 +2292,17 @@ function doRegister(){
   var chk=document.getElementById('m-terms');
   if(!chk||!chk.checked){showErr('利用規約への同意が必要です');return}
   if(errEl)errEl.style.display='none';
-  fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,password:pw})})
-    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
-    .then(function(){closeModal();window.location.href='tsukiyomi_mypage.html';})
-    .catch(function(err){showErr('登録に失敗しました。しばらくしてから再度お試しください。');});
+  /* localStorage auth save */
+  var moon=MOON_DEFAULTS[Math.floor(Math.random()*MOON_DEFAULTS.length)];
+  var now=new Date();
+  var token='tok_'+Math.random().toString(36).slice(2)+Date.now();
+  setAuth({token:token,email:email,name:name,
+    memberSince:now.getFullYear()+'年'+(now.getMonth()+1)+'月',
+    moonIcon:moon.moonIcon,moonPhase:moon.moonPhase,moonEmoji:moon.moonEmoji,
+    moonMessage:moon.moonMessage,personalityType:moon.personalityType,
+    personalityKeyword:moon.personalityKeyword});
+  closeModal();
+  fadeToPage('tsukiyomi_mypage.html');
 }
 function doLoginSwitch(){modalSwitchView('login');}
 /* ── ログイン ──────────────────────────────────── */
@@ -2249,11 +2310,33 @@ function doLogin(){
   var email=(document.getElementById('l-email').value||'').trim();
   var pw=(document.getElementById('l-pw').value||'').trim();
   var errEl=document.getElementById('modal-login-err');
-  if(!email||!pw){if(errEl){errEl.textContent='メールアドレスとパスワードを入力してください';errEl.style.display='block';}return}
-  fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pw})})
-    .then(function(r){if(!r.ok)throw new Error();return r.json();})
-    .then(function(){closeModal();window.location.href='tsukiyomi_mypage.html';})
-    .catch(function(){if(errEl){errEl.textContent='メールアドレスまたはパスワードが正しくありません';errEl.style.display='block';}});
+  function showErr(msg){if(errEl){errEl.textContent=msg;errEl.style.display='block';}}
+  if(!email||!pw){showErr('メールアドレスとパスワードを入力してください');return}
+  /* Check mock accounts first */
+  var mockAcc=MOCK_ACCOUNTS.find(function(a){return a.email===email&&a.password===pw;});
+  if(mockAcc){
+    var moon=MOON_DEFAULTS[0];
+    var token='tok_'+Math.random().toString(36).slice(2)+Date.now();
+    setAuth({token:token,email:mockAcc.email,name:mockAcc.name,
+      memberSince:'2026年5月',
+      moonIcon:moon.moonIcon,moonPhase:moon.moonPhase,moonEmoji:moon.moonEmoji,
+      moonMessage:moon.moonMessage,personalityType:moon.personalityType,
+      personalityKeyword:moon.personalityKeyword});
+    closeModal();
+    fadeToPage('tsukiyomi_mypage.html');
+    return;
+  }
+  /* Check registered users in localStorage */
+  var stored=getAuth();
+  if(stored&&stored.email===email){
+    /* Re-auth: we don't store pw for security, just allow re-login by email match */
+    stored.token='tok_'+Math.random().toString(36).slice(2)+Date.now();
+    setAuth(stored);
+    closeModal();
+    fadeToPage('tsukiyomi_mypage.html');
+    return;
+  }
+  showErr('メールアドレスまたはパスワードが正しくありません');
 }
 
 function mkBanner(emoji,color,bg,label,charName,sub){

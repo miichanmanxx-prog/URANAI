@@ -480,6 +480,10 @@ body{
   border:none;border-radius:10px;cursor:pointer;width:100%;
   -webkit-appearance:none;touch-action:manipulation;
 }
+/* ── ページフェードイン ── */
+body{opacity:0;animation:pageIn .55s ease .05s forwards}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+body.page-out{opacity:0 !important;transform:translateY(-4px) !important;transition:opacity .35s ease,transform .35s ease !important}
 </style>
 </head>
 <body>
@@ -653,6 +657,16 @@ var HISTORY_PAGE_SIZE = 3;
 var historyShown = HISTORY_PAGE_SIZE;
 
 /* ============================================================
+   Auth helpers (localStorage-based, mirrors unified.html)
+   ============================================================ */
+function getAuth(){try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}}
+function clearAuth(){localStorage.removeItem('tsukiyomi_auth');}
+function fadeToPage(url){
+  document.body.classList.add('page-out');
+  setTimeout(function(){window.location.href=url;},380);
+}
+
+/* ============================================================
    初期化
    ============================================================ */
 (function init() {
@@ -660,22 +674,31 @@ var historyShown = HISTORY_PAGE_SIZE;
   renderMenuCards();
   renderHistory();
 
-  Promise.all([
-    fetch('/api/user/profile').then(function(r) { if (!r.ok) throw new Error('profile'); return r.json(); }),
-    fetch('/api/user/moon-profile').then(function(r) { if (!r.ok) throw new Error('moon'); return r.json(); }),
-    fetch('/api/user/history').then(function(r) { if (!r.ok) throw new Error('history'); return r.json(); }),
-  ]).then(function(results) {
-    Object.assign(USER, results[0]);
-    Object.assign(USER_MOON, results[1]);
-    HISTORY_ALL = results[2];
-    historyShown = HISTORY_PAGE_SIZE;
-    renderUserInfo();
-    renderHistory();
-  }).catch(function() {
-    /* 未ログイン or API未接続 — ログイン案内を表示 */
+  var auth = getAuth();
+  if (!auth || !auth.token) {
+    /* 未ログイン */
     document.getElementById('screen-login-required').style.display = 'flex';
     document.querySelector('.page').style.display = 'none';
+    return;
+  }
+
+  /* ログイン済み: localStorage からユーザー情報を注入 */
+  Object.assign(USER, {
+    name:        auth.name        || '月詠みユーザー',
+    memberSince: auth.memberSince || '2026年5月',
+    email:       auth.email       || ''
   });
+  Object.assign(USER_MOON, {
+    moonIcon:          auth.moonIcon          || '🌕',
+    moonPhase:         auth.moonPhase         || '満月',
+    moonEmoji:         auth.moonEmoji         || '🌕',
+    moonMessage:       auth.moonMessage       || '心の奥にある真実が、今夜語りかけています。',
+    personalityType:   auth.personalityType   || '豊かな感性の引き寄せ人',
+    personalityKeyword:auth.personalityKeyword|| '感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。'
+  });
+
+  renderUserInfo();
+  renderHistory();
 })();
 
 /* ============================================================
@@ -884,10 +907,8 @@ function handleUpgrade() {
    ログアウト
    ============================================================ */
 function handleLogout() {
-  fetch('/api/logout', { method: 'POST' }).finally(function() {
-    localStorage.removeItem('token');
-    window.location.href = 'tsukiyomi_unified.html';
-  });
+  clearAuth();
+  fadeToPage('tsukiyomi_unified.html');
 }
 </script>
 </body>
