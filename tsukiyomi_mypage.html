@@ -629,7 +629,7 @@ function confirmPlan(charKey) {
   if (!price) return;
   var menuKey = CHARS[charKey] ? CHARS[charKey].menuKey : charKey;
   var plan = price === 100 ? 'light' : 'deep';
-  fadeToPage('tsukiyomi_unified.html?menu=' + menuKey + '&plan=' + plan);
+  fadeToPage('tsukiyomi_checkout.html?menu=' + menuKey + '&plan=' + plan);
 }
 
 /* ============================================================
