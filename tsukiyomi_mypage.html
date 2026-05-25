@@ -20,6 +20,13 @@
   --ok:#6EE7B7; --err:#F87171;
   --border:rgba(212,175,55,.14);
   --radius:18px;
+  /* character accent colors */
+  --mikage:rgba(139,92,246,1);
+  --mikage-dim:rgba(139,92,246,.18);
+  --oba:rgba(100,160,230,1);
+  --oba-dim:rgba(100,160,230,.18);
+  --luna:rgba(220,100,200,1);
+  --luna-dim:rgba(220,100,200,.18);
 }
 
 html{scroll-behavior:smooth}
@@ -30,7 +37,11 @@ body{
   font-weight:300;
   min-height:100vh;
   overflow-x:hidden;
+  opacity:0;animation:pageIn .5s ease .04s forwards;
 }
+@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
+  transition:opacity .35s ease,transform .35s ease !important;animation:none !important}
 
 /* ── ATMOSPHERE ───────────────────────────────── */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
@@ -49,585 +60,538 @@ body{
      animation:drift 28s ease-in-out infinite 5s}
 @keyframes drift{
   0%,100%{transform:scale(1) translate(0,0)}
-  40%{transform:scale(1.08) translate(11px,-14px)}
-  70%{transform:scale(.94) translate(-9px,11px)}
+  33%{transform:scale(1.06) translate(12px,-18px)}
+  66%{transform:scale(.96) translate(-10px,14px)}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+@keyframes glow{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(212,175,55,.3))}
+  50%{filter:drop-shadow(0 0 22px rgba(212,175,55,.75))}
 }
 
-/* ── LAYOUT ───────────────────────────────────── */
+/* ── PAGE LAYOUT ──────────────────────────────── */
 .page{
   position:relative;z-index:1;
-  max-width:600px;margin:0 auto;
-  padding:0 1.2rem 5rem;
+  max-width:480px;margin:0 auto;
+  padding:0 1rem 6rem;
 }
 
-/* ── HEADER / PROFILE AREA ────────────────────── */
-.site-header{
+/* ── HEADER ───────────────────────────────────── */
+.mp-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:.85rem 0 0;
+  padding:1.4rem 0 1rem;
 }
-.header-logo{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.1rem;font-weight:300;letter-spacing:.18em;
-  color:var(--gold);text-decoration:none;
+.mp-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;
+  background:linear-gradient(135deg,var(--gold),var(--goldL));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:.05em;
 }
-.header-logo em{font-style:italic;font-weight:300}
-.btn-logout{
-  display:flex;align-items:center;gap:.4rem;
-  padding:.38rem .9rem;
-  border:1px solid rgba(248,113,113,.3);
-  background:rgba(248,113,113,.06);
-  color:var(--err);
-  font-family:'Noto Serif JP',serif;
-  font-size:.65rem;letter-spacing:.08em;
-  border-radius:20px;cursor:pointer;
-  transition:all .25s;
-  -webkit-appearance:none;touch-action:manipulation;
+.mp-logout-btn{
+  background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);
+  color:rgba(248,113,113,.88);font-family:'Noto Serif JP',serif;font-size:.7rem;
+  letter-spacing:.06em;padding:.38rem .95rem;border-radius:50px;cursor:pointer;
+  -webkit-appearance:none;transition:background .2s,border-color .2s;
 }
-.btn-logout:hover{background:rgba(248,113,113,.14);border-color:rgba(248,113,113,.5)}
+.mp-logout-btn:hover{background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.5)}
 
-/* PROFILE CARD */
-.profile-card{
+/* ── USER HERO CARD ───────────────────────────── */
+.user-hero{
   position:relative;overflow:hidden;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:2rem 1.6rem 1.6rem;
-  margin:1.4rem 0 .2rem;
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  box-shadow:0 16px 48px rgba(0,0,0,.45),inset 0 1px 0 rgba(212,175,55,.1);
+  background:linear-gradient(158deg,rgba(16,11,42,.97),rgba(9,6,26,.99));
+  border:1px solid rgba(212,175,55,.16);border-radius:22px;
+  box-shadow:0 16px 48px rgba(0,0,0,.45),inset 0 1px 0 rgba(212,175,55,.06);
+  padding:2rem 1.8rem 1.6rem;margin-bottom:1.4rem;
 }
-.profile-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:100px;
-  background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.08),transparent 70%);
-  pointer-events:none;
+.user-hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(212,175,55,.55),rgba(139,92,246,.4),rgba(212,175,55,.55),transparent);
 }
-.profile-top{display:flex;align-items:center;gap:1.1rem}
-.avatar{
-  width:60px;height:60px;flex-shrink:0;border-radius:50%;
-  background:linear-gradient(135deg,var(--purD),var(--pur),rgba(212,175,55,.3));
-  border:1px solid rgba(212,175,55,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.5rem;
-  box-shadow:0 0 22px rgba(123,94,167,.35);
-  animation:breathe 4s ease-in-out infinite;
-}
-@keyframes breathe{0%,100%{box-shadow:0 0 22px rgba(123,94,167,.35)}50%{box-shadow:0 0 38px rgba(123,94,167,.55),0 0 60px rgba(212,175,55,.15)}}
-.profile-info{}
-.profile-label{
-  font-family:'Playfair Display',serif;font-size:.57rem;
-  letter-spacing:.26em;color:var(--purL);font-style:italic;
-  text-transform:uppercase;opacity:.75;margin-bottom:.28rem;
-}
-.profile-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;
-  letter-spacing:.07em;color:var(--text);line-height:1.2;
-}
-.profile-name em{font-style:italic;color:var(--gold)}
-.profile-since{
-  font-size:.63rem;color:var(--muted);letter-spacing:.06em;margin-top:.3rem;
-}
-
-/* PROFILE STATS */
-/* ── MOON PHASE DISPLAY（旧 profile-stats を置き換え） ── */
-.moon-phase-row{
-  display:flex;align-items:stretch;gap:0;
-  margin-top:1.4rem;padding-top:1.2rem;
-  border-top:1px solid rgba(212,175,55,.1);
-}
-/* 左カラム：月相アイコン＋名称 */
-.moon-phase-left{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:.55rem .5rem .4rem;
-  border-right:1px solid rgba(212,175,55,.1);
-}
-.moon-phase-icon{
-  font-size:2rem;line-height:1;margin-bottom:.4rem;
-  filter:drop-shadow(0 0 10px rgba(212,175,55,.5));
-  animation:phaseGlow 4s ease-in-out infinite;
-}
-@keyframes phaseGlow{
-  0%,100%{filter:drop-shadow(0 0 8px rgba(212,175,55,.4))}
-  50%{filter:drop-shadow(0 0 18px rgba(212,175,55,.75))}
-}
-.moon-phase-label{
-  font-size:.55rem;letter-spacing:.18em;color:var(--muted);
-  margin-bottom:.25rem;font-family:'Playfair Display',serif;font-style:italic;
-}
-.moon-phase-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:300;
-  color:var(--gold);letter-spacing:.08em;line-height:1.2;
-}
-/* 右カラム：性格タイプ */
-.moon-phase-right{
-  flex:1.3;display:flex;flex-direction:column;justify-content:center;
-  padding:.55rem .85rem .4rem;
-}
-.moon-type-label{
-  font-size:.55rem;letter-spacing:.18em;color:var(--muted);
-  margin-bottom:.32rem;font-family:'Playfair Display',serif;font-style:italic;
-}
-.moon-type-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;
-  color:var(--goldP);letter-spacing:.06em;line-height:1.4;margin-bottom:.3rem;
-}
-.moon-type-keyword{
-  font-size:.64rem;color:var(--purL);letter-spacing:.08em;line-height:1.7;
-}
-
-/* PHASE BADGE */
-.phase-badge{
-  display:flex;align-items:center;gap:.55rem;
-  margin-top:1.1rem;padding:.6rem .9rem;
-  background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.16);
-  border-radius:10px;font-size:.68rem;color:var(--muted);letter-spacing:.06em;
-}
-.phase-ico{font-size:1.05rem;animation:breathe 4s ease-in-out infinite}
-.phase-txt{font-size:.68rem;color:var(--muted);letter-spacing:.05em;line-height:1.85}
-.phase-txt em{font-style:italic;color:var(--goldP);font-size:.74rem}
-
-/* ── SECTION HEADING ──────────────────────────── */
-.sec-heading{
-  display:flex;align-items:center;gap:.8rem;
-  margin:2rem 0 .9rem;
-}
-.sec-heading-line{flex:1;height:1px;background:linear-gradient(to right,rgba(212,175,55,.22),transparent)}
-.sec-heading-text{
-  font-family:'Playfair Display',serif;font-size:.6rem;
-  letter-spacing:.28em;color:var(--purL);font-style:italic;
-  text-transform:uppercase;white-space:nowrap;opacity:.85;
-}
-.sec-heading-line-l{flex:1;height:1px;background:linear-gradient(to left,rgba(212,175,55,.22),transparent)}
-
-/* ── FORTUNE MENU CARDS ───────────────────────── */
-.menu-cards{display:flex;flex-direction:column;gap:1rem}
-
-.menu-card{
-  position:relative;overflow:hidden;
-  background:var(--surface);
-  border:1px solid rgba(123,94,167,.22);
-  border-radius:var(--radius);
-  padding:1.5rem 1.4rem 1.3rem;
-  backdrop-filter:blur(12px);
-  transition:transform .35s,border-color .35s,box-shadow .35s;
-}
-.menu-card::after{
-  content:'';position:absolute;inset:0;border-radius:var(--radius);
-  background:linear-gradient(135deg,rgba(212,175,55,.05),rgba(123,94,167,.03),transparent);
-  opacity:0;transition:opacity .35s;pointer-events:none;
-}
-.menu-card:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.38);
-  box-shadow:0 14px 44px rgba(0,0,0,.42),0 0 28px rgba(212,175,55,.1)}
-.menu-card:hover::after{opacity:1}
-
-.mc-head{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1rem}
-.mc-icon{
-  width:50px;height:50px;flex-shrink:0;border-radius:50%;
-  background:radial-gradient(circle at 38%,rgba(212,175,55,.18),rgba(123,94,167,.1));
-  border:1px solid rgba(212,175,55,.24);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.35rem;
-  box-shadow:0 0 18px rgba(212,175,55,.1);
-  animation:floatIcon 4s ease-in-out infinite;
-}
-.menu-card:nth-child(2) .mc-icon{animation-delay:.5s}
-.menu-card:nth-child(3) .mc-icon{animation-delay:1s}
-@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-
-.mc-info{flex:1;min-width:0}
-.mc-en{
-  font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;
-  color:var(--purL);text-transform:uppercase;font-style:italic;
-  margin-bottom:.32rem;opacity:.75;
-}
-.mc-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:400;
-  letter-spacing:.06em;color:var(--gold);margin-bottom:.32rem;
-}
-.mc-desc{font-size:.71rem;color:var(--muted);line-height:1.88;letter-spacing:.03em}
-
-/* PRICE BUTTONS PAIR */
-.mc-btns{
-  display:flex;gap:.65rem;
-  margin-top:.2rem;
-}
-
-/* ── ライト（100円）: アウトライン ── */
-.btn-plan-light{
-  flex:1;
-  display:flex;flex-direction:column;align-items:center;gap:.18rem;
-  padding:.7rem .6rem;
-  border:1px solid rgba(212,175,55,.38);
-  background:rgba(212,175,55,.04);
-  border-radius:10px;cursor:pointer;
-  transition:all .3s;
-  -webkit-appearance:none;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn-plan-light:hover{background:rgba(212,175,55,.1);border-color:rgba(212,175,55,.65)}
-.btn-plan-light:active{transform:scale(.97)}
-.bpl-price{
-  font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:300;
-  color:var(--gold);line-height:1;
-}
-.bpl-yen{font-size:.65rem;color:var(--muted);margin-left:.08rem}
-.bpl-label{font-size:.6rem;letter-spacing:.07em;color:var(--muted)}
-
-/* ── 詳細（500円）: ゴールド発光ボタン ── */
-.btn-plan-deep{
-  flex:1.3;
-  display:flex;flex-direction:column;align-items:center;gap:.18rem;
-  padding:.7rem .6rem;
-  background:linear-gradient(115deg,#8B6914 0%,#D4AF37 38%,#E8C84A 62%,#D4AF37 100%);
-  background-size:220% auto;
-  animation:shine 4s linear infinite,pglow 2.5s ease-in-out infinite;
-  border:none;border-radius:10px;cursor:pointer;
-  transition:transform .25s;
-  -webkit-appearance:none;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-  position:relative;overflow:hidden;
-}
-.btn-plan-deep:hover{transform:translateY(-2px)}
-.btn-plan-deep:active{transform:scale(.97)}
-@keyframes shine{0%{background-position:0% center}100%{background-position:220% center}}
-@keyframes pglow{
-  0%,100%{box-shadow:0 3px 18px rgba(212,175,55,.32)}
-  50%{box-shadow:0 5px 36px rgba(212,175,55,.65),0 0 55px rgba(212,175,55,.18)}
-}
-.bpd-price{
-  font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:300;
-  color:#06080F;line-height:1;
-}
-.bpd-yen{font-size:.65rem;color:rgba(6,8,15,.7);margin-left:.08rem}
-.bpd-label{font-size:.6rem;letter-spacing:.07em;color:rgba(6,8,15,.7);font-weight:500}
-.bpd-rec{
-  position:absolute;top:0;right:0;
-  background:rgba(6,8,15,.18);
-  font-size:.48rem;letter-spacing:.1em;
-  color:#06080F;padding:.12rem .45rem;border-radius:0 10px 0 6px;
-  font-family:'Playfair Display',serif;font-style:italic;font-weight:600;
-}
-
-/* ── HISTORY ──────────────────────────────────── */
-.history-list{display:flex;flex-direction:column;gap:.75rem}
-
-.history-item{
-  display:flex;align-items:flex-start;gap:.85rem;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:1rem 1.1rem;
-  backdrop-filter:blur(10px);
-  transition:background .25s,border-color .25s;
-}
-.history-item:hover{background:rgba(18,20,52,.98);border-color:rgba(212,175,55,.22)}
-
-.hi-icon{
-  width:40px;height:40px;flex-shrink:0;border-radius:50%;
-  background:linear-gradient(135deg,rgba(123,94,167,.3),rgba(212,175,55,.12));
-  border:1px solid rgba(212,175,55,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.05rem;margin-top:.1rem;
-}
-.hi-body{flex:1;min-width:0}
-.hi-meta{
-  display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;
-  margin-bottom:.35rem;
-}
-.hi-date{font-size:.6rem;color:var(--dim);letter-spacing:.07em}
-.hi-plan{
-  font-size:.55rem;letter-spacing:.1em;
-  padding:.1rem .48rem;border-radius:10px;
-  font-family:'Playfair Display',serif;font-style:italic;
-}
-.hi-plan.light{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold)}
-.hi-plan.deep{background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.28);color:var(--purL)}
-.hi-menu{
-  font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:400;
-  letter-spacing:.05em;color:var(--text);margin-bottom:.25rem;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.hi-price{font-size:.68rem;color:var(--muted);letter-spacing:.06em}
-.hi-price em{font-style:normal;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:.85rem}
-
-.btn-reread{
-  flex-shrink:0;align-self:center;
-  display:flex;flex-direction:column;align-items:center;gap:.15rem;
-  padding:.55rem .75rem;
-  border:1px solid rgba(123,94,167,.3);
-  background:rgba(123,94,167,.07);
-  border-radius:9px;cursor:pointer;
-  transition:all .3s;
-  -webkit-appearance:none;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn-reread:hover{background:rgba(123,94,167,.16);border-color:rgba(192,132,252,.45)}
-.btn-reread-ico{font-size:.95rem;display:block}
-.btn-reread-lbl{font-size:.56rem;letter-spacing:.07em;color:var(--purL);white-space:nowrap}
-
-/* EMPTY STATE */
-.history-empty{
-  text-align:center;padding:2.5rem 1.5rem;
-  border:1px dashed rgba(212,175,55,.15);border-radius:14px;
-  background:rgba(212,175,55,.02);
-}
-.history-empty-ico{font-size:2.2rem;display:block;margin-bottom:.65rem;opacity:.55}
-.history-empty-txt{font-size:.76rem;color:var(--dim);letter-spacing:.07em;line-height:1.95}
-
-/* LOAD MORE */
-.load-more-wrap{text-align:center;margin-top:1rem}
-.btn-load-more{
-  padding:.52rem 1.4rem;
-  border:1px solid rgba(212,175,55,.25);
-  background:transparent;color:var(--muted);
-  font-family:'Noto Serif JP',serif;font-size:.7rem;letter-spacing:.1em;
-  border-radius:20px;cursor:pointer;
-  transition:all .3s;-webkit-appearance:none;touch-action:manipulation;
-}
-.btn-load-more:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.06)}
-
-/* FOOTER */
-.page-footer{
-  margin-top:3rem;padding-top:1.4rem;
-  border-top:1px solid var(--border);text-align:center;
-}
-.footer-logo{
-  font-family:'Cormorant Garamond',serif;font-size:.92rem;
-  color:var(--gold);letter-spacing:.15em;margin-bottom:.55rem;
-}
-.footer-logo em{font-style:italic;font-weight:300}
-.footer-links{
-  display:flex;justify-content:center;flex-wrap:wrap;gap:.85rem;margin-bottom:.6rem;
-}
-.footer-links a{font-size:.58rem;color:var(--dim);letter-spacing:.08em;text-decoration:none;cursor:pointer}
-.footer-links a:hover{color:var(--muted)}
-.footer-copy{font-size:.55rem;color:var(--dim);letter-spacing:.07em}
-
-/* ── RESULT MODAL ─────────────────────────────── */
-.modal-bg{
-  position:fixed;inset:0;z-index:600;
-  background:rgba(6,7,26,.85);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  display:flex;align-items:flex-end;justify-content:center;
-  padding:0 .8rem 0;
-  opacity:0;pointer-events:none;
-  transition:opacity .35s;
-}
-.modal-bg.open{opacity:1;pointer-events:auto}
-.modal-box{
-  width:100%;max-width:560px;
-  background:var(--surface2);
+.user-hero-inner{display:flex;align-items:flex-start;gap:1.2rem}
+.user-moon-orb{
+  flex-shrink:0;width:62px;height:62px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(212,175,55,.18),rgba(139,92,246,.06) 60%,transparent);
   border:1px solid rgba(212,175,55,.22);
-  border-radius:22px 22px 0 0;
-  padding:1.6rem 1.5rem 2.2rem;
-  box-shadow:0 -16px 60px rgba(0,0,0,.7);
-  transform:translateY(100%);
-  transition:transform .45s cubic-bezier(.4,0,.2,1);
-  max-height:85vh;overflow-y:auto;
-}
-.modal-bg.open .modal-box{transform:translateY(0)}
-.modal-handle{
-  width:40px;height:3px;border-radius:2px;
-  background:rgba(255,255,255,.18);margin:0 auto .9rem;
-}
-.modal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:1.2rem;padding-bottom:.9rem;
-  border-bottom:1px solid var(--border);
-}
-.modal-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;
-  letter-spacing:.06em;color:var(--text);
-}
-.modal-close{
-  width:28px;height:28px;border-radius:50%;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  color:var(--muted);font-size:.85rem;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  -webkit-appearance:none;transition:background .2s;
+  font-size:1.8rem;animation:float 4s ease-in-out infinite;
 }
-.modal-close:hover{background:rgba(255,255,255,.14)}
-.modal-date{font-size:.62rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.65rem}
-.modal-plan-badge{
-  display:inline-flex;align-items:center;gap:.35rem;
-  padding:.2rem .7rem;border-radius:20px;font-size:.62rem;letter-spacing:.1em;
-  margin-bottom:1rem;font-family:'Playfair Display',serif;font-style:italic;
+.user-info-col{flex:1;min-width:0}
+.user-greeting{font-size:.6rem;letter-spacing:.2em;color:var(--muted);font-style:italic;margin-bottom:.15rem;text-transform:uppercase}
+.user-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;
+  color:var(--text);letter-spacing:.06em;margin-bottom:.2rem;line-height:1.2;
 }
-.modal-plan-badge.light{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--gold)}
-.modal-plan-badge.deep{background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);color:var(--purL)}
-.modal-result{
-  font-size:.8rem;color:var(--muted);line-height:2.05;letter-spacing:.04em;
+.user-moon-label{
+  font-size:.62rem;letter-spacing:.14em;color:var(--goldL);
+  font-family:'Playfair Display',serif;font-style:italic;margin-bottom:.5rem;
+}
+.user-personality{
+  font-size:.72rem;color:var(--purL);letter-spacing:.06em;margin-bottom:.6rem;
+}
+.user-meta-row{display:flex;gap:.7rem;flex-wrap:wrap}
+.user-meta-chip{
+  font-size:.62rem;color:var(--dim);letter-spacing:.05em;
+  border:1px solid rgba(80,88,120,.3);border-radius:20px;padding:.15rem .6rem;
+}
+
+/* moon message */
+.moon-msg-strip{
+  margin-top:1.1rem;padding:1rem 1.2rem;
+  background:rgba(139,92,246,.04);border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+}
+.moon-msg-strip p{
+  font-size:.76rem;color:rgba(190,185,220,.82);line-height:2;
+  letter-spacing:.05em;font-family:'Noto Serif JP',serif;font-weight:300;
+}
+.moon-msg-strip em{color:var(--purL);font-style:normal}
+
+/* ── SECTION HEADER ───────────────────────────── */
+.section-hd{
+  display:flex;align-items:center;gap:.6rem;
+  margin:1.8rem 0 1rem;
+}
+.section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(139,92,246,.25),transparent)}
+.section-hd-text{
+  font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:400;
+  color:rgba(180,170,220,.8);letter-spacing:.14em;white-space:nowrap;
+}
+
+/* ── CHARACTER CARDS ──────────────────────────── */
+.char-cards{display:flex;flex-direction:column;gap:1rem}
+
+.char-card{
+  position:relative;overflow:hidden;border-radius:20px;
+  background:linear-gradient(158deg,rgba(14,9,38,.98),rgba(8,5,24,1));
+  border:1px solid rgba(139,92,246,.16);
+  box-shadow:0 8px 32px rgba(0,0,0,.42);
+  padding:1.5rem 1.4rem 1.4rem;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .28s cubic-bezier(.34,1.4,.64,1),box-shadow .28s ease,border-color .28s ease;
+}
+.char-card:hover,.char-card:active{transform:translateY(-5px)}
+
+/* top accent line per character */
+.char-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:20px 20px 0 0;
+}
+.char-card.mikage::before{background:linear-gradient(90deg,transparent,rgba(139,92,246,.7),transparent)}
+.char-card.oba::before{background:linear-gradient(90deg,transparent,rgba(100,160,230,.7),transparent)}
+.char-card.luna::before{background:linear-gradient(90deg,transparent,rgba(220,100,200,.7),transparent)}
+
+/* hover glow per character */
+.char-card.mikage:hover{border-color:rgba(139,92,246,.38);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 24px rgba(139,92,246,.12)}
+.char-card.oba:hover{border-color:rgba(100,160,230,.38);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 24px rgba(100,160,230,.12)}
+.char-card.luna:hover{border-color:rgba(220,100,200,.38);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 24px rgba(220,100,200,.12)}
+
+.char-card-inner{display:flex;align-items:center;gap:1.1rem}
+
+/* icon orb */
+.char-orb{
+  flex-shrink:0;width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.65rem;
+  animation:float 4s ease-in-out infinite;
+}
+.char-card.mikage .char-orb{
+  background:radial-gradient(circle at 35% 30%,rgba(139,92,246,.24),rgba(80,50,160,.06) 65%,transparent);
+  border:1px solid rgba(139,92,246,.3);
+  animation-delay:0s;
+}
+.char-card.oba .char-orb{
+  background:radial-gradient(circle at 35% 30%,rgba(100,160,230,.24),rgba(60,100,180,.06) 65%,transparent);
+  border:1px solid rgba(100,160,230,.3);
+  animation-delay:-1.3s;
+}
+.char-card.luna .char-orb{
+  background:radial-gradient(circle at 35% 30%,rgba(220,100,200,.24),rgba(150,60,170,.06) 65%,transparent);
+  border:1px solid rgba(220,100,200,.3);
+  animation-delay:-2.6s;
+}
+
+/* text column */
+.char-text-col{flex:1;min-width:0}
+.char-lbl{
+  font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.22em;
+  font-style:italic;margin-bottom:.18rem;text-transform:uppercase;
+}
+.char-card.mikage .char-lbl{color:rgba(139,92,246,.75)}
+.char-card.oba    .char-lbl{color:rgba(100,160,230,.75)}
+.char-card.luna   .char-lbl{color:rgba(220,100,200,.75)}
+
+.char-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.18rem;font-weight:400;
+  color:rgba(225,218,250,.95);letter-spacing:.06em;margin-bottom:.16rem;
+}
+.char-sub{font-size:.65rem;color:var(--muted);letter-spacing:.07em;margin-bottom:.7rem;font-style:italic}
+
+.char-divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.06),transparent);margin-bottom:.7rem}
+
+.char-fortune-lbl{
+  font-family:'Cormorant Garamond',serif;font-size:.78rem;font-weight:400;
+  letter-spacing:.1em;margin-bottom:.18rem;
+}
+.char-card.mikage .char-fortune-lbl{color:rgba(200,170,255,.8)}
+.char-card.oba    .char-fortune-lbl{color:rgba(160,200,255,.8)}
+.char-card.luna   .char-fortune-lbl{color:rgba(250,180,240,.8)}
+
+.char-desc{font-size:.7rem;color:var(--muted);letter-spacing:.04em;line-height:1.8}
+
+/* arrow badge */
+.char-arrow{
+  flex-shrink:0;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;color:rgba(220,210,245,.6);
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);
+  transition:background .2s,transform .2s;
+}
+.char-card:hover .char-arrow{background:rgba(255,255,255,.1);transform:translateX(3px)}
+
+/* ── HISTORY SECTION ──────────────────────────── */
+.history-list{display:flex;flex-direction:column;gap:.7rem}
+.history-card{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(13,15,38,.85);
+  border:1px solid rgba(139,92,246,.1);border-radius:14px;
+  padding:.9rem 1.1rem;
+  transition:border-color .2s;
+}
+.history-card:hover{border-color:rgba(139,92,246,.22)}
+.history-icon{
+  flex-shrink:0;width:38px;height:38px;border-radius:50%;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.15);
+}
+.history-col{flex:1;min-width:0}
+.history-title{font-size:.8rem;color:var(--text);letter-spacing:.05em;margin-bottom:.18rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-meta{font-size:.62rem;color:var(--dim);letter-spacing:.04em}
+.history-badge{
+  flex-shrink:0;font-size:.58rem;letter-spacing:.08em;
+  border-radius:20px;padding:.16rem .55rem;font-family:'Noto Serif JP',serif;
+}
+.history-badge.light{
+  color:rgba(212,175,55,.9);border:1px solid rgba(212,175,55,.28);
+  background:rgba(212,175,55,.06);
+}
+.history-badge.deep{
+  color:rgba(139,92,246,.95);border:1px solid rgba(139,92,246,.32);
+  background:rgba(139,92,246,.08);
+}
+
+.history-empty{
+  text-align:center;padding:2rem;color:var(--dim);
+  font-size:.78rem;letter-spacing:.08em;font-style:italic;
+}
+
+/* ── PLAN SELECTION MODAL (BOTTOM SHEET) ─────── */
+.plan-modal-bg{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(3,4,16,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0;opacity:0;pointer-events:none;
+  transition:opacity .28s ease;
+}
+.plan-modal-bg.open{opacity:1;pointer-events:auto}
+
+.plan-sheet{
+  width:100%;max-width:480px;
+  background:linear-gradient(180deg,rgba(16,10,42,.99),rgba(8,5,24,1));
+  border:1px solid rgba(139,92,246,.2);border-bottom:none;
+  border-radius:26px 26px 0 0;
+  box-shadow:0 -16px 60px rgba(0,0,0,.7),0 0 40px rgba(139,92,246,.06);
+  padding:1.4rem 1.4rem 2.4rem;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.34,1.2,.64,1);
+}
+.plan-modal-bg.open .plan-sheet{transform:translateY(0)}
+
+/* drag handle */
+.plan-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.14);margin:0 auto .9rem;
+}
+
+/* char identity row in modal */
+.plan-char-row{
+  display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem;
+  padding-bottom:.9rem;border-bottom:1px solid rgba(139,92,246,.1);
+}
+.plan-char-icon{font-size:1.6rem}
+.plan-char-name-col{}
+.plan-char-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;
+  color:rgba(225,218,250,.95);letter-spacing:.06em;margin-bottom:.12rem;
+}
+.plan-char-sub{font-size:.62rem;color:var(--muted);font-style:italic;letter-spacing:.06em}
+
+.plan-modal-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;
+  letter-spacing:.12em;color:rgba(210,195,245,.9);
+  text-align:center;margin-bottom:1rem;
+}
+
+/* plan option cards */
+.plan-options{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.2rem}
+.plan-opt{
+  border-radius:16px;padding:1.1rem 1.2rem;cursor:pointer;
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.plan-opt:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.07)}
+.plan-opt.selected{border-color:rgba(212,175,55,.45);background:rgba(212,175,55,.06)}
+
+.plan-opt-top{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.5rem}
+.plan-opt-price{
+  font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;
+  color:var(--gold);
+}
+.plan-opt-name{
+  font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:400;
+  color:rgba(220,210,245,.85);letter-spacing:.06em;
+}
+
+.plan-opt-items{list-style:none;display:flex;flex-direction:column;gap:.22rem}
+.plan-opt-items li{
+  font-size:.68rem;color:rgba(180,175,210,.78);letter-spacing:.04em;
+  padding-left:1rem;position:relative;line-height:1.7;
+}
+.plan-opt-items li::before{
+  content:'◆';position:absolute;left:0;font-size:.44rem;line-height:2.4;
+  color:rgba(139,92,246,.55);
+}
+
+/* select button */
+.plan-select-btn{
+  display:block;width:100%;
+  padding:.92rem;border-radius:50px;border:none;cursor:pointer;
+  font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.14em;
+  background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
+  background-size:240% auto;
+  color:#F0EAF8;
+  box-shadow:0 4px 28px rgba(139,92,246,.35);
+  -webkit-appearance:none;
+  animation:btnShine 4s linear infinite;
+}
+@keyframes btnShine{
+  0%{background-position:200% center}
+  100%{background-position:-200% center}
+}
+.plan-select-btn:disabled{opacity:.4;cursor:not-allowed;animation:none}
+
+.plan-close-row{text-align:center;margin-top:.9rem}
+.plan-close-txt{
+  font-size:.68rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;
+  border:none;background:none;-webkit-appearance:none;
   font-family:'Noto Serif JP',serif;
+  transition:color .2s;
 }
-.modal-result p+p{margin-top:.8rem}
-.modal-blur-wrap{position:relative;overflow:hidden;margin-top:.5rem}
-.modal-blur-txt{
-  font-size:.8rem;color:var(--muted);line-height:2.05;letter-spacing:.04em;
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 75%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 30%,transparent 75%);
+.plan-close-txt:hover{color:var(--muted)}
+
+/* ── LOGIN REQUIRED OVERLAY ───────────────────── */
+#screen-login-required{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);
+  flex-direction:column;align-items:center;justify-content:center;padding:2rem;
 }
-.modal-blur-veil{
-  position:absolute;bottom:0;left:0;right:0;height:65%;
-  background:linear-gradient(to top,var(--surface2) 0%,rgba(18,20,48,.92) 25%,transparent 100%);
-  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+.login-req-inner{text-align:center;max-width:380px}
+.login-req-moon{font-size:3.2rem;margin-bottom:1.2rem;animation:float 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 22px rgba(212,175,55,.5))}
+.login-req-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
+  letter-spacing:.14em;color:var(--gold);margin-bottom:.4rem;
 }
-.modal-cta{
-  margin-top:1.4rem;padding:.95rem 1.5rem;
-  background:linear-gradient(115deg,#8B6914,#D4AF37,#E8C84A);
-  background-size:200% auto;animation:shine 4s linear infinite;
-  color:#06080F;font-family:'Noto Serif JP',serif;
-  font-size:.82rem;letter-spacing:.14em;font-weight:500;
-  border:none;border-radius:10px;cursor:pointer;width:100%;
-  -webkit-appearance:none;touch-action:manipulation;
+.login-req-sub{
+  font-size:.62rem;letter-spacing:.22em;color:var(--purL);margin-bottom:2rem;
+  font-style:italic;text-transform:uppercase;
 }
-/* ── ページフェードイン ── */
-body{opacity:0;animation:pageIn .5s ease .04s forwards}
-@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
-  transition:opacity .35s ease,transform .35s ease !important;animation:none !important}
+.login-req-msg{font-size:.8rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:2.4rem}
+.login-req-btn{
+  display:inline-block;padding:.95rem 2.6rem;
+  background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
+  background-size:240% auto;animation:btnShine 4s linear infinite;
+  color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.16em;
+  font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;
+  text-decoration:none;cursor:pointer;
+  box-shadow:0 4px 30px rgba(139,92,246,.38);
+}
+
+/* ── BOTTOM NAV (optional spacer) ─────────────── */
+.bottom-spacer{height:3rem}
 </style>
 </head>
 <body>
-<div class="nb nb1"></div>
-<div class="nb nb2"></div>
-<div class="nb nb3"></div>
-<div id="stars"></div>
 
-<!-- ── ログイン必須オーバーレイ ── -->
-<div id="screen-login-required" style="display:none;position:fixed;inset:0;z-index:9999;
-  background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);
-  flex-direction:column;align-items:center;justify-content:center;padding:2rem">
-  <div style="text-align:center;max-width:380px">
-    <div style="font-size:3.2rem;margin-bottom:1.2rem;animation:twinkle 3s ease-in-out infinite;
-      filter:drop-shadow(0 0 22px rgba(212,175,55,.5))">🌙</div>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
-      letter-spacing:.14em;color:#D4AF37;margin-bottom:.4rem"><em>月詠み</em>占い</p>
-    <p style="font-size:.62rem;letter-spacing:.22em;color:#C084FC;margin-bottom:2rem;
-      font-style:italic;text-transform:uppercase">My Page</p>
-    <p style="font-size:.8rem;color:#8890B8;line-height:2;letter-spacing:.06em;margin-bottom:2.4rem">
-      マイページを表示するには<br>ログインが必要です。</p>
-    <a href="tsukiyomi_unified.html" style="display:inline-block;padding:.95rem 2.6rem;
-      background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
-      background-size:240% auto;animation:pageIn 0s,btnShine 4s linear infinite;
-      color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.16em;
-      font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;
-      text-decoration:none;cursor:pointer;
-      box-shadow:0 4px 30px rgba(139,92,246,.38)">ログイン・新規登録へ</a>
+<div id="stars"></div>
+<div class="nb nb1"></div><div class="nb nb2"></div><div class="nb nb3"></div>
+
+<!-- ── Login Required Overlay ── -->
+<div id="screen-login-required">
+  <div class="login-req-inner">
+    <div class="login-req-moon">🌙</div>
+    <p class="login-req-title"><em>月詠み</em>占い</p>
+    <p class="login-req-sub">My Page</p>
+    <p class="login-req-msg">マイページを表示するには<br>ログインが必要です。</p>
+    <a href="tsukiyomi_unified.html" class="login-req-btn">ログイン・新規登録へ</a>
   </div>
 </div>
-@keyframes btnShine{0%{background-position:200% center}100%{background-position:-200% center}}
 
+<!-- ── Plan Selection Modal (bottom sheet) ── -->
+<div class="plan-modal-bg" id="plan-modal" onclick="onPlanBg(event)">
+  <div class="plan-sheet" id="plan-sheet">
+    <div class="plan-handle"></div>
+    <div class="plan-char-row">
+      <div class="plan-char-icon" id="pm-icon">🌙</div>
+      <div class="plan-char-name-col">
+        <div class="plan-char-name" id="pm-name">占い師</div>
+        <div class="plan-char-sub" id="pm-sub">鑑定師</div>
+      </div>
+    </div>
+    <div class="plan-modal-title">鑑定プランを選んでください</div>
+    <div class="plan-options">
+      <!-- 100円 plan -->
+      <div class="plan-opt" id="plan-opt-100" onclick="selectPlan(100)">
+        <div class="plan-opt-top">
+          <span class="plan-opt-price">¥100</span>
+          <span class="plan-opt-name" id="pm-light-name">月の導き鑑定</span>
+        </div>
+        <ul class="plan-opt-items" id="pm-light-items">
+          <li>月星座から読み取る表面的な性格の概要</li>
+          <li>今月の運勢のざっくりとした流れ</li>
+          <li>タロット冒頭メッセージのみ</li>
+        </ul>
+      </div>
+      <!-- 500円 plan -->
+      <div class="plan-opt" id="plan-opt-500" onclick="selectPlan(500)">
+        <div class="plan-opt-top">
+          <span class="plan-opt-price">¥500</span>
+          <span class="plan-opt-name" id="pm-deep-name">運命深層鑑定</span>
+        </div>
+        <ul class="plan-opt-items" id="pm-deep-items">
+          <li>魂の本質と人生テーマの深層解析</li>
+          <li>恋愛・仕事・金運の深層解析</li>
+          <li>強運日・転機日・注意日の開示</li>
+          <li>未来を動かす行動指針</li>
+        </ul>
+      </div>
+    </div>
+    <button class="plan-select-btn" id="plan-select-btn" onclick="confirmPlan()" disabled>鑑定を受ける →</button>
+    <div class="plan-close-row">
+      <button class="plan-close-txt" onclick="closePlanModal()">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Main Page ── -->
 <div class="page">
 
-  <!-- ── SITE HEADER ── -->
-  <header class="site-header">
-    <a class="header-logo" href="tsukiyomi_unified.html"><em>月詠み</em>占い</a>
-    <button type="button" class="btn-logout" onclick="handleLogout()">
-      <span>⟵</span> ログアウト
-    </button>
+  <!-- Header -->
+  <header class="mp-header">
+    <a href="tsukiyomi_unified.html" style="text-decoration:none">
+      <span class="mp-logo">月詠み占い</span>
+    </a>
+    <button class="mp-logout-btn" onclick="handleLogout()">ログアウト</button>
   </header>
 
-  <!-- ── PROFILE CARD ── -->
-  <div class="profile-card">
-    <div class="profile-top">
-      <div class="avatar">🌙</div>
-      <div class="profile-info">
-        <p class="profile-label">My Oracle Page</p>
-        <h1 class="profile-name"><em id="user-name">さくら</em>さんのマイページ</h1>
-        <p class="profile-since" id="member-since">会員登録：2026年3月12日</p>
+  <!-- User Hero -->
+  <div class="user-hero">
+    <div class="user-hero-inner">
+      <div class="user-moon-orb" id="user-moon-orb">🌕</div>
+      <div class="user-info-col">
+        <div class="user-greeting">Welcome back</div>
+        <div class="user-name" id="user-name-display">さくら</div>
+        <div class="user-moon-label" id="user-moon-label">満月 / Full Moon</div>
+        <div class="user-personality" id="user-personality">豊かな感性の引き寄せ人</div>
+        <div class="user-meta-row">
+          <span class="user-meta-chip" id="user-since-chip">2026.05から</span>
+          <span class="user-meta-chip" id="user-email-chip">—</span>
+        </div>
       </div>
     </div>
-
-    <!-- ── 月相 & 性格タイプ表示エリア
-         実装時: userMoonData オブジェクトから動的に注入
-         GET /api/user/profile -> { moonPhase, moonIcon, personalityType, personalityKeyword }
-    ── -->
-    <div class="moon-phase-row">
-      <!-- 左：月相アイコン＋名称 / 動的注入ポイント: moonPhase, moonIcon -->
-      <div class="moon-phase-left">
-        <span class="moon-phase-icon" id="moon-phase-icon">🌕</span>
-        <span class="moon-phase-label">あなたの月相</span>
-        <span class="moon-phase-name" id="moon-phase-name">満月</span>
-      </div>
-      <!-- 右：性格タイプ / 動的注入ポイント: personalityType, personalityKeyword -->
-      <div class="moon-phase-right">
-        <span class="moon-type-label">月相から見た性格</span>
-        <span class="moon-type-name" id="moon-type-name">豊かな感性の引き寄せ人</span>
-        <span class="moon-type-keyword" id="moon-type-keyword">感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。</span>
-      </div>
-    </div>
-
-    <div class="phase-badge">
-      <span class="phase-ico" id="phase-badge-icon">🌕</span>
-      <!-- 動的注入ポイント: moonMessage (生年月日＋月相から生成) -->
-      <span class="phase-txt" id="phase-badge-msg">あなたは<em>満月</em>の夜に生まれました。生まれ持つ豊かな感性と引き寄せの力は、周囲を優しく照らす光となります。</span>
+    <div class="moon-msg-strip">
+      <p id="user-moon-msg">内側に宿る光が、あなたの道を照らしています。</p>
     </div>
   </div>
 
-  <!-- ── FORTUNE MENUS ── -->
-  <div class="sec-heading">
-    <div class="sec-heading-line-l"></div>
-    <div class="sec-heading-text">✦ 今すぐ占う</div>
-    <div class="sec-heading-line"></div>
+  <!-- Character Selection -->
+  <div class="section-hd">
+    <div class="section-hd-line"></div>
+    <div class="section-hd-text">占い師を選ぶ</div>
+    <div class="section-hd-line"></div>
   </div>
 
-  <div class="menu-cards" id="menu-cards">
-    <!-- rendered by JS -->
+  <div class="char-cards">
+
+    <!-- ミカゲ -->
+    <div class="char-card mikage" onclick="openPlanModal('mikage')">
+      <div class="char-card-inner">
+        <div class="char-orb">🌙</div>
+        <div class="char-text-col">
+          <div class="char-lbl">Onmyoji / 五行思想</div>
+          <div class="char-name">陰陽師ミカゲ</div>
+          <div class="char-sub">運命の流れを視る陰陽師</div>
+          <div class="char-divider"></div>
+          <div class="char-fortune-lbl">月星座・性格・運命鑑定</div>
+          <div class="char-desc">生年月日と月の満ち欠けから、あなたの魂の本質と運命の流れを鑑定します。</div>
+        </div>
+        <div class="char-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- おばあちゃん -->
+    <div class="char-card oba" onclick="openPlanModal('oba')">
+      <div class="char-card-inner">
+        <div class="char-orb">⭐</div>
+        <div class="char-text-col">
+          <div class="char-lbl">Astrology / 星座占い</div>
+          <div class="char-name">星読みのおばあちゃん</div>
+          <div class="char-sub">月と星を読む古き案内人</div>
+          <div class="char-divider"></div>
+          <div class="char-fortune-lbl">今月の星座・月運鑑定</div>
+          <div class="char-desc">今月の星の動きと月のリズムから、恋愛・仕事・金運の流れを案内します。</div>
+        </div>
+        <div class="char-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- ルナ -->
+    <div class="char-card luna" onclick="openPlanModal('luna')">
+      <div class="char-card-inner">
+        <div class="char-orb">🃏</div>
+        <div class="char-text-col">
+          <div class="char-lbl">Tarot / 月相オラクル</div>
+          <div class="char-name">タロット女子ルナ</div>
+          <div class="char-sub">カードが映す心の案内役</div>
+          <div class="char-divider"></div>
+          <div class="char-fortune-lbl">タロット・オラクル鑑定</div>
+          <div class="char-desc">月相とタロットカードがあなたの今の状況と、取るべき行動を映し出します。</div>
+        </div>
+        <div class="char-arrow">›</div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ── HISTORY ── -->
-  <div class="sec-heading" style="margin-top:2.4rem">
-    <div class="sec-heading-line-l"></div>
-    <div class="sec-heading-text">✦ 過去の鑑定履歴</div>
-    <div class="sec-heading-line"></div>
+  <!-- History Section -->
+  <div class="section-hd">
+    <div class="section-hd-line"></div>
+    <div class="section-hd-text">鑑定履歴</div>
+    <div class="section-hd-line"></div>
   </div>
 
   <div class="history-list" id="history-list">
     <!-- rendered by JS -->
   </div>
 
-  <div class="load-more-wrap" id="load-more-wrap"></div>
-
-  <!-- ── FOOTER ── -->
-  <footer class="page-footer">
-    <div class="footer-logo"><em>月詠み</em>占い</div>
-    <div class="footer-links">
-      <a href="tsukiyomi_terms.html" target="_blank">利用規約</a>
-      <a href="tsukiyomi_privacy.html" target="_blank">プライバシーポリシー</a>
-      <a href="#">特定商取引法に基づく表記</a>
-      <a href="#">お問い合わせ</a>
-    </div>
-    <p class="footer-copy">© 2026 月詠み占い. All rights reserved.</p>
-  </footer>
-
+  <div class="bottom-spacer"></div>
 </div><!-- /page -->
 
-<!-- ── RESULT MODAL ── -->
-<div class="modal-bg" id="result-modal" onclick="handleModalBgClick(event)">
-  <div class="modal-box" id="modal-box">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">鑑定結果</div>
-      <button type="button" class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <p class="modal-date" id="modal-date"></p>
-    <span class="modal-plan-badge" id="modal-plan-badge"></span>
-    <div class="modal-result" id="modal-result-text"></div>
-    <div class="modal-blur-wrap" id="modal-blur-wrap" style="display:none">
-      <div class="modal-blur-txt" id="modal-blur-txt"></div>
-      <div class="modal-blur-veil"></div>
-    </div>
-    <button type="button" class="modal-cta" id="modal-cta" onclick="handleUpgrade()">
-      続きを解放する（詳細鑑定 500円）
-    </button>
-  </div>
-</div>
-
 <script>
-'use strict';
-
 /* ============================================================
-   Auth helpers  ─  localStorage-based (mirrors tsukiyomi_unified.html)
+   Auth helpers  ─  localStorage-based
    ============================================================ */
 function getAuth(){
   try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}
@@ -639,154 +603,205 @@ function fadeToPage(url){
 }
 
 /* ============================================================
-   ユーザーデータ（実装時はバックエンドAPIから取得）
-   ============================================================ */
-/* ============================================================
-   ユーザーデータ（実装時: GET /api/user/profile で取得）
+   ユーザーデータ（デフォルト値 / localStorage で上書き）
    ============================================================ */
 var USER = {
   name:        'さくら',
-  memberSince: '2026年3月12日',
-  email:       'sakura@example.com',
-  // 生年月日・性別は初回課金時に登録済み
-  birthDate:   '1990-05-15',
-  gender:      '女性',
+  email:       '',
+  memberSince: '2026.05',
+  plan:        'none'
 };
-
-/* ============================================================
-   月相データ（実装時: バックエンドのAIがUSER.birthDateから計算し返す）
-   エンドポイント例: GET /api/user/moon-profile
-   レスポンス例:
-   {
-     moonPhase:         '満月',
-     moonIcon:          '🌕',
-     personalityType:   '豊かな感性の引き寄せ人',
-     personalityKeyword:'感受性が高く、存在するだけで場を明るく照らす。人を引き付ける不思議な魅力の持ち主。',
-     moonMessage:       'あなたは満月の夜に生まれました。生まれ持つ豊かな感性と引き寄せの力は、周囲を優しく照らす光となります。',
-     moonEmoji:         '🌕',  // phase-badge用
-   }
-   ============================================================ */
 var USER_MOON = {
-  moonPhase:         '満月',
-  moonIcon:          '🌕',
-  personalityType:   '豊かな感性の引き寄せ人',
-  personalityKeyword:'感受性が高く、存在するだけで場を明るく照らす。<br>人を引き付ける不思議な魅力の持ち主。',
-  moonMessage:       'あなたは<em>満月</em>の夜に生まれました。生まれ持つ豊かな感性と引き寄せの力は、周囲を優しく照らす光となります。',
-  moonEmoji:         '🌕',
+  moonIcon:           '🌕',
+  moonPhase:          '満月',
+  moonEmoji:          '🌕',
+  moonMessage:        '内側に宿る光が、あなたの道を照らしています。',
+  personalityType:    '豊かな感性の引き寄せ人',
+  personalityKeyword: '感受性が高く、人を惹きつける魅力があります。'
 };
 
 /* ============================================================
-   占いメニューデータ
-   実装時はAPIまたは管理画面から動的に取得
-   ============================================================ */
-var MENUS = [
-  {
-    id:       'personality',
-    emoji:    '🌙',
-    en:       'Personality',
-    title:    'あなたの本当の性格',
-    desc:     '月星座が照らす、あなたの本質。まだ誰にも気づかれていない才能と、深層の感情パターンを読み解きます。',
-    lightPrice: 100,
-    deepPrice:  500,
-    lightLabel: '簡易鑑定',
-    deepLabel:  '詳細鑑定',
-  },
-  {
-    id:       'monthly',
-    emoji:    '✨',
-    en:       'Monthly Fortune',
-    title:    '今月、何が起きるのか',
-    desc:     '月の満ち欠けが今月のあなたの運勢を紡ぎます。恋愛・仕事・金運の流れと、転機となる日付を読み解きます。',
-    lightPrice: 100,
-    deepPrice:  500,
-    lightLabel: '簡易鑑定',
-    deepLabel:  '詳細鑑定',
-  },
-  {
-    id:       'tarot',
-    emoji:    '🃏',
-    en:       'Tarot Reading',
-    title:    'あの人の本音',
-    desc:     '月夜のタロットが、気になるあの人の内側を照らします。今あなたへ向けられている、言葉にならない感情とは。',
-    lightPrice: 100,
-    deepPrice:  500,
-    lightLabel: '簡易鑑定',
-    deepLabel:  '詳細鑑定',
-  },
-];
-
-/* ============================================================
-   過去の鑑定履歴データ
-   実装時はGET /api/user/history から取得
+   鑑定履歴
    ============================================================ */
 var HISTORY_ALL = [
-  {
-    id:      'h001',
-    date:    '2026年5月16日',
-    menuId:  'tarot',
-    emoji:   '🃏',
-    menu:    'あの人の本音',
-    plan:    'deep',
-    amount:  500,
-    result:  'タロットが映し出したのは「月の女神」のカードです。あなたの気になるあの人は、今まさに言葉にできない深い感情を抱えています。それはあなたへの特別な想いである可能性が非常に高く、動き出すタイミングが近づいています。',
-    blurTxt: 'その日付と、あなたが取るべき具体的な一言が、深掘り鑑定で明かされます。月が告げる最適なタイミングは……',
-    isLight: false,
-  },
-  {
-    id:      'h002',
-    date:    '2026年5月10日',
-    menuId:  'personality',
-    emoji:   '🌙',
-    menu:    'あなたの本当の性格',
-    plan:    'light',
-    amount:  100,
-    result:  'あなたは水のように深く、静かな内側に広大な世界を持っています。感情の機微を敏感に感じ取り、言葉にならない空気を読む力は、誰もが追いつけないほどです。',
-    blurTxt: 'あなたが誰にも話したことのない、本当の自分の姿は……人を惹きつける理由は外見や言葉ではなく、あなたが無意識に発しているエネルギーにあります。',
-    isLight: true,
-  },
-  {
-    id:      'h003',
-    date:    '2026年4月28日',
-    menuId:  'monthly',
-    emoji:   '✨',
-    menu:    '今月、何が起きるのか',
-    plan:    'deep',
-    amount:  500,
-    result:  '満月のパワーが最高潮に達する今月は、あなたの魅力と運気が共に頂点に向かいます。感情が豊かに満ちるこの時期、正直な気持ちを表現することが大きな転機を生みます。恋愛運は今月最高潮。',
-    blurTxt: '転機が訪れる正確な日付と、その日にすべき行動が、詳細鑑定に記されています。',
-    isLight: false,
-  },
-  {
-    id:      'h004',
-    date:    '2026年4月15日',
-    menuId:  'tarot',
-    emoji:   '🃏',
-    menu:    'あの人の本音',
-    plan:    'light',
-    amount:  100,
-    result:  '「花の予言」カードが引き当てられました。二人の縁が今まさに咲こうとしていることを告げています。あなたとあの人の間には、すでに目に見えない糸が結ばれています。',
-    blurTxt: 'その花が完全に開くために、今あなたに必要な勇気とは……',
-    isLight: true,
-  },
-  {
-    id:      'h005',
-    date:    '2026年3月30日',
-    menuId:  'personality',
-    emoji:   '🌙',
-    menu:    'あなたの本当の性格',
-    plan:    'deep',
-    amount:  500,
-    result:  'あなたの月相は「満月」。感情が満ちるタイミングに生まれたあなたは、存在するだけで周囲を明るくします。独自の視点と創造力は、あなたを他の誰とも違う唯一無二の存在にします。',
-    blurTxt: 'その輝きが最も評価される環境の選び方、そして今後の開花タイミングとは……',
-    isLight: false,
-  },
+  { icon:'🌙', title:'陰陽師ミカゲ — 月星座鑑定', date:'2026.05.10', plan:'deep'  },
+  { icon:'⭐', title:'星読みのおばあちゃん — 月運鑑定', date:'2026.04.28', plan:'light' },
+  { icon:'🃏', title:'タロット女子ルナ — オラクル鑑定', date:'2026.04.15', plan:'deep'  },
+  { icon:'🌙', title:'陰陽師ミカゲ — 運命鑑定',    date:'2026.03.22', plan:'light' },
+  { icon:'🃏', title:'タロット女子ルナ — タロット鑑定', date:'2026.03.08', plan:'deep'  }
 ];
 
-var HISTORY_PAGE_SIZE = 3;
-var historyShown = HISTORY_PAGE_SIZE;
+/* ============================================================
+   Character definitions
+   ============================================================ */
+var CHARS = {
+  mikage:{
+    key:'mikage', emoji:'🌙', name:'陰陽師ミカゲ',
+    lbl:'Onmyoji / 五行思想', sub:'運命の流れを視る陰陽師',
+    menuKey:'personality',
+    lightName:'月の導き鑑定',
+    deepName: '運命深層鑑定',
+    lightItems:['月星座から読み取る表面的な性格の概要','今月の運勢のざっくりとした流れ','タロット冒頭メッセージのみ'],
+    deepItems: ['魂の本質と人生テーマの深層解析','恋愛・仕事・金運の深層解析','強運日・転機日・注意日の開示','未来を動かす行動指針']
+  },
+  oba:{
+    key:'oba', emoji:'⭐', name:'星読みのおばあちゃん',
+    lbl:'Astrology / 星座占い', sub:'月と星を読む古き案内人',
+    menuKey:'monthly',
+    lightName:'月の導き鑑定',
+    deepName: '運命深層鑑定',
+    lightItems:['月星座から読み取る表面的な性格の概要','今月の運勢のざっくりとした流れ','タロット冒頭メッセージのみ'],
+    deepItems: ['魂の本質と人生テーマの深層解析','恋愛・仕事・金運の深層解析','強運日・転機日・注意日の開示','未来を動かす行動指針']
+  },
+  luna:{
+    key:'luna', emoji:'🃏', name:'タロット女子ルナ',
+    lbl:'Tarot / 月相オラクル', sub:'カードが映す心の案内役',
+    menuKey:'tarot',
+    lightName:'月の導き鑑定',
+    deepName: '運命深層鑑定',
+    lightItems:['月星座から読み取る表面的な性格の概要','今月の運勢のざっくりとした流れ','タロット冒頭メッセージのみ'],
+    deepItems: ['魂の本質と人生テーマの深層解析','恋愛・仕事・金運の深層解析','強運日・転機日・注意日の開示','未来を動かす行動指針']
+  }
+};
 
 /* ============================================================
-   初期化
+   Plan modal state
+   ============================================================ */
+var _currentChar    = null;
+var _selectedPrice  = null;
+
+function openPlanModal(charKey) {
+  var c = CHARS[charKey];
+  if (!c) return;
+  _currentChar   = c;
+  _selectedPrice = null;
+
+  /* populate char info */
+  document.getElementById('pm-icon').textContent = c.emoji;
+  document.getElementById('pm-name').textContent = c.name;
+  document.getElementById('pm-sub').textContent  = c.sub;
+
+  /* populate plan names */
+  document.getElementById('pm-light-name').textContent = c.lightName;
+  document.getElementById('pm-deep-name').textContent  = c.deepName;
+
+  /* populate plan item lists */
+  function buildItems(elId, items) {
+    var el = document.getElementById(elId);
+    el.innerHTML = items.map(function(i){ return '<li>'+i+'</li>'; }).join('');
+  }
+  buildItems('pm-light-items', c.lightItems);
+  buildItems('pm-deep-items',  c.deepItems);
+
+  /* reset selection */
+  document.getElementById('plan-opt-100').classList.remove('selected');
+  document.getElementById('plan-opt-500').classList.remove('selected');
+  document.getElementById('plan-select-btn').disabled = true;
+
+  document.getElementById('plan-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlanModal() {
+  document.getElementById('plan-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  _currentChar   = null;
+  _selectedPrice = null;
+}
+
+function onPlanBg(e) {
+  if (e.target === document.getElementById('plan-modal')) closePlanModal();
+}
+
+function selectPlan(price) {
+  _selectedPrice = price;
+  document.getElementById('plan-opt-100').classList.toggle('selected', price === 100);
+  document.getElementById('plan-opt-500').classList.toggle('selected', price === 500);
+  document.getElementById('plan-select-btn').disabled = false;
+}
+
+function confirmPlan() {
+  if (!_currentChar || !_selectedPrice) return;
+  var menuKey = _currentChar.menuKey;
+  var plan    = _selectedPrice === 100 ? 'light' : 'deep';
+  closePlanModal();
+  fadeToPage('tsukiyomi_unified.html?menu=' + menuKey + '&plan=' + plan);
+}
+
+/* Escape key */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePlanModal();
+});
+
+/* ============================================================
+   Logout
+   ============================================================ */
+function handleLogout() {
+  clearAuth();
+  fadeToPage('tsukiyomi_unified.html');
+}
+
+/* ============================================================
+   Stars
+   ============================================================ */
+function buildStars() {
+  var container = document.getElementById('stars');
+  for (var i = 0; i < 110; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = (Math.random() * (2.5 - 0.3) + 0.3).toFixed(2);
+    s.style.cssText = [
+      'width:'  + size + 'px',
+      'height:' + size + 'px',
+      'left:'   + (Math.random() * 100).toFixed(2) + '%',
+      'top:'    + (Math.random() * 100).toFixed(2) + '%',
+      'animation-duration:' + (Math.random() * 6 + 2).toFixed(2) + 's',
+      'animation-delay:-'   + (Math.random() * 7).toFixed(2) + 's'
+    ].join(';');
+    container.appendChild(s);
+  }
+}
+
+/* ============================================================
+   Render user info
+   ============================================================ */
+function renderUserInfo() {
+  document.getElementById('user-moon-orb').textContent     = USER_MOON.moonEmoji || USER_MOON.moonIcon;
+  document.getElementById('user-name-display').textContent = USER.name || 'ゲスト';
+  document.getElementById('user-moon-label').textContent   = (USER_MOON.moonPhase || '満月') + ' / Moon Phase';
+  document.getElementById('user-personality').textContent  = USER_MOON.personalityType || '';
+  document.getElementById('user-since-chip').textContent   = (USER.memberSince || '').replace(/-/g,'.') + 'から';
+  document.getElementById('user-email-chip').textContent   = USER.email || '';
+
+  var msgEl = document.getElementById('user-moon-msg');
+  if (msgEl) msgEl.innerHTML = USER_MOON.moonMessage || '内側に宿る光が、あなたの道を照らしています。';
+}
+
+/* ============================================================
+   Render history
+   ============================================================ */
+function renderHistory() {
+  var list = document.getElementById('history-list');
+  if (!HISTORY_ALL || !HISTORY_ALL.length) {
+    list.innerHTML = '<div class="history-empty">まだ鑑定履歴はありません</div>';
+    return;
+  }
+  list.innerHTML = HISTORY_ALL.map(function(h) {
+    var badgeClass = h.plan === 'deep' ? 'deep' : 'light';
+    var badgeLabel = h.plan === 'deep' ? '深層鑑定' : '導き鑑定';
+    return '<div class="history-card">' +
+      '<div class="history-icon">' + h.icon + '</div>' +
+      '<div class="history-col">' +
+        '<div class="history-title">' + h.title + '</div>' +
+        '<div class="history-meta">' + h.date + '</div>' +
+      '</div>' +
+      '<span class="history-badge ' + badgeClass + '">' + badgeLabel + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+/* ============================================================
+   Init
    ============================================================ */
 (function init() {
   buildStars();
@@ -812,244 +827,12 @@ var historyShown = HISTORY_PAGE_SIZE;
   if (auth.moonEmoji)          USER_MOON.moonEmoji          = auth.moonEmoji;
   if (auth.personalityType)    USER_MOON.personalityType    = auth.personalityType;
   if (auth.personalityKeyword) USER_MOON.personalityKeyword = auth.personalityKeyword;
-  /* Build rich moon message */
   USER_MOON.moonMessage = 'あなたは<em>' + USER_MOON.moonPhase + '</em>のエネルギーの中にいます。' +
     (auth.moonMessage ? auth.moonMessage : '内側に宿る光が、あなたの道を照らしています。');
 
   renderUserInfo();
-  renderMenuCards();
   renderHistory();
 })();
-
-/* ============================================================
-   星を生成
-   ============================================================ */
-function buildStars() {
-  var sf = document.getElementById('stars');
-  for (var i = 0; i < 120; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    var z = Math.random() * 2.2 + 0.3;
-    s.style.cssText =
-      'width:' + z + 'px;height:' + z + 'px;' +
-      'left:' + (Math.random() * 100) + '%;' +
-      'top:' + (Math.random() * 100) + '%;' +
-      'animation-duration:' + (Math.random() * 4 + 2) + 's;' +
-      'animation-delay:' + (Math.random() * 7) + 's;';
-    sf.appendChild(s);
-  }
-}
-
-/* ============================================================
-   ユーザー情報を描画
-   ============================================================ */
-function renderUserInfo() {
-  /* ── 基本情報 ── */
-  document.getElementById('user-name').textContent    = USER.name;
-  document.getElementById('member-since').textContent = '会員登録：' + USER.memberSince;
-
-  /* ── 月相データ（USER_MOON から注入）
-       実装時: API レスポンスを受け取ったあと、USER_MOON に代入してから呼ぶ
-       例: fetch('/api/user/moon-profile').then(r=>r.json()).then(data=>{
-             Object.assign(USER_MOON, data);
-             renderUserInfo();
-           });
-  ── */
-  document.getElementById('moon-phase-icon').textContent  = USER_MOON.moonIcon;
-  document.getElementById('moon-phase-name').textContent  = USER_MOON.moonPhase;
-  document.getElementById('moon-type-name').textContent   = USER_MOON.personalityType;
-  document.getElementById('moon-type-keyword').innerHTML  = USER_MOON.personalityKeyword;
-
-  /* phase-badge メッセージ（innerHTML で <em> タグを活かす） */
-  document.getElementById('phase-badge-icon').textContent = USER_MOON.moonEmoji;
-  document.getElementById('phase-badge-msg').innerHTML    = USER_MOON.moonMessage;
-}
-
-/* ============================================================
-   占いメニューカードを描画
-   ============================================================ */
-function renderMenuCards() {
-  var container = document.getElementById('menu-cards');
-  container.innerHTML = MENUS.map(function (m) {
-    return (
-      '<div class="menu-card">' +
-        '<div class="mc-head">' +
-          '<div class="mc-icon">' + m.emoji + '</div>' +
-          '<div class="mc-info">' +
-            '<p class="mc-en">' + m.en + '</p>' +
-            '<h2 class="mc-title">' + m.title + '</h2>' +
-            '<p class="mc-desc">' + m.desc + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<div class="mc-btns">' +
-          /* ── ライト（100円）── */
-          '<button type="button" class="btn-plan-light"' +
-              ' onclick="handlePlanSelect(\'' + m.id + '\',\'light\',' + m.lightPrice + ')">' +
-            '<span class="bpl-price">' + m.lightPrice + '<span class="bpl-yen">円</span></span>' +
-            '<span class="bpl-label">' + m.lightLabel + '</span>' +
-          '</button>' +
-          /* ── 詳細（500円）── */
-          '<button type="button" class="btn-plan-deep"' +
-              ' onclick="handlePlanSelect(\'' + m.id + '\',\'deep\',' + m.deepPrice + ')">' +
-            '<span class="bpd-rec">おすすめ</span>' +
-            '<span class="bpd-price">' + m.deepPrice + '<span class="bpd-yen">円</span></span>' +
-            '<span class="bpd-label">' + m.deepLabel + '</span>' +
-          '</button>' +
-        '</div>' +
-      '</div>'
-    );
-  }).join('');
-}
-
-/* ============================================================
-   過去の鑑定履歴を描画
-   ============================================================ */
-function renderHistory() {
-  var container = document.getElementById('history-list');
-  var loadWrap  = document.getElementById('load-more-wrap');
-
-  if (HISTORY_ALL.length === 0) {
-    container.innerHTML =
-      '<div class="history-empty">' +
-        '<span class="history-empty-ico">🌑</span>' +
-        '<p class="history-empty-txt">まだ鑑定履歴はありません。<br>上のメニューから最初の占いを体験してみてください。</p>' +
-      '</div>';
-    loadWrap.innerHTML = '';
-    return;
-  }
-
-  var items = HISTORY_ALL.slice(0, historyShown);
-  container.innerHTML = items.map(function (h) {
-    var planBadge = h.plan === 'deep'
-      ? '<span class="hi-plan deep">詳細鑑定</span>'
-      : '<span class="hi-plan light">簡易鑑定</span>';
-    return (
-      '<div class="history-item">' +
-        '<div class="hi-icon">' + h.emoji + '</div>' +
-        '<div class="hi-body">' +
-          '<div class="hi-meta">' +
-            '<span class="hi-date">' + h.date + '</span>' +
-            planBadge +
-          '</div>' +
-          '<p class="hi-menu">' + h.menu + '</p>' +
-          '<p class="hi-price"><em>' + h.amount.toLocaleString('ja-JP') + '円</em></p>' +
-        '</div>' +
-        '<button type="button" class="btn-reread" onclick="openResult(\'' + h.id + '\')">' +
-          '<span class="btn-reread-ico">🔍</span>' +
-          '<span class="btn-reread-lbl">結果を<br>再確認</span>' +
-        '</button>' +
-      '</div>'
-    );
-  }).join('');
-
-  /* 「もっと見る」ボタン */
-  if (historyShown < HISTORY_ALL.length) {
-    loadWrap.innerHTML =
-      '<button type="button" class="btn-load-more" onclick="loadMore()">' +
-        '過去の履歴をさらに見る（' + HISTORY_ALL.length + '件中 ' + historyShown + '件表示）' +
-      '</button>';
-  } else {
-    loadWrap.innerHTML =
-      '<p style="text-align:center;font-size:.62rem;color:var(--dim);letter-spacing:.08em;padding:.6rem">すべての履歴を表示しています</p>';
-  }
-}
-
-function loadMore() {
-  historyShown = Math.min(historyShown + HISTORY_PAGE_SIZE, HISTORY_ALL.length);
-  renderHistory();
-}
-
-/* ============================================================
-   占いプラン選択ハンドラ
-   実装時：Stripe Checkout セッション作成 → リダイレクト
-   ============================================================ */
-function handlePlanSelect(menuId, plan, price) {
-  var menu = MENUS.find(function (m) { return m.id === menuId; });
-  if (!menu) return;
-
-  /* ── 決済ページへ遷移（実装例） ── */
-  var url = 'tsukiyomi_checkout.html' +
-    '?plan=' + (plan === 'deep' ? 'deep' : 'light') +
-    '&menu=' + menuId +
-    '&price=' + price;
-
-  console.log('[月詠みMyPage] 決済へ:', { menuId: menuId, plan: plan, price: price, url: url });
-
-  /* デモ確認アラート（本番では削除してリダイレクト） */
-  var planLabel = plan === 'deep' ? '詳細鑑定' : '簡易鑑定';
-  if (confirm(
-    '【' + menu.title + '】\n' +
-    planLabel + ' — ' + price.toLocaleString('ja-JP') + '円\n\n' +
-    'お支払いページへ進みますか？'
-  )) {
-    window.location.href = url;
-  }
-}
-
-/* ============================================================
-   結果モーダルを開く
-   ============================================================ */
-function openResult(historyId) {
-  var h = HISTORY_ALL.find(function (x) { return x.id === historyId; });
-  if (!h) return;
-
-  document.getElementById('modal-title').textContent   = h.menu;
-  document.getElementById('modal-date').textContent    = '鑑定日：' + h.date;
-
-  var planEl = document.getElementById('modal-plan-badge');
-  planEl.textContent  = h.plan === 'deep' ? '✦ 詳細鑑定 — ' + h.amount + '円' : '✦ 簡易鑑定 — ' + h.amount + '円';
-  planEl.className    = 'modal-plan-badge ' + h.plan;
-
-  document.getElementById('modal-result-text').textContent = h.result;
-
-  /* 簡易鑑定はblur付きでアップセル表示 */
-  var blurWrap = document.getElementById('modal-blur-wrap');
-  var ctaBtn   = document.getElementById('modal-cta');
-  if (h.isLight && h.blurTxt) {
-    document.getElementById('modal-blur-txt').textContent = h.blurTxt;
-    blurWrap.style.display = 'block';
-    ctaBtn.style.display   = 'block';
-    ctaBtn.setAttribute('data-menu-id', h.menuId);
-  } else {
-    blurWrap.style.display = 'none';
-    ctaBtn.style.display   = 'none';
-  }
-
-  document.getElementById('result-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  document.getElementById('result-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function handleModalBgClick(e) {
-  if (e.target === document.getElementById('result-modal')) closeModal();
-}
-
-/* Escキーで閉じる */
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') closeModal();
-});
-
-/* ============================================================
-   アップグレード（簡易 → 詳細）
-   ============================================================ */
-function handleUpgrade() {
-  var menuId = document.getElementById('modal-cta').getAttribute('data-menu-id') || 'personality';
-  closeModal();
-  handlePlanSelect(menuId, 'deep', 500);
-}
-
-/* ============================================================
-   ログアウト
-   実装時：セッション削除 → ログイン画面へリダイレクト
-   ============================================================ */
-function handleLogout() {
-  clearAuth();
-  fadeToPage('tsukiyomi_unified.html');
-}
 </script>
 </body>
 </html>
