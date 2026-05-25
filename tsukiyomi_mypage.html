@@ -626,10 +626,16 @@ function selectPlan(charKey, price) {
 
 function confirmPlan(charKey) {
   var price = _selectedPlan[charKey];
-  if (!price) return;
+  if (!price) {
+    /* フォールバック: 選択状態をリセット */
+    var btn = document.getElementById('btn-' + charKey);
+    if (btn) { btn.disabled = true; }
+    return;
+  }
   var menuKey = CHARS[charKey] ? CHARS[charKey].menuKey : charKey;
   var plan = price === 100 ? 'light' : 'deep';
-  fadeToPage('tsukiyomi_checkout.html?menu=' + menuKey + '&plan=' + plan);
+  /* fadeToPage の代わりに直接遷移（アニメーション遅延なし） */
+  window.location.href = 'tsukiyomi_checkout.html?menu=' + menuKey + '&plan=' + plan;
 }
 
 /* ============================================================

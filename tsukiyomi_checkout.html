@@ -5,260 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>鑑定お申し込み | 月詠み占い</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/" async></script>
 <style>
-/* ─────────────────────────────────────────
-   DESIGN TOKENS
-───────────────────────────────────────── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
   --ink:#07081C;
-  --gold:#D4AF37;--goldL:#E8C84A;--goldD:#8B6914;--goldP:#F5E090;
+  --gold:#D4AF37;--goldL:#E8C84A;
   --pur:#7B5EA7;--purL:#C084FC;
   --text:#E8EAF6;--muted:#8890B8;--dim:#505878;
   --err:#F87171;--ok:#6EE7B7;
-  /* dynamic char accent — overwritten by JS */
   --char-accent:rgba(139,92,246,1);
   --char-accent-dim:rgba(139,92,246,.18);
   --char-accent-border:rgba(139,92,246,.38);
 }
-
 html{scroll-behavior:smooth}
 body{
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%);
   color:var(--text);font-family:'Noto Serif JP',serif;font-weight:300;
   min-height:100vh;overflow-x:hidden;
-  opacity:0;animation:pageIn .5s ease .05s forwards;
+  opacity:0;animation:pgIn .48s ease .04s forwards;
 }
-@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
-  transition:opacity .35s ease,transform .35s ease !important;animation:none !important}
-
-/* ─ ATMOSPHERE ─ */
+@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+body.page-out{opacity:0!important;transition:opacity .3s ease!important;animation:none!important}
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle linear infinite}
 @keyframes twinkle{0%,100%{opacity:.03}50%{opacity:.7}}
 .nb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
-.nb1{width:520px;height:520px;top:-190px;left:-140px;
-     background:radial-gradient(circle,rgba(123,94,167,.14),transparent 70%);
-     animation:drift 24s ease-in-out infinite}
-.nb2{width:400px;height:400px;bottom:-110px;right:-90px;
-     background:radial-gradient(circle,rgba(74,56,112,.11),transparent 70%);
-     animation:drift 19s ease-in-out infinite reverse}
-.nb3{width:300px;height:300px;top:40%;left:55%;
-     background:radial-gradient(circle,rgba(212,175,55,.06),transparent 70%);
-     animation:drift 28s ease-in-out infinite 5s}
-@keyframes drift{
-  0%,100%{transform:scale(1) translate(0,0)}
-  33%{transform:scale(1.06) translate(12px,-18px)}
-  66%{transform:scale(.96) translate(-10px,14px)}
-}
+.nb1{width:520px;height:520px;top:-190px;left:-140px;background:radial-gradient(circle,rgba(123,94,167,.14),transparent 70%);animation:drift 24s ease-in-out infinite}
+.nb2{width:400px;height:400px;bottom:-110px;right:-90px;background:radial-gradient(circle,rgba(74,56,112,.11),transparent 70%);animation:drift 19s ease-in-out infinite reverse}
+@keyframes drift{0%,100%{transform:scale(1) translate(0,0)}33%{transform:scale(1.06) translate(12px,-18px)}66%{transform:scale(.96) translate(-10px,14px)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @keyframes btnShine{0%{background-position:200% center}100%{background-position:-200% center}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes successIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 
-/* ─ LAYOUT ─ */
-.page{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 1rem 6rem}
+/* ─── LAYOUT ─── */
+.page{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 1rem 5rem}
 
-/* ─ HEADER ─ */
-.co-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.4rem 0 1rem;
-}
-.co-back{
-  display:inline-flex;align-items:center;gap:.35rem;
-  background:none;border:none;color:var(--muted);
-  font-family:'Noto Serif JP',serif;font-size:.78rem;letter-spacing:.06em;
-  cursor:pointer;-webkit-appearance:none;transition:color .2s;padding:0;
-}
+/* ─── HEADER ─── */
+.co-hd{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0 .8rem}
+.co-back{background:none;border:none;color:var(--muted);font-family:'Noto Serif JP',serif;font-size:.78rem;letter-spacing:.06em;cursor:pointer;-webkit-appearance:none;padding:0;transition:color .2s}
 .co-back:hover{color:var(--purL)}
-.co-logo{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;
-  background:linear-gradient(135deg,var(--gold),var(--goldL));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:.05em;
-}
+.co-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;background:linear-gradient(135deg,var(--gold),var(--goldL));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em}
 
-/* ─ STEP INDICATOR ─ */
-.step-row{
-  display:flex;align-items:center;justify-content:center;
-  gap:.4rem;margin-bottom:1.6rem;
-}
-.step{
-  font-size:.6rem;letter-spacing:.12em;color:var(--dim);
-  padding:.22rem .7rem;border-radius:20px;
-  border:1px solid rgba(80,88,120,.22);
-  font-family:'Noto Serif JP',serif;
-}
+/* ─── STEP ─── */
+.steps{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:1.5rem}
+.step{font-size:.6rem;letter-spacing:.12em;color:var(--dim);padding:.2rem .65rem;border-radius:20px;border:1px solid rgba(80,88,120,.22)}
 .step.done{color:rgba(140,130,180,.7);border-color:rgba(139,92,246,.2)}
-.step.active{
-  color:var(--char-accent);border-color:var(--char-accent-border);
-  background:var(--char-accent-dim);
-}
-.step-sep{font-size:.6rem;color:var(--dim);margin:0 .1rem}
+.step.active{color:var(--char-accent);border-color:var(--char-accent-border);background:var(--char-accent-dim)}
+.step-sep{font-size:.6rem;color:var(--dim)}
 
-/* ─ CHARACTER HERO CARD ─ */
-.char-hero-card{
-  position:relative;overflow:hidden;
+/* ─── CHAR HERO ─── */
+.char-hero{position:relative;overflow:hidden;
   background:linear-gradient(165deg,rgba(14,9,40,.98),rgba(8,5,22,.99));
-  border:1px solid var(--char-accent-border);
-  border-radius:22px;
-  box-shadow:0 16px 52px rgba(0,0,0,.5),
-    0 0 40px var(--char-accent-dim);
-  padding:2.4rem 1.8rem 2rem;
-  text-align:center;margin-bottom:1.2rem;
-}
-.char-hero-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--char-accent),transparent);
-  opacity:.7;
-}
-.char-hero-orb{
-  width:80px;height:80px;border-radius:50%;margin:0 auto .85rem;
+  border:1px solid var(--char-accent-border);border-radius:22px;
+  box-shadow:0 16px 52px rgba(0,0,0,.5),0 0 40px var(--char-accent-dim);
+  padding:2.2rem 1.8rem 1.8rem;text-align:center;margin-bottom:1.1rem}
+.char-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--char-accent),transparent);opacity:.7}
+.char-orb{width:72px;height:72px;border-radius:50%;margin:0 auto .75rem;
   background:radial-gradient(circle at 35% 30%,var(--char-accent-dim),transparent 70%);
   border:1.5px solid var(--char-accent-border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:2.2rem;
-  animation:float 4s ease-in-out infinite;
-  box-shadow:0 0 30px var(--char-accent-dim),inset 0 0 20px rgba(0,0,0,.2);
-}
-.char-hero-lbl{
-  font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.24em;
-  font-style:italic;color:var(--char-accent);opacity:.8;
-  text-transform:uppercase;margin-bottom:.3rem;
-}
-.char-hero-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;
-  color:rgba(225,218,250,.96);letter-spacing:.08em;margin-bottom:.35rem;
-}
-.char-hero-sub{
-  font-size:.68rem;color:var(--muted);letter-spacing:.1em;font-style:italic;
-}
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+  animation:float 4s ease-in-out infinite;box-shadow:0 0 28px var(--char-accent-dim)}
+.char-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.24em;font-style:italic;color:var(--char-accent);opacity:.8;text-transform:uppercase;margin-bottom:.28rem}
+.char-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:rgba(225,218,250,.96);letter-spacing:.08em;margin-bottom:.3rem}
+.char-sub{font-size:.67rem;color:var(--muted);letter-spacing:.1em;font-style:italic}
 
-/* ─ PLAN CONFIRMATION CARD ─ */
-.plan-card{
-  position:relative;overflow:hidden;
+/* ─── PLAN CARD ─── */
+.plan-card{position:relative;overflow:hidden;
   background:linear-gradient(160deg,rgba(14,9,40,.97),rgba(8,5,22,.99));
   border:1px solid rgba(212,175,55,.22);border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(212,175,55,.07);
-  padding:1.6rem 1.6rem 1.5rem;margin-bottom:1rem;
-}
-.plan-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent);
-}
-.plan-card-top{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:1.1rem;
-}
-.plan-badge{
-  font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.2em;
-  font-style:italic;text-transform:uppercase;
-  color:var(--char-accent);border:1px solid var(--char-accent-border);
-  background:var(--char-accent-dim);border-radius:20px;padding:.22rem .75rem;
-}
-.plan-price-group{text-align:right}
-.plan-price{
-  font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;
-  color:var(--gold);letter-spacing:.03em;line-height:1;
-}
-.plan-price-sub{
-  font-size:.56rem;color:var(--dim);letter-spacing:.06em;
-  font-family:'Noto Serif JP',serif;margin-top:.12rem;
-}
-.plan-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;
-  color:rgba(220,210,245,.88);letter-spacing:.1em;margin-bottom:.9rem;
-}
-.plan-divider{
-  height:1px;margin-bottom:.9rem;
-  background:linear-gradient(90deg,rgba(212,175,55,.18),rgba(139,92,246,.12),transparent);
-}
+  box-shadow:0 8px 32px rgba(0,0,0,.4);padding:1.5rem 1.5rem 1.4rem;margin-bottom:1rem}
+.plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent)}
+.plan-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.plan-bdg{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.2em;font-style:italic;text-transform:uppercase;color:var(--char-accent);border:1px solid var(--char-accent-border);background:var(--char-accent-dim);border-radius:20px;padding:.2rem .7rem}
+.plan-price-box{text-align:right}
+.plan-price{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:600;color:var(--gold);line-height:1}
+.plan-tax{font-size:.56rem;color:var(--dim);margin-top:.12rem}
+.plan-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:rgba(220,210,245,.88);letter-spacing:.1em;margin-bottom:.85rem}
+.plan-div{height:1px;margin-bottom:.85rem;background:linear-gradient(90deg,rgba(212,175,55,.18),rgba(139,92,246,.12),transparent)}
 .plan-items{list-style:none}
-.plan-items li{
-  display:flex;align-items:flex-start;gap:.65rem;
-  font-size:.75rem;color:rgba(185,180,220,.82);letter-spacing:.04em;
-  padding:.3rem 0;line-height:1.7;border-bottom:1px solid rgba(255,255,255,.04);
-}
+.plan-items li{display:flex;align-items:flex-start;gap:.6rem;font-size:.74rem;color:rgba(185,180,220,.82);letter-spacing:.04em;padding:.28rem 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.7}
 .plan-items li:last-child{border-bottom:none}
-.plan-item-check{
-  flex-shrink:0;width:16px;height:16px;border-radius:50%;margin-top:.16rem;
-  background:var(--char-accent-dim);border:1px solid var(--char-accent-border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.55rem;color:var(--char-accent);
-}
+.item-chk{flex-shrink:0;width:15px;height:15px;border-radius:50%;margin-top:.18rem;background:var(--char-accent-dim);border:1px solid var(--char-accent-border);display:flex;align-items:center;justify-content:center;font-size:.52rem;color:var(--char-accent)}
 
-/* ─ ORDER SUMMARY STRIP ─ */
-.order-strip{
-  background:rgba(13,15,38,.9);border:1px solid rgba(139,92,246,.1);
-  border-radius:14px;padding:1rem 1.3rem;margin-bottom:1.4rem;
-}
-.order-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.35rem 0;
-}
-.order-lbl{font-size:.68rem;color:var(--dim);letter-spacing:.08em}
-.order-val{font-size:.76rem;color:rgba(200,195,235,.85);letter-spacing:.06em}
-.order-divider{height:1px;background:rgba(139,92,246,.12);margin:.4rem 0}
-.order-total .order-lbl{color:var(--muted);font-size:.72rem}
-.order-total-val{
-  font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;
-  color:var(--gold);
-}
+/* ─── ORDER STRIP ─── */
+.order-strip{background:rgba(13,15,38,.9);border:1px solid rgba(139,92,246,.1);border-radius:14px;padding:.95rem 1.2rem;margin-bottom:1.4rem}
+.order-row{display:flex;align-items:center;justify-content:space-between;padding:.3rem 0}
+.ol{font-size:.67rem;color:var(--dim);letter-spacing:.08em}
+.ov{font-size:.75rem;color:rgba(200,195,235,.85);letter-spacing:.06em}
+.order-div{height:1px;background:rgba(139,92,246,.12);margin:.35rem 0}
+.order-total .ol{color:var(--muted)}
+.order-total-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold)}
 
-/* ─ PAYMENT SECTION ─ */
-.payment-section{margin-top:1.4rem}
-.payment-hd{
-  display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;
-}
-.payment-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(139,92,246,.25),transparent)}
-.payment-hd-text{
-  font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:400;
-  color:rgba(180,170,220,.75);letter-spacing:.14em;white-space:nowrap;
-}
+/* ─── PAYMENT SECTION ─── */
+.pay-hd{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.pay-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(139,92,246,.25),transparent)}
+.pay-hd-text{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:400;color:rgba(180,170,220,.75);letter-spacing:.14em;white-space:nowrap}
+.secure-row{display:flex;align-items:center;justify-content:center;gap:.45rem;margin-bottom:1.1rem;padding:.55rem;border:1px solid rgba(110,231,183,.12);background:rgba(110,231,183,.04);border-radius:10px;font-size:.64rem;color:rgba(110,231,183,.7);letter-spacing:.07em}
 
-/* secure badge */
-.secure-badge{
-  display:flex;align-items:center;justify-content:center;gap:.5rem;
-  padding:.6rem;margin-bottom:1rem;
-  border:1px solid rgba(110,231,183,.12);background:rgba(110,231,183,.04);
-  border-radius:10px;
-  font-size:.66rem;color:rgba(110,231,183,.7);letter-spacing:.08em;
-}
+/* ─── CARD FORM ─── */
+.card-form{background:rgba(10,7,28,.88);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:1.2rem;margin-bottom:1rem}
+.card-mode-note{font-size:.6rem;color:var(--dim);letter-spacing:.06em;text-align:center;margin-bottom:1rem;padding:.4rem .6rem;border:1px dashed rgba(139,92,246,.18);border-radius:8px}
+.card-mode-note span{color:rgba(139,92,246,.6)}
 
-/* Stripe Payment Element wrapper */
-.stripe-wrapper{
-  background:rgba(10,7,28,.85);border:1px solid rgba(139,92,246,.2);
-  border-radius:16px;padding:1.2rem;margin-bottom:1.1rem;
+.field-group{display:flex;flex-direction:column;gap:.7rem}
+.field-row{display:flex;flex-direction:column;gap:.3rem}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.field-lbl{font-size:.62rem;color:var(--muted);letter-spacing:.1em;font-family:'Noto Serif JP',serif}
+.field-inp{
+  background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.22);
+  border-radius:10px;padding:.65rem .85rem;
+  color:var(--text);font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.05em;
+  -webkit-appearance:none;outline:none;
+  transition:border-color .2s,box-shadow .2s;width:100%;
 }
+.field-inp::placeholder{color:var(--dim)}
+.field-inp:focus{border-color:rgba(139,92,246,.55);box-shadow:0 0 0 2px rgba(139,92,246,.12)}
+.field-inp.has-error{border-color:rgba(248,113,113,.5)}
 
-.stripe-error{
-  font-size:.72rem;color:var(--err);letter-spacing:.04em;
-  margin-top:.6rem;padding:.6rem .8rem;
-  background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);
-  border-radius:8px;
-}
+/* Stripe Payment Element overrides */
+.stripe-wrapper{background:rgba(10,7,28,.88);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:1.2rem;margin-bottom:1rem;display:none}
+.stripe-error{font-size:.7rem;color:var(--err);margin-top:.55rem;padding:.5rem .75rem;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:8px;display:none}
 
-/* setup note */
-.setup-note{
-  text-align:center;padding:1.3rem;margin-bottom:1rem;
-  border:1px dashed rgba(139,92,246,.22);border-radius:12px;
-}
-.setup-note-title{
-  font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:400;
-  color:rgba(180,170,220,.8);letter-spacing:.1em;margin-bottom:.5rem;
-}
-.setup-note-body{
-  font-size:.68rem;color:var(--dim);letter-spacing:.05em;line-height:2;
-}
-.setup-note-step{
-  display:inline-block;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);
-  border-radius:6px;padding:.15rem .5rem;margin:.15rem .1rem;
-  font-size:.62rem;color:var(--purL);letter-spacing:.06em;
-}
-
-/* ─ PAY BUTTON ─ */
+/* ─── PAY BUTTON ─── */
 .pay-btn{
   display:block;width:100%;padding:1.05rem;
   border:none;border-radius:50px;cursor:pointer;
@@ -268,125 +139,94 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   box-shadow:0 6px 32px rgba(139,92,246,.4),0 0 0 1px rgba(180,140,255,.15);
   -webkit-appearance:none;
   animation:btnShine 4s linear infinite;
-  transition:transform .18s,box-shadow .18s,opacity .18s;
+  transition:transform .18s,box-shadow .18s;
   margin-bottom:.7rem;
 }
-.pay-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(139,92,246,.55),0 0 0 1px rgba(180,140,255,.25)}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(139,92,246,.55)}
 .pay-btn:active{transform:translateY(0)}
 .pay-btn:disabled{opacity:.42;cursor:not-allowed;animation:none;transform:none}
-
 .pay-loading{display:none;align-items:center;justify-content:center;gap:.35rem}
-.pay-dot{
-  width:6px;height:6px;border-radius:50%;background:#F0EAF8;
-  animation:pulse 1.2s ease-in-out infinite;
-}
+.pay-dot{width:6px;height:6px;border-radius:50%;background:#F0EAF8;animation:pulse 1.2s ease-in-out infinite}
 .pay-dot:nth-child(2){animation-delay:.2s}
 .pay-dot:nth-child(3){animation-delay:.4s}
+.pay-note{text-align:center;font-size:.62rem;color:var(--dim);letter-spacing:.06em;line-height:1.9}
 
-.pay-note{
-  text-align:center;font-size:.62rem;color:var(--dim);
-  letter-spacing:.06em;line-height:1.9;
-}
-
-/* ─ SUCCESS OVERLAY ─ */
-.success-overlay{
+/* ─── SUCCESS OVERLAY ─── */
+.success-ov{
   position:fixed;inset:0;z-index:9000;
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 65%);
   display:flex;align-items:center;justify-content:center;padding:2rem;
-  opacity:0;pointer-events:none;
-  transition:opacity .5s ease;
+  opacity:0;pointer-events:none;transition:opacity .45s ease;
 }
-.success-overlay.show{opacity:1;pointer-events:auto}
-.success-inner{text-align:center;max-width:360px}
-.success-orb{
-  font-size:3.5rem;margin-bottom:1.2rem;
-  animation:float 3.5s ease-in-out infinite;
-  filter:drop-shadow(0 0 28px rgba(212,175,55,.55));
-}
-.success-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:300;
-  letter-spacing:.18em;color:var(--gold);margin-bottom:.4rem;
-}
-.success-sub{font-size:.68rem;letter-spacing:.18em;color:var(--purL);font-style:italic;margin-bottom:1.8rem}
-.success-msg{font-size:.76rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:1.6rem}
-.success-spinner{
-  width:28px;height:28px;border-radius:50%;
-  border:2px solid rgba(139,92,246,.2);
-  border-top-color:var(--purL);
-  animation:spin .9s linear infinite;
-  margin:0 auto 1.2rem;
-}
-.success-btn{
-  display:none;padding:.9rem 2.4rem;
+.success-ov.show{opacity:1;pointer-events:auto}
+.success-inner{text-align:center;max-width:360px;animation:successIn .5s ease}
+.success-icon{font-size:3.5rem;margin-bottom:1.1rem;animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(212,175,55,.55))}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;letter-spacing:.18em;color:var(--gold);margin-bottom:.35rem}
+.success-sub{font-size:.67rem;letter-spacing:.18em;color:var(--purL);font-style:italic;margin-bottom:1.6rem}
+.success-msg{font-size:.76rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:1.4rem}
+.success-spinner{width:28px;height:28px;border-radius:50%;border:2px solid rgba(139,92,246,.2);border-top-color:var(--purL);animation:spin .9s linear infinite;margin:0 auto 1.2rem}
+.success-cta{
+  display:none;padding:.88rem 2.4rem;
   background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
   background-size:240% auto;animation:btnShine 4s linear infinite;
   color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.16em;
-  border:1px solid rgba(180,140,255,.3);border-radius:50px;
-  text-decoration:none;cursor:pointer;
-  box-shadow:0 4px 28px rgba(139,92,246,.38);
-  -webkit-appearance:none;
+  border:1px solid rgba(180,140,255,.3);border-radius:50px;cursor:pointer;
+  box-shadow:0 4px 28px rgba(139,92,246,.38);-webkit-appearance:none;
+  text-decoration:none;
 }
 
-/* ─ LOGIN OVERLAY ─ */
-#screen-login-required{
+/* ─── LOGIN OVERLAY ─── */
+#screen-login-req{
   display:none;position:fixed;inset:0;z-index:9999;
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,#07081C 55%);
   flex-direction:column;align-items:center;justify-content:center;padding:2rem;
 }
-.login-req-inner{text-align:center;max-width:360px}
-.login-req-moon{font-size:3rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(212,175,55,.5))}
-.login-req-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.14em;color:var(--gold);margin-bottom:.4rem}
-.login-req-sub{font-size:.62rem;letter-spacing:.2em;color:var(--purL);margin-bottom:1.8rem;font-style:italic}
-.login-req-msg{font-size:.78rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:2rem}
-.login-req-btn{
-  display:inline-block;padding:.9rem 2.4rem;
-  background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));
-  background-size:240% auto;animation:btnShine 4s linear infinite;
-  color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.16em;
-  font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;
-  text-decoration:none;cursor:pointer;box-shadow:0 4px 28px rgba(139,92,246,.38);
-}
+.lreq-inner{text-align:center;max-width:360px}
+.lreq-moon{font-size:3rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(212,175,55,.5))}
+.lreq-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.14em;color:var(--gold);margin-bottom:.4rem}
+.lreq-sub{font-size:.62rem;letter-spacing:.2em;color:var(--purL);margin-bottom:1.8rem;font-style:italic}
+.lreq-msg{font-size:.78rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:2rem}
+.lreq-btn{display:inline-block;padding:.9rem 2.4rem;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;animation:btnShine 4s linear infinite;color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.16em;font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;text-decoration:none;cursor:pointer;box-shadow:0 4px 28px rgba(139,92,246,.38)}
 </style>
 </head>
 <body>
 
 <div id="stars"></div>
-<div class="nb nb1"></div><div class="nb nb2"></div><div class="nb nb3"></div>
+<div class="nb nb1"></div><div class="nb nb2"></div>
 
-<!-- ── Login Required Overlay ── -->
-<div id="screen-login-required">
-  <div class="login-req-inner">
-    <div class="login-req-moon">🌙</div>
-    <p class="login-req-title">月詠み占い</p>
-    <p class="login-req-sub">Checkout</p>
-    <p class="login-req-msg">ご利用にはログインが必要です。</p>
-    <a href="tsukiyomi_unified.html" class="login-req-btn">ログイン・新規登録へ</a>
+<!-- ── Login Required ── -->
+<div id="screen-login-req">
+  <div class="lreq-inner">
+    <div class="lreq-moon">🌙</div>
+    <p class="lreq-title">月詠み占い</p>
+    <p class="lreq-sub">Checkout</p>
+    <p class="lreq-msg">ご利用にはログインが必要です。</p>
+    <a href="tsukiyomi_unified.html" class="lreq-btn">ログイン・新規登録へ</a>
   </div>
 </div>
 
 <!-- ── Success Overlay ── -->
-<div class="success-overlay" id="success-overlay">
+<div class="success-ov" id="success-ov">
   <div class="success-inner">
-    <div class="success-orb" id="success-orb">🌙</div>
+    <div class="success-icon" id="success-icon">🌙</div>
     <p class="success-title">お支払い完了</p>
     <p class="success-sub">鑑定の準備が整いました</p>
     <p class="success-msg" id="success-msg">鑑定を開始します。<br>少々お待ちください…</p>
     <div class="success-spinner" id="success-spinner"></div>
-    <a href="#" class="success-btn" id="success-btn">鑑定結果を見る →</a>
+    <a href="#" class="success-cta" id="success-cta">鑑定結果を見る →</a>
   </div>
 </div>
 
 <!-- ── Main Page ── -->
 <div class="page" id="main-page">
 
-  <!-- Header -->
-  <header class="co-header">
+  <header class="co-hd">
     <button class="co-back" onclick="goBack()">← 戻る</button>
     <span class="co-logo">月詠み占い</span>
   </header>
 
-  <!-- Step Indicator -->
-  <div class="step-row">
+  <!-- Steps -->
+  <div class="steps">
     <div class="step done">占い師選択</div>
     <div class="step-sep">›</div>
     <div class="step done">プラン選択</div>
@@ -395,377 +235,318 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   </div>
 
   <!-- Character Hero -->
-  <div class="char-hero-card">
-    <div class="char-hero-orb" id="char-hero-orb">🌙</div>
-    <div class="char-hero-lbl" id="char-hero-lbl">Onmyoji / 五行思想</div>
-    <div class="char-hero-name" id="char-hero-name">陰陽師ミカゲ</div>
-    <div class="char-hero-sub" id="char-hero-sub">落ち着いた和風口調 ・ 五行思想</div>
+  <div class="char-hero">
+    <div class="char-orb" id="char-orb">🌙</div>
+    <div class="char-lbl" id="char-lbl">Onmyoji / 五行思想</div>
+    <div class="char-name" id="char-name">陰陽師ミカゲ</div>
+    <div class="char-sub" id="char-sub">落ち着いた和風口調 ・ 五行思想</div>
   </div>
 
-  <!-- Plan Confirmation Card -->
+  <!-- Plan Card -->
   <div class="plan-card">
-    <div class="plan-card-top">
-      <span class="plan-badge" id="plan-badge">基本鑑定</span>
-      <div class="plan-price-group">
+    <div class="plan-top">
+      <span class="plan-bdg" id="plan-bdg">基本鑑定</span>
+      <div class="plan-price-box">
         <div class="plan-price" id="plan-price">¥100</div>
-        <div class="plan-price-sub">（税込）</div>
+        <div class="plan-tax">（税込）</div>
       </div>
     </div>
     <div class="plan-name" id="plan-name">月の導き鑑定</div>
-    <div class="plan-divider"></div>
-    <ul class="plan-items" id="plan-items"><!-- JS rendered --></ul>
+    <div class="plan-div"></div>
+    <ul class="plan-items" id="plan-items"></ul>
   </div>
 
   <!-- Order Summary -->
   <div class="order-strip">
-    <div class="order-row">
-      <span class="order-lbl">占い師</span>
-      <span class="order-val" id="order-char">陰陽師ミカゲ</span>
+    <div class="order-row"><span class="ol">占い師</span><span class="ov" id="ord-char">陰陽師ミカゲ</span></div>
+    <div class="order-row"><span class="ol">鑑定プラン</span><span class="ov" id="ord-plan">基本鑑定</span></div>
+    <div class="order-div"></div>
+    <div class="order-row order-total"><span class="ol">お支払い合計</span><span class="order-total-val" id="ord-total">¥100</span></div>
+  </div>
+
+  <!-- Payment -->
+  <div class="pay-hd">
+    <div class="pay-hd-line"></div>
+    <div class="pay-hd-text">お支払い</div>
+    <div class="pay-hd-line"></div>
+  </div>
+  <div class="secure-row">🔒 <span>256bit SSL / Stripe による安全な暗号化決済</span></div>
+
+  <!-- Stripe Payment Element (Mode B) -->
+  <div class="stripe-wrapper" id="stripe-wrapper">
+    <div id="stripe-payment-element"></div>
+    <div class="stripe-error" id="stripe-error"></div>
+  </div>
+
+  <!-- Demo / Fallback Card Form (shown when Stripe not configured) -->
+  <div class="card-form" id="demo-form">
+    <div class="card-mode-note" id="mode-note">
+      <span>💳</span> カード情報を入力してください
     </div>
-    <div class="order-row">
-      <span class="order-lbl">鑑定プラン</span>
-      <span class="order-val" id="order-plan">基本鑑定</span>
-    </div>
-    <div class="order-divider"></div>
-    <div class="order-row order-total">
-      <span class="order-lbl">お支払い合計</span>
-      <span class="order-total-val" id="order-total">¥100</span>
+    <div class="field-group">
+      <div class="field-row">
+        <label class="field-lbl">カード番号</label>
+        <input class="field-inp" id="f-number" type="text" inputmode="numeric"
+          placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+      </div>
+      <div class="field-row-2">
+        <div class="field-row">
+          <label class="field-lbl">有効期限</label>
+          <input class="field-inp" id="f-expiry" type="text" inputmode="numeric"
+            placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+        </div>
+        <div class="field-row">
+          <label class="field-lbl">セキュリティコード</label>
+          <input class="field-inp" id="f-cvc" type="text" inputmode="numeric"
+            placeholder="CVC" maxlength="4" autocomplete="cc-csc">
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="field-lbl">カード名義人</label>
+        <input class="field-inp" id="f-name" type="text"
+          placeholder="TARO YAMADA" autocomplete="cc-name">
+      </div>
     </div>
   </div>
 
-  <!-- Payment Section -->
-  <div class="payment-section">
-    <div class="payment-hd">
-      <div class="payment-hd-line"></div>
-      <div class="payment-hd-text">お支払い</div>
-      <div class="payment-hd-line"></div>
+  <button class="pay-btn" id="pay-btn" onclick="handlePay()">
+    <span id="pay-btn-text">鑑定を受ける</span>
+    <div class="pay-loading" id="pay-loading">
+      <div class="pay-dot"></div><div class="pay-dot"></div><div class="pay-dot"></div>
     </div>
+  </button>
 
-    <div class="secure-badge">
-      <span>🔒</span>
-      <span>256bit SSL / Stripe による安全な暗号化決済</span>
-    </div>
-
-    <!-- Stripe Payment Element (Mode B: inline / requires backend) -->
-    <div class="stripe-wrapper" id="stripe-wrapper" style="display:none">
-      <div id="stripe-payment-element"></div>
-      <div class="stripe-error" id="stripe-error" style="display:none"></div>
-    </div>
-
-    <!-- Setup guidance (shown when Stripe not yet configured) -->
-    <div class="setup-note" id="setup-note" style="display:none">
-      <div class="setup-note-title">⚙ Stripe 設定ガイド</div>
-      <div class="setup-note-body">
-        以下のいずれかの方法でStripeを有効化できます。<br><br>
-        <span class="setup-note-step">Mode A: Payment Links（推奨）</span><br>
-        Stripeダッシュボードで¥100・¥500の<br>
-        Payment Linkを作成 → URLをコードの<br>
-        <code style="color:#C084FC">STRIPE_CONFIG.paymentLinks</code> に設定<br><br>
-        <span class="setup-note-step">Mode B: Payment Element</span><br>
-        公開可能キーとバックエンドAPIを設定
-      </div>
-    </div>
-
-    <button class="pay-btn" id="pay-btn" onclick="handlePay()">
-      <span id="pay-btn-text">鑑定を受ける</span>
-      <div class="pay-loading" id="pay-loading">
-        <div class="pay-dot"></div>
-        <div class="pay-dot"></div>
-        <div class="pay-dot"></div>
-      </div>
-    </button>
-
-    <p class="pay-note">
-      決済はStripeにより安全に処理されます。<br>
-      ご不明な点はカスタマーサポートまでお問い合わせください。
-    </p>
-  </div>
+  <p class="pay-note">
+    決済はStripeにより安全に処理されます。<br>
+    ご不明な点はサポートまでお問い合わせください。
+  </p>
 
 </div><!-- /page -->
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   ▸ STRIPE CONFIGURATION
-   ─────────────────────────────────────────────────────────────
-   【Mode A: Payment Links（バックエンド不要・推奨）】
-     1. Stripe ダッシュボード → 商品 → ¥100・¥500 の
-        Payment Link を作成
-     2. 各リンクの「成功後URL」を以下に設定:
-        https://yoursite.com/tsukiyomi_checkout.html?status=success
-     3. 下の paymentLinks に URL を設定
+/* ═══════════════════════════════════════════════════════
+   STRIPE CONFIGURATION
+   ───────────────────────────────────────────────────────
+   【Mode A: Payment Links（バックエンド不要）】
+     paymentLinks に Stripe ダッシュボードで作成した
+     Payment Link URL を設定してください。
+     成功後URL には ?status=success を設定。
 
    【Mode B: Payment Element（バックエンド必須）】
-     1. publishableKey を設定（pk_test_xxxxx）
-     2. POST /api/create-payment-intent を実装:
-        受信: {amount, currency:'jpy', menu, plan, email}
-        返却: {clientSecret: 'pi_xxx_secret_xxx'}
+     publishableKey を設定し、
+     POST /api/create-payment-intent を実装。
+     返却: { clientSecret: 'pi_xxx_secret_xxx' }
 
-   どちらも未設定の場合はデモモードで動作します。
-   ═══════════════════════════════════════════════════════════════ */
+   【未設定時】
+     デモ用カードフォームで動作確認できます。
+   ═══════════════════════════════════════════════════════ */
 var STRIPE_CONFIG = {
-  /* ── Mode A: Payment Links ──────────────────────── */
   paymentLinks: {
     100: '',   /* 例: 'https://buy.stripe.com/test_xxxxxxxx' */
     500: ''    /* 例: 'https://buy.stripe.com/test_yyyyyyyy' */
   },
-  /* ── Mode B: Payment Element ────────────────────── */
-  publishableKey: '',   /* 例: 'pk_test_xxxxxxxxxxxxxxxx' */
-  apiEndpoint: '/api/create-payment-intent',
-  /* ── 決済後の遷移先 ──────────────────────────────── */
-  resultUrl: 'tsukiyomi_unified.html'
+  publishableKey: '',  /* 例: 'pk_test_xxxxxxxxxxxxxxxx' */
+  apiEndpoint:    '/api/create-payment-intent',
+  resultUrl:      'tsukiyomi_unified.html'
 };
 
-/* ─────────────────────────────────────────
-   CHARACTER DATA
-───────────────────────────────────────── */
+/* ── Character data ── */
 var CHAR_DATA = {
-  personality: {
-    emoji:'🌙', name:'陰陽師ミカゲ',
-    lbl:'Onmyoji / 五行思想', sub:'落ち着いた和風口調 ・ 五行思想',
-    accent:'rgba(139,92,246,1)',
-    accentDim:'rgba(139,92,246,.18)',
-    accentBorder:'rgba(139,92,246,.38)'
-  },
-  monthly: {
-    emoji:'⭐', name:'星読みのおばあちゃん',
-    lbl:'Astrology / 星座占い', sub:'親しみやすく ・ ズバッと直球',
-    accent:'rgba(100,160,230,1)',
-    accentDim:'rgba(100,160,230,.18)',
-    accentBorder:'rgba(100,160,230,.38)'
-  },
-  tarot: {
-    emoji:'🃏', name:'タロット女子ルナ',
-    lbl:'Tarot / 深層心理', sub:'優しく寄り添う ・ タロット',
-    accent:'rgba(220,100,200,1)',
-    accentDim:'rgba(220,100,200,.18)',
-    accentBorder:'rgba(220,100,200,.38)'
-  }
+  personality:{emoji:'🌙',name:'陰陽師ミカゲ',lbl:'Onmyoji / 五行思想',sub:'落ち着いた和風口調 ・ 五行思想',accent:'rgba(139,92,246,1)',dim:'rgba(139,92,246,.18)',border:'rgba(139,92,246,.38)'},
+  monthly:    {emoji:'⭐',name:'星読みのおばあちゃん',lbl:'Astrology / 星座占い',sub:'親しみやすく ・ ズバッと直球',accent:'rgba(100,160,230,1)',dim:'rgba(100,160,230,.18)',border:'rgba(100,160,230,.38)'},
+  tarot:      {emoji:'🃏',name:'タロット女子ルナ',lbl:'Tarot / 深層心理',sub:'優しく寄り添う ・ タロット',accent:'rgba(220,100,200,1)',dim:'rgba(220,100,200,.18)',border:'rgba(220,100,200,.38)'}
 };
 
-/* ─────────────────────────────────────────
-   PLAN DATA
-───────────────────────────────────────── */
+/* ── Plan data ── */
 var PLAN_DATA = {
-  personality: {
-    light: {name:'基本鑑定', items:['基本の性格','人生テーマ','今の運気','開運アドバイス']},
-    deep:  {name:'深読み鑑定', items:['一言診断','基本の性格','裏の性格','隠れた才能','恋愛運','仕事運','魂の課題（人生テーマ）','開運アドバイス']}
+  personality:{
+    light:{name:'基本鑑定',items:['基本の性格','人生テーマ','今の運気','開運アドバイス']},
+    deep: {name:'深読み鑑定',items:['一言診断','基本の性格','裏の性格','隠れた才能','恋愛運','仕事運','魂の課題（人生テーマ）','開運アドバイス']}
   },
-  monthly: {
-    light: {name:'基本鑑定', items:['今月の流れ','強運日 詳細','注意日の過ごし方','開運アドバイス']},
-    deep:  {name:'深読み鑑定', items:['今月の流れ','強運日・注意日の全詳細','転機の日付ズバリ','今月行動すべきこと','来月の動き方','おばあちゃんからのメッセージ']}
+  monthly:{
+    light:{name:'基本鑑定',items:['今月の流れ','強運日 詳細','注意日の過ごし方','開運アドバイス']},
+    deep: {name:'深読み鑑定',items:['今月の流れ','強運日・注意日の全詳細','転機の日付ズバリ','今月行動すべきこと','来月の動き方','おばあちゃんからのメッセージ']}
   },
-  tarot: {
-    light: {name:'基本鑑定', items:['今日の運勢','今の現状','相手の感情','開運アドバイス']},
-    deep:  {name:'深読み鑑定', items:['今の現状','問題の本質','相手の感情','未来の流れ','1ヶ月以内の転機','やるべき行動 / NG行動','ルナからのメッセージ']}
+  tarot:{
+    light:{name:'基本鑑定',items:['今日の運勢','今の現状','相手の感情','開運アドバイス']},
+    deep: {name:'深読み鑑定',items:['今の現状','問題の本質','相手の感情','未来の流れ','1ヶ月以内の転機','やるべき行動 / NG行動','ルナからのメッセージ']}
   }
 };
 
-/* ─────────────────────────────────────────
-   AUTH HELPERS
-───────────────────────────────────────── */
-function getAuth(){
-  try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}
-}
-function fadeToPage(url){
-  document.body.classList.add('page-out');
-  setTimeout(function(){window.location.href=url;},380);
-}
+/* ── State ── */
+var _mk='personality', _pk='light', _price=100;
+var _stripe=null, _elements=null, _mode='none';
 
-/* ─────────────────────────────────────────
-   STARS
-───────────────────────────────────────── */
+/* ── Auth ── */
+function getAuth(){try{return JSON.parse(localStorage.getItem('tsukiyomi_auth'));}catch(e){return null;}}
+function fadeToPage(url){document.body.classList.add('page-out');setTimeout(function(){window.location.href=url;},320);}
+
+/* ── Stars ── */
 function buildStars(){
   var c=document.getElementById('stars');
-  for(var i=0;i<110;i++){
+  for(var i=0;i<90;i++){
     var s=document.createElement('div');s.className='star';
-    var sz=(Math.random()*2.2+0.3).toFixed(2);
-    s.style.cssText=[
-      'width:'+sz+'px','height:'+sz+'px',
-      'left:'+(Math.random()*100).toFixed(2)+'%',
-      'top:'+(Math.random()*100).toFixed(2)+'%',
-      'animation-duration:'+(Math.random()*6+2).toFixed(2)+'s',
-      'animation-delay:-'+(Math.random()*7).toFixed(2)+'s'
-    ].join(';');
+    var sz=(Math.random()*2.1+0.3).toFixed(2);
+    s.style.cssText=['width:'+sz+'px','height:'+sz+'px','left:'+(Math.random()*100).toFixed(2)+'%','top:'+(Math.random()*100).toFixed(2)+'%','animation-duration:'+(Math.random()*6+2).toFixed(2)+'s','animation-delay:-'+(Math.random()*7).toFixed(2)+'s'].join(';');
     c.appendChild(s);
   }
 }
 
-/* ─────────────────────────────────────────
-   STATE
-───────────────────────────────────────── */
-var _menuKey  = 'personality';
-var _planKey  = 'light';
-var _charData = null;
-var _planInfo = null;
-var _price    = 100;
-var _stripe   = null;
-var _elements = null;
-var _mode     = 'none'; // 'link' | 'element' | 'none'
+/* ── Render ── */
+function renderPage(mk, pk){
+  _mk=mk||'personality'; _pk=pk||'light';
+  var c=CHAR_DATA[_mk]||CHAR_DATA.personality;
+  var p=(PLAN_DATA[_mk]||{})[_pk]||PLAN_DATA.personality.light;
+  _price=_pk==='deep'?500:100;
 
-/* ─────────────────────────────────────────
-   RENDER UI
-───────────────────────────────────────── */
-function renderPage(menuKey, planKey){
-  _menuKey  = menuKey  || 'personality';
-  _planKey  = planKey  || 'light';
-  _charData = CHAR_DATA[_menuKey]  || CHAR_DATA.personality;
-  _planInfo = (PLAN_DATA[_menuKey] || {})[_planKey] || PLAN_DATA.personality.light;
-  _price    = _planKey === 'deep' ? 500 : 100;
+  var r=document.documentElement;
+  r.style.setProperty('--char-accent',c.accent);
+  r.style.setProperty('--char-accent-dim',c.dim);
+  r.style.setProperty('--char-accent-border',c.border);
 
-  /* apply character accent colors */
-  var r = document.documentElement;
-  r.style.setProperty('--char-accent',        _charData.accent);
-  r.style.setProperty('--char-accent-dim',    _charData.accentDim);
-  r.style.setProperty('--char-accent-border', _charData.accentBorder);
+  document.getElementById('char-orb').textContent = c.emoji;
+  document.getElementById('char-lbl').textContent  = c.lbl;
+  document.getElementById('char-name').textContent = c.name;
+  document.getElementById('char-sub').textContent  = c.sub;
 
-  /* character hero */
-  document.getElementById('char-hero-orb').textContent  = _charData.emoji;
-  document.getElementById('char-hero-lbl').textContent  = _charData.lbl;
-  document.getElementById('char-hero-name').textContent = _charData.name;
-  document.getElementById('char-hero-sub').textContent  = _charData.sub;
-
-  /* plan card */
-  document.getElementById('plan-badge').textContent = _planKey==='deep'?'深読み鑑定':'基本鑑定';
+  document.getElementById('plan-bdg').textContent   = _pk==='deep'?'深読み鑑定':'基本鑑定';
   document.getElementById('plan-price').textContent = '¥'+_price;
-  document.getElementById('plan-name').textContent  = _planInfo.name;
-  document.getElementById('plan-items').innerHTML   = _planInfo.items.map(function(item){
-    return '<li><span class="plan-item-check">✓</span><span>'+item+'</span></li>';
-  }).join('');
+  document.getElementById('plan-name').textContent  = p.name;
+  document.getElementById('plan-items').innerHTML   = p.items.map(function(i){return '<li><span class="item-chk">✓</span><span>'+i+'</span></li>';}).join('');
 
-  /* order summary */
-  document.getElementById('order-char').textContent  = _charData.name;
-  document.getElementById('order-plan').textContent  = _planInfo.name;
-  document.getElementById('order-total').textContent = '¥'+_price;
+  document.getElementById('ord-char').textContent  = c.name;
+  document.getElementById('ord-plan').textContent  = p.name;
+  document.getElementById('ord-total').textContent = '¥'+_price;
 
-  /* success orb */
-  document.getElementById('success-orb').textContent = _charData.emoji;
+  document.getElementById('success-icon').textContent = c.emoji;
 }
 
-/* ─────────────────────────────────────────
-   STRIPE INIT
-───────────────────────────────────────── */
+/* ── Stripe init ── */
 function initStripe(){
-  var hasLinks = !!(STRIPE_CONFIG.paymentLinks[_price]);
-  var hasKey   = !!(STRIPE_CONFIG.publishableKey);
+  var hasLink = !!(STRIPE_CONFIG.paymentLinks[_price]);
+  var hasKey  = !!(STRIPE_CONFIG.publishableKey);
 
-  if(hasLinks){
-    _mode = 'link';
-  } else if(hasKey){
-    _mode = 'element';
-    _stripe = Stripe(STRIPE_CONFIG.publishableKey);
+  if(hasLink){
+    _mode='link';
+    document.getElementById('demo-form').style.display='none'; /* hide card form, use redirect */
+
+  } else if(hasKey && typeof Stripe!=='undefined'){
+    _mode='element';
+    document.getElementById('demo-form').style.display='none';
+    document.getElementById('stripe-wrapper').style.display='block';
     fetchPaymentIntent();
+
   } else {
-    _mode = 'none';
-    document.getElementById('setup-note').style.display='block';
+    _mode='demo';
+    /* show demo card form with test note */
+    document.getElementById('mode-note').innerHTML =
+      '<span style="color:rgba(139,92,246,.7)">🧪 デモモード</span>　' +
+      'テスト番号: <span style="color:rgba(212,175,55,.8)">4242 4242 4242 4242</span>　有効期限は未来の日付、CVCは任意';
+    setupCardInputFormatting();
   }
 }
 
-function fetchPaymentIntent(){
-  var btn = document.getElementById('pay-btn');
-  btn.disabled = true;
-  document.getElementById('pay-btn-text').textContent = '決済を準備中…';
+/* ── Card input auto-formatting ── */
+function setupCardInputFormatting(){
+  var num=document.getElementById('f-number');
+  var exp=document.getElementById('f-expiry');
+  var cvc=document.getElementById('f-cvc');
 
-  var auth = getAuth();
+  num.addEventListener('input',function(){
+    var v=this.value.replace(/\D/g,'').slice(0,16);
+    this.value=v.replace(/(.{4})/g,'$1 ').trim();
+  });
+  exp.addEventListener('input',function(){
+    var v=this.value.replace(/\D/g,'').slice(0,4);
+    if(v.length>=2) v=v.slice(0,2)+' / '+v.slice(2);
+    this.value=v;
+  });
+  cvc.addEventListener('input',function(){
+    this.value=this.value.replace(/\D/g,'').slice(0,4);
+  });
+}
+
+/* ── Fetch PaymentIntent (Mode B) ── */
+function fetchPaymentIntent(){
+  var btn=document.getElementById('pay-btn');
+  btn.disabled=true;
+  document.getElementById('pay-btn-text').textContent='決済を準備中…';
+  var auth=getAuth();
   fetch(STRIPE_CONFIG.apiEndpoint,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      amount: _price,
-      currency: 'jpy',
-      menu: _menuKey,
-      plan: _planKey,
-      email: auth ? (auth.email||'') : ''
-    })
-  })
-  .then(function(r){return r.json();})
+    body:JSON.stringify({amount:_price,currency:'jpy',menu:_mk,plan:_pk,email:auth?auth.email:''})
+  }).then(function(r){return r.json();})
   .then(function(data){
     if(!data.clientSecret) throw new Error('no clientSecret');
-    _elements = _stripe.elements({
-      clientSecret: data.clientSecret,
-      appearance:{
-        theme:'night',
-        variables:{
-          colorPrimary:'#8B5CF6',
-          colorBackground:'#0D0A20',
-          colorText:'#E8EAF6',
-          colorTextSecondary:'#8890B8',
-          colorDanger:'#F87171',
-          fontFamily:'"Noto Serif JP",serif',
-          spacingUnit:'5px',
-          borderRadius:'10px'
-        },
-        rules:{
-          '.Input':{border:'1px solid rgba(139,92,246,.22)',backgroundColor:'rgba(139,92,246,.04)'},
-          '.Input:focus':{border:'1px solid rgba(139,92,246,.55)',boxShadow:'0 0 0 2px rgba(139,92,246,.14)'},
-          '.Label':{color:'#8890B8',fontSize:'.72rem',letterSpacing:'.08em'},
-          '.Tab':{border:'1px solid rgba(139,92,246,.18)',backgroundColor:'rgba(139,92,246,.04)'},
-          '.Tab--selected':{border:'1px solid rgba(139,92,246,.5)',backgroundColor:'rgba(139,92,246,.1)'}
-        }
-      }
+    _elements=_stripe.elements({
+      clientSecret:data.clientSecret,
+      appearance:{theme:'night',variables:{colorPrimary:'#8B5CF6',colorBackground:'#0D0A20',colorText:'#E8EAF6',colorTextSecondary:'#8890B8',colorDanger:'#F87171',fontFamily:'"Noto Serif JP",serif',borderRadius:'10px'},
+        rules:{'.Input':{border:'1px solid rgba(139,92,246,.22)',backgroundColor:'rgba(139,92,246,.04)'},'.Input:focus':{border:'1px solid rgba(139,92,246,.55)',boxShadow:'0 0 0 2px rgba(139,92,246,.14)'},'.Label':{color:'#8890B8',fontSize:'.72rem'}}}
     });
     _elements.create('payment').mount('#stripe-payment-element');
-    document.getElementById('stripe-wrapper').style.display='block';
     btn.disabled=false;
     document.getElementById('pay-btn-text').textContent='鑑定を受ける';
-  })
-  .catch(function(err){
-    console.error('PaymentIntent error:',err);
-    showStripeError('決済の準備に失敗しました。もう一度お試しください。');
+  }).catch(function(){
+    showStripeError('決済の準備に失敗しました。再度お試しください。');
     btn.disabled=false;
     document.getElementById('pay-btn-text').textContent='鑑定を受ける';
   });
 }
 
-/* ─────────────────────────────────────────
-   PAYMENT HANDLER
-───────────────────────────────────────── */
+/* ── Handle Pay ── */
 function handlePay(){
   if(_mode==='link'){
-    var link = STRIPE_CONFIG.paymentLinks[_price];
+    var link=STRIPE_CONFIG.paymentLinks[_price];
     if(!link) return;
-    localStorage.setItem('tsukiyomi_checkout_pending',JSON.stringify({menu:_menuKey,plan:_planKey}));
-    setPayLoading(true);
-    setTimeout(function(){window.location.href=link;},320);
+    localStorage.setItem('tsukiyomi_checkout_pending',JSON.stringify({menu:_mk,plan:_pk}));
+    setBusy(true);
+    setTimeout(function(){window.location.href=link;},300);
 
   } else if(_mode==='element'){
     if(!_stripe||!_elements) return;
-    setPayLoading(true);
-    _stripe.confirmPayment({
-      elements:_elements,
-      confirmParams:{
-        return_url: location.origin+location.pathname+'?status=success&menu='+_menuKey+'&plan='+_planKey
-      }
-    }).then(function(result){
-      setPayLoading(false);
-      if(result.error) showStripeError(result.error.message);
-      /* on success Stripe redirects automatically */
-    });
+    setBusy(true);
+    _stripe.confirmPayment({elements:_elements,confirmParams:{return_url:location.origin+location.pathname+'?status=success&menu='+_mk+'&plan='+_pk}})
+    .then(function(r){setBusy(false);if(r.error)showStripeError(r.error.message);});
 
   } else {
-    /* demo mode — show success without real payment */
-    setPayLoading(true);
-    setTimeout(function(){setPayLoading(false);showSuccess();},1400);
+    /* demo: validate then simulate */
+    if(!validateDemoForm()) return;
+    setBusy(true);
+    setTimeout(function(){setBusy(false);showSuccess();},1600);
   }
 }
 
-/* ─────────────────────────────────────────
-   SUCCESS
-───────────────────────────────────────── */
+/* ── Demo form validation ── */
+function validateDemoForm(){
+  var num=document.getElementById('f-number').value.replace(/\s/g,'');
+  var exp=document.getElementById('f-expiry').value;
+  var cvc=document.getElementById('f-cvc').value;
+  var name=document.getElementById('f-name').value.trim();
+  var ok=true;
+  function mark(id,valid){document.getElementById(id).classList.toggle('has-error',!valid);}
+  mark('f-number', num.length===16);
+  mark('f-expiry', exp.length>=4);
+  mark('f-cvc',    cvc.length>=3);
+  mark('f-name',   name.length>0);
+  if(num.length!==16||exp.length<4||cvc.length<3||!name){ok=false;}
+  return ok;
+}
+
+/* ── Success ── */
 function showSuccess(){
-  document.getElementById('success-overlay').classList.add('show');
+  document.getElementById('success-ov').classList.add('show');
   setTimeout(function(){
     document.getElementById('success-spinner').style.display='none';
     document.getElementById('success-msg').style.display='none';
-    var btn=document.getElementById('success-btn');
-    btn.href=STRIPE_CONFIG.resultUrl+'?menu='+_menuKey+'&plan='+_planKey;
-    btn.style.display='inline-block';
-  },2200);
+    var cta=document.getElementById('success-cta');
+    cta.href=STRIPE_CONFIG.resultUrl+'?menu='+_mk+'&plan='+_pk;
+    cta.style.display='inline-block';
+  },2000);
 }
 
-/* ─────────────────────────────────────────
-   HELPERS
-───────────────────────────────────────── */
-function setPayLoading(on){
+/* ── Helpers ── */
+function setBusy(on){
   var btn=document.getElementById('pay-btn');
   btn.disabled=on;
   document.getElementById('pay-btn-text').style.display=on?'none':'inline';
@@ -773,42 +554,33 @@ function setPayLoading(on){
 }
 function showStripeError(msg){
   var el=document.getElementById('stripe-error');
-  el.textContent=msg; el.style.display='block';
-  setTimeout(function(){el.style.display='none';},6000);
+  el.textContent=msg;el.style.display='block';
+  setTimeout(function(){el.style.display='none';},5000);
 }
 function goBack(){fadeToPage('tsukiyomi_mypage.html');}
 
-/* ─────────────────────────────────────────
-   INIT
-───────────────────────────────────────── */
+/* ── Init ── */
 (function init(){
   buildStars();
 
-  /* auth check */
   var auth=getAuth();
   if(!auth||!auth.token){
-    document.getElementById('screen-login-required').style.display='flex';
+    document.getElementById('screen-login-req').style.display='flex';
     document.getElementById('main-page').style.display='none';
     return;
   }
 
-  var params  = new URLSearchParams(window.location.search);
-  var status  = params.get('status');
+  var p=new URLSearchParams(window.location.search);
 
-  /* ── success redirect from Stripe ── */
-  if(status==='success'){
-    var pending={};
-    try{pending=JSON.parse(localStorage.getItem('tsukiyomi_checkout_pending')||'{}');}catch(e){}
-    var mk=params.get('menu')||pending.menu||'personality';
-    var pk=params.get('plan')||pending.plan||'light';
-    renderPage(mk,pk);
+  if(p.get('status')==='success'){
+    var pend={};try{pend=JSON.parse(localStorage.getItem('tsukiyomi_checkout_pending')||'{}');}catch(e){}
+    renderPage(p.get('menu')||pend.menu||'personality', p.get('plan')||pend.plan||'light');
     localStorage.removeItem('tsukiyomi_checkout_pending');
     showSuccess();
     return;
   }
 
-  /* ── normal render ── */
-  renderPage(params.get('menu')||'personality', params.get('plan')||'light');
+  renderPage(p.get('menu')||'personality', p.get('plan')||'light');
   initStripe();
 })();
 </script>
