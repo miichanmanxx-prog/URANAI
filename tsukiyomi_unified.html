@@ -114,7 +114,9 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .cc-check{position:absolute;top:.85rem;right:.9rem;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.2);color:transparent;display:flex;align-items:center;justify-content:center;font-size:.65rem;background:rgba(7,9,26,.6);transition:all .35s;z-index:2}
 .char-card.sel .cc-check{background:var(--gold);border-color:var(--gold);color:#06080F;font-size:.75rem}
 .cc-body{padding:1.6rem 1.4rem 1.4rem;position:relative;z-index:1}
-.cc-emoji{font-size:2.8rem;display:block;margin-bottom:.8rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));animation:flt 4s ease-in-out infinite}
+.cc-emoji{display:block;width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto .8rem;animation:flt 4s ease-in-out infinite;flex-shrink:0}
+.cc-emoji img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12);transition:transform .3s ease}
+.char-card:hover .cc-emoji img{transform:scale(1.2)}
 .char-card:nth-child(2) .cc-emoji{animation-delay:.6s}.char-card:nth-child(3) .cc-emoji{animation-delay:1.2s}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .cc-tag{font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;font-style:italic;margin-bottom:.38rem;opacity:.75}
@@ -135,7 +137,8 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .step-conn{flex:1;height:1px;background:rgba(212,175,55,.14);margin:-1.1rem 0 0;max-width:44px}
 /* FORM PARTS */
 .char-banner{display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;border-radius:14px;border:1px solid rgba(212,175,55,.22);background:rgba(212,175,55,.05);margin-bottom:1.4rem;backdrop-filter:blur(10px);width:100%;max-width:480px}
-.ban-emo{font-size:2rem;flex-shrink:0}.ban-body{flex:1;min-width:0}
+.ban-emo{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.ban-emo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)}.ban-body{flex:1;min-width:0}
 .ban-sub{font-family:'Playfair Display',serif;font-size:.6rem;letter-spacing:.2em;color:var(--purL);font-style:italic;margin-bottom:.2rem;opacity:.8}
 .ban-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);letter-spacing:.06em}
 .ban-style{font-size:.66rem;color:var(--muted);margin-top:.18rem}
@@ -535,7 +538,8 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
 /* ── 共通バナー（glassmorphism premium） ── */
 .mk-banner{width:100%;max-width:540px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.4rem;position:relative;overflow:hidden}
-.mk-banner-ava{font-size:2.4rem;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
+.mk-banner-ava{width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
+.mk-banner-ava img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)}
 .mk-banner-info{flex:1;min-width:0}
 .mk-banner-lbl{font-family:'Playfair Display',serif;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:.28rem;font-style:italic}
 .mk-banner-name{font-family:'Cormorant Garamond',serif;font-size:1.22rem;color:#E8EAF6;letter-spacing:.08em;line-height:1.2;margin-bottom:.22rem}
@@ -753,7 +757,7 @@ body.page-out{opacity:0 !important}
          style="background:linear-gradient(150deg,#1A2450,#0D1130);border:1px solid rgba(139,164,232,.22);border-radius:22px;padding:1.8rem 1.6rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;-webkit-tap-highlight-color:transparent">
       <!-- 上部: キャラアイコン＋名前 中央配置 -->
       <div style="text-align:center;margin-bottom:1.2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(139,164,232,.28),rgba(26,36,80,.9));border:2px solid rgba(139,164,232,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto .75rem;box-shadow:0 0 28px rgba(139,164,232,.3);animation:breathe 4s ease-in-out infinite">🌙</div>
+        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(139,164,232,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(139,164,232,.3);animation:breathe 4s ease-in-out infinite"><img src="mikage.png" alt="陰陽師ミカゲ" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
         <p style="font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:#8BA4E8;text-transform:uppercase;font-style:italic;margin-bottom:.3rem;opacity:.8">Onmyoji / 五行思想</p>
         <!-- キャラ名 大きく -->
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">陰陽師ミカゲ</h3>
@@ -774,7 +778,7 @@ body.page-out{opacity:0 !important}
     <div class="fcard" data-m="monthly" onclick="selMenu(this,'monthly')"
          style="background:linear-gradient(150deg,#3A2A5A,#1A1030);border:1px solid rgba(212,160,255,.22);border-radius:22px;padding:1.8rem 1.6rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;-webkit-tap-highlight-color:transparent">
       <div style="text-align:center;margin-bottom:1.2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(212,160,255,.28),rgba(58,42,90,.9));border:2px solid rgba(212,160,255,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s">⭐</div>
+        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(212,160,255,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s"><img src="hoshiyomi_baba.png" alt="星読みのおばちゃん" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
         <p style="font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:#D4A0FF;text-transform:uppercase;font-style:italic;margin-bottom:.3rem;opacity:.8">Astrology / 星座占い</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">星読みのおばちゃん</h3>
         <p style="font-size:.65rem;color:#D4A0FF;letter-spacing:.06em;opacity:.85">親しみやすく ・ ズバッと直球</p>
@@ -795,7 +799,7 @@ body.page-out{opacity:0 !important}
     <div class="fcard" data-m="tarot" onclick="selMenu(this,'tarot')"
          style="background:linear-gradient(150deg,#1E3A4A,#0A1820);border:1px solid rgba(112,212,200,.22);border-radius:22px;padding:1.8rem 1.6rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;-webkit-tap-highlight-color:transparent">
       <div style="text-align:center;margin-bottom:1.2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(112,212,200,.28),rgba(30,58,74,.9));border:2px solid rgba(112,212,200,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto .75rem;box-shadow:0 0 28px rgba(112,212,200,.3);animation:breathe 4s ease-in-out infinite;animation-delay:1.1s">🃏</div>
+        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(112,212,200,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(112,212,200,.3);animation:breathe 4s ease-in-out infinite;animation-delay:1.1s"><img src="luna_tarot.png" alt="タロット女子ルナ" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
         <p style="font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:#70D4C8;text-transform:uppercase;font-style:italic;margin-bottom:.3rem;opacity:.8">Tarot / 深層心理</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">タロット女子ルナ</h3>
         <p style="font-size:.65rem;color:#70D4C8;letter-spacing:.06em;opacity:.85">優しく寄り添う ・ タロット</p>
@@ -904,7 +908,7 @@ body.page-out{opacity:0 !important}
     <div class="char-card" data-c="mikage" onclick="selChar('mikage')">
       <div class="cc-check">✓</div>
       <div class="cc-body">
-        <span class="cc-emoji">🌙</span><p class="cc-tag">Onmyoji / 五行思想</p>
+        <span class="cc-emoji"><img src="mikage.png" alt="陰陽師ミカゲ"></span><p class="cc-tag">Onmyoji / 五行思想</p>
         <h3 class="cc-name">陰陽師ミカゲ</h3>
         <p class="cc-desc">五行と天体の流れを読み、宿命と今後の道筋を厳かに鑑定します。古の智慧で心の闇も照らします。</p>
         <div class="cc-prices"><div class="ppill"><span class="ppill-l">基本</span><span class="ppill-v">100</span><span class="ppill-y">円</span></div><div class="ppill"><span class="ppill-l">詳細</span><span class="ppill-v">500</span><span class="ppill-y">円</span></div></div>
@@ -913,7 +917,7 @@ body.page-out{opacity:0 !important}
     <div class="char-card" data-c="oba" onclick="selChar('oba')">
       <div class="cc-check">✓</div>
       <div class="cc-body">
-        <span class="cc-emoji">⭐</span><p class="cc-tag">Astrology / 星座占い</p>
+        <span class="cc-emoji"><img src="hoshiyomi_baba.png" alt="星読みのおばちゃん"></span><p class="cc-tag">Astrology / 星座占い</p>
         <h3 class="cc-name">星読みのおばちゃん</h3>
         <p class="cc-desc">ズバッと本音を言うで！星の動きはうそつかへん。あなたの悩み、ちゃんと受け止めるわ。</p>
         <div class="cc-prices"><div class="ppill"><span class="ppill-l">基本</span><span class="ppill-v">100</span><span class="ppill-y">円</span></div><div class="ppill"><span class="ppill-l">詳細</span><span class="ppill-v">300</span><span class="ppill-y">円</span></div></div>
@@ -922,7 +926,7 @@ body.page-out{opacity:0 !important}
     <div class="char-card" data-c="luna" onclick="selChar('luna')">
       <div class="cc-check">✓</div>
       <div class="cc-body">
-        <span class="cc-emoji">🃏</span><p class="cc-tag">Tarot / 深層心理</p>
+        <span class="cc-emoji"><img src="luna_tarot.png" alt="タロット女子ルナ"></span><p class="cc-tag">Tarot / 深層心理</p>
         <h3 class="cc-name">タロット女子ルナ</h3>
         <p class="cc-desc">カードが映し出す、あなたの心の奥の声。一緒に読み解きながら最善の道を見つけましょう。</p>
         <div class="cc-prices"><div class="ppill"><span class="ppill-l">基本</span><span class="ppill-v">300</span><span class="ppill-y">円</span></div><div class="ppill"><span class="ppill-l">詳細</span><span class="ppill-v">800</span><span class="ppill-y">円</span></div></div>
@@ -934,7 +938,7 @@ body.page-out{opacity:0 !important}
 <!-- STAGE 3: FORM -->
 <section id="scr-form" class="stage hidden" style="padding-top:5.5rem">
   <div class="char-banner hidden" id="char-banner">
-    <span class="ban-emo" id="ban-emo">🌙</span>
+    <span class="ban-emo" id="ban-emo"><img id="ban-emo-img" src="mikage.png" alt=""></span>
     <div class="ban-body">
       <p class="ban-sub">選択中の鑑定師</p>
       <p class="ban-name" id="ban-name">陰陽師ミカゲ</p>
@@ -1242,7 +1246,7 @@ var LUNA_CARDS=[
    advice:'今月のあなたには、遠慮なく全てを受け取ってください。それだけのものを、あなたはすでに積み重ねています。',
    love:5,work:5,money:5}
 ];
-var CHARS={mikage:{e:'🌙',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',n:'星読みのおばちゃん',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
+var CHARS={mikage:{e:'🌙',img:'mikage.png',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',img:'hoshiyomi_baba.png',n:'星読みのおばちゃん',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',img:'luna_tarot.png',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
 var MENU_META={personality:{ico:'🌙',lbl:'あなたの本当の性格'},monthly:{ico:'✨',lbl:'今月、何が起きるか'},tarot:{ico:'🃏',lbl:'こころの本音'}};
 var MOON_ICONS=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
 var DOWS=['日','月','火','水','木','金','土'];
@@ -1354,7 +1358,7 @@ function selChar(key){
   ST.charKey=key;ST.planId=null;
   document.querySelectorAll('.char-card').forEach(function(c){c.classList.toggle('sel',c.dataset.c===key)});
   var ch=CHARS[key];
-  document.getElementById('ban-emo').textContent=ch.e;document.getElementById('ban-name').textContent=ch.n;document.getElementById('ban-style').textContent=ch.s;
+  var bImg=document.getElementById('ban-emo-img');if(bImg)bImg.src=ch.img;document.getElementById('ban-name').textContent=ch.n;document.getElementById('ban-style').textContent=ch.s;
   var pc=document.getElementById('plan-cards');
   pc.innerHTML=ch.plans.map(function(p){return'<div class="plan-card" data-p="'+p.id+'" onclick="selPlan(this,\''+p.id+'\')"><div class="plan-radio"></div><div class="plan-info"><p class="plan-nm">'+p.n+'</p><p class="plan-ds">'+p.d+'</p></div><div style="text-align:right;flex-shrink:0"><p class="plan-price">'+p.p+'<span class="plan-yen">円</span></p>'+(p.b?'<span class="plan-badge">'+p.b+'</span>':'')+' </div></div>'}).join('');
   document.getElementById('menu-banner').classList.add('hidden');document.getElementById('char-banner').classList.remove('hidden');document.getElementById('fg-consult').classList.remove('hidden');document.getElementById('fg-plan').classList.remove('hidden');
@@ -1666,7 +1670,7 @@ function drawP(){
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
   var pat=MIKAGE_PATTERNS[seed%20];
-  var banner=mkBanner('🌙','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
+  var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
 
   /* ── トップビジュアル */
   var topVisual=
@@ -1970,7 +1974,7 @@ function drawM(){
   var ld1=(seed%12)+5; if(ld1>dm)ld1=dm-3;
   var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
-  var banner=mkBanner('⭐','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
+  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
@@ -2094,7 +2098,7 @@ function drawT(){
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
   ST._lunaCard=seed%22;
-  var banner=mkBanner('\U0001f0cf','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
@@ -2117,7 +2121,7 @@ function drawTR(idx){
   var tc=LUNA_CARDS[idx];
   var lv=LUNA_LOVE[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
-  var banner=mkBanner('\U0001f0cf','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
   var kwHtml=tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
   var cardVis=
     '<div class="luna-card-visual mk-scroll-fade">'+
@@ -2496,11 +2500,11 @@ function doLogin(){
   showErr('メールアドレスまたはパスワードが正しくありません');
 }
 
-function mkBanner(emoji,color,bg,label,charName,sub){
+function mkBanner(imgSrc,color,bg,label,charName,sub){
   var ac=color.replace('1)','0.28)'),acG=color.replace('1)','0.13)'),acA=color.replace('1)','0.38)');
   return '<div class="mk-banner" style="background:'+bg+';border:1px solid '+ac+'">'+
     '<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,'+acG+',transparent 65%);pointer-events:none"></div>'+
-    '<div class="mk-banner-ava" style="background:'+bg+';border:1px solid '+acA+';filter:drop-shadow(0 0 14px '+acG+')">'+emoji+'</div>'+
+    '<div class="mk-banner-ava" style="border:1px solid '+acA+';box-shadow:0 0 14px '+acG+'"><img src="'+imgSrc+'" alt="'+charName+'" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>'+
     '<div class="mk-banner-info">'+
       '<p class="mk-banner-lbl" style="color:'+color+'">'+label+'</p>'+
       '<p class="mk-banner-name">'+charName+'</p>'+
