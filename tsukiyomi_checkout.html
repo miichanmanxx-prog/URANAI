@@ -63,11 +63,13 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
   box-shadow:0 16px 52px rgba(0,0,0,.5),0 0 40px var(--char-accent-dim);
   padding:2.2rem 1.8rem 1.8rem;text-align:center;margin-bottom:1.1rem}
 .char-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--char-accent),transparent);opacity:.7}
-.char-orb{width:72px;height:72px;border-radius:50%;margin:0 auto .75rem;
-  background:radial-gradient(circle at 35% 30%,var(--char-accent-dim),transparent 70%);
-  border:1.5px solid var(--char-accent-border);
-  display:flex;align-items:center;justify-content:center;font-size:2rem;
-  animation:float 4s ease-in-out infinite;box-shadow:0 0 28px var(--char-accent-dim)}
+.char-orb{width:80px;height:80px;border-radius:50%;margin:0 auto .85rem;
+  overflow:hidden;position:relative;
+  border:2px solid var(--char-accent-border);
+  animation:float 4s ease-in-out infinite;
+  box-shadow:0 0 28px var(--char-accent-dim),0 0 10px var(--char-accent-dim),inset 0 0 10px rgba(0,0,0,.3);
+  transition:box-shadow .3s ease,border-color .3s ease}
+.char-orb-img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;border-radius:50%}
 .char-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.24em;font-style:italic;color:var(--char-accent);opacity:.8;text-transform:uppercase;margin-bottom:.28rem}
 .char-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:rgba(225,218,250,.96);letter-spacing:.08em;margin-bottom:.3rem}
 .char-sub{font-size:.67rem;color:var(--muted);letter-spacing:.1em;font-style:italic}
@@ -160,7 +162,10 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 }
 .success-ov.show{opacity:1;pointer-events:auto}
 .success-inner{text-align:center;max-width:360px;animation:successIn .5s ease}
-.success-icon{font-size:3.5rem;margin-bottom:1.1rem;animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(212,175,55,.55))}
+.success-icon{width:88px;height:88px;border-radius:50%;overflow:hidden;margin:0 auto 1.1rem;animation:float 3.5s ease-in-out infinite;
+  border:2px solid rgba(212,175,55,.55);
+  box-shadow:0 0 32px rgba(212,175,55,.45),0 0 12px rgba(212,175,55,.3)}
+.success-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
 .success-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;letter-spacing:.18em;color:var(--gold);margin-bottom:.35rem}
 .success-sub{font-size:.67rem;letter-spacing:.18em;color:var(--purL);font-style:italic;margin-bottom:1.6rem}
 .success-msg{font-size:.76rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:1.4rem}
@@ -208,7 +213,7 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 <!-- ── Success Overlay ── -->
 <div class="success-ov" id="success-ov">
   <div class="success-inner">
-    <div class="success-icon" id="success-icon">🌙</div>
+    <div class="success-icon" id="success-icon"><img src="mikage.png" alt="" id="success-icon-img"></div>
     <p class="success-title">お支払い完了</p>
     <p class="success-sub">鑑定の準備が整いました</p>
     <p class="success-msg" id="success-msg">鑑定を開始します。<br>少々お待ちください…</p>
@@ -236,7 +241,7 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 
   <!-- Character Hero -->
   <div class="char-hero">
-    <div class="char-orb" id="char-orb">🌙</div>
+    <div class="char-orb" id="char-orb"><img src="mikage.png" alt="" class="char-orb-img" id="char-orb-img"></div>
     <div class="char-lbl" id="char-lbl">Onmyoji / 五行思想</div>
     <div class="char-name" id="char-name">陰陽師ミカゲ</div>
     <div class="char-sub" id="char-sub">落ち着いた和風口調 ・ 五行思想</div>
@@ -352,9 +357,9 @@ var STRIPE_CONFIG = {
 
 /* ── Character data ── */
 var CHAR_DATA = {
-  personality:{emoji:'🌙',name:'陰陽師ミカゲ',lbl:'Onmyoji / 五行思想',sub:'落ち着いた和風口調 ・ 五行思想',accent:'rgba(139,92,246,1)',dim:'rgba(139,92,246,.18)',border:'rgba(139,92,246,.38)'},
-  monthly:    {emoji:'⭐',name:'星読みのおばあちゃん',lbl:'Astrology / 星座占い',sub:'親しみやすく ・ ズバッと直球',accent:'rgba(100,160,230,1)',dim:'rgba(100,160,230,.18)',border:'rgba(100,160,230,.38)'},
-  tarot:      {emoji:'🃏',name:'タロット女子ルナ',lbl:'Tarot / 深層心理',sub:'優しく寄り添う ・ タロット',accent:'rgba(220,100,200,1)',dim:'rgba(220,100,200,.18)',border:'rgba(220,100,200,.38)'}
+  personality:{img:'mikage.png',      name:'陰陽師ミカゲ',      lbl:'Onmyoji / 五行思想', sub:'落ち着いた和風口調 ・ 五行思想',accent:'rgba(139,92,246,1)',dim:'rgba(139,92,246,.18)',border:'rgba(139,92,246,.38)'},
+  monthly:    {img:'hoshiyomi_baba.png',name:'星読みのおばあちゃん',lbl:'Astrology / 星座占い',sub:'親しみやすく ・ ズバッと直球',  accent:'rgba(100,160,230,1)',dim:'rgba(100,160,230,.18)',border:'rgba(100,160,230,.38)'},
+  tarot:      {img:'luna_tarot.png',  name:'タロット女子ルナ',   lbl:'Tarot / 深層心理',  sub:'優しく寄り添う ・ タロット',      accent:'rgba(220,100,200,1)',dim:'rgba(220,100,200,.18)',border:'rgba(220,100,200,.38)'}
 };
 
 /* ── Plan data ── */
@@ -404,7 +409,8 @@ function renderPage(mk, pk){
   r.style.setProperty('--char-accent-dim',c.dim);
   r.style.setProperty('--char-accent-border',c.border);
 
-  document.getElementById('char-orb').textContent = c.emoji;
+  var orbImg = document.getElementById('char-orb-img');
+  if(orbImg){ orbImg.src = c.img; orbImg.alt = c.name; }
   document.getElementById('char-lbl').textContent  = c.lbl;
   document.getElementById('char-name').textContent = c.name;
   document.getElementById('char-sub').textContent  = c.sub;
@@ -418,7 +424,8 @@ function renderPage(mk, pk){
   document.getElementById('ord-plan').textContent  = p.name;
   document.getElementById('ord-total').textContent = '¥'+_price;
 
-  document.getElementById('success-icon').textContent = c.emoji;
+  var sImg = document.getElementById('success-icon-img');
+  if(sImg){ sImg.src = c.img; sImg.alt = c.name; }
 }
 
 /* ── Stripe init ── */

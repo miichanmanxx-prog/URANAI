@@ -149,13 +149,43 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
 /* icon orb */
 .char-orb{
-  flex-shrink:0;width:58px;height:58px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:1.65rem;
+  flex-shrink:0;width:72px;height:72px;border-radius:50%;
+  overflow:hidden;position:relative;
   animation:float 4s ease-in-out infinite;
+  transition:box-shadow .3s ease,border-color .3s ease;
 }
-.char-item.mikage .char-orb{background:radial-gradient(circle at 35% 30%,rgba(139,92,246,.24),rgba(80,50,160,.06) 65%,transparent);border:1px solid rgba(139,92,246,.3);animation-delay:0s}
-.char-item.oba    .char-orb{background:radial-gradient(circle at 35% 30%,rgba(100,160,230,.24),rgba(60,100,180,.06) 65%,transparent);border:1px solid rgba(100,160,230,.3);animation-delay:-1.3s}
-.char-item.luna   .char-orb{background:radial-gradient(circle at 35% 30%,rgba(220,100,200,.24),rgba(150,60,170,.06) 65%,transparent);border:1px solid rgba(220,100,200,.3);animation-delay:-2.6s}
+.char-orb-img{
+  width:100%;height:100%;display:block;
+  object-fit:cover;object-position:center;
+  border-radius:50%;
+  transition:transform .32s cubic-bezier(.34,1.2,.64,1);
+}
+/* per-character border + ambient glow */
+.char-item.mikage .char-orb{
+  border:2px solid rgba(139,92,246,.5);
+  box-shadow:0 0 16px rgba(139,92,246,.35),0 0 6px rgba(139,92,246,.2),inset 0 0 8px rgba(139,92,246,.08);
+  animation-delay:0s;
+}
+.char-item.oba .char-orb{
+  border:2px solid rgba(100,160,230,.5);
+  box-shadow:0 0 16px rgba(100,160,230,.35),0 0 6px rgba(100,160,230,.2),inset 0 0 8px rgba(100,160,230,.08);
+  animation-delay:-1.3s;
+}
+.char-item.luna .char-orb{
+  border:2px solid rgba(220,100,200,.5);
+  box-shadow:0 0 16px rgba(220,100,200,.35),0 0 6px rgba(220,100,200,.2),inset 0 0 8px rgba(220,100,200,.08);
+  animation-delay:-2.6s;
+}
+/* hover: image zoom + stronger glow */
+.char-card:hover .char-orb-img{transform:scale(1.09)}
+.char-item.mikage .char-card:hover .char-orb{box-shadow:0 0 28px rgba(139,92,246,.6),0 0 14px rgba(139,92,246,.4),inset 0 0 10px rgba(139,92,246,.12)}
+.char-item.oba    .char-card:hover .char-orb{box-shadow:0 0 28px rgba(100,160,230,.6),0 0 14px rgba(100,160,230,.4),inset 0 0 10px rgba(100,160,230,.12)}
+.char-item.luna   .char-card:hover .char-orb{box-shadow:0 0 28px rgba(220,100,200,.6),0 0 14px rgba(220,100,200,.4),inset 0 0 10px rgba(220,100,200,.12)}
+/* open/selected: golden glow */
+.char-item.open .char-orb{
+  border-color:rgba(212,175,55,.65) !important;
+  box-shadow:0 0 32px rgba(212,175,55,.45),0 0 12px rgba(212,175,55,.28),inset 0 0 10px rgba(212,175,55,.1) !important;
+}
 
 /* text column */
 .char-text-col{flex:1;min-width:0}
@@ -361,7 +391,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <div class="char-item mikage" id="item-mikage">
       <div class="char-card" onclick="toggleAccordion('mikage')">
         <div class="char-card-inner">
-          <div class="char-orb">🌙</div>
+          <div class="char-orb"><img src="mikage.png" alt="陰陽師ミカゲ" class="char-orb-img"></div>
           <div class="char-text-col">
             <div class="char-lbl">Onmyoji / 五行思想</div>
             <div class="char-name">陰陽師ミカゲ</div>
@@ -417,7 +447,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <div class="char-item oba" id="item-oba">
       <div class="char-card" onclick="toggleAccordion('oba')">
         <div class="char-card-inner">
-          <div class="char-orb">⭐</div>
+          <div class="char-orb"><img src="hoshiyomi_baba.png" alt="星読みのおばあちゃん" class="char-orb-img"></div>
           <div class="char-text-col">
             <div class="char-lbl">Astrology / 星座占い</div>
             <div class="char-name">星読みのおばあちゃん</div>
@@ -471,7 +501,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <div class="char-item luna" id="item-luna">
       <div class="char-card" onclick="toggleAccordion('luna')">
         <div class="char-card-inner">
-          <div class="char-orb">🃏</div>
+          <div class="char-orb"><img src="luna_tarot.png" alt="タロット女子ルナ" class="char-orb-img"></div>
           <div class="char-text-col">
             <div class="char-lbl">Tarot / 深層心理</div>
             <div class="char-name">タロット女子ルナ</div>
