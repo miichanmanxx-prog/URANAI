@@ -318,13 +318,66 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
   background-image:url('image1.png');
   background-size:514% 411.2%;
   background-repeat:no-repeat;
-  border-radius:16px;
-  margin:0 auto 1.1rem;
-  position:relative;z-index:1;
-  animation:mkfloat 4.2s ease-in-out infinite;
-  box-shadow:0 0 36px rgba(139,92,246,.45),0 0 16px rgba(139,92,246,.25),0 8px 32px rgba(0,0,0,.55);
-  border:1px solid rgba(139,92,246,.3);
+  display:block;position:relative;z-index:1;
 }
+/* ── 神秘紋章UI ── */
+.mk-emblem-wrap{
+  position:relative;width:148px;
+  margin:0 auto 1.7rem;
+  animation:mkfloat 4.2s ease-in-out infinite;
+}
+/* 外周発光リング */
+.mk-emblem-wrap::before{
+  content:'';position:absolute;
+  inset:-11px;border-radius:22px;
+  border:1px solid rgba(212,175,55,.1);
+  box-shadow:0 0 26px rgba(100,48,200,.26),0 0 52px rgba(100,48,200,.09);
+  pointer-events:none;z-index:0;
+}
+/* 外周の第二リング（より遠く・薄く） */
+.mk-emblem-wrap::after{
+  content:'';position:absolute;
+  inset:-22px;border-radius:28px;
+  border:1px solid rgba(212,175,55,.05);
+  box-shadow:0 0 40px rgba(80,30,160,.15);
+  pointer-events:none;z-index:0;
+}
+/* 金縁フレーム本体 */
+.mk-emblem-frame{
+  position:relative;
+  border-radius:14px;
+  border:1px solid rgba(212,175,55,.36);
+  overflow:hidden;
+  background:radial-gradient(ellipse at 46% 26%,rgba(52,20,100,.9),rgba(11,6,30,.97) 66%);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:
+    0 0 28px rgba(88,38,158,.36),
+    0 0 56px rgba(88,38,158,.13),
+    inset 0 0 20px rgba(75,32,148,.13);
+}
+/* 上部ゴールドシマーライン */
+.mk-emblem-frame::before{
+  content:'';position:absolute;
+  top:0;left:5%;right:5%;height:1px;z-index:4;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(212,175,55,.55) 28%,rgba(212,175,55,.72) 50%,rgba(212,175,55,.55) 72%,transparent);
+}
+/* 微粒子光（金×紫） */
+.mk-emblem-frame::after{
+  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:
+    radial-gradient(circle 1.5px at 12% 8%,  rgba(212,175,55,.9),  transparent 100%),
+    radial-gradient(circle 1px  at 85% 6%,  rgba(195,162,255,.75), transparent 100%),
+    radial-gradient(circle 1.5px at 92% 29%, rgba(212,175,55,.7),  transparent 100%),
+    radial-gradient(circle 1px  at 5%  46%, rgba(180,138,255,.68), transparent 100%),
+    radial-gradient(circle 1.5px at 79% 88%, rgba(212,175,55,.72), transparent 100%),
+    radial-gradient(circle 1px  at 19% 85%, rgba(195,162,255,.62), transparent 100%),
+    radial-gradient(circle 1px  at 46% 3%,  rgba(212,175,55,.55), transparent 100%),
+    radial-gradient(circle 1.5px at 4%  69%, rgba(195,162,255,.58),transparent 100%),
+    radial-gradient(circle 1px  at 96% 57%, rgba(212,175,55,.52), transparent 100%),
+    radial-gradient(circle 1px  at 54% 97%, rgba(195,162,255,.62), transparent 100%);
+  animation:mkParticle 5.5s ease-in-out infinite;
+}
+@keyframes mkParticle{0%,100%{opacity:.38}50%{opacity:.95}}
 .mv-tag{font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.28em;color:var(--purL);text-transform:uppercase;opacity:.78;margin-bottom:.75rem;position:relative;z-index:1}
 .mv-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--gold);letter-spacing:.1em;line-height:1.5;margin-bottom:.4rem;position:relative;z-index:1;text-shadow:0 0 34px rgba(212,175,55,.55)}
 .mv-title-en{font-family:'Playfair Display',serif;font-size:.6rem;color:var(--purL);letter-spacing:.2em;opacity:.65;position:relative;z-index:1}
@@ -1705,7 +1758,11 @@ function drawP(){
   var spritePos=getMikageSpritePos(pat.moon,pat.elem);
   var topVisual=
     '<div class="mv-wrap mk-scroll-fade" style="margin-top:0">'+
-      '<div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div>'+
+      '<div class="mk-emblem-wrap">'+
+        '<div class="mk-emblem-frame">'+
+          '<div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div>'+
+        '</div>'+
+      '</div>'+
       '<p class="mv-tag">月相 × 五行</p>'+
       '<p class="mv-title">'+esc(pat.title)+'</p>'+
       '<p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p>'+
