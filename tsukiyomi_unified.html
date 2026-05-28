@@ -602,6 +602,32 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 @keyframes lunaCharCTAGlow{0%,100%{opacity:.6;text-shadow:0 0 10px rgba(212,175,55,.45)}50%{opacity:1;text-shadow:0 0 18px rgba(212,175,55,.88),0 0 34px rgba(180,140,40,.4)}}
 .luna-char-sign-wrap{padding:.8rem 1.5rem 1.2rem}
 .luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
+/* ── タロットカード スプライト（image2.png 8×3グリッド） ── */
+.luna-tc{background-image:url('image2.png');background-size:800% 300%;background-repeat:no-repeat;display:block;border-radius:8px}
+.luna-tc-sm{width:80px;height:142px;border-radius:7px;box-shadow:0 2px 8px rgba(0,0,0,.55)}
+.luna-tc-lg{width:148px;height:263px;border-radius:12px;box-shadow:0 0 28px rgba(180,80,200,.28),0 4px 20px rgba(0,0,0,.6)}
+/* カード選択グリッド */
+.luna-pick-grid{display:grid;grid-template-columns:repeat(4,80px);gap:10px;justify-content:center;width:fit-content;margin:0 auto 1.4rem}
+.luna-pick-item{cursor:pointer;perspective:600px;position:relative;border-radius:9px}
+.luna-flip-inner{position:relative;transform-style:preserve-3d;transition:transform .52s cubic-bezier(.4,0,.2,1);width:80px;height:142px}
+.luna-pick-item.flipped .luna-flip-inner{transform:rotateY(180deg)}
+.luna-flip-back,.luna-flip-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:7px;overflow:hidden}
+.luna-flip-front{transform:rotateY(180deg)}
+.luna-pick-item::after{content:'';position:absolute;inset:-2px;border-radius:11px;border:2px solid transparent;transition:border-color .2s,box-shadow .2s;pointer-events:none}
+.luna-pick-item.selected::after{border-color:rgba(212,175,55,.75);box-shadow:0 0 16px rgba(212,175,55,.4),0 0 28px rgba(212,175,55,.18)}
+.luna-pick-item:hover{transform:translateY(-3px)}
+.luna-pick-item.selected{transform:translateY(-5px)}
+/* 確定ボタン */
+.luna-pick-confirm{background:linear-gradient(135deg,rgba(180,80,200,.18),rgba(100,30,160,.24));border:1px solid rgba(180,80,200,.45);color:rgba(230,180,255,.92);padding:.72rem 2.6rem;border-radius:50px;font-size:.85rem;letter-spacing:.12em;cursor:pointer;transition:all .22s;display:none;margin:.2rem auto 1rem;box-shadow:0 0 18px rgba(160,60,200,.18);font-family:inherit;width:fit-content}
+.luna-pick-confirm:hover{background:linear-gradient(135deg,rgba(200,100,220,.28),rgba(120,40,180,.32));box-shadow:0 0 32px rgba(180,80,220,.38);transform:translateY(-2px)}
+.luna-pick-confirm.visible{display:block}
+/* 正位置/逆位置バッジ */
+.luna-orient-badge{display:inline-block;font-size:.62rem;letter-spacing:.14em;padding:.2rem .7rem;border-radius:20px;margin-bottom:.52rem}
+.luna-orient-up{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);color:rgba(212,175,55,.9)}
+.luna-orient-rev{background:rgba(100,80,180,.18);border:1px solid rgba(123,94,167,.42);color:rgba(180,160,235,.88)}
+/* 大カードラッパー（逆位置で回転） */
+.luna-tc-lg-wrap{display:inline-block;margin:.25rem 0;animation:lunaFloatA 4.2s ease-in-out infinite}
+.luna-tc-lg-wrap.reversed{transform:rotate(180deg);animation:none}
 /* ── 共通バナー（glassmorphism premium） ── */
 .mk-banner{width:100%;max-width:540px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.4rem;position:relative;overflow:hidden}
 .mk-banner-ava{width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
@@ -2172,6 +2198,8 @@ function drawM(){
   setTimeout(initScrollFade,80);
 }
 function mTab(nm,el){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('on')});if(el)el.classList.add('on');var p=document.getElementById('tp-'+nm);if(p)p.classList.add('on')}
+function getLunaCardRowCol(id){if(id<8)return{row:0,col:id};if(id<16)return{row:1,col:id-8};return{row:2,col:id-16}}
+function getLunaBgPos(row,col){return(col/7*100).toFixed(2)+'% '+(row/2*100).toFixed(2)+'%'}
 function lunaStars(n){var s='';for(var i=1;i<=5;i++)s+='<span class="luna-star-'+(i<=n?'on':'off')+'">&#9670;</span>';return'<div class="luna-stars-row">'+s+'</div>'}
 function lunaReveal(){
   var el=document.getElementById('luna-tap-card');
@@ -2181,28 +2209,46 @@ function lunaReveal(){
   setTimeout(function(){drawTR(ST._lunaCard)},680);
 }
 function drawT(){
-  var name=(document.getElementById('f-name').value||'あなた').trim();
-  var birth=getBirthVal('f-birth');
-  var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
-  ST._lunaCard=seed%22;
+  ST._lunaCard=-1;ST._lunaReversed=false;
   var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  var backPos='85.71% 100%';
+  var items='';
+  for(var i=0;i<22;i++){
+    var rc=getLunaCardRowCol(i);
+    var fp=getLunaBgPos(rc.row,rc.col);
+    items+='<div class="luna-pick-item" id="lp-'+i+'" onclick="lunaPickCard('+i+')" title="'+LUNA_CARDS[i].arcana+'">'+
+      '<div class="luna-flip-inner">'+
+        '<div class="luna-flip-back luna-tc luna-tc-sm" style="background-position:'+backPos+'"></div>'+
+        '<div class="luna-flip-front luna-tc luna-tc-sm" style="background-position:'+fp+'"></div>'+
+      '</div>'+
+    '</div>';
+  }
   document.getElementById('result-inner').innerHTML=
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
     '<div class="luna-draw-zone">'+
-      '<p class="luna-draw-phase">月相オラクル × 大アルカナ</p>'+
-      '<p class="luna-draw-intro">深く息を吸って、心を静かにしてください。<br>月がすでに、あなたの一枚を選んでいます。</p>'+
-      '<div class="luna-draw-stage">'+
-        '<div class="luna-card-back" id="luna-tap-card" onclick="lunaReveal()">'+
-          '<div class="luna-card-inner-deco">'+
-            '<div class="luna-card-big-moon">\U0001f319</div>'+
-            '<div class="luna-card-tap-txt">タップして引く</div>'+
-          '</div>'+
-        '</div>'+
-      '</div>'+
+      '<p class="luna-draw-phase">大アルカナ 22枚</p>'+
+      '<p class="luna-draw-intro">心に響く一枚を直感で選んでください。<br>月があなたのカードを引き寄せています。</p>'+
+      '<div class="luna-pick-grid">'+items+'</div>'+
+      '<button class="luna-pick-confirm" id="luna-pick-confirm-btn" onclick="lunaConfirmPick()">✦ このカードで占う ✦</button>'+
       '<p class="luna-draw-footer">カードはすでに、あなたを選んでいます。</p>'+
     '</div>'+
     topBtn()+'<div style="height:2rem"></div></div>';
+}
+function lunaPickCard(idx){
+  var prev=ST._lunaCard;
+  ST._lunaCard=idx;
+  if(prev>=0&&prev!==idx){var pe=document.getElementById('lp-'+prev);if(pe){pe.classList.remove('selected','flipped')}}
+  var el=document.getElementById('lp-'+idx);
+  if(el){el.classList.add('selected','flipped')}
+  var btn=document.getElementById('luna-pick-confirm-btn');
+  if(btn)btn.classList.add('visible');
+}
+function lunaConfirmPick(){
+  if(ST._lunaCard<0)return;
+  ST._lunaReversed=(Date.now()%2===1);
+  window.scrollTo(0,0);
+  drawTR(ST._lunaCard);
 }
 function drawTR(idx){
   var tc=LUNA_CARDS[idx];
@@ -2210,11 +2256,17 @@ function drawTR(idx){
   var name=(document.getElementById('f-name').value||'あなた').trim();
   var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
   var kwHtml=tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
+  var isRev=ST._lunaReversed;
+  var rc=getLunaCardRowCol(tc.id);
+  var cardPos=getLunaBgPos(rc.row,rc.col);
   var cardVis=
-    '<div class="luna-card-visual mk-scroll-fade">'+
+    '<div class="luna-card-visual mk-scroll-fade" style="padding-top:1.8rem">'+
+      '<div class="luna-orient-badge '+(isRev?'luna-orient-rev':'luna-orient-up')+'">'+(isRev?'逆位置 ↓':'正位置 ↑')+'</div>'+
       '<div class="luna-numeral">'+esc(tc.num)+'</div>'+
-      '<div class="luna-icon">'+tc.icon+'</div>'+
-      '<div class="luna-arcana-name">'+esc(tc.arcana)+'</div>'+
+      '<div class="luna-tc-lg-wrap'+(isRev?' reversed':'')+'" style="display:block;text-align:center">'+
+        '<div class="luna-tc luna-tc-lg" style="background-position:'+cardPos+';margin:0 auto"></div>'+
+      '</div>'+
+      '<div class="luna-arcana-name" style="margin-top:.8rem">'+esc(tc.arcana)+'</div>'+
       '<div class="luna-div"></div>'+
       '<div class="luna-moon-nm">'+esc(tc.moon)+'</div>'+
       '<div class="luna-elem-nm">('+esc(tc.elem)+')</div>'+
