@@ -312,6 +312,19 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mv-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.2),transparent 62%),radial-gradient(ellipse at 50% 100%,rgba(212,175,55,.05),transparent 60%);pointer-events:none}
 .mv-icons{font-size:3rem;line-height:1;margin-bottom:.8rem;position:relative;z-index:1;filter:drop-shadow(0 0 18px rgba(212,175,55,.45));animation:mkfloat 4.2s ease-in-out infinite}
 .mv-x{font-size:1.1rem;color:rgba(212,175,55,.48);margin:0 .5rem;vertical-align:middle}
+/* ── 月相×五行スプライトアイコン ── */
+.mk-sprite-icon{
+  width:148px;height:148px;
+  background-image:url('image1.png');
+  background-size:500% 400%;
+  background-repeat:no-repeat;
+  border-radius:16px;
+  margin:0 auto 1.1rem;
+  position:relative;z-index:1;
+  animation:mkfloat 4.2s ease-in-out infinite;
+  box-shadow:0 0 36px rgba(139,92,246,.45),0 0 16px rgba(139,92,246,.25),0 8px 32px rgba(0,0,0,.55);
+  border:1px solid rgba(139,92,246,.3);
+}
 .mv-tag{font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.28em;color:var(--purL);text-transform:uppercase;opacity:.78;margin-bottom:.75rem;position:relative;z-index:1}
 .mv-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--gold);letter-spacing:.1em;line-height:1.5;margin-bottom:.4rem;position:relative;z-index:1;text-shadow:0 0 34px rgba(212,175,55,.55)}
 .mv-title-en{font-family:'Playfair Display',serif;font-size:.6rem;color:var(--purL);letter-spacing:.2em;opacity:.65;position:relative;z-index:1}
@@ -1665,6 +1678,16 @@ function initScrollFade(){
   var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.07});
   els.forEach(function(e){io.observe(e)});
 }
+/* 月相×五行スプライト位置を返す
+   行(上→下): 新月=0, 三日月=1, 半月=2, 満月=3
+   列(左→右): 木=0, 火=1, 土=2, 金=3, 水=4 */
+function getMikageSpritePos(moon,elem){
+  var rowMap={新月:0,三日月:1,半月:2,満月:3};
+  var colMap={木:0,火:1,土:2,金:3,水:4};
+  var r=rowMap[moon]!==undefined?rowMap[moon]:0;
+  var c=colMap[elem]!==undefined?colMap[elem]:0;
+  return(c*25)+'% '+(r===0?0:r===1?33.33:r===2?66.67:100)+'%';
+}
 function drawP(){
   var name=(document.getElementById('f-name').value||'あなた').trim();
   var birth=getBirthVal('f-birth');
@@ -1673,10 +1696,11 @@ function drawP(){
   var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
 
   /* ── トップビジュアル */
+  var spritePos=getMikageSpritePos(pat.moon,pat.elem);
   var topVisual=
     '<div class="mv-wrap mk-scroll-fade" style="margin-top:0">'+
-      '<div class="mv-icons">'+pat.moonIcon+'<span class="mv-x">×</span>'+pat.elemIcon+'</div>'+
-      '<p class="mv-tag">月相 × 属性</p>'+
+      '<div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div>'+
+      '<p class="mv-tag">月相 × 五行</p>'+
       '<p class="mv-title">'+esc(pat.title)+'</p>'+
       '<p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p>'+
     '</div>';
