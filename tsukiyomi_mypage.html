@@ -349,10 +349,33 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .pay-price-box{text-align:center;margin-bottom:1.2rem;padding:.9rem;background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.12);border-radius:12px}
 .pay-price-amt{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold);letter-spacing:.04em;line-height:1}
 .pay-price-unit{font-size:.64rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
-.pay-items{list-style:none;margin-bottom:1.3rem}
+.pay-items{list-style:none;margin-bottom:1.4rem}
 .pay-items li{font-size:.7rem;color:rgba(175,170,210,.75);padding:.18rem 0 .18rem 1rem;position:relative;line-height:1.75;letter-spacing:.04em}
 .pay-items li::before{content:'◆';position:absolute;left:0;font-size:.42rem;line-height:2.6;color:rgba(139,92,246,.5)}
-.pay-btn{display:block;width:100%;padding:.88rem;border-radius:50px;border:none;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.14em;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;color:#F0EAF8;box-shadow:0 4px 26px rgba(139,92,246,.32);animation:btnShine 4s linear infinite;margin-bottom:.7rem;-webkit-appearance:none}
+/* Card input section */
+.pay-section-lbl{font-size:.62rem;letter-spacing:.14em;color:rgba(180,170,220,.55);text-transform:uppercase;margin-bottom:.6rem}
+.pay-field-group{margin-bottom:.7rem}
+.pay-field-lbl{display:block;font-size:.62rem;color:rgba(175,170,210,.6);letter-spacing:.07em;margin-bottom:.28rem}
+.pay-input{display:block;width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(139,92,246,.22);border-radius:8px;padding:.58rem .75rem;font-size:.82rem;color:rgba(230,225,250,.9);font-family:'Noto Serif JP',serif;outline:none;box-sizing:border-box;-webkit-appearance:none;transition:border-color .2s}
+.pay-input:focus{border-color:rgba(139,92,246,.55);background:rgba(139,92,246,.06)}
+.pay-input::placeholder{color:rgba(160,155,200,.35);font-size:.78rem}
+/* Stripe Element container — Stripe mounts an iframe here */
+.pay-stripe-element{background:rgba(255,255,255,.04);border:1px solid rgba(139,92,246,.22);border-radius:8px;padding:.65rem .75rem;margin-bottom:.7rem;min-height:42px;transition:border-color .2s}
+.pay-stripe-element.StripeElement--focus{border-color:rgba(139,92,246,.55);background:rgba(139,92,246,.06)}
+.pay-stripe-element.StripeElement--invalid{border-color:rgba(255,100,100,.5)}
+/* Placeholder shown before Stripe loads */
+.pay-stripe-placeholder{pointer-events:none}
+.pay-stripe-placeholder-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.pay-stripe-placeholder-row:last-child{margin-bottom:0}
+.pay-stripe-ph-lbl{font-size:.62rem;color:rgba(160,155,200,.4);letter-spacing:.06em;white-space:nowrap}
+.pay-stripe-ph-val{font-size:.78rem;color:rgba(160,155,200,.25);letter-spacing:.12em;font-family:monospace}
+.pay-stripe-ph-sep{flex:1}
+.pay-card-errors{font-size:.7rem;color:rgba(255,120,120,.85);min-height:1.2em;margin-bottom:.65rem;letter-spacing:.04em}
+.pay-security-note{display:flex;align-items:center;justify-content:center;gap:.35rem;font-size:.6rem;color:rgba(160,155,200,.4);letter-spacing:.06em;margin-bottom:1rem}
+.pay-security-note svg{flex-shrink:0;opacity:.5}
+.pay-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.18),transparent);margin:1rem 0}
+.pay-btn{display:block;width:100%;padding:.88rem;border-radius:50px;border:none;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.14em;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;color:#F0EAF8;box-shadow:0 4px 26px rgba(139,92,246,.32);animation:btnShine 4s linear infinite;margin-bottom:.7rem;-webkit-appearance:none;transition:opacity .2s}
+.pay-btn:disabled{opacity:.45;cursor:not-allowed;animation:none}
 .pay-back-btn{display:block;width:100%;padding:.68rem;border-radius:50px;border:1px solid rgba(255,255,255,.1);background:transparent;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.74rem;letter-spacing:.1em;color:rgba(200,190,235,.55);-webkit-appearance:none}
 
 /* Loading */
@@ -553,7 +576,38 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
       <div class="pay-price-unit">（税込）</div>
     </div>
     <ul class="pay-items" id="pay-items-list"></ul>
-    <button class="pay-btn" onclick="executePayment()">決済して鑑定を受ける</button>
+    <div class="pay-divider"></div>
+    <div class="pay-section-lbl">お支払い情報</div>
+    <!-- カード名義 -->
+    <div class="pay-field-group">
+      <label class="pay-field-lbl" for="pay-card-name">カード名義（ローマ字）</label>
+      <input class="pay-input" id="pay-card-name" type="text" placeholder="TARO YAMADA" autocomplete="cc-name" oninput="onPayInputChange()">
+    </div>
+    <!-- Stripe Elements がここにマウントされる (#card-element) -->
+    <div class="pay-section-lbl" style="margin-top:.1rem">カード番号・有効期限・CVC</div>
+    <div id="card-element" class="pay-stripe-element">
+      <!-- Stripe.js 導入時にここへ CardElement をマウント -->
+      <div class="pay-stripe-placeholder" id="card-element-placeholder">
+        <div class="pay-stripe-placeholder-row">
+          <span class="pay-stripe-ph-lbl">カード番号</span>
+          <span class="pay-stripe-ph-sep"></span>
+          <span class="pay-stripe-ph-val">•••• •••• •••• ••••</span>
+        </div>
+        <div class="pay-stripe-placeholder-row">
+          <span class="pay-stripe-ph-lbl">有効期限</span>
+          <span class="pay-stripe-ph-val">MM / YY</span>
+          <span class="pay-stripe-ph-sep"></span>
+          <span class="pay-stripe-ph-lbl">CVC</span>
+          <span class="pay-stripe-ph-val">•••</span>
+        </div>
+      </div>
+    </div>
+    <div id="card-errors" class="pay-card-errors" role="alert"></div>
+    <div class="pay-security-note">
+      <svg width="11" height="13" viewBox="0 0 11 13" fill="none"><path d="M5.5 0L1 2v4c0 2.76 1.96 5.34 4.5 6C10.04 11.34 10 8.76 10 6V2L5.5 0z" fill="currentColor"/></svg>
+      決済は Stripe により SSL 暗号化で安全に処理されます
+    </div>
+    <button class="pay-btn" id="pay-submit-btn" onclick="executePayment()">決済して鑑定を受ける</button>
     <button class="pay-back-btn" onclick="closePaymentScreen()">← 戻る</button>
   </div>
 </div>
@@ -992,12 +1046,34 @@ function showPaymentScreen(charKey, price) {
   document.getElementById('pay-char-plan-lbl').textContent = price === 100 ? '基本鑑定' : '深読み鑑定';
   document.getElementById('pay-price-amt').textContent = '¥' + price;
   document.getElementById('pay-items-list').innerHTML = items.map(function(i){return '<li>'+i+'</li>'}).join('');
+  /* reset form */
+  var nameEl = document.getElementById('pay-card-name');
+  if (nameEl) nameEl.value = '';
+  document.getElementById('card-errors').textContent = '';
+  /* restore Stripe placeholder if not yet mounted */
+  var ph = document.getElementById('card-element-placeholder');
+  if (ph) ph.style.display = '';
+  /* TODO: Stripe導入後は stripe.elements() で CardElement をマウント */
   document.getElementById('screen-payment').classList.add('active');
+  if (nameEl) setTimeout(function(){ nameEl.focus(); }, 80);
 }
 function closePaymentScreen() {
   document.getElementById('screen-payment').classList.remove('active');
 }
+function onPayInputChange() {
+  /* TODO: Stripe導入後は CardElement の onChange と組み合わせてボタン活性制御 */
+  document.getElementById('card-errors').textContent = '';
+}
 function executePayment() {
+  /* TODO: Stripe導入後は stripe.confirmCardPayment() を呼び、成功後に startFortuneLoading() へ進む */
+  var nameEl = document.getElementById('pay-card-name');
+  var errEl  = document.getElementById('card-errors');
+  if (nameEl && !nameEl.value.trim()) {
+    errEl.textContent = 'カード名義を入力してください。';
+    nameEl.focus();
+    return;
+  }
+  errEl.textContent = '';
   closePaymentScreen();
   startFortuneLoading(_fortuneChar, _fortunePlan);
 }
