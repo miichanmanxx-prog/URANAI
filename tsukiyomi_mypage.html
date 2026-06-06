@@ -331,52 +331,53 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .bottom-spacer{height:3rem}
 
 /* ── FORTUNE FLOW SCREENS ── */
-.fortune-screen{display:none;position:fixed;inset:0;z-index:8000;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%)}
+/* Background is provided by #fortune-bg (z-index:7990) with stars */
+.fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
 .fortune-screen.active{display:flex;flex-direction:column}
-#screen-payment.active{align-items:center;justify-content:center;padding:2rem 1rem}
+#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
 #screen-fortune-loading.active{align-items:center;justify-content:center}
 #screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
 .fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:5rem 1rem 6rem}
 
+/* Fortune shared starry background layer */
+#fortune-bg{display:none;position:fixed;inset:0;z-index:7990;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 58%);overflow:hidden}
+.fortune-nb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:nd 22s ease-in-out infinite}
+.fortune-nb2{animation-duration:18s;animation-direction:reverse}
+#fortune-stars-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+
 /* Payment card */
-.pay-card{width:100%;max-width:380px;background:linear-gradient(158deg,rgba(16,11,42,.97),rgba(9,6,26,.99));border:1px solid rgba(212,175,55,.2);border-radius:22px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
-.pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.55),rgba(139,92,246,.4),rgba(212,175,55,.55),transparent)}
+.pay-card{width:100%;max-width:390px;background:linear-gradient(158deg,rgba(26,27,58,.95),rgba(11,9,30,.98));border:1px solid var(--card-border);border-radius:20px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
+.pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(220,206,255,.32),rgba(76,42,133,.55),rgba(220,206,255,.32),transparent)}
 .pay-char-row{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem}
-.pay-char-orb{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(139,92,246,.4)}
+.pay-char-orb{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(123,92,246,.4)}
 .pay-char-orb img{width:100%;height:100%;object-fit:cover;display:block}
 .pay-char-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);letter-spacing:.06em}
 .pay-char-plan-lbl{font-size:.65rem;color:var(--purL);letter-spacing:.06em;margin-top:.2rem;font-style:italic}
-.pay-price-box{text-align:center;margin-bottom:1.2rem;padding:.9rem;background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.12);border-radius:12px}
+.pay-price-box{text-align:center;margin-bottom:1.2rem;padding:.9rem;background:rgba(76,42,133,.08);border:1px solid rgba(220,206,255,.12);border-radius:12px}
 .pay-price-amt{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--purL);letter-spacing:.04em;line-height:1}
 .pay-price-unit{font-size:.64rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
 .pay-items{list-style:none;margin-bottom:1.4rem}
 .pay-items li{font-size:.7rem;color:rgba(175,170,210,.75);padding:.18rem 0 .18rem 1rem;position:relative;line-height:1.75;letter-spacing:.04em}
-.pay-items li::before{content:'◆';position:absolute;left:0;font-size:.42rem;line-height:2.6;color:rgba(139,92,246,.5)}
+.pay-items li::before{content:'◆';position:absolute;left:0;font-size:.42rem;line-height:2.6;color:rgba(123,92,246,.5)}
 /* Card input section */
-.pay-section-lbl{font-size:.62rem;letter-spacing:.14em;color:rgba(180,170,220,.55);text-transform:uppercase;margin-bottom:.6rem}
-.pay-field-group{margin-bottom:.7rem}
-.pay-field-lbl{display:block;font-size:.62rem;color:rgba(175,170,210,.6);letter-spacing:.07em;margin-bottom:.28rem}
-.pay-input{display:block;width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(139,92,246,.22);border-radius:8px;padding:.58rem .75rem;font-size:.82rem;color:rgba(230,225,250,.9);font-family:'Noto Serif JP',serif;outline:none;box-sizing:border-box;-webkit-appearance:none;transition:border-color .2s}
-.pay-input:focus{border-color:rgba(139,92,246,.55);background:rgba(139,92,246,.06)}
-.pay-input::placeholder{color:rgba(160,155,200,.35);font-size:.78rem}
-/* Stripe Element container — Stripe mounts an iframe here */
-.pay-stripe-element{background:rgba(255,255,255,.04);border:1px solid rgba(139,92,246,.22);border-radius:8px;padding:.65rem .75rem;margin-bottom:.7rem;min-height:42px;transition:border-color .2s}
-.pay-stripe-element.StripeElement--focus{border-color:rgba(139,92,246,.55);background:rgba(139,92,246,.06)}
-.pay-stripe-element.StripeElement--invalid{border-color:rgba(255,100,100,.5)}
-/* Placeholder shown before Stripe loads */
-.pay-stripe-placeholder{pointer-events:none}
-.pay-stripe-placeholder-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
-.pay-stripe-placeholder-row:last-child{margin-bottom:0}
-.pay-stripe-ph-lbl{font-size:.62rem;color:rgba(160,155,200,.4);letter-spacing:.06em;white-space:nowrap}
-.pay-stripe-ph-val{font-size:.78rem;color:rgba(160,155,200,.25);letter-spacing:.12em;font-family:monospace}
-.pay-stripe-ph-sep{flex:1}
-.pay-card-errors{font-size:.7rem;color:rgba(255,120,120,.85);min-height:1.2em;margin-bottom:.65rem;letter-spacing:.04em}
-.pay-security-note{display:flex;align-items:center;justify-content:center;gap:.35rem;font-size:.6rem;color:rgba(160,155,200,.4);letter-spacing:.06em;margin-bottom:1rem}
-.pay-security-note svg{flex-shrink:0;opacity:.5}
-.pay-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.18),transparent);margin:1rem 0}
-.pay-btn{display:block;width:100%;padding:.88rem;border-radius:50px;border:none;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.14em;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;color:#F0EAF8;box-shadow:0 4px 26px rgba(139,92,246,.32);animation:btnShine 4s linear infinite;margin-bottom:.7rem;-webkit-appearance:none;transition:opacity .2s}
-.pay-btn:disabled{opacity:.45;cursor:not-allowed;animation:none}
-.pay-back-btn{display:block;width:100%;padding:.68rem;border-radius:50px;border:1px solid rgba(255,255,255,.1);background:transparent;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.74rem;letter-spacing:.1em;color:rgba(200,190,235,.55);-webkit-appearance:none}
+.pay-section-lbl{font-size:.6rem;letter-spacing:.16em;color:rgba(180,170,220,.5);text-transform:uppercase;margin-bottom:.65rem;margin-top:.2rem}
+.pay-field-group{margin-bottom:.75rem}
+.pay-field-lbl{display:block;font-size:.62rem;color:rgba(175,170,210,.65);letter-spacing:.07em;margin-bottom:.3rem}
+.pay-input{display:block;width:100%;background:rgba(26,20,58,.7);border:1px solid rgba(123,92,246,.22);border-radius:9px;padding:.62rem .8rem;font-size:.84rem;color:rgba(237,233,255,.92);font-family:'Noto Serif JP',serif;outline:none;box-sizing:border-box;-webkit-appearance:none;transition:border-color .2s,box-shadow .2s}
+.pay-input:focus{border-color:rgba(123,92,246,.6);background:rgba(76,42,133,.12);box-shadow:0 0 0 3px rgba(76,42,133,.15)}
+.pay-input::placeholder{color:rgba(140,130,180,.3);font-size:.8rem}
+.pay-input.err{border-color:rgba(248,113,113,.55)}
+.pay-input-mono{font-family:'Courier New',Courier,monospace;letter-spacing:.12em}
+/* Expiry + CVC row */
+.pay-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.75rem}
+.pay-row-2 .pay-field-group{margin-bottom:0}
+.pay-card-errors{font-size:.7rem;color:rgba(248,113,113,.88);min-height:1.2em;margin-bottom:.6rem;letter-spacing:.04em}
+.pay-security-note{display:flex;align-items:center;justify-content:center;gap:.35rem;font-size:.6rem;color:rgba(140,130,175,.38);letter-spacing:.06em;margin-bottom:1rem}
+.pay-security-note svg{flex-shrink:0;opacity:.45}
+.pay-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(123,92,246,.2),transparent);margin:1rem 0}
+.pay-btn{display:block;width:100%;padding:.88rem;border-radius:9999px;border:none;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.14em;background:linear-gradient(115deg,#2E1860 0%,#4C2A85 35%,#7B5CF6 62%,#4C2A85 100%);background-size:240% auto;color:var(--text);box-shadow:0 4px 26px rgba(76,42,133,.42);animation:btnShine 4s linear infinite;margin-bottom:.7rem;-webkit-appearance:none;transition:opacity .2s}
+.pay-btn:disabled{opacity:.42;cursor:not-allowed;animation:none}
+.pay-back-btn{display:block;width:100%;padding:.68rem;border-radius:9999px;border:1px solid rgba(220,206,255,.12);background:transparent;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.74rem;letter-spacing:.1em;color:rgba(200,190,235,.5);-webkit-appearance:none}
 
 /* Loading */
 .fl-wrap{text-align:center;width:100%;max-width:360px;padding:0 1.5rem}
@@ -561,6 +562,13 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   </div>
 </div>
 
+<!-- ── Fortune Shared Starry Background (z-index 7990, below all fortune screens) ── -->
+<div id="fortune-bg">
+  <div id="fortune-stars-wrap"></div>
+  <div class="fortune-nb" style="width:480px;height:480px;top:-170px;left:-120px;background:radial-gradient(circle,rgba(76,42,133,.18),transparent 70%)"></div>
+  <div class="fortune-nb fortune-nb2" style="width:380px;height:380px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(46,24,96,.14),transparent 70%)"></div>
+</div>
+
 <!-- ── Payment Screen ── -->
 <div class="fortune-screen" id="screen-payment">
   <div class="pay-card">
@@ -583,23 +591,20 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
       <label class="pay-field-lbl" for="pay-card-name">カード名義（ローマ字）</label>
       <input class="pay-input" id="pay-card-name" type="text" placeholder="TARO YAMADA" autocomplete="cc-name" oninput="onPayInputChange()">
     </div>
-    <!-- Stripe Elements がここにマウントされる (#card-element) -->
-    <div class="pay-section-lbl" style="margin-top:.1rem">カード番号・有効期限・CVC</div>
-    <div id="card-element" class="pay-stripe-element">
-      <!-- Stripe.js 導入時にここへ CardElement をマウント -->
-      <div class="pay-stripe-placeholder" id="card-element-placeholder">
-        <div class="pay-stripe-placeholder-row">
-          <span class="pay-stripe-ph-lbl">カード番号</span>
-          <span class="pay-stripe-ph-sep"></span>
-          <span class="pay-stripe-ph-val">•••• •••• •••• ••••</span>
-        </div>
-        <div class="pay-stripe-placeholder-row">
-          <span class="pay-stripe-ph-lbl">有効期限</span>
-          <span class="pay-stripe-ph-val">MM / YY</span>
-          <span class="pay-stripe-ph-sep"></span>
-          <span class="pay-stripe-ph-lbl">CVC</span>
-          <span class="pay-stripe-ph-val">•••</span>
-        </div>
+    <!-- カード番号 -->
+    <div class="pay-field-group">
+      <label class="pay-field-lbl" for="pay-card-number">カード番号</label>
+      <input class="pay-input pay-input-mono" id="pay-card-number" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" autocomplete="cc-number" maxlength="19" oninput="onCardNumberInput(this)">
+    </div>
+    <!-- 有効期限 + CVC -->
+    <div class="pay-row-2">
+      <div class="pay-field-group">
+        <label class="pay-field-lbl" for="pay-expiry">有効期限</label>
+        <input class="pay-input pay-input-mono" id="pay-expiry" type="text" inputmode="numeric" placeholder="MM / YY" autocomplete="cc-exp" maxlength="7" oninput="onExpiryInput(this)">
+      </div>
+      <div class="pay-field-group">
+        <label class="pay-field-lbl" for="pay-cvc">セキュリティコード</label>
+        <input class="pay-input pay-input-mono" id="pay-cvc" type="text" inputmode="numeric" placeholder="CVC" autocomplete="cc-csc" maxlength="4" oninput="onPayInputChange()">
       </div>
     </div>
     <div id="card-errors" class="pay-card-errors" role="alert"></div>
@@ -1038,6 +1043,34 @@ var FORTUNE_CHAR_INFO = {
 /* ============================================================
    Payment screen
    ============================================================ */
+/* ── Fortune background (stars) ─────────────────────────────── */
+function buildFortuneStars() {
+  var wrap = document.getElementById('fortune-stars-wrap');
+  if (!wrap || wrap.childElementCount > 0) return;
+  for (var i = 0; i < 130; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = (Math.random() * 2.2 + 0.3).toFixed(2);
+    s.style.cssText = [
+      'width:'  + size + 'px',
+      'height:' + size + 'px',
+      'left:'   + (Math.random() * 100).toFixed(2) + '%',
+      'top:'    + (Math.random() * 100).toFixed(2) + '%',
+      'animation-duration:' + (Math.random() * 6 + 2).toFixed(2) + 's',
+      'animation-delay:-'   + (Math.random() * 7).toFixed(2) + 's'
+    ].join(';');
+    wrap.appendChild(s);
+  }
+}
+function showFortuneBg() {
+  buildFortuneStars();
+  document.getElementById('fortune-bg').style.display = 'block';
+}
+function hideFortuneBg() {
+  document.getElementById('fortune-bg').style.display = 'none';
+}
+
+/* ── Payment screen ──────────────────────────────────────────── */
 function showPaymentScreen(charKey, price) {
   var ci = FORTUNE_CHAR_INFO[charKey];
   var items = FORTUNE_PLAN_ITEMS[charKey][price];
@@ -1047,34 +1080,83 @@ function showPaymentScreen(charKey, price) {
   document.getElementById('pay-price-amt').textContent = '¥' + price;
   document.getElementById('pay-items-list').innerHTML = items.map(function(i){return '<li>'+i+'</li>'}).join('');
   /* reset form */
-  var nameEl = document.getElementById('pay-card-name');
-  if (nameEl) nameEl.value = '';
+  ['pay-card-name','pay-card-number','pay-expiry','pay-cvc'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) { el.value = ''; el.classList.remove('err'); }
+  });
   document.getElementById('card-errors').textContent = '';
-  /* restore Stripe placeholder if not yet mounted */
-  var ph = document.getElementById('card-element-placeholder');
-  if (ph) ph.style.display = '';
-  /* TODO: Stripe導入後は stripe.elements() で CardElement をマウント */
+  showFortuneBg();
   document.getElementById('screen-payment').classList.add('active');
-  if (nameEl) setTimeout(function(){ nameEl.focus(); }, 80);
+  setTimeout(function(){
+    var n = document.getElementById('pay-card-name');
+    if (n) n.focus();
+  }, 80);
 }
 function closePaymentScreen() {
   document.getElementById('screen-payment').classList.remove('active');
+  hideFortuneBg();
 }
-function onPayInputChange() {
-  /* TODO: Stripe導入後は CardElement の onChange と組み合わせてボタン活性制御 */
+
+/* ── Card input formatters ───────────────────────────────────── */
+function onCardNumberInput(el) {
+  var raw = el.value.replace(/\D/g,'').slice(0,16);
+  var groups = raw.match(/.{1,4}/g);
+  el.value = groups ? groups.join(' ') : '';
+  el.classList.remove('err');
   document.getElementById('card-errors').textContent = '';
 }
-function executePayment() {
-  /* TODO: Stripe導入後は stripe.confirmCardPayment() を呼び、成功後に startFortuneLoading() へ進む */
-  var nameEl = document.getElementById('pay-card-name');
-  var errEl  = document.getElementById('card-errors');
-  if (nameEl && !nameEl.value.trim()) {
-    errEl.textContent = 'カード名義を入力してください。';
-    nameEl.focus();
-    return;
+function onExpiryInput(el) {
+  var raw = el.value.replace(/\D/g,'').slice(0,4);
+  if (raw.length >= 3) {
+    el.value = raw.slice(0,2) + ' / ' + raw.slice(2);
+  } else {
+    el.value = raw;
   }
+  el.classList.remove('err');
+  document.getElementById('card-errors').textContent = '';
+}
+function onPayInputChange() {
+  document.getElementById('card-errors').textContent = '';
+  var el = event && event.target;
+  if (el) el.classList.remove('err');
+}
+
+/* ── Execute payment (仮バリデーション → 鑑定へ) ─────────────── */
+function executePayment() {
+  var nameEl = document.getElementById('pay-card-name');
+  var numEl  = document.getElementById('pay-card-number');
+  var expEl  = document.getElementById('pay-expiry');
+  var cvcEl  = document.getElementById('pay-cvc');
+  var errEl  = document.getElementById('card-errors');
+
+  function showErr(msg, focusEl) {
+    errEl.textContent = msg;
+    if (focusEl) { focusEl.classList.add('err'); focusEl.focus(); }
+  }
+
+  /* カード名義 */
+  if (!nameEl.value.trim()) {
+    showErr('カード名義を入力してください。', nameEl); return;
+  }
+  /* カード番号: 16桁 */
+  var digits = numEl.value.replace(/\s/g,'');
+  if (!/^\d{16}$/.test(digits)) {
+    showErr('カード番号を16桁で入力してください。', numEl); return;
+  }
+  /* 有効期限: MM/YY */
+  var exp = expEl.value.replace(/\s/g,'');
+  var expM = exp.match(/^(\d{2})\/(\d{2})$/);
+  if (!expM || +expM[1] < 1 || +expM[1] > 12) {
+    showErr('有効期限を MM / YY の形式で入力してください。', expEl); return;
+  }
+  /* CVC: 3〜4桁 */
+  if (!/^\d{3,4}$/.test(cvcEl.value.trim())) {
+    showErr('セキュリティコードを入力してください。', cvcEl); return;
+  }
+
   errEl.textContent = '';
-  closePaymentScreen();
+  document.getElementById('screen-payment').classList.remove('active');
+  /* background stays visible for loading/result screens */
   startFortuneLoading(_fortuneChar, _fortunePlan);
 }
 
@@ -1082,6 +1164,7 @@ function executePayment() {
    Fortune loading & result
    ============================================================ */
 function startFortuneLoading(charKey, plan) {
+  showFortuneBg();
   var el = document.getElementById('screen-fortune-loading');
   el.classList.add('active');
   if (charKey === 'luna') {
@@ -1119,6 +1202,7 @@ function showFortuneResult(charKey, plan) {
 function closeFortuneResult() {
   document.getElementById('screen-fortune-result').classList.remove('active');
   document.getElementById('screen-fortune-result').scrollTop = 0;
+  hideFortuneBg();
 }
 
 function initFortuneFade() {
