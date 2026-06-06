@@ -45,7 +45,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
      background:radial-gradient(circle,rgba(74,56,112,.11),transparent 70%);
      animation:drift 19s ease-in-out infinite reverse}
 .nb3{width:300px;height:300px;top:38%;left:55%;
-     background:radial-gradient(circle,rgba(212,175,55,.06),transparent 70%);
+     background:radial-gradient(circle,rgba(76,42,133,.08),transparent 70%);
      animation:drift 28s ease-in-out infinite 5s}
 @keyframes drift{
   0%,100%{transform:scale(1) translate(0,0)}
@@ -76,25 +76,69 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 }
 .mp-logout-btn:hover{background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.5)}
 
+/* ── MOON SYMBOL ── */
+.mp-symbol-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.6rem 0 .4rem;margin-bottom:.2rem;
+  position:relative;
+}
+.mp-symbol-orb{
+  position:relative;width:92px;height:92px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.7rem;
+}
+.mp-symbol-orb::before{
+  content:'';position:absolute;inset:-14px;border-radius:50%;
+  background:radial-gradient(circle,rgba(123,92,246,.18),transparent 70%);
+  animation:orbPulse 3.5s ease-in-out infinite;
+}
+.mp-symbol-orb::after{
+  content:'';position:absolute;inset:-28px;border-radius:50%;
+  background:radial-gradient(circle,rgba(76,42,133,.1),transparent 65%);
+  animation:orbPulse 3.5s ease-in-out infinite .8s;
+}
+@keyframes orbPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+.mp-symbol-moon-emoji{
+  font-size:3rem;z-index:1;position:relative;
+  animation:float 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(123,92,246,.65));
+}
+.mp-symbol-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(220,206,255,.12);
+  animation:ringExpand 4s ease-in-out infinite;
+}
+.mp-symbol-ring:nth-child(2){width:78px;height:78px;animation-delay:.5s}
+.mp-symbol-ring:nth-child(3){width:104px;height:104px;animation-delay:1s}
+@keyframes ringExpand{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.45;transform:scale(1.06)}}
+.mp-symbol-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;
+  color:var(--purL);letter-spacing:.22em;text-align:center;margin-bottom:.18rem;
+}
+.mp-symbol-sub{
+  font-size:.58rem;letter-spacing:.28em;color:var(--muted);font-style:italic;
+  text-align:center;text-transform:uppercase;
+}
+
 /* ── USER HERO CARD ── */
 .user-hero{
   position:relative;overflow:hidden;
   background:linear-gradient(158deg,rgba(16,11,42,.97),rgba(9,6,26,.99));
-  border:1px solid rgba(212,175,55,.16);border-radius:22px;
-  box-shadow:0 16px 48px rgba(0,0,0,.45),inset 0 1px 0 rgba(212,175,55,.06);
+  border:1px solid rgba(220,206,255,.14);border-radius:22px;
+  box-shadow:0 16px 48px rgba(0,0,0,.45),inset 0 1px 0 rgba(220,206,255,.07);
   padding:2rem 1.8rem 1.6rem;margin-bottom:1.4rem;
 }
 .user-hero::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(212,175,55,.55),rgba(139,92,246,.4),rgba(212,175,55,.55),transparent);
+  background:linear-gradient(90deg,transparent,rgba(220,206,255,.38),rgba(76,42,133,.6),rgba(220,206,255,.38),transparent);
 }
 .user-hero-inner{display:flex;align-items:flex-start;gap:1.2rem}
 .user-moon-orb{
-  flex-shrink:0;width:62px;height:62px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,rgba(212,175,55,.18),rgba(139,92,246,.06) 60%,transparent);
-  border:1px solid rgba(212,175,55,.22);
+  flex-shrink:0;width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(123,92,246,.22),rgba(76,42,133,.1) 60%,transparent);
+  border:1.5px solid rgba(220,206,255,.28);
   display:flex;align-items:center;justify-content:center;
-  font-size:1.8rem;animation:float 4s ease-in-out infinite;
+  font-size:1.85rem;animation:float 4s ease-in-out infinite;
+  box-shadow:0 0 18px rgba(123,92,246,.25),inset 0 0 8px rgba(123,92,246,.08);
 }
 .user-info-col{flex:1;min-width:0}
 .user-greeting{font-size:.6rem;letter-spacing:.2em;color:var(--muted);font-style:italic;margin-bottom:.15rem;text-transform:uppercase}
@@ -103,14 +147,38 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .user-personality{font-size:.72rem;color:var(--purL);letter-spacing:.06em;margin-bottom:.6rem}
 .user-meta-row{display:flex;gap:.7rem;flex-wrap:wrap}
 .user-meta-chip{font-size:.62rem;color:var(--dim);letter-spacing:.05em;border:1px solid rgba(80,88,120,.3);border-radius:20px;padding:.15rem .6rem}
-.moon-msg-strip{margin-top:1.1rem;padding:1rem 1.2rem;background:rgba(139,92,246,.04);border:1px solid rgba(139,92,246,.12);border-radius:12px}
+.moon-msg-strip{margin-top:1.1rem;padding:1rem 1.2rem;background:rgba(76,42,133,.06);border:1px solid rgba(123,92,246,.15);border-radius:12px}
 .moon-msg-strip p{font-size:.76rem;color:rgba(190,185,220,.82);line-height:2;letter-spacing:.05em;font-family:'Noto Serif JP',serif;font-weight:300}
 .moon-msg-strip em{color:var(--purL);font-style:normal}
 
+/* ── USER STATS ROW ── */
+.user-stats-row{
+  display:flex;align-items:stretch;gap:0;
+  margin-top:1.2rem;
+  background:rgba(76,42,133,.06);
+  border:1px solid rgba(220,206,255,.1);
+  border-radius:14px;overflow:hidden;
+}
+.stat-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:.75rem .4rem .65rem;gap:.18rem;
+}
+.stat-val{
+  font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:600;
+  color:var(--purL);letter-spacing:.04em;line-height:1;
+}
+.stat-label{font-size:.56rem;color:var(--dim);letter-spacing:.06em;text-align:center;white-space:nowrap}
+.stat-sep{width:1px;background:rgba(220,206,255,.1);flex-shrink:0;margin:.5rem 0}
+
 /* ── SECTION HEADER ── */
-.section-hd{display:flex;align-items:center;gap:.6rem;margin:1.8rem 0 1rem}
-.section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(139,92,246,.25),transparent)}
-.section-hd-text{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:400;color:rgba(180,170,220,.8);letter-spacing:.14em;white-space:nowrap}
+.section-hd{display:flex;align-items:center;gap:.7rem;margin:2rem 0 1.1rem}
+.section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(123,92,246,.3),transparent)}
+.section-hd-line.r{background:linear-gradient(270deg,rgba(123,92,246,.3),transparent)}
+.section-hd-text{
+  font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:600;
+  color:var(--purL);letter-spacing:.2em;white-space:nowrap;
+  text-shadow:0 0 18px rgba(123,92,246,.4);
+}
 
 /* ── CHARACTER CARDS (ACCORDION WRAPPER) ── */
 .char-cards{display:flex;flex-direction:column;gap:1rem}
@@ -181,10 +249,10 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .char-item.mikage .char-card:hover .char-orb{box-shadow:0 0 28px rgba(139,92,246,.6),0 0 14px rgba(139,92,246,.4),inset 0 0 10px rgba(139,92,246,.12)}
 .char-item.oba    .char-card:hover .char-orb{box-shadow:0 0 28px rgba(100,160,230,.6),0 0 14px rgba(100,160,230,.4),inset 0 0 10px rgba(100,160,230,.12)}
 .char-item.luna   .char-card:hover .char-orb{box-shadow:0 0 28px rgba(220,100,200,.6),0 0 14px rgba(220,100,200,.4),inset 0 0 10px rgba(220,100,200,.12)}
-/* open/selected: golden glow */
+/* open/selected: moonlight glow */
 .char-item.open .char-orb{
-  border-color:rgba(212,175,55,.65) !important;
-  box-shadow:0 0 32px rgba(212,175,55,.45),0 0 12px rgba(212,175,55,.28),inset 0 0 10px rgba(212,175,55,.1) !important;
+  border-color:rgba(220,206,255,.65) !important;
+  box-shadow:0 0 32px rgba(123,92,246,.5),0 0 12px rgba(220,206,255,.22),inset 0 0 10px rgba(123,92,246,.12) !important;
 }
 
 /* text column */
@@ -253,7 +321,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   -webkit-tap-highlight-color:transparent;
 }
 .plan-opt:active{background:rgba(255,255,255,.07)}
-.plan-opt.selected{border-color:rgba(212,175,55,.48);background:rgba(212,175,55,.07)}
+.plan-opt.selected{border-color:rgba(123,92,246,.55);background:rgba(76,42,133,.1)}
 
 /* selected checkmark */
 .plan-opt-hd{display:flex;align-items:baseline;gap:.55rem;margin-bottom:.45rem}
@@ -292,21 +360,60 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .acc-confirm-btn:disabled{opacity:.35;cursor:not-allowed;animation:none}
 
 /* ── HISTORY SECTION ── */
-.history-list{display:flex;flex-direction:column;gap:.7rem}
+.history-list{display:flex;flex-direction:column;gap:.85rem}
 .history-card{
-  display:flex;align-items:center;gap:1rem;
-  background:rgba(13,15,38,.85);border:1px solid rgba(139,92,246,.1);
-  border-radius:14px;padding:.9rem 1.1rem;transition:border-color .2s;
+  background:linear-gradient(158deg,rgba(16,11,42,.95),rgba(9,6,26,.98));
+  border:1px solid rgba(123,92,246,.14);
+  border-radius:18px;overflow:hidden;
+  transition:border-color .22s,box-shadow .22s;
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
 }
-.history-card:hover{border-color:rgba(139,92,246,.22)}
-.history-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;font-size:1.1rem;display:flex;align-items:center;justify-content:center;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.15)}
+.history-card:hover{border-color:rgba(123,92,246,.32);box-shadow:0 6px 28px rgba(76,42,133,.2)}
+.history-card-top{
+  display:flex;align-items:center;gap:1rem;
+  padding:.95rem 1.1rem .7rem;
+}
+.history-icon{
+  flex-shrink:0;width:42px;height:42px;border-radius:50%;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,rgba(76,42,133,.22),rgba(30,11,56,.3));
+  border:1.5px solid rgba(123,92,246,.22);
+  box-shadow:0 0 12px rgba(123,92,246,.15);
+}
 .history-col{flex:1;min-width:0}
-.history-title{font-size:.8rem;color:var(--text);letter-spacing:.05em;margin-bottom:.18rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.history-meta{font-size:.62rem;color:var(--dim);letter-spacing:.04em}
-.history-badge{flex-shrink:0;font-size:.58rem;letter-spacing:.08em;border-radius:20px;padding:.16rem .55rem;font-family:'Noto Serif JP',serif}
-.history-badge.light{color:rgba(212,175,55,.9);border:1px solid rgba(212,175,55,.28);background:rgba(212,175,55,.06)}
-.history-badge.deep{color:rgba(139,92,246,.95);border:1px solid rgba(139,92,246,.32);background:rgba(139,92,246,.08)}
-.history-empty{text-align:center;padding:2rem;color:var(--dim);font-size:.78rem;letter-spacing:.08em;font-style:italic}
+.history-teller{
+  font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:400;
+  color:var(--text);letter-spacing:.05em;margin-bottom:.12rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.history-reading{font-size:.62rem;color:var(--muted);letter-spacing:.06em;font-style:italic}
+.history-badge{flex-shrink:0;font-size:.58rem;letter-spacing:.08em;border-radius:20px;padding:.18rem .6rem;font-family:'Noto Serif JP',serif}
+.history-badge.light{color:rgba(196,184,255,.9);border:1px solid rgba(196,184,255,.28);background:rgba(76,42,133,.1)}
+.history-badge.deep{color:var(--purL);border:1px solid rgba(220,206,255,.32);background:rgba(76,42,133,.18)}
+.history-card-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem 1.1rem .9rem;
+  border-top:1px solid rgba(123,92,246,.08);
+}
+.history-date{
+  font-size:.62rem;color:var(--dim);letter-spacing:.07em;
+  display:flex;align-items:center;gap:.3rem;
+}
+.history-date::before{content:'📅';font-size:.58rem;opacity:.6}
+.history-view-btn{
+  font-family:'Noto Serif JP',serif;font-size:.64rem;letter-spacing:.1em;
+  color:var(--purL);background:rgba(76,42,133,.1);
+  border:1px solid rgba(123,92,246,.28);border-radius:20px;
+  padding:.28rem .85rem;cursor:pointer;-webkit-appearance:none;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.history-view-btn:hover{background:rgba(76,42,133,.25);border-color:rgba(220,206,255,.45);color:#fff}
+.history-empty{
+  text-align:center;padding:3rem 1rem;color:var(--dim);
+  font-size:.78rem;letter-spacing:.1em;font-style:italic;
+  border:1px dashed rgba(123,92,246,.15);border-radius:18px;
+  background:rgba(11,9,30,.5);
+}
 
 /* ── LOGIN REQUIRED OVERLAY ── */
 #screen-login-required{
@@ -315,7 +422,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   flex-direction:column;align-items:center;justify-content:center;padding:2rem;
 }
 .login-req-inner{text-align:center;max-width:380px}
-.login-req-moon{font-size:3.2rem;margin-bottom:1.2rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(212,175,55,.5))}
+.login-req-moon{font-size:3.2rem;margin-bottom:1.2rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(123,92,246,.65))}
 .login-req-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;letter-spacing:.14em;color:var(--purL);margin-bottom:.4rem}
 .login-req-sub{font-size:.62rem;letter-spacing:.22em;color:var(--purL);margin-bottom:2rem;font-style:italic;text-transform:uppercase}
 .login-req-msg{font-size:.8rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:2.4rem}
@@ -639,6 +746,17 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <button class="mp-logout-btn" onclick="handleLogout()">ログアウト</button>
   </header>
 
+  <!-- Moon Symbol -->
+  <div class="mp-symbol-wrap">
+    <div class="mp-symbol-orb">
+      <div class="mp-symbol-ring"></div>
+      <div class="mp-symbol-ring"></div>
+      <span class="mp-symbol-moon-emoji" id="mp-symbol-emoji">🌙</span>
+    </div>
+    <p class="mp-symbol-title">My Page</p>
+    <p class="mp-symbol-sub">運命の記録庫</p>
+  </div>
+
   <!-- User Hero -->
   <div class="user-hero">
     <div class="user-hero-inner">
@@ -654,6 +772,23 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
         </div>
       </div>
     </div>
+    <!-- Stats Row -->
+    <div class="user-stats-row">
+      <div class="stat-item">
+        <div class="stat-val" id="stat-count">5</div>
+        <div class="stat-label">総鑑定回数</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-last">05.10</div>
+        <div class="stat-label">最後の鑑定日</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-plan">無料</div>
+        <div class="stat-label">利用プラン</div>
+      </div>
+    </div>
     <div class="moon-msg-strip">
       <p id="user-moon-msg">内側に宿る光が、あなたの道を照らしています。</p>
     </div>
@@ -662,8 +797,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   <!-- Character Selection -->
   <div class="section-hd">
     <div class="section-hd-line"></div>
-    <div class="section-hd-text">占い師を選ぶ</div>
-    <div class="section-hd-line"></div>
+    <div class="section-hd-text">✦ 占い師を選ぶ ✦</div>
+    <div class="section-hd-line r"></div>
   </div>
 
   <div class="char-cards">
@@ -838,8 +973,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   <!-- History Section -->
   <div class="section-hd">
     <div class="section-hd-line"></div>
-    <div class="section-hd-text">鑑定履歴</div>
-    <div class="section-hd-line"></div>
+    <div class="section-hd-text">✦ 鑑定履歴 ✦</div>
+    <div class="section-hd-line r"></div>
   </div>
 
   <div class="history-list" id="history-list"></div>
@@ -875,11 +1010,11 @@ var USER_MOON = {
    History data
    ============================================================ */
 var HISTORY_ALL = [
-  {icon:'🌙', title:'陰陽師ミカゲ — 月星座鑑定',      date:'2026.05.10', plan:'deep' },
-  {icon:'⭐', title:'星読みのおばあちゃん — 月運鑑定',  date:'2026.04.28', plan:'light'},
-  {icon:'🃏', title:'タロット女子ルナ — オラクル鑑定',  date:'2026.04.15', plan:'deep' },
-  {icon:'🌙', title:'陰陽師ミカゲ — 運命鑑定',         date:'2026.03.22', plan:'light'},
-  {icon:'🃏', title:'タロット女子ルナ — タロット鑑定',  date:'2026.03.08', plan:'deep' }
+  {icon:'🌙', teller:'陰陽師ミカゲ',         reading:'月星座鑑定',    date:'2026.05.10', plan:'deep' },
+  {icon:'⭐', teller:'星読みのおばあちゃん', reading:'月運鑑定',      date:'2026.04.28', plan:'light'},
+  {icon:'🃏', teller:'タロット女子ルナ',     reading:'オラクル鑑定',  date:'2026.04.15', plan:'deep' },
+  {icon:'🌙', teller:'陰陽師ミカゲ',         reading:'運命鑑定',      date:'2026.03.22', plan:'light'},
+  {icon:'🃏', teller:'タロット女子ルナ',     reading:'タロット鑑定',  date:'2026.03.08', plan:'deep' }
 ];
 
 /* ============================================================
@@ -988,6 +1123,21 @@ function renderUserInfo() {
   document.getElementById('user-email-chip').textContent   = USER.email || '';
   var msgEl = document.getElementById('user-moon-msg');
   if (msgEl) msgEl.innerHTML = USER_MOON.moonMessage || '内側に宿る光が、あなたの道を照らしています。';
+
+  /* Stats */
+  var countEl = document.getElementById('stat-count');
+  var lastEl  = document.getElementById('stat-last');
+  var planEl  = document.getElementById('stat-plan');
+  if (countEl) countEl.textContent = HISTORY_ALL.length || '0';
+  if (lastEl) {
+    var last = HISTORY_ALL.length ? HISTORY_ALL[0].date.replace(/^\d{4}\./,'') : '—';
+    lastEl.textContent = last;
+  }
+  if (planEl) planEl.textContent = USER.plan === 'premium' ? '有料' : '無料';
+
+  /* Sync moon symbol emoji */
+  var symEl = document.getElementById('mp-symbol-emoji');
+  if (symEl) symEl.textContent = USER_MOON.moonEmoji || '🌙';
 }
 
 /* ============================================================
@@ -996,19 +1146,25 @@ function renderUserInfo() {
 function renderHistory() {
   var list = document.getElementById('history-list');
   if (!HISTORY_ALL || !HISTORY_ALL.length) {
-    list.innerHTML = '<div class="history-empty">まだ鑑定履歴はありません</div>';
+    list.innerHTML = '<div class="history-empty">まだ鑑定履歴はありません<br><br>占い師を選んで、はじめての鑑定を受けてみましょう。</div>';
     return;
   }
   list.innerHTML = HISTORY_ALL.map(function(h) {
     var bc = h.plan === 'deep' ? 'deep' : 'light';
-    var bl = h.plan === 'deep' ? '深層鑑定' : '導き鑑定';
+    var bl = h.plan === 'deep' ? '深読み鑑定' : '基本鑑定';
     return '<div class="history-card">' +
-      '<div class="history-icon">' + h.icon + '</div>' +
-      '<div class="history-col">' +
-        '<div class="history-title">' + h.title + '</div>' +
-        '<div class="history-meta">' + h.date + '</div>' +
+      '<div class="history-card-top">' +
+        '<div class="history-icon">' + h.icon + '</div>' +
+        '<div class="history-col">' +
+          '<div class="history-teller">' + h.teller + '</div>' +
+          '<div class="history-reading">' + h.reading + '</div>' +
+        '</div>' +
+        '<span class="history-badge ' + bc + '">' + bl + '</span>' +
       '</div>' +
-      '<span class="history-badge ' + bc + '">' + bl + '</span>' +
+      '<div class="history-card-bottom">' +
+        '<span class="history-date">' + h.date + '</span>' +
+        '<button class="history-view-btn" onclick="alert(\'結果の再表示は次のアップデートで対応予定です\')">結果を見る →</button>' +
+      '</div>' +
       '</div>';
   }).join('');
 }
