@@ -442,11 +442,160 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
 .fortune-screen.active{display:flex;flex-direction:column}
 #screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
+#screen-payment-done.active{align-items:center;justify-content:center;padding:2rem 1rem}
 #screen-fortune-loading.active{align-items:center;justify-content:center}
 #screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
-.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:5rem 1rem 6rem}
+.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:4.5rem 1rem 5rem}
 
-/* Fortune shared starry background layer */
+/* ── PAYMENT DONE SCREEN ── */
+.pay-done-card{
+  width:100%;max-width:390px;
+  background:linear-gradient(158deg,rgba(26,27,58,.97),rgba(11,9,30,.99));
+  border:1px solid rgba(220,206,255,.16);border-radius:24px;
+  padding:2.5rem 1.8rem 2rem;text-align:center;
+  position:relative;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(220,206,255,.07);
+  animation:payDoneIn .45s cubic-bezier(.34,1.2,.64,1) both;
+}
+@keyframes payDoneIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.pay-done-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.5),rgba(76,42,133,.6),rgba(110,231,183,.5),transparent)}
+.pay-done-icon-wrap{
+  position:relative;width:72px;height:72px;margin:0 auto 1.3rem;
+}
+.pay-done-icon-wrap::before{
+  content:'';position:absolute;inset:-12px;border-radius:50%;
+  background:radial-gradient(circle,rgba(110,231,183,.18),transparent 70%);
+  animation:orbPulse 2.5s ease-in-out infinite;
+}
+.pay-done-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,rgba(110,231,183,.22),rgba(76,42,133,.15));
+  border:2px solid rgba(110,231,183,.45);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;position:relative;
+  box-shadow:0 0 24px rgba(110,231,183,.2),inset 0 0 10px rgba(110,231,183,.06);
+}
+.pay-done-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;
+  color:var(--text);letter-spacing:.08em;margin-bottom:.35rem;
+}
+.pay-done-sub{
+  font-size:.76rem;color:var(--muted);letter-spacing:.1em;line-height:1.9;
+  margin-bottom:1.5rem;
+}
+.pay-done-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(123,92,246,.25),transparent);margin:0 0 1.4rem}
+.pay-done-char-row{
+  display:flex;align-items:center;justify-content:center;gap:.85rem;
+  margin-bottom:1.5rem;
+  background:rgba(76,42,133,.07);border:1px solid rgba(220,206,255,.1);
+  border-radius:14px;padding:.85rem 1.1rem;
+}
+.pay-done-char-orb{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1.5px solid rgba(123,92,246,.4)}
+.pay-done-char-orb img{width:100%;height:100%;object-fit:cover;display:block}
+.pay-done-char-info{text-align:left}
+.pay-done-char-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text);letter-spacing:.05em;margin-bottom:.18rem}
+.pay-done-plan-badge{
+  display:inline-block;font-size:.6rem;letter-spacing:.1em;
+  color:var(--purL);background:rgba(76,42,133,.18);
+  border:1px solid rgba(123,92,246,.3);border-radius:20px;
+  padding:.15rem .6rem;
+}
+.pay-done-start-btn{
+  display:block;width:100%;padding:.92rem;border-radius:9999px;border:none;cursor:pointer;
+  font-family:'Noto Serif JP',serif;font-size:.84rem;letter-spacing:.18em;
+  background:linear-gradient(115deg,#2E1860 0%,#4C2A85 35%,#7B5CF6 62%,#4C2A85 100%);
+  background-size:240% auto;color:var(--text);
+  box-shadow:0 4px 28px rgba(76,42,133,.48);
+  animation:btnShine 4s linear infinite;
+  -webkit-appearance:none;transition:opacity .2s;margin-bottom:.65rem;
+}
+.pay-done-start-btn:hover{opacity:.88}
+
+/* ── LOADING SCREENS (per character) ── */
+.fl-wrap{text-align:center;width:100%;max-width:360px;padding:0 1.5rem}
+.fl-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;
+  color:var(--purL);letter-spacing:.12em;margin-bottom:.4rem;
+}
+.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.5rem;min-height:1.8em}
+.fl-bar-wrap{background:rgba(30,20,60,.5);border-radius:4px;height:3px;overflow:hidden;margin:0 auto;max-width:240px}
+.fl-bar{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);width:0;transition:width .2s ease;border-radius:4px}
+
+/* Mikage loading — 陰陽紋章 */
+.fl-mikage-emblem{
+  position:relative;width:88px;height:88px;margin:0 auto 1.2rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.fl-mikage-emblem::before,.fl-mikage-emblem::after{
+  content:'';position:absolute;border-radius:50%;
+}
+.fl-mikage-emblem::before{inset:-16px;background:radial-gradient(circle,rgba(123,92,246,.22),transparent 68%);animation:orbPulse 2.8s ease-in-out infinite}
+.fl-mikage-emblem::after{inset:-28px;background:radial-gradient(circle,rgba(76,42,133,.12),transparent 65%);animation:orbPulse 2.8s ease-in-out infinite .6s}
+.fl-mikage-glyph{
+  font-size:3.2rem;z-index:1;line-height:1;
+  animation:mkglyph 6s linear infinite;
+  filter:drop-shadow(0 0 14px rgba(123,92,246,.7)) drop-shadow(0 0 28px rgba(76,42,133,.4));
+}
+@keyframes mkglyph{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fl-reiki-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(124,143,232,.25);
+  animation:reikiExpand 2.4s ease-out infinite;
+}
+.fl-reiki-ring:nth-child(2){width:80px;height:80px;animation-delay:.6s}
+.fl-reiki-ring:nth-child(3){width:110px;height:110px;animation-delay:1.2s}
+@keyframes reikiExpand{0%{opacity:.6;transform:scale(.7)}100%{opacity:0;transform:scale(1.5)}}
+
+/* Oba loading — 月相 + 星 */
+.fl-oba-moon-wrap{
+  position:relative;width:96px;height:96px;margin:0 auto 1.2rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.fl-oba-moon{
+  font-size:3.4rem;z-index:1;
+  animation:float 3.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 16px rgba(196,184,255,.6)) drop-shadow(0 0 32px rgba(76,42,133,.35));
+}
+.fl-oba-star{
+  position:absolute;font-size:.9rem;
+  animation:obaSpark linear infinite;
+}
+@keyframes obaSpark{0%{opacity:0;transform:scale(0) rotate(0)}30%{opacity:.9}100%{opacity:0;transform:scale(1.2) rotate(360deg) translate(var(--tx),var(--ty))}}
+
+/* Result footer back button */
+.res-footer-back-btn{
+  display:block;width:100%;max-width:480px;
+  padding:.92rem;border-radius:9999px;border:none;cursor:pointer;
+  font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.16em;
+  background:linear-gradient(115deg,#2E1860 0%,#4C2A85 35%,#7B5CF6 62%,#4C2A85 100%);
+  background-size:240% auto;color:var(--text);
+  box-shadow:0 4px 26px rgba(76,42,133,.42);
+  animation:btnShine 4s linear infinite;
+  -webkit-appearance:none;margin-top:2.5rem;
+  transition:opacity .2s;
+}
+.res-footer-back-btn:hover{opacity:.85}
+.res-footer-copy{
+  text-align:center;font-size:.62rem;color:var(--dim);
+  letter-spacing:.1em;margin-top:.85rem;margin-bottom:1rem;
+  font-family:'Noto Serif JP',serif;font-weight:200;
+}
+
+/* Result card spacing improvements */
+.mk-section,.luna-section,.oba-section,
+.mk-unlocked-section,.oba-unlocked-section,.luna-unlocked-section,
+.luna-fortune-wrap,.luna-paid-char-wrap,.oba-cal-outer{margin-top:1.8rem}
+.mk-banner{margin-bottom:1.6rem}
+.mv-wrap{margin-top:.8rem;padding:2.2rem 1.6rem 2rem}
+.mk-catch-card{padding:2rem 1.8rem}
+.mk-phase-inner{padding:1.2rem 1.8rem 1.6rem}
+.mk-unlocked-card{padding:1.4rem 1.5rem}
+.oba-unlocked-card{padding:1.4rem 1.5rem}
+.luna-card-visual{padding:1.8rem 1.4rem 1.6rem;margin-top:.8rem}
+.luna-msg-section{padding:1.4rem 1.4rem 1rem;margin-top:1.2rem}
+.luna-fortune-glass{padding:1.1rem 1.5rem 1.4rem}
+.luna-unlocked-glass{padding:1.4rem 1.5rem}
+.luna-paid-char-glass{padding:1.5rem 1.6rem}
+.luna-section-body{padding:1.1rem 1.6rem 1.5rem}
 #fortune-bg{display:none;position:fixed;inset:0;z-index:7990;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 58%);overflow:hidden}
 .fortune-nb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:nd 22s ease-in-out infinite}
 .fortune-nb2{animation-duration:18s;animation-direction:reverse}
@@ -486,17 +635,19 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .pay-btn:disabled{opacity:.42;cursor:not-allowed;animation:none}
 .pay-back-btn{display:block;width:100%;padding:.68rem;border-radius:9999px;border:1px solid rgba(220,206,255,.12);background:transparent;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.74rem;letter-spacing:.1em;color:rgba(200,190,235,.5);-webkit-appearance:none}
 
-/* Loading */
-.fl-wrap{text-align:center;width:100%;max-width:360px;padding:0 1.5rem}
+/* fl-moon kept for luna ceremony compatibility */
 .fl-moon{font-size:2.6rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(139,92,246,.5))}
-.fl-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--goldP);letter-spacing:.1em;margin-bottom:.35rem}
-.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.5rem;min-height:1.5em}
-.fl-bar-wrap{background:rgba(30,20,60,.5);border-radius:4px;height:3px;overflow:hidden}
-.fl-bar{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);width:0;transition:width .2s ease;border-radius:4px}
 
-/* Result back button */
-.res-back-btn{display:flex;align-items:center;gap:.4rem;align-self:flex-start;font-size:.7rem;color:var(--purL);opacity:.68;cursor:pointer;letter-spacing:.08em;margin-bottom:1.2rem;transition:opacity .2s;background:none;border:none;position:fixed;top:1.1rem;left:1.2rem;z-index:9;-webkit-appearance:none}
-.res-back-btn:hover{opacity:1}
+/* Result back button (top fixed) */
+.res-back-btn{
+  display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--purL);
+  cursor:pointer;letter-spacing:.08em;transition:opacity .2s,background .2s;
+  background:rgba(11,9,30,.72);border:1px solid rgba(123,92,246,.2);
+  border-radius:20px;padding:.35rem .85rem;
+  position:fixed;top:1rem;left:1rem;z-index:9;-webkit-appearance:none;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.res-back-btn:hover{background:rgba(76,42,133,.25);border-color:rgba(220,206,255,.35)}
 
 /* Shared result styles */
 .mk-scroll-fade{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
@@ -721,6 +872,27 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     </div>
     <button class="pay-btn" id="pay-submit-btn" onclick="executePayment()">決済して鑑定を受ける</button>
     <button class="pay-back-btn" onclick="closePaymentScreen()">← 戻る</button>
+  </div>
+</div>
+
+<!-- ── Payment Complete Screen ── -->
+<div class="fortune-screen" id="screen-payment-done">
+  <div class="pay-done-card">
+    <div class="pay-done-icon-wrap">
+      <div class="pay-done-icon">✓</div>
+    </div>
+    <p class="pay-done-title">決済が完了しました</p>
+    <p class="pay-done-sub">これより鑑定を開始します。<br>準備ができましたら下のボタンを押してください。</p>
+    <div class="pay-done-divider"></div>
+    <div class="pay-done-char-row">
+      <div class="pay-done-char-orb"><img id="done-char-img" src="" alt=""></div>
+      <div class="pay-done-char-info">
+        <div class="pay-done-char-name" id="done-char-name"></div>
+        <span class="pay-done-plan-badge" id="done-plan-badge"></span>
+      </div>
+    </div>
+    <button class="pay-done-start-btn" onclick="startFortuneFromDone()">鑑定を開始する →</button>
+    <button class="pay-back-btn" onclick="closePaymentDone()">← マイページへ戻る</button>
   </div>
 </div>
 
@@ -1312,7 +1484,23 @@ function executePayment() {
 
   errEl.textContent = '';
   document.getElementById('screen-payment').classList.remove('active');
-  /* background stays visible for loading/result screens */
+  showPaymentComplete(_fortuneChar, _fortunePlan);
+}
+
+/* ── Payment complete screen ──────────────────────────────────── */
+function showPaymentComplete(charKey, plan) {
+  var ci = FORTUNE_CHAR_INFO[charKey];
+  document.getElementById('done-char-img').src = ci.img;
+  document.getElementById('done-char-name').textContent = ci.name;
+  document.getElementById('done-plan-badge').textContent = plan === 100 ? '基本鑑定 ¥100' : '深読み鑑定 ¥500';
+  document.getElementById('screen-payment-done').classList.add('active');
+}
+function closePaymentDone() {
+  document.getElementById('screen-payment-done').classList.remove('active');
+  hideFortuneBg();
+}
+function startFortuneFromDone() {
+  document.getElementById('screen-payment-done').classList.remove('active');
   startFortuneLoading(_fortuneChar, _fortunePlan);
 }
 
@@ -1323,23 +1511,62 @@ function startFortuneLoading(charKey, plan) {
   showFortuneBg();
   var el = document.getElementById('screen-fortune-loading');
   el.classList.add('active');
+
   if (charKey === 'luna') {
     startLunaCeremony(plan);
+  } else if (charKey === 'mikage') {
+    var msgs = ['陰陽の気を読み解いています…','運命の流れを探っています…','五行の智慧を紐解いています…','あなたへの神託を紡いでいます…'];
+    el.innerHTML =
+      '<div class="fl-wrap">' +
+        '<div class="fl-mikage-emblem">' +
+          '<div class="fl-reiki-ring"></div>' +
+          '<div class="fl-reiki-ring"></div>' +
+          '<span class="fl-mikage-glyph">☯</span>' +
+        '</div>' +
+        '<p class="fl-title">陰陽鑑定中</p>' +
+        '<p class="fl-msg" id="fl-msg">' + msgs[0] + '</p>' +
+        '<div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div>' +
+      '</div>';
+    runLoadingBar(msgs, charKey, plan);
   } else {
-    var msgs = ['運命を読み解いています…','月の導きを受信しています…','カードの声を聞いています…','あなたへのメッセージを紡いでいます…'];
-    el.innerHTML = '<div class="fl-wrap"><div class="fl-moon">🌙</div><p class="fl-title">鑑定中</p><p class="fl-msg" id="fl-msg">'+msgs[0]+'</p><div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div></div>';
-    var mi = 0;
-    var mel = document.getElementById('fl-msg');
-    var iv = setInterval(function(){ mi=(mi+1)%msgs.length; if(mel)mel.textContent=msgs[mi]; }, 820);
-    var bar = document.getElementById('fl-bar');
-    var pct = 0;
-    (function step(){
-      pct += Math.random()*8+3; if(pct>=100)pct=100;
-      bar.style.width = pct+'%';
-      if(pct<100) setTimeout(step, 75+Math.random()*50);
-      else { clearInterval(iv); setTimeout(function(){ showFortuneResult(charKey, plan); }, 500); }
-    })();
+    /* oba */
+    var msgs = ['星々の導きを受信しています…','今月の運命を読み解いています…','天の星座配置を確認しています…','あんたへのメッセージを届けます…'];
+    var starHtml = '';
+    var angles = [0, 60, 120, 180, 240, 300, 330];
+    for (var i = 0; i < angles.length; i++) {
+      var rad = angles[i] * Math.PI / 180;
+      var tx = (Math.cos(rad) * 52).toFixed(0);
+      var ty = (Math.sin(rad) * 52).toFixed(0);
+      var dur = (2.2 + Math.random() * 1.5).toFixed(2);
+      var del = (Math.random() * 2).toFixed(2);
+      starHtml += '<span class="fl-oba-star" style="--tx:'+tx+'px;--ty:'+ty+'px;animation-duration:'+dur+'s;animation-delay:'+del+'s">⭐</span>';
+    }
+    el.innerHTML =
+      '<div class="fl-wrap">' +
+        '<div class="fl-oba-moon-wrap">' +
+          '<span class="fl-oba-moon">🌕</span>' +
+          starHtml +
+        '</div>' +
+        '<p class="fl-title">星読み鑑定中</p>' +
+        '<p class="fl-msg" id="fl-msg">' + msgs[0] + '</p>' +
+        '<div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div>' +
+      '</div>';
+    runLoadingBar(msgs, charKey, plan);
   }
+}
+
+function runLoadingBar(msgs, charKey, plan) {
+  var mi = 0;
+  var mel = document.getElementById('fl-msg');
+  var iv = setInterval(function(){ mi=(mi+1)%msgs.length; if(mel)mel.textContent=msgs[mi]; }, 860);
+  var bar = document.getElementById('fl-bar');
+  var pct = 0;
+  (function step(){
+    pct += Math.random()*7+3; if(pct>=100)pct=100;
+    bar.style.width = pct+'%';
+    if(pct<100) setTimeout(step, 80+Math.random()*55);
+    else { clearInterval(iv); setTimeout(function(){ showFortuneResult(charKey, plan); }, 600); }
+  })();
 }
 
 function showFortuneResult(charKey, plan) {
@@ -1352,6 +1579,11 @@ function showFortuneResult(charKey, plan) {
   if (charKey === 'mikage') inner.innerHTML = buildMikageResult(plan);
   else if (charKey === 'oba') inner.innerHTML = buildObaResult(plan);
   else inner.innerHTML = buildLunaResult(plan);
+  /* footer back button */
+  inner.insertAdjacentHTML('beforeend',
+    '<button class="res-footer-back-btn mk-scroll-fade" onclick="closeFortuneResult()">← マイページへ戻る</button>' +
+    '<p class="res-footer-copy">© 2026 月詠み占い</p>'
+  );
   setTimeout(initFortuneFade, 80);
 }
 
