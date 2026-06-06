@@ -442,10 +442,10 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
 .fortune-screen.active{display:flex;flex-direction:column}
 #screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
-#screen-payment-done.active{align-items:center;justify-content:center;padding:2rem 1rem}
+#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:1.4rem 1rem 3rem}
 #screen-fortune-loading.active{align-items:center;justify-content:center}
 #screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
-.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:4.5rem 1rem 5rem}
+.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:3rem 1rem 5rem}
 
 /* ── PAYMENT DONE SCREEN ── */
 .pay-done-card{
@@ -1574,7 +1574,6 @@ function showFortuneResult(charKey, plan) {
   document.getElementById('screen-fortune-loading').innerHTML = '';
   var resEl = document.getElementById('screen-fortune-result');
   resEl.classList.add('active');
-  resEl.scrollTop = 0;
   var inner = document.getElementById('fortune-result-inner');
   if (charKey === 'mikage') inner.innerHTML = buildMikageResult(plan);
   else if (charKey === 'oba') inner.innerHTML = buildObaResult(plan);
@@ -1584,6 +1583,9 @@ function showFortuneResult(charKey, plan) {
     '<button class="res-footer-back-btn mk-scroll-fade" onclick="closeFortuneResult()">← マイページへ戻る</button>' +
     '<p class="res-footer-copy">© 2026 月詠み占い</p>'
   );
+  /* scroll to very top after DOM is ready */
+  resEl.scrollTop = 0;
+  requestAnimationFrame(function(){ resEl.scrollTop = 0; });
   setTimeout(initFortuneFade, 80);
 }
 
