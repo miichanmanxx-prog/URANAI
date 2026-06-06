@@ -329,6 +329,197 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 }
 
 .bottom-spacer{height:3rem}
+
+/* ── FORTUNE FLOW SCREENS ── */
+.fortune-screen{display:none;position:fixed;inset:0;z-index:8000;background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%)}
+.fortune-screen.active{display:flex;flex-direction:column}
+#screen-payment.active{align-items:center;justify-content:center;padding:2rem 1rem}
+#screen-fortune-loading.active{align-items:center;justify-content:center}
+#screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:5rem 1rem 6rem}
+
+/* Payment card */
+.pay-card{width:100%;max-width:380px;background:linear-gradient(158deg,rgba(16,11,42,.97),rgba(9,6,26,.99));border:1px solid rgba(212,175,55,.2);border-radius:22px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
+.pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.55),rgba(139,92,246,.4),rgba(212,175,55,.55),transparent)}
+.pay-char-row{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem}
+.pay-char-orb{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(139,92,246,.4)}
+.pay-char-orb img{width:100%;height:100%;object-fit:cover;display:block}
+.pay-char-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);letter-spacing:.06em}
+.pay-char-plan-lbl{font-size:.65rem;color:var(--purL);letter-spacing:.06em;margin-top:.2rem;font-style:italic}
+.pay-price-box{text-align:center;margin-bottom:1.2rem;padding:.9rem;background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.12);border-radius:12px}
+.pay-price-amt{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold);letter-spacing:.04em;line-height:1}
+.pay-price-unit{font-size:.64rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
+.pay-items{list-style:none;margin-bottom:1.3rem}
+.pay-items li{font-size:.7rem;color:rgba(175,170,210,.75);padding:.18rem 0 .18rem 1rem;position:relative;line-height:1.75;letter-spacing:.04em}
+.pay-items li::before{content:'◆';position:absolute;left:0;font-size:.42rem;line-height:2.6;color:rgba(139,92,246,.5)}
+.pay-btn{display:block;width:100%;padding:.88rem;border-radius:50px;border:none;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.14em;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;color:#F0EAF8;box-shadow:0 4px 26px rgba(139,92,246,.32);animation:btnShine 4s linear infinite;margin-bottom:.7rem;-webkit-appearance:none}
+.pay-back-btn{display:block;width:100%;padding:.68rem;border-radius:50px;border:1px solid rgba(255,255,255,.1);background:transparent;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.74rem;letter-spacing:.1em;color:rgba(200,190,235,.55);-webkit-appearance:none}
+
+/* Loading */
+.fl-wrap{text-align:center;width:100%;max-width:360px;padding:0 1.5rem}
+.fl-moon{font-size:2.6rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(139,92,246,.5))}
+.fl-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--goldP);letter-spacing:.1em;margin-bottom:.35rem}
+.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.5rem;min-height:1.5em}
+.fl-bar-wrap{background:rgba(30,20,60,.5);border-radius:4px;height:3px;overflow:hidden}
+.fl-bar{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);width:0;transition:width .2s ease;border-radius:4px}
+
+/* Result back button */
+.res-back-btn{display:flex;align-items:center;gap:.4rem;align-self:flex-start;font-size:.7rem;color:var(--purL);opacity:.68;cursor:pointer;letter-spacing:.08em;margin-bottom:1.2rem;transition:opacity .2s;background:none;border:none;position:fixed;top:1.1rem;left:1.2rem;z-index:9;-webkit-appearance:none}
+.res-back-btn:hover{opacity:1}
+
+/* Shared result styles */
+.mk-scroll-fade{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.mk-scroll-fade.in{opacity:1;transform:translateY(0)}
+@keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.mk-banner{width:100%;max-width:480px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.mk-banner-ava{width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
+.mk-banner-info{flex:1;min-width:0}
+.mk-banner-lbl{font-family:'Playfair Display',serif;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:.28rem;font-style:italic}
+.mk-banner-name{font-family:'Cormorant Garamond',serif;font-size:1.22rem;color:#E8EAF6;letter-spacing:.08em;line-height:1.2;margin-bottom:.22rem}
+.mk-banner-sub{font-size:.62rem;color:var(--muted);letter-spacing:.07em;font-style:italic;opacity:.78}
+
+/* Mikage result */
+.mv-wrap{width:100%;max-width:480px;text-align:center;padding:2rem 1.4rem 1.8rem;background:linear-gradient(168deg,rgba(14,16,46,.99),rgba(8,10,28,1));border:1px solid rgba(123,94,167,.32);border-radius:22px;position:relative;overflow:hidden;margin-top:.5rem}
+.mv-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(123,94,167,.2),transparent 62%);pointer-events:none}
+.mv-tag{font-size:.56rem;color:var(--muted);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.55rem}
+.mv-title{font-family:'Cormorant Garamond',serif;font-size:1.65rem;color:var(--goldP);letter-spacing:.06em;line-height:1.3;margin-bottom:.22rem}
+.mv-title-en{font-family:'Playfair Display',serif;font-size:.6rem;color:rgba(180,160,220,.52);letter-spacing:.2em;font-style:italic}
+.mk-sprite-icon{width:148px;height:185px;background-image:url('image1.png');background-size:514% 411.2%;background-repeat:no-repeat;display:block;position:relative;z-index:1}
+.mk-emblem-wrap{position:relative;width:148px;margin:0 auto 1.5rem;animation:mkfloat 4.2s ease-in-out infinite}
+.mk-emblem-frame{width:148px;height:185px;border-radius:16px;overflow:hidden;position:relative;border:1px solid rgba(139,92,246,.25);box-shadow:0 0 22px rgba(100,48,200,.22),inset 0 0 10px rgba(100,48,200,.06)}
+.mk-section{width:100%;max-width:480px;margin-top:1rem}
+.mk-catch-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.22);border-radius:18px;padding:1.8rem 1.6rem;text-align:center;position:relative;overflow:hidden}
+.mk-catch-lbl{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.25em;color:var(--goldD);text-transform:uppercase;opacity:.76;margin-bottom:.9rem}
+.mk-catch-intro{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:#6A6A8A;letter-spacing:.1em;margin-bottom:.3rem}
+.mk-catch-label{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:rgba(220,210,245,.95);letter-spacing:.06em;line-height:1.55;margin-bottom:.65rem;font-style:italic}
+.mk-catch-divider{width:52px;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.65),transparent);margin:0 auto .75rem}
+.mk-catch-copy{font-size:.84rem;color:rgba(200,190,235,.85);line-height:2;letter-spacing:.04em;margin-bottom:.6rem}
+.mk-catch-note{font-family:'Playfair Display',serif;font-size:.58rem;color:var(--purL);letter-spacing:.13em;opacity:.65;font-style:italic}
+.mk-phase-card{background:linear-gradient(158deg,rgba(18,12,44,.94),rgba(8,5,26,.97));border:1px solid rgba(139,92,246,.2);border-radius:18px;overflow:hidden;position:relative}
+.mk-phase-hd{padding:1.1rem 1.6rem .85rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(139,92,246,.14)}
+.mk-phase-ico{font-size:.9rem}.mk-phase-lbl{font-family:'Cormorant Garamond',serif;font-size:.96rem;color:rgba(220,210,245,.92);letter-spacing:.1em;font-style:italic}
+.mk-phase-inner{padding:1rem 1.6rem 1.3rem}
+.mk-phase-status{background:rgba(212,175,55,.07);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:.65rem 1rem;margin-bottom:.85rem}
+.mk-phase-status-txt{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--goldD);letter-spacing:.08em;font-style:italic;line-height:1.55}
+.mk-phase-body{font-size:.81rem;line-height:2.15;color:rgba(200,190,235,.85);letter-spacing:.04em}
+.mk-unlocked-section{width:100%;max-width:480px;margin-top:.8rem}
+.mk-unlocked-card{background:linear-gradient(158deg,rgba(18,10,44,.96),rgba(8,5,28,.98));border:1px solid rgba(139,92,246,.18);border-radius:16px;padding:1.1rem 1.3rem;position:relative;overflow:hidden}
+.mk-unlocked-card::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.06),transparent 68%);pointer-events:none}
+.mk-unlocked-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem}
+.mk-unlocked-ico{font-size:.92rem}.mk-unlocked-lbl{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:rgba(180,150,255,.9);letter-spacing:.06em}
+.mk-unlocked-body{font-size:.8rem;color:rgba(200,185,240,.8);line-height:1.92;letter-spacing:.04em}
+.mk-unlocked-body p{margin-bottom:.6rem}.mk-unlocked-body p:last-child{margin-bottom:0}
+
+/* Oba result */
+.oba-section{width:100%;max-width:480px;margin-top:1.1rem}
+.oba-theme-wrap{width:100%;max-width:480px;text-align:center;margin:.4rem 0 1rem;padding:0 .5rem}
+.oba-theme-label{font-size:.7rem;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:.32rem}
+.oba-theme-title{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:var(--goldP);letter-spacing:.05em;line-height:1.25;margin-bottom:.4rem}
+.oba-theme-sub{font-size:.8rem;color:var(--text);line-height:1.9;opacity:.9}
+.oba-cal-outer{width:100%;max-width:480px}
+.oba-cal-glass{background:linear-gradient(158deg,rgba(18,12,44,.93),rgba(8,6,24,.96));border:1px solid rgba(123,94,167,.22);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
+.oba-cal-hdr{display:flex;align-items:baseline;justify-content:center;gap:.55rem;padding:.85rem 1.2rem .58rem;border-bottom:1px solid rgba(123,94,167,.13)}
+.oba-cal-yr{font-size:.68rem;color:var(--muted);letter-spacing:.14em}
+.oba-cal-mo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--goldP);letter-spacing:.08em}
+.oba-cal-dows{display:grid;grid-template-columns:repeat(7,1fr);padding:.5rem .62rem .26rem}
+.oba-cal-dow{text-align:center;font-size:.6rem;color:rgba(180,160,220,.52);letter-spacing:.06em;padding:.14rem 0}
+.oba-cal-dow:first-child{color:rgba(220,130,130,.58)}.oba-cal-dow:last-child{color:rgba(130,160,225,.58)}
+.oba-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:.16rem .62rem .82rem}
+.oba-cal-cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;padding:.32rem .06rem .24rem;min-height:42px}
+.oba-cal-num{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:rgba(220,210,245,.75);line-height:1}
+.oba-cal-ico{font-size:.56rem;line-height:1;margin-top:.1rem;opacity:.56}
+.oba-cal-today{background:rgba(212,175,55,.11);border:1px solid rgba(212,175,55,.52);box-shadow:0 0 12px rgba(212,175,55,.22)}
+.oba-cal-today .oba-cal-num{color:var(--gold);font-weight:700}.oba-cal-today .oba-cal-ico{opacity:.92}
+.oba-cal-lucky{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.32);animation:obaGlow 3.2s ease-in-out infinite}
+.oba-cal-lucky .oba-cal-num{color:#34D399}.oba-cal-lucky .oba-cal-ico{animation:obaMoonFloat 3.2s ease-in-out infinite;opacity:.9}
+.oba-cal-caution{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.28)}
+.oba-cal-caution .oba-cal-num{color:rgba(167,139,250,.88)}.oba-cal-empty{pointer-events:none}
+@keyframes obaGlow{0%,100%{box-shadow:0 0 5px rgba(52,211,153,.1)}50%{box-shadow:0 0 16px rgba(52,211,153,.38)}}
+@keyframes obaMoonFloat{0%,100%{transform:scale(1);opacity:.78}50%{transform:scale(1.18);opacity:1}}
+.oba-legend{display:flex;justify-content:center;gap:1.3rem;margin:.4rem 0 .85rem}
+.oba-leg-item{display:flex;align-items:center;gap:.32rem;font-size:.62rem;color:var(--muted);letter-spacing:.04em}
+.oba-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.oba-day-tag{display:inline-flex;align-items:center;gap:.45rem;padding:.28rem .78rem;border-radius:20px;font-size:.74rem;margin-bottom:.5rem}
+.oba-day-tag.lucky{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.36);color:#059669}
+.oba-day-tag.caution{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.3);color:#7C3AED}
+.oba-day-msg{font-size:.8rem;line-height:1.9;color:rgba(190,205,240,.85);letter-spacing:.035em}
+.oba-unlocked-section{width:100%;max-width:480px;margin-top:.8rem}
+.oba-unlocked-card{background:linear-gradient(158deg,rgba(10,18,52,.96),rgba(6,10,28,.98));border:1px solid rgba(100,160,230,.18);border-radius:16px;padding:1.1rem 1.3rem;position:relative;overflow:hidden}
+.oba-unlocked-card::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;background:radial-gradient(ellipse at 50% 0%,rgba(100,160,230,.06),transparent 68%);pointer-events:none}
+.oba-unlocked-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem}
+.oba-unlocked-ico{font-size:.92rem}.oba-unlocked-lbl{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:rgba(150,195,255,.9);letter-spacing:.06em}
+.oba-unlocked-body{font-size:.8rem;color:rgba(190,210,245,.8);line-height:1.92;letter-spacing:.04em}
+.oba-unlocked-body p{margin-bottom:.6rem}.oba-unlocked-body p:last-child{margin-bottom:0}
+.ph-lead{font-family:'Playfair Display',serif;font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;font-style:italic;text-align:center;margin-bottom:.85rem}
+
+/* Luna result */
+.luna-card-visual{width:100%;max-width:480px;display:flex;flex-direction:column;align-items:center;padding:1.5rem 1.2rem 1.4rem;background:linear-gradient(168deg,rgba(20,12,52,.96),rgba(8,5,26,.98));border:1px solid rgba(123,94,167,.24);border-radius:22px;margin-top:.5rem;box-shadow:0 0 40px rgba(123,94,167,.12),inset 0 1px 0 rgba(255,255,255,.05)}
+.luna-numeral{font-family:'Cormorant Garamond',serif;font-size:.78rem;color:rgba(212,175,55,.52);letter-spacing:.38em;margin-bottom:.38rem}
+.luna-result-card-wrap{width:100%;max-width:200px;margin:0 auto 1.1rem;animation:lunaFloatA 4.2s ease-in-out infinite}
+.luna-result-card-img{width:100%;height:auto;display:block;object-fit:contain;animation:lunaCardGlow 3.5s ease-in-out infinite}
+.luna-arcana-name{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--goldP);letter-spacing:.12em;margin:.2rem 0;line-height:1.1}
+.luna-div{width:48px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent);margin:.9rem 0}
+.luna-moon-nm{font-size:.74rem;color:rgba(180,160,220,.76);letter-spacing:.1em;margin-bottom:.18rem;font-style:italic}
+.luna-elem-nm{font-size:.66rem;color:var(--muted);letter-spacing:.08em;margin-bottom:.8rem}
+.luna-kw-wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem}
+.luna-kw{font-size:.66rem;color:rgba(180,160,220,.8);border:1px solid rgba(123,94,167,.35);border-radius:20px;padding:.18rem .65rem;letter-spacing:.06em}
+.luna-msg-section{width:100%;max-width:480px;text-align:center;padding:1.2rem 1.2rem .85rem;margin-top:.9rem}
+.luna-msg-deco{font-size:.7rem;color:rgba(212,175,55,.35);letter-spacing:.28em;margin:.5rem 0}
+.luna-msg-text{font-family:'Cormorant Garamond',serif;font-size:1.08rem;color:var(--text);line-height:2.2;letter-spacing:.05em;font-style:italic;margin:0}
+.luna-fortune-wrap{width:100%;max-width:480px;margin-top:1rem}
+.luna-fortune-glass{background:linear-gradient(158deg,rgba(18,12,44,.92),rgba(8,6,24,.96));border:1px solid rgba(123,94,167,.2);border-radius:18px;padding:.9rem 1.3rem 1.1rem}
+.luna-fortune-title{text-align:center;font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.82rem}
+.luna-fortune-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.luna-fortune-item{display:flex;flex-direction:column;align-items:center;gap:.28rem}
+.luna-fortune-label{font-size:.62rem;color:var(--muted);letter-spacing:.08em}
+.luna-stars-row{display:flex;gap:.16rem}
+.luna-star-on{color:#D4AF37;font-size:.7rem}.luna-star-off{color:rgba(255,255,255,.14);font-size:.7rem}
+.luna-section{width:100%;max-width:480px;margin-top:1rem}
+.luna-section-glass{background:linear-gradient(158deg,rgba(15,10,40,.96),rgba(8,5,25,.98));border:1px solid rgba(123,94,167,.18);border-radius:18px;overflow:hidden}
+.luna-section-hd{padding:.78rem 1.4rem .52rem;border-bottom:1px solid rgba(123,94,167,.12)}
+.luna-section-label{font-size:.64rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.14rem}
+.luna-section-title{font-family:'Cormorant Garamond',serif;font-size:1.08rem;color:rgba(220,210,245,.9);letter-spacing:.04em}
+.luna-section-body{padding:.9rem 1.4rem 1.3rem}
+.luna-body-p{font-size:.82rem;line-height:2.15;color:rgba(200,190,235,.82);letter-spacing:.04em;margin-bottom:.6rem}
+.luna-unlocked-section{width:100%;max-width:480px;margin-top:.8rem}
+.luna-unlocked-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(180,140,255,.17);border-radius:16px;padding:1.1rem 1.3rem;position:relative;overflow:hidden}
+.luna-unlocked-glass::before{content:'';position:absolute;top:0;left:0;right:0;height:38%;background:radial-gradient(ellipse at 50% 0%,rgba(126,109,255,.06),transparent 70%);pointer-events:none}
+.luna-ai-badge{display:inline-flex;align-items:center;font-size:.49rem;letter-spacing:.14em;color:rgba(180,140,255,.78);background:rgba(126,109,255,.1);border:1px solid rgba(126,109,255,.18);border-radius:20px;padding:.14rem .5rem;margin-bottom:.56rem}
+.luna-paid-hd{margin-bottom:.65rem}
+.luna-paid-lbl{font-size:.49rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(180,140,255,.58);font-style:italic;margin-bottom:.14rem}
+.luna-paid-title{font-family:'Cormorant Garamond',serif;font-size:1.02rem;color:rgba(220,210,245,.9);letter-spacing:.07em}
+.luna-paid-body{font-size:.8rem;color:rgba(200,185,240,.8);line-height:1.92;letter-spacing:.04em}
+.luna-paid-body p{margin-bottom:.52rem}.luna-paid-body p:last-child{margin-bottom:0}
+.luna-paid-body-love{font-size:.8rem;color:rgba(235,205,250,.82);line-height:1.92;letter-spacing:.04em}
+.luna-paid-body-love p{margin-bottom:.52rem}.luna-paid-body-love p:last-child{margin-bottom:0}
+.luna-turning-tag{display:inline-block;font-size:.56rem;letter-spacing:.1em;color:rgba(220,206,255,.82);background:rgba(126,109,255,.11);border:1px solid rgba(126,109,255,.2);border-radius:11px;padding:.16rem .62rem;margin-bottom:.5rem}
+.luna-action-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.4rem}
+.luna-action-item{display:flex;align-items:flex-start;gap:.4rem;font-size:.78rem;color:rgba(200,185,240,.82);line-height:1.62}
+.luna-action-do::before{content:'✦';color:rgba(220,206,255,.62);font-size:.64rem;margin-top:.18rem;flex-shrink:0}
+.luna-action-dont::before{content:'✕';color:rgba(255,148,168,.62);font-size:.64rem;margin-top:.18rem;flex-shrink:0}
+.luna-paid-char-wrap{width:100%;max-width:480px;margin-top:.8rem}
+.luna-paid-char-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(212,175,55,.13);border-radius:18px;padding:1.3rem 1.4rem;text-align:center;position:relative;overflow:hidden}
+.luna-paid-char-text{font-family:'Cormorant Garamond',serif;font-size:.96rem;color:rgba(220,210,245,.88);line-height:2.15;letter-spacing:.05em;white-space:pre-wrap;text-align:left;font-style:italic}
+.luna-char-deco{font-size:.66rem;color:rgba(212,175,55,.38);letter-spacing:.28em;margin-bottom:.85rem;text-align:center}
+.luna-char-sign-wrap{padding:.75rem 0 .3rem}
+.luna-char-sign{font-size:.7rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
+.luna-ceremony{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.2rem 1rem;gap:1.4rem;width:100%;max-width:480px;margin:0 auto}
+.luna-shuffle-deck{position:relative;width:140px;height:175px}
+.luna-shuffle-card{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+.luna-shuffle-card:nth-child(1){transform:rotate(-17deg) translate(-26px,3px)}
+.luna-shuffle-card:nth-child(2){transform:rotate(-4deg) translate(-6px,0)}
+.luna-shuffle-card:nth-child(3){transform:rotate(11deg) translate(20px,-3px)}
+.luna-shuffle-card.gathered:nth-child(1){transform:rotate(-2deg) translate(-3px,1px)}
+.luna-shuffle-card.gathered:nth-child(2){transform:rotate(0) translate(0,0)}
+.luna-shuffle-card.gathered:nth-child(3){transform:rotate(2deg) translate(3px,-1px)}
+.luna-ceremony-msg{font-family:'Cormorant Garamond',serif;font-size:.96rem;color:rgba(220,210,245,.85);letter-spacing:.08em;text-align:center;min-height:1.6em}
+.luna-ceremony-sub{font-size:.64rem;color:rgba(180,160,255,.52);letter-spacing:.1em;text-align:center;font-style:italic}
+.luna-ai-load-wrap{width:200px;margin-top:.8rem}
+.luna-ai-load-lbl{text-align:center;font-size:.52rem;color:rgba(180,140,255,.48);letter-spacing:.14em;margin-bottom:.35rem}
+.luna-ai-load-bg{background:rgba(30,20,60,.5);border-radius:3px;height:2px;overflow:hidden}
+.luna-ai-load-fill{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);border-radius:3px;width:0;transition:width .2s ease}
+@keyframes lunaFloatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes lunaCardGlow{0%,100%{filter:drop-shadow(0 6px 22px rgba(0,0,0,.58)) drop-shadow(0 0 8px rgba(220,206,255,.3)) drop-shadow(0 0 20px rgba(126,109,255,.14))}50%{filter:drop-shadow(0 6px 22px rgba(0,0,0,.58)) drop-shadow(0 0 14px rgba(220,206,255,.5)) drop-shadow(0 0 34px rgba(126,109,255,.26))}}
 </style>
 </head>
 <body>
@@ -344,6 +535,37 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <p class="login-req-sub">My Page</p>
     <p class="login-req-msg">マイページを表示するには<br>ログインが必要です。</p>
     <a href="tsukiyomi_unified.html" class="login-req-btn">ログイン・新規登録へ</a>
+  </div>
+</div>
+
+<!-- ── Payment Screen ── -->
+<div class="fortune-screen" id="screen-payment">
+  <div class="pay-card">
+    <div class="pay-char-row">
+      <div class="pay-char-orb"><img id="pay-char-img" src="" alt=""></div>
+      <div>
+        <div id="pay-char-name" class="pay-char-name"></div>
+        <div id="pay-char-plan-lbl" class="pay-char-plan-lbl"></div>
+      </div>
+    </div>
+    <div class="pay-price-box">
+      <div id="pay-price-amt" class="pay-price-amt"></div>
+      <div class="pay-price-unit">（税込）</div>
+    </div>
+    <ul class="pay-items" id="pay-items-list"></ul>
+    <button class="pay-btn" onclick="executePayment()">決済して鑑定を受ける</button>
+    <button class="pay-back-btn" onclick="closePaymentScreen()">← 戻る</button>
+  </div>
+</div>
+
+<!-- ── Fortune Loading Screen ── -->
+<div class="fortune-screen" id="screen-fortune-loading"></div>
+
+<!-- ── Fortune Result Screen ── -->
+<div class="fortune-screen" id="screen-fortune-result">
+  <button class="res-back-btn" onclick="closeFortuneResult()">← マイページへ戻る</button>
+  <div class="fortune-result-inner">
+    <div id="fortune-result-inner" style="width:100%;display:flex;flex-direction:column;align-items:center"></div>
   </div>
 </div>
 
@@ -657,15 +879,13 @@ function selectPlan(charKey, price) {
 function confirmPlan(charKey) {
   var price = _selectedPlan[charKey];
   if (!price) {
-    /* フォールバック: 選択状態をリセット */
     var btn = document.getElementById('btn-' + charKey);
-    if (btn) { btn.disabled = true; }
+    if (btn) btn.disabled = true;
     return;
   }
-  var menuKey = CHARS[charKey] ? CHARS[charKey].menuKey : charKey;
-  var plan = price === 100 ? 'light' : 'deep';
-  /* fadeToPage の代わりに直接遷移（アニメーション遅延なし） */
-  window.location.href = 'tsukiyomi_checkout.html?menu=' + menuKey + '&plan=' + plan;
+  _fortuneChar = charKey;
+  _fortunePlan = price;
+  showPaymentScreen(charKey, price);
 }
 
 /* ============================================================
@@ -733,6 +953,501 @@ function renderHistory() {
       '</div>';
   }).join('');
 }
+
+/* ============================================================
+   Fortune flow state
+   ============================================================ */
+var _fortuneChar = null;
+var _fortunePlan = null;
+var _lunaCardIdx = 0;
+
+var FORTUNE_PLAN_ITEMS = {
+  mikage: {
+    100: ['基本の性格','人生のテーマ','今の運気','開運アドバイス'],
+    500: ['一言診断','基本の性格','裏の性格','隠れた才能','恋愛運','仕事運','魂の課題','開運アドバイス']
+  },
+  oba: {
+    100: ['今月の流れ','強運日 詳細','注意日の過ごし方','開運アドバイス'],
+    500: ['今月の流れ','強運日・注意日の全詳細','転機の日付ズバリ','今月行動すべきこと','来月の動き方','おばあちゃんからのメッセージ']
+  },
+  luna: {
+    100: ['今日の運勢','今の現状','相手の感情','開運アドバイス'],
+    500: ['今の現状','問題の本質','相手の感情','未来の流れ','1ヶ月以内の転機','やるべき行動 / NG行動','ルナからのメッセージ']
+  }
+};
+var FORTUNE_CHAR_INFO = {
+  mikage: {name:'陰陽師ミカゲ', img:'mikage.png'},
+  oba:    {name:'星読みのおばあちゃん', img:'hoshiyomi_baba.png'},
+  luna:   {name:'タロット女子ルナ', img:'luna_tarot.png'}
+};
+
+/* ============================================================
+   Payment screen
+   ============================================================ */
+function showPaymentScreen(charKey, price) {
+  var ci = FORTUNE_CHAR_INFO[charKey];
+  var items = FORTUNE_PLAN_ITEMS[charKey][price];
+  document.getElementById('pay-char-img').src = ci.img;
+  document.getElementById('pay-char-name').textContent = ci.name;
+  document.getElementById('pay-char-plan-lbl').textContent = price === 100 ? '基本鑑定' : '深読み鑑定';
+  document.getElementById('pay-price-amt').textContent = '¥' + price;
+  document.getElementById('pay-items-list').innerHTML = items.map(function(i){return '<li>'+i+'</li>'}).join('');
+  document.getElementById('screen-payment').classList.add('active');
+}
+function closePaymentScreen() {
+  document.getElementById('screen-payment').classList.remove('active');
+}
+function executePayment() {
+  closePaymentScreen();
+  startFortuneLoading(_fortuneChar, _fortunePlan);
+}
+
+/* ============================================================
+   Fortune loading & result
+   ============================================================ */
+function startFortuneLoading(charKey, plan) {
+  var el = document.getElementById('screen-fortune-loading');
+  el.classList.add('active');
+  if (charKey === 'luna') {
+    startLunaCeremony(plan);
+  } else {
+    var msgs = ['運命を読み解いています…','月の導きを受信しています…','カードの声を聞いています…','あなたへのメッセージを紡いでいます…'];
+    el.innerHTML = '<div class="fl-wrap"><div class="fl-moon">🌙</div><p class="fl-title">鑑定中</p><p class="fl-msg" id="fl-msg">'+msgs[0]+'</p><div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div></div>';
+    var mi = 0;
+    var mel = document.getElementById('fl-msg');
+    var iv = setInterval(function(){ mi=(mi+1)%msgs.length; if(mel)mel.textContent=msgs[mi]; }, 820);
+    var bar = document.getElementById('fl-bar');
+    var pct = 0;
+    (function step(){
+      pct += Math.random()*8+3; if(pct>=100)pct=100;
+      bar.style.width = pct+'%';
+      if(pct<100) setTimeout(step, 75+Math.random()*50);
+      else { clearInterval(iv); setTimeout(function(){ showFortuneResult(charKey, plan); }, 500); }
+    })();
+  }
+}
+
+function showFortuneResult(charKey, plan) {
+  document.getElementById('screen-fortune-loading').classList.remove('active');
+  document.getElementById('screen-fortune-loading').innerHTML = '';
+  var resEl = document.getElementById('screen-fortune-result');
+  resEl.classList.add('active');
+  resEl.scrollTop = 0;
+  var inner = document.getElementById('fortune-result-inner');
+  if (charKey === 'mikage') inner.innerHTML = buildMikageResult(plan);
+  else if (charKey === 'oba') inner.innerHTML = buildObaResult(plan);
+  else inner.innerHTML = buildLunaResult(plan);
+  setTimeout(initFortuneFade, 80);
+}
+
+function closeFortuneResult() {
+  document.getElementById('screen-fortune-result').classList.remove('active');
+  document.getElementById('screen-fortune-result').scrollTop = 0;
+}
+
+function initFortuneFade() {
+  var els = document.querySelectorAll('#fortune-result-inner .mk-scroll-fade');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){e.classList.add('in')}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.07});
+  els.forEach(function(e){ io.observe(e); });
+}
+
+/* ============================================================
+   Luna card ceremony
+   ============================================================ */
+var LUNA_DRAW_MSGS = ['カードの声を読み解いています…','運命の流れを紐解いています…','月の導きを受信しています…','ルナがあなたへのメッセージを読み取っています…'];
+function startLunaCeremony(plan) {
+  _lunaCardIdx = Math.floor(Math.random()*22);
+  var tc = LUNA_CARDS[_lunaCardIdx];
+  var el = document.getElementById('screen-fortune-loading');
+  el.innerHTML =
+    '<div class="luna-ceremony" id="luna-cer">' +
+      '<div class="luna-shuffle-deck" id="luna-deck">' +
+        '<img src="ura.png" class="luna-shuffle-card" alt="">' +
+        '<img src="ura.png" class="luna-shuffle-card" alt="">' +
+        '<img src="ura.png" class="luna-shuffle-card" alt="">' +
+      '</div>' +
+      '<p class="luna-ceremony-msg" id="luna-cer-msg">月があなたのカードを選んでいます…</p>' +
+      '<p class="luna-ceremony-sub">深く息を吸って、心を静かに</p>' +
+    '</div>';
+  var msgs = LUNA_DRAW_MSGS, mi = 0;
+  var me = document.getElementById('luna-cer-msg');
+  var iv = setInterval(function(){ mi=(mi+1)%msgs.length; if(me)me.textContent=msgs[mi]; }, 880);
+  setTimeout(function(){
+    document.querySelectorAll('#luna-deck .luna-shuffle-card').forEach(function(c){c.classList.add('gathered')});
+  }, 1300);
+  setTimeout(function(){
+    var cer = document.getElementById('luna-cer');
+    if(cer) cer.insertAdjacentHTML('beforeend',
+      '<div class="luna-ai-load-wrap"><div class="luna-ai-load-lbl">AI鑑定 生成中</div>' +
+      '<div class="luna-ai-load-bg"><div class="luna-ai-load-fill" id="luna-ai-bar"></div></div></div>');
+    var bar = document.getElementById('luna-ai-bar');
+    if(bar){ var p=0; (function s(){p+=Math.random()*9+4;if(p>93)p=93;bar.style.width=p+'%';if(p<93)setTimeout(s,75+Math.random()*45)})(); }
+  }, 2100);
+  setTimeout(function(){
+    clearInterval(iv);
+    var cer = document.getElementById('luna-cer');
+    if(!cer)return;
+    cer.innerHTML =
+      '<div style="width:138px;height:172px;margin:0 auto .9rem">' +
+        '<img src="'+LUNA_CARD_IMGS[tc.id]+'" style="width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 0 14px rgba(220,206,255,.5)) drop-shadow(0 0 32px rgba(126,109,255,.26))" alt="'+esc(tc.arcana)+'">' +
+      '</div>' +
+      '<p class="luna-ceremony-msg" style="font-size:1.26rem">'+esc(tc.arcana)+'</p>' +
+      '<p class="luna-ceremony-sub">'+esc(tc.num)+' · '+esc(tc.moon)+'</p>';
+  }, 3300);
+  setTimeout(function(){ showFortuneResult('luna', plan); }, 4700);
+}
+
+/* ============================================================
+   Helper builders
+   ============================================================ */
+function esc(s){ return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+function lunaStars(n){var s='';for(var i=1;i<=5;i++)s+='<span class="luna-star-'+(i<=n?'on':'off')+'">&#9670;</span>';return'<div class="luna-stars-row">'+s+'</div>'}
+var MOON_ICONS_ARR = ['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
+
+function mkBanner(imgSrc,color,bg,label,charName,sub){
+  var ac=color.replace('1)','0.28)'),acG=color.replace('1)','0.13)'),acA=color.replace('1)','0.38)');
+  return '<div class="mk-banner mk-scroll-fade" style="background:'+bg+';border:1px solid '+ac+'">' +
+    '<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,'+acG+',transparent 65%);pointer-events:none"></div>' +
+    '<div class="mk-banner-ava" style="border:1px solid '+acA+';box-shadow:0 0 14px '+acG+'"><img src="'+imgSrc+'" alt="'+charName+'" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>' +
+    '<div class="mk-banner-info">' +
+      '<p class="mk-banner-lbl" style="color:'+color+'">'+label+'</p>' +
+      '<p class="mk-banner-name">'+charName+'</p>' +
+      (sub?'<p class="mk-banner-sub">'+sub+'</p>':'')+
+    '</div></div>';
+}
+function mkUnlockedSec(ico,label,text){
+  var body=text.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  return'<div class="mk-unlocked-section mk-scroll-fade"><div class="mk-unlocked-card">' +
+    '<div class="mk-unlocked-hd"><span class="mk-unlocked-ico">'+ico+'</span><span class="mk-unlocked-lbl">'+esc(label)+'</span></div>' +
+    '<div class="mk-unlocked-body">'+body+'</div></div></div>';
+}
+function obaUnlockedSec(ico,label,html){
+  return'<div class="oba-unlocked-section mk-scroll-fade"><div class="oba-unlocked-card">' +
+    '<div class="oba-unlocked-hd"><span class="oba-unlocked-ico">'+ico+'</span><span class="oba-unlocked-lbl">'+esc(label)+'</span></div>' +
+    '<div class="oba-unlocked-body">'+html+'</div></div></div>';
+}
+function lunaUnlockedSec(en,jp,text,isLove){
+  var body=text.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  return'<div class="luna-unlocked-section mk-scroll-fade"><div class="luna-unlocked-glass">' +
+    '<div class="luna-ai-badge">✦ AI鑑定</div>' +
+    '<div class="luna-paid-hd"><div class="luna-paid-lbl">'+esc(en)+'</div><div class="luna-paid-title">'+esc(jp)+'</div></div>' +
+    '<div class="luna-paid-body'+(isLove?' luna-paid-body-love':'')+'">'+body+'</div>' +
+    '</div></div>';
+}
+function lunaTurningSec(text){
+  var mon=new Date().getMonth()+1;
+  return'<div class="luna-unlocked-section mk-scroll-fade"><div class="luna-unlocked-glass">' +
+    '<div class="luna-ai-badge">✦ AI鑑定</div>' +
+    '<div class="luna-paid-hd"><div class="luna-paid-lbl">Turning Point</div><div class="luna-paid-title">1ヶ月以内の転機</div></div>' +
+    '<div class="luna-turning-tag">⏱ '+mon+'月の転機予告</div>' +
+    '<div class="luna-paid-body"><p>'+esc(text)+'</p></div>' +
+    '</div></div>';
+}
+function lunaActionSec(en,jp,items,isDont){
+  var list=items.map(function(t){return'<li class="luna-action-item '+(isDont?'luna-action-dont':'luna-action-do')+'">'+esc(t)+'</li>'}).join('');
+  return'<div class="luna-unlocked-section mk-scroll-fade"><div class="luna-unlocked-glass">' +
+    '<div class="luna-ai-badge">✦ AI鑑定</div>' +
+    '<div class="luna-paid-hd"><div class="luna-paid-lbl">'+esc(en)+'</div><div class="luna-paid-title">'+esc(jp)+'</div></div>' +
+    '<ul class="luna-action-list">'+list+'</ul></div></div>';
+}
+function lunaPaidCharSec(name,msg){
+  return'<div class="luna-paid-char-wrap mk-scroll-fade"><div class="luna-paid-char-glass">' +
+    '<div class="luna-char-deco">── Luna から '+esc(name)+' さんへ ──</div>' +
+    '<p class="luna-paid-char-text">'+msg.split('\n').map(function(l){return esc(l)}).join('\n')+'</p>' +
+    '<div class="luna-char-sign-wrap"><div class="luna-char-sign">タロット女子ルナ 🌙</div></div>' +
+    '</div></div>';
+}
+
+/* ============================================================
+   getMikageSpritePos & buildObaCalendar
+   ============================================================ */
+function getMikageSpritePos(moon,elem){
+  var rowMap={新月:0,三日月:1,半月:2,満月:3};
+  var colMap={木:0,火:1,土:2,金:3,水:4};
+  var r=rowMap[moon]!==undefined?rowMap[moon]:0;
+  var c=colMap[elem]!==undefined?colMap[elem]:0;
+  var bw=148*5.14,bh=185*4.112;
+  var cw=bw/5,ch=bh/4;
+  var ox=(cw-148)/2,oy=(ch-185)/2;
+  var px=(c*cw+ox)/(bw-148)*100;
+  var py=(r*ch+oy)/(bh-185)*100;
+  return px.toFixed(2)+'% '+py.toFixed(2)+'%';
+}
+function buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1){
+  var ref=new Date(2024,0,11);
+  var fd=new Date(yr,mo,1).getDay();
+  var dows=['日','月','火','水','木','金','土'];
+  var dowHtml=dows.map(function(d){return'<div class="oba-cal-dow">'+d+'</div>'}).join('');
+  var cells='';
+  for(var i=0;i<fd;i++)cells+='<div class="oba-cal-cell oba-cal-empty"></div>';
+  for(var d=1;d<=dm;d++){
+    var dt=new Date(yr,mo,d),diff=(dt-ref)/86400000;
+    var ph=Math.floor(((diff%29.53)+29.53)%29.53/29.53*8);
+    var cls='oba-cal-cell';
+    if(d===td)cls+=' oba-cal-today';
+    else if(d===ld1||d===ld2)cls+=' oba-cal-lucky';
+    else if(d===cd1)cls+=' oba-cal-caution';
+    cells+='<div class="'+cls+'"><span class="oba-cal-num">'+d+'</span><span class="oba-cal-ico">'+MOON_ICONS_ARR[ph]+'</span></div>';
+  }
+  return'<div class="oba-cal-outer mk-scroll-fade"><div class="oba-cal-glass">' +
+    '<div class="oba-cal-hdr"><span class="oba-cal-yr">'+yr+'年</span><span class="oba-cal-mo">'+(mo+1)+'月の暦</span></div>' +
+    '<div class="oba-cal-dows">'+dowHtml+'</div>' +
+    '<div class="oba-cal-grid">'+cells+'</div>' +
+    '</div></div>';
+}
+
+/* ============================================================
+   generateLunaContent
+   ============================================================ */
+function generateLunaContent(tc,name){
+  var k=tc.keywords, elemBase=tc.elem.split(' × ')[0], wk=(tc.id%3)+2;
+  return{
+    situation:tc.situation,
+    essence:'「'+tc.arcana+'」が示す問題の本質は、'+k[0]+'と'+k[1]+'のエネルギーの不均衡にあります。\n\n今の状況の根本には、'+tc.moon+'の月が映し出す——「'+k[0]+'」を求めながら、「'+k[2]+'」を恐れるという複雑な感情が眠っています。\n\nこのカードは、あなたがこれまで自分でも気づかなかった心の核心部分を照らしています。表面に見えている問題は、本質ではありません。月が照らしているのは、あなたの内側にある「まだ選んでいない選択」です。',
+    love:LUNA_LOVE[tc.id],
+    future:'「'+tc.arcana+'」の導きによれば、今から3〜6週間以内に、'+k[0]+'に関わる流れが動き始めます。\n\n最初の変化は小さく、見過ごしてしまいそうなサインとして現れます。でも月はそれを見落とさないよう、今あなたに伝えています。\n\n'+tc.moon+'の周期が一回り終わる頃には、今抱えている問題の答えが、自然と目の前に現れているでしょう。',
+    turning:'今から'+wk+'週間以内に、'+k[1]+'に関わる出来事が起きます。それがあなたの転機のサインです。見逃さずに、しっかり受け取ってください。',
+    doList:[k[0]+'を意識した行動を、小さなことから始める',elemBase+'のエネルギーを取り入れる（自然の中で過ごす、深呼吸をする）','今感じている直感を、言葉にして書き出してみる','アドバイスを信頼して、一歩だけ踏み出してみる'],
+    dontList:['すぐに答えを出そうと急ぐこと——今はまだ、見守る時期','周りの意見を優先しすぎて、自分の感覚を後回しにすること','恐れから目を背けて、現状維持を選び続けること'],
+    advice:tc.advice,
+    lunaMsg:name+'さんへ。\n\n「'+tc.arcana+'」がここに現れたのは、偶然ではありません。\n'+tc.moon+'の月明かりの中で、このカードはあなたの今この瞬間を、静かに映し出しています。\n\n「'+k[0]+'」と「'+k[1]+'」——\nこのふたつの言葉の間で、\nあなたの心はずっと揺れていたはずです。\n\nでもね、月はすべてを知っています。\nあなたが一人で抱えてきたこと、\n誰にも言えなかったこと——\nそれをぜんぶ、受け取っています。\n\n今夜のカードは「進んでいい」と言っています。\nあなたの感じている通りで、大丈夫。\n\n月明かりの中で、ルナより'
+  };
+}
+
+/* ============================================================
+   Build Mikage result HTML
+   ============================================================ */
+function buildMikageResult(plan) {
+  var seed = USER.name.split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+  var pat = MIKAGE_PATTERNS[seed%20];
+  var name = USER.name;
+  var banner = mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
+  var spritePos = getMikageSpritePos(pat.moon,pat.elem);
+  var topVisual = '<div class="mv-wrap mk-scroll-fade">' +
+    '<div class="mk-emblem-wrap"><div class="mk-emblem-frame"><div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div></div></div>' +
+    '<p class="mv-tag">月相 × 五行</p><p class="mv-title">'+esc(pat.title)+'</p><p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p></div>';
+  var card1 = '<div class="mk-section mk-scroll-fade"><div class="mk-catch-card">' +
+    '<p class="mk-catch-lbl">✦ 一言診断 ✦</p><p class="mk-catch-intro">あなたは</p>' +
+    '<p class="mk-catch-label">'+esc(pat.catchLabel)+'</p>' +
+    '<div class="mk-catch-divider"></div>' +
+    '<p class="mk-catch-copy">'+esc(pat.catchCopy)+'</p>' +
+    '<p class="mk-catch-note">'+esc(pat.catchNote)+'</p></div></div>';
+  var secs = '';
+  secs += mkUnlockedSec('🌿','基本の性格',pat.personality);
+  secs += mkUnlockedSec('🌙','人生のテーマ',pat.destiny);
+  secs += mkUnlockedSec('✦','今のあなたの運気',pat.phaseStatus+'\n\n'+pat.phaseBody);
+  if (plan === 500) {
+    var cp = pat.compat;
+    secs += mkUnlockedSec('💞','相性の良い相手の特徴',cp.moonIcon+' '+cp.moon+' × '+cp.elemIcon+' '+cp.elem+'——'+cp.type+'\n\n'+cp.detail);
+    var hidden = 'あなたの表の姿「'+pat.catchLabel+'」の裏側に——。\n\n誰にも見せていない感情の層があります。人前では'+pat.catchCopy.replace(/。.*$/,'')+'という側面を見せていますが、一人になると全く違うエネルギーが現れます。\n\nその内側に秘めた力は、人を突き動かすほどの強さを持っています。それを封じ込め続けることが、今のあなたの消耗源になっています。';
+    secs += mkUnlockedSec('🌑','裏の性格',hidden);
+    var talent = pat.moon+'と'+pat.elem+'のエネルギーを持つあなたには、まだ気づいていない特別な才能があります。\n\n「場の本質を瞬時に掴む力」と「言葉にならないものを形にする能力」——この二つが、あなたの隠れた才能です。特にプレッシャーのかかった状況で突然発揮されます。\n\n'+pat.titleEn+'——このキーワードが示すように、あなたの才能は磨かれるほどに深みを増します。まだ誰も、その本当の輝きを見ていません。';
+    secs += mkUnlockedSec('✨','隠れた才能',talent);
+    var mikageMsg = '月は正直です。\n\nあなたが「'+pat.title+'」として生まれてきた意味を、ミカゲは五行の流れの中に読み取りました。\n\n'+pat.elem+'の気が今のあなたに語りかけているのは——「始まりは内側から」という古い真理です。外に答えを探す前に、あなたの内側にある静かな知恵に耳を傾けてください。\n\n月が照らす今この瞬間が、あなたの転換点です。';
+    secs += mkUnlockedSec('🌙','陰陽師ミカゲより',mikageMsg);
+  } else {
+    var advice = '今の'+pat.moon+'の時期に、'+pat.elem+'のエネルギーを持つあなたに伝えたい開運の鍵があります。\n\n'+pat.phaseBody+'\n\n'+pat.compat.type+'——このような人との縁を大切に育てることで、あなたの運気はさらに高まります。今月は小さな行動を積み重ねることが、大きな変化への入口になります。';
+    secs += mkUnlockedSec('✦','開運アドバイス',advice);
+  }
+  return banner+topVisual+card1+secs;
+}
+
+/* ============================================================
+   Build Oba result HTML
+   ============================================================ */
+function buildObaResult(plan) {
+  var seed = USER.name.split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+  var pat = MONTHLY_OBA[seed%8];
+  var name = USER.name;
+  var now = new Date(), yr = now.getFullYear(), mo = now.getMonth(), td = now.getDate();
+  var dm = new Date(yr,mo+1,0).getDate();
+  var ld1=(seed%12)+5; if(ld1>dm)ld1=dm-3;
+  var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
+  var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
+  var banner = mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
+  var cal = buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
+  var legend = '<div class="oba-legend mk-scroll-fade">' +
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>' +
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(52,211,153,.6)"></div>強運日</div>' +
+    '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(139,92,246,.6)"></div>注意日</div>' +
+    '</div>';
+  var themeSection = '<div class="oba-section mk-scroll-fade"><div class="oba-theme-wrap">' +
+    '<div class="oba-theme-label">今月のテーマ</div>' +
+    '<div class="oba-theme-title">'+esc(pat.theme)+'</div>' +
+    '<div class="oba-theme-sub">'+esc(pat.themeMsg)+'</div>' +
+    '</div></div>';
+  var flowHtml = pat.flow.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  var flowSec = obaUnlockedSec('🌊','今月の流れ',flowHtml);
+  var luckyHtml = '';
+  pat.luckyLabels.forEach(function(lk,i){
+    var dn = i===0?ld1:ld2;
+    luckyHtml += '<div style="margin-bottom:.82rem"><div class="oba-day-tag lucky">✦ '+(mo+1)+'月'+dn+'日（強運日）</div><p class="oba-day-msg">'+esc(lk.msg)+'</p></div>';
+  });
+  var luckySec = obaUnlockedSec('✦','強運日',luckyHtml);
+  var cautionHtml = '<div class="oba-day-tag caution">⚠ '+(mo+1)+'月'+cd1+'日（注意日）</div><p class="oba-day-msg">'+esc(pat.cautionLabel.msg)+'</p>';
+  var cautionSec = obaUnlockedSec('⚠','注意日と過ごし方',cautionHtml);
+  var msgHtml = '<p style="font-size:.7rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+' へ —</p>' +
+    pat.obaMsg.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  var msgSec = obaUnlockedSec('💌','おばあちゃんより',msgHtml);
+  var secs = '';
+  if (plan === 500) {
+    var turningDay = ((ld1+ld2)/2)|0;
+    var turningHtml = '<p>今月の最大の転機は、<strong style="color:rgba(220,200,255,.95)">'+(mo+1)+'月'+turningDay+'日前後</strong>に訪れます。</p>' +
+      '<p>この日を境に、今まで動かなかったものが急に動き始める可能性があります。特に人間関係と仕事の両面でサプライズな展開があるかもしれません。</p>' +
+      '<p>前後3日間は特に意識して、アンテナを張っておくことや。</p>';
+    secs += obaUnlockedSec('⏱','転機の日付ズバリ',turningHtml);
+    var loveWorkHtml = '<p><strong style="color:rgba(220,200,255,.95)">恋愛:</strong> '+esc(pat.theme)+'の今月、あなたの恋愛運は「行動した人が勝つ」流れの中にあります。待ちの姿勢を崩して自分から動いた時に縁が結ばれます。</p>' +
+      '<p><strong style="color:rgba(220,200,255,.95)">仕事:</strong> 今月は「準備より実行」が正解です。完璧を求めすぎず、まず形にすることで評価が上がります。思い切って動いた人が一番成長できる月やで。</p>';
+    secs += obaUnlockedSec('💞','恋愛・仕事の急所',loveWorkHtml);
+    var nextHtml = '<p>今月の'+esc(pat.theme)+'が終わった後、来月はエネルギーが転換します。今月行動したことが、来月の実りとして戻ってくる時期です。</p>' +
+      '<p>来月のキーワードは「受け取ること」。今月積み重ねたものを素直に受け取る準備を今からしておくことや。感謝の気持ちを持って、人の親切を素直に受け入れる練習をしてみてや。</p>';
+    secs += obaUnlockedSec('🌙','来月の動き方',nextHtml);
+  } else {
+    var adviceHtml = '<p>今月の'+esc(pat.phase)+'の時期、星が伝えている開運のポイントをまとめておくわ。</p>' +
+      '<p>'+esc(pat.themeMsg)+'</p>' +
+      '<p>強運日（'+(mo+1)+'月'+ld1+'日・'+ld2+'日）を意識して、その日に向けての準備を今日から少しずつ始めてみ。思い切った行動が、大きな変化につながっていくで。</p>';
+    secs += obaUnlockedSec('✦','開運アドバイス',adviceHtml);
+  }
+  var lead = '<p class="ph-lead mk-scroll-fade">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>';
+  return banner+lead+cal+legend+themeSection+flowSec+luckySec+cautionSec+msgSec+secs;
+}
+
+/* ============================================================
+   Build Luna result HTML
+   ============================================================ */
+function buildLunaResult(plan) {
+  var tc = LUNA_CARDS[_lunaCardIdx];
+  var name = USER.name;
+  var c = generateLunaContent(tc,name);
+  var banner = mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  var kwHtml = tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
+  var cardVis = '<div class="luna-card-visual mk-scroll-fade">' +
+    '<div class="luna-numeral">'+esc(tc.num)+'</div>' +
+    '<div class="luna-result-card-wrap"><img src="'+LUNA_CARD_IMGS[tc.id]+'" alt="'+esc(tc.arcana)+'" class="luna-result-card-img"></div>' +
+    '<div class="luna-arcana-name">'+esc(tc.arcana)+'</div>' +
+    '<div class="luna-div"></div>' +
+    '<div class="luna-moon-nm">'+esc(tc.moon)+'</div>' +
+    '<div class="luna-elem-nm">('+esc(tc.elem)+')</div>' +
+    '<div class="luna-kw-wrap">'+kwHtml+'</div>' +
+    '</div>';
+  var msgLines = tc.msg.split('\n').map(function(l){return esc(l.trim())}).join('<br>');
+  var msgSection = '<div class="luna-msg-section mk-scroll-fade">' +
+    '<div class="luna-msg-deco">✶ ✶ ✶</div>' +
+    '<p class="luna-msg-text">'+msgLines+'</p>' +
+    '<div class="luna-msg-deco">✶ ✶ ✶</div>' +
+    '</div>';
+  var fortuneSection = '<div class="luna-fortune-wrap mk-scroll-fade"><div class="luna-fortune-glass">' +
+    '<div class="luna-fortune-title">今日の運勢</div>' +
+    '<div class="luna-fortune-grid">' +
+    '<div class="luna-fortune-item"><div class="luna-fortune-label">恋愛運</div>'+lunaStars(tc.love)+'</div>' +
+    '<div class="luna-fortune-item"><div class="luna-fortune-label">仕事運</div>'+lunaStars(tc.work)+'</div>' +
+    '<div class="luna-fortune-item"><div class="luna-fortune-label">金運</div>'+lunaStars(tc.money)+'</div>' +
+    '</div></div></div>';
+  var secs = '';
+  if (plan === 100) {
+    secs += lunaUnlockedSec('Current State','今の現状',c.situation,false);
+    secs += lunaUnlockedSec("Partner's Heart",'相手の感情（恋愛）',c.love,true);
+    secs += lunaUnlockedSec('Advice','開運アドバイス',c.advice,false);
+  } else {
+    secs += lunaUnlockedSec('Current State','今の現状',c.situation,false);
+    secs += lunaUnlockedSec('Essence','問題の本質',c.essence,false);
+    secs += lunaUnlockedSec("Partner's Heart",'相手の感情',c.love,true);
+    secs += lunaUnlockedSec('Future Flow','未来の流れ',c.future,false);
+    secs += lunaTurningSec(c.turning);
+    secs += lunaActionSec('Action','やるべき行動',c.doList,false);
+    secs += lunaActionSec("Don't",'NG行動',c.dontList,true);
+    secs += lunaPaidCharSec(name,c.lunaMsg);
+  }
+  return banner+cardVis+msgSection+fortuneSection+secs;
+}
+
+/* ============================================================
+   Data: LUNA_CARD_IMGS
+   ============================================================ */
+var LUNA_CARD_IMGS=['0.png','I.png','II.png','III.png','IV.png','V.png','VI.png','VII.png','VIII.png','IX.png','X.png','XI.png','XII.png','XIII.png','XIV.png','XV.png','XVI.png','XVII.png','XVIII.png','XIX.png','XX.png','XXI.png'];
+var LUNA_LOVE=[
+  '相手はあなたのことを考えながらも、まだ言葉にする勇気が見つかっていません。「どう思われているか」が気になっていて、自分から動けずにいます。あなたへの気持ちは確かにある——ただ、どう表現していいかわからない。次の一歩を踏み出す準備は、相手の中でゆっくりと育っています。焦らずに待つことが、今のあなたには必要かもしれません。',
+  '相手はあなたに対して、不思議な引力を感じています。「どうしてこの人のことが頭から離れないんだろう」——そんな感覚を今、静かに抱えています。言葉にすることをまだためらっているのは、あなたにとって特別すぎるから。その気持ちは確かに、あなたに向いています。相手の心の中で、あなたへの思いは日ごとに大きくなっています。',
+  '相手はあなたに多くを語りません。でもその沈黙の中に、深い関心があります。相手は今、あなたのことを観察しています——あなたが何を感じ、何を考え、何を求めているのかを。言葉より行動で示そうとするタイプなので、次に何かが動く時は静かに、けれど確かな形で来るでしょう。相手の目には、あなたが映っています。',
+  '相手の心の中には、あなたへの温かい感情があります。守りたい、そばにいたい——そういう穏やかな欲求が芽生えています。ただ、その感情を前に出すことへの照れがある。「重く思われたくない」という遠慮が、言葉を遅らせています。でもその気持ちは本物です。相手が何気なくあなたのそばにいようとするのは、その感情の表れです。',
+  '相手はあなたに対して、責任感のようなものを感じています。「ちゃんとしたいと思わせてくれる人」——そういう印象を持っています。今は距離の取り方を迷っているかもしれませんが、それは「傷つけたくない」という配慮からです。相手の中の感情は真剣です。軽い気持ちではなく、あなたのことを大切に思っているからこそ、慎重になっています。',
+  '相手は今、自分の気持ちに正直になることと、周りへの体裁を気にすることの間で揺れています。あなたへの気持ちは正直にあります。ただ、「こうあるべき」という規範意識が、その感情を素直に出すことを邪魔しています。その鎖が外れた時、言葉が動き出します。相手の中で、あなたへの想いは「正しいもの」として育っています。',
+  '相手は今まさに、あなたのことを選ぼうとするか迷っています。気持ちはある——でも確信が持てずにいる。その迷いは、あなたを軽く見ているからではありません。あなたを本当に大切にしたいからこそ、慎重になっているのです。その答えは、もうすぐ出ます。相手の心の中で、あなたはすでに「特別な人」になっています。',
+  '相手はあなたに対して、強い関心と少し苦手意識を同時に持っています。「この人のそばにいると、気が抜けない」——そういう感覚があります。あなたの存在がどこか眩しくて、追いつきたいという気持ちが生まれています。その感情は、ちゃんとあなたに向いています。相手が無口になる時、それはあなたを意識しているサインです。',
+  '相手は今、自分の感情の強さに戸惑っています。「こんなに誰かのことを考えたのはいつぶりだろう」——そう感じている可能性があります。その感情の大きさが怖くて、少し距離を置いているかもしれない。でもそれは、あなたへの気持ちが本物だからです。相手の中で何かが変わり始めています。',
+  '相手は今、一人で考える時間を必要としています。あなたのことを考えながらも、自分の内側を整理しようとしています。離れているように見えても、あなたのことが心から消えているわけではありません。その静けさが終わった時、相手から言葉が来るでしょう。相手の沈黙は、あなたへの想いが深いからこそです。',
+  '相手の気持ちは今、変化のただ中にいます。あなたへの見方が変わりつつある——良い意味で。以前より「この人は特別かもしれない」という感覚が強まっています。運命の輪が動いている今この時、二人の間で何かが動こうとしています。相手の心の中で、あなたへの想いが新しい形を取り始めています。',
+  '相手はあなたに対して、誠実であろうとしています。「嘘をつきたくない」という気持ちが強くある。その真面目さゆえに、感情を確信できるまで言葉にしないでいます。でも正直に言えば——その気持ちは、あなたに対して本物です。相手が慎重であることは、あなたを軽く扱いたくない証拠です。',
+  '相手は今、感情の中で宙ぶらりんの状態にいます。あなたへの気持ちはあるのに、タイミングなのか、状況なのか、何かが「動く」ことを邪魔しています。もどかしい状態が続いていますが、これは終わりではなく、視点が変わる前の静止点。動き始める時は、突然来るでしょう。相手の心はあなたを離れていません。',
+  '相手の中で、あなたに対する感情の質が変わろうとしています。以前の関係性や認識が「終わって」、新しい形が始まろうとしている段階です。それが近づきなのか、深まりなのかはまだわかりませんが——相手の気持ちはゼロではありません。変化の先に、二人の新しい始まりがあります。',
+  '相手はあなたのことを、穏やかな気持ちで見ています。焦りや強引さはなく、「ゆっくりでいい」と思っています。その落ち着きは無関心ではなく、大切にしたいからこそのペース。急がずに積み重ねることで、二人の間に深みが生まれていきます。相手の心はあなたに向かって、静かに動いています。',
+  '相手はあなたのことが頭から離れず、少し困っているかもしれません。「これは執着なのかな」と自分で思いながらも、気になってしまう。その引力は本物ですが、相手自身もその感情とどう向き合えばいいか迷っています。その迷いの中に、あなたへの本物の気持ちが宿っています。',
+  '相手の中で、あなたへの印象が大きく揺れた出来事がありました。それが良い意味での衝撃であれ、驚きであれ——あなたは「特別な記憶」として残っています。感情が安定するまで少し時間がかかっていますが、その揺れは無関心ではない証拠です。相手の心の中で、あなたは消えない存在になっています。',
+  '相手は今、あなたに希望のような感情を感じています。「この人といると、なんか大丈夫な気がする」——そういう感覚です。積極的ではないかもしれないけれど、心の中ではあなたの存在がひとつの光になっています。相手にとってあなたは、暗い夜に見える星のような存在です。',
+  '相手の気持ちは今、複雑です。好きかどうかわからない、でも気になる——そういう曖昧な感情の霧の中にいます。はっきりしないのは、相手自身がまだ自分の感情を理解できていないから。でもその霧の奥に、確かな気持ちが眠っています。月が満ちていくように、その感情もやがて形になっていきます。',
+  '相手はあなたのことを、明るく温かい気持ちで思っています。一緒にいると元気になれる——そういう印象があります。その感情は素直で、裏表がない。ただ、感情を表現することへの照れがある。でも今のあなたへの気持ちは、とても前向きです。相手の笑顔の中に、あなたへの想いが隠れています。',
+  '相手の中で、あなたへの感情が「再起」しています。一度距離を置いたり、諦めようとしたことがあるかもしれない。でも今、「やっぱりこの人のことが気になる」という感情が戻ってきています。その声を相手は今、正直に聞き始めています。もう一度向き合う準備が、相手の中で整いつつあります。',
+  '相手はあなたとの関係に、完成に近いものを感じています。「この人とならうまくいく」——そういう確信がじんわりと育っています。焦りがなく、自然体でいられる。そういう感覚がある相手にとって、あなたはかけがえない存在になっています。二人の間に流れる空気は、すでに特別なものです。'
+];
+var LUNA_CARDS=[
+  {id:0,arcana:'愚者',num:'0',moon:'緑の三日月',elem:'木 × 三日月',keywords:['旅立ち','自由','可能性','好奇心'],icon:'🌱',msg:'準備が整う日など、永遠に来ないかもしれません。\nあなたの心はもう、出発を待っています。',situation:'今のあなたは、心の中でずっと「始めたいこと」を温め続けています。でも何かを理由にして、一歩を踏み出せないでいる。「まだ早い」「失敗したらどうしよう」——そんな言葉が、気づかないうちにあなたの足を縛っています。あの人への気持ちも、新しい挑戦も、本当はもう答えが出ているのに、確認することが怖い。準備を重ねることで、行動しなくていい理由を探し続けていませんか。',advice:'怖いと感じている方向に向かって、今月は小さな一歩だけ踏み出してみてください。完璧な準備など永遠に来ません。最初の一歩は、いつも不完全なものです。',love:3,work:4,money:2},
+  {id:1,arcana:'魔術師',num:'I',moon:'白金の満月',elem:'金 × 満月',keywords:['才能','創造','現実化','開花'],icon:'✨',msg:'あなたにはもう、必要なものが全て揃っています。\n足りないのは道具ではなく、それを使う勇気です。',situation:'今のあなたは、自分の才能や力を過小評価している部分があります。「自分なんて」「もっとすごい人がいる」——そんな思いが心の奥にあって、本来の自分を出せていない。でも実は、あなたの周りの人は、あなたが思っている以上にあなたの可能性に気づいています。持っている才能を使わずにいることが、今の停滞を生んでいます。',advice:'今月は、自分を「まだ未熟だ」と言い訳にすることをやめてみてください。今のあなたで、十分に始められます。',love:4,work:5,money:4},
+  {id:2,arcana:'女教皇',num:'II',moon:'青い新月',elem:'水 × 新月',keywords:['直感','秘密','潜在意識','静寂'],icon:'🌙',msg:'今は語る時ではありません。\nあなたの沈黙の中に、まだ誰も知らない答えが眠っています。',situation:'今のあなたは、感じていることを言葉にできなくて、ひとりで抱えている何かがあります。直感で「これは違う」と感じているのに、うまく説明できないまま流されてしまっていることがあるかもしれない。その感覚は正しいのです。あなたの内側は、表に出ている言葉よりもずっと多くのことをすでに知っています。',advice:'今月は、自分の直感を論理で否定しないでください。説明できなくても、感じていることには意味があります。',love:3,work:3,money:3},
+  {id:3,arcana:'女帝',num:'III',moon:'翠の満ち月',elem:'木 × 満月',keywords:['愛','豊穣','癒し','包容力'],icon:'🌿',msg:'愛することに、あなたはとても上手です。\nでも、自分を愛することは、まだ練習中かもしれない。',situation:'今のあなたは、誰かのために多くのものを注いでいます。感情も、時間も、エネルギーも——与えることへの惜しみなさが、あなたの大きな魅力です。でも今、そのバランスが少し偏っています。受け取ることへの遠慮や、自分のニーズを後回しにする癖が、心を少しずつ疲れさせています。',advice:'今月は自分への愛情を、誰かへの愛情と同じだけ注いでみてください。それはわがままではありません。',love:5,work:3,money:4},
+  {id:4,arcana:'皇帝',num:'IV',moon:'黄金の半月',elem:'土 × 半月',keywords:['支配','秩序','守護','安定'],icon:'⚜️',msg:'あなたが守っているものは確かに大切です。\nでも、ひとりで背負いすぎていませんか。',situation:'今のあなたは、責任感が強く、しっかりしていなければという感覚の中にいます。誰かを守らなければ、きちんとしなければ——そのプレッシャーを自分に課し続けています。そのせいで、本当は助けを求めたい場面でも「自分が弱くてはいけない」と感じてしまっている。その強さは本物ですが、内側では疲れが積み重なっていませんか。',advice:'「助けを求めること」は弱さではありません。力のある人ほど、それがわかっています。今月は誰かに頼ってみてください。',love:2,work:5,money:5},
+  {id:5,arcana:'法王',num:'V',moon:'白の導月',elem:'金 × 新月',keywords:['教え','導き','信頼','精神性'],icon:'🕊️',msg:'「正しいこと」と「あなたが望むこと」は、\n本当に同じでしょうか。',situation:'今のあなたは、誰かの期待や一般的な「正解」に沿って動いている部分があります。本当はもっとこうしたい、という声が心の奥にあるのに、「こうあるべき」という枠に自分を合わせようとしている。その枠がどこから来たものなのか、本当に自分が選んだものなのか——一度立ち止まって問い直す時が来ています。',advice:'今月は一つだけ、「ルールではなく自分の心」に従った選択をしてみてください。その小さな選択が、大きな変化の入口になります。',love:3,work:4,money:3},
+  {id:6,arcana:'恋人',num:'VI',moon:'桃色の双月',elem:'火 × 水',keywords:['共鳴','結びつき','選択','愛情'],icon:'🌸',msg:'あなたは今、何かを選ばなければならない場所にいます。\nその迷いの中に、あなたの本当の望みが見えています。',situation:'今のあなたの心には、二つの引力があります。どちらも大切で、どちらも諦めたくない——その葛藤が今の状況をつくっています。恋愛において、または人生の何かの選択において、あなたは「どちらが正しいか」ではなく「自分は何を望んでいるか」という問いに向き合うことを求められています。',advice:'どちらが正しいかではなく、どちらがあなたにとって本当かを問いかけてみてください。その答えはすでに内側にあります。',love:5,work:3,money:3},
+  {id:7,arcana:'戦車',num:'VII',moon:'燃える三日月',elem:'火 × 三日月',keywords:['突進','行動','勢い','勝利'],icon:'⚡',msg:'あなたの推進力は本物です。\nただ、行き先を決める前に、一度立ち止まっていいかもしれません。',situation:'今のあなたは、目標に向かって力強く動いています。あるいは、動かなければいけない状況に置かれています。その勢いは確かな力ですが、感情を後回しにして「とにかく前に」と走り続けているため、内側が追いついていない部分があります。',advice:'今月は、走り続けることと同じくらい、立ち止まることを大切にしてください。速さより方向が重要な時期です。',love:3,work:5,money:4},
+  {id:8,arcana:'力',num:'VIII',moon:'赤金の満月',elem:'火 × 金',keywords:['意志','情熱','本能制御','覚悟'],icon:'🔥',msg:'あなたが今向き合っているものは、\nあなたが乗り越えられるから現れています。',situation:'今のあなたは、何か大きなものと格闘しています。それは外側の状況かもしれないし、自分の中の恐れや衝動かもしれない。「もう限界かもしれない」と感じることもあるかもしれませんが、あなたにはそれを乗りこなせる意志の強さが最初から備わっています。',advice:'今月のあなたには、恐れているものの目を静かに見返す力があります。力で抑えるのではなく、優しく向き合ってみてください。',love:4,work:4,money:3},
+  {id:9,arcana:'隠者',num:'IX',moon:'灰色の細月',elem:'土 × 新月',keywords:['孤独','探索','内省','真理'],icon:'🕯️',msg:'今は誰かのそばにいるより、\n自分自身のそばにいることが必要な時期です。',situation:'今のあなたは、意識的に、あるいは無意識のうちに、人との距離を置いている部分があります。社交的な場に疲れを感じたり、一人になることで初めてほっとできる——そんな状態にあるかもしれません。これは孤立ではなく、内側の声に耳を傾けるための必要な静寂です。',advice:'自分だけの時間を、罪悪感なく取ってください。その静けさの中に、次の方向を示す灯が見えてきます。',love:2,work:3,money:3},
+  {id:10,arcana:'運命の輪',num:'X',moon:'巡る五色月',elem:'五行融合',keywords:['循環','転機','運命','流れ'],icon:'♾️',msg:'今の流れは、あなたが作ったものではありません。\nでも、その流れをどう乗るかは、あなたが決められます。',situation:'今のあなたの周りでは、自分ではコントロールできない変化が起きています。状況が変わる予感、あるいはもうすでに変わり始めている感覚——その流れに対して不安と期待が混在しているかもしれません。',advice:'流れに逆らうより、流れの中で自分の舵だけを持っていることを意識してください。変化を受け入れる勇気が、今月の鍵です。',love:4,work:4,money:4},
+  {id:11,arcana:'正義',num:'XI',moon:'蒼白の半月',elem:'金 × 水',keywords:['判断','均衡','真実','冷静さ'],icon:'⚖️',msg:'あなたは自分に正直であろうとしています。\nそれが今、最も難しく、最も必要なことです。',situation:'今のあなたは、ある事柄について「これが本当のことだ」という確信を内側に持っています。でもそれを認めることで現状が変わってしまうことへの恐れもある。見て見ぬふりをしていた何かと、正直に向き合う局面に来ています。',advice:'今月は、見たくなかったことと正直に向き合ってみてください。その勇気が、次の自由への扉を開きます。',love:3,work:4,money:4},
+  {id:12,arcana:'吊るされた男',num:'XII',moon:'逆さ青月',elem:'水 × 半月',keywords:['停滞','視点転換','犠牲','内面化'],icon:'🌊',msg:'止まっているように見えますが、\n今のあなたは、ゆっくりと深くなっています。',situation:'今のあなたは、状況が進んでいないように感じているかもしれません。努力しているのに結果が出ない、待っているのに何も動かない——そのもどかしさの中にいる可能性があります。でも吊るされた男のカードは、この「停滞」が実は視点を変えるための大切な時間であることを示しています。',advice:'今月は「何もしないこと」を選ぶことも、一つの正解です。この静止の中から、やがて全く新しい視点が生まれてきます。',love:3,work:2,money:2},
+  {id:13,arcana:'死神',num:'XIII',moon:'赤い半月',elem:'火 × 半月',keywords:['終焉','変化','再生','切り替わり'],icon:'🥀',msg:'何かが終わろうとしています。\nそれはきっと、新しいものへの入口です。',situation:'今のあなたの人生で、一つの章が閉じようとしています。それは関係性かもしれない、仕事上の何かかもしれない、あるいは自分の中の古い考え方かもしれない。終わりを前にして、何かを手放せない気持ちがあるかもしれませんが、死神のカードが示す変化は、決して呪いではありません。',advice:'今月は、終わりを悼みながら、その先に目を向ける準備を少しずつ始めてください。終わりの中に、必ず新しい始まりがあります。',love:3,work:3,money:3},
+  {id:14,arcana:'節制',num:'XIV',moon:'蒼白の満ち月',elem:'水 × 金',keywords:['調和','癒し','中庸','浄化'],icon:'💧',msg:'あなたが今いる場所は、急いで離れる必要はありません。\nゆっくり、溶け合わせていく時間です。',situation:'今のあなたには、何か二つのものをうまく統合しようとしているテーマがあります。感情と理性、個人の時間と誰かとの時間、夢と現実——どちらも大切で、どちらかを切り捨てたくない。',advice:'今月は急がずに、一つ一つを丁寧に扱ってみてください。心が癒される速度を、尊重することが大切な時期です。',love:4,work:4,money:4},
+  {id:15,arcana:'悪魔',num:'XV',moon:'黒い蝕月',elem:'火 × 土',keywords:['執着','欲望','支配','依存'],icon:'🌑',msg:'あなたを縛っているものは、\n実は自分で鎖を外せる場所に留め金があります。',situation:'今のあなたは、何かに縛られているような感覚がある状況にいます。やめたいのにやめられない、距離を置きたいのに置けない——その「鎖」は外からかかっているのではなく、あなた自身が手放す選択をしていない部分があるかもしれません。',advice:'今月は、一つだけ「手放す」と決めてみてください。全部でなくていい。一つの選択が、連鎖的に自由をもたらします。',love:2,work:3,money:3},
+  {id:16,arcana:'塔',num:'XVI',moon:'砕けた紅月',elem:'火 × 金',keywords:['崩壊','雷','衝撃','強制変化'],icon:'⚡',msg:'崩れているものは、\n最初から崩れるべきものだったのかもしれません。',situation:'今のあなたの周りで、予期しない出来事や突然の変化が起きているか、あるいは起きる予感があります。安定していると思っていたものが揺らいでいる。それは恐ろしいことですが、塔のカードは、その崩壊の中に必要な解体があることを伝えています。',advice:'今月は、崩れたものを嘆くより、何が残っているかを見てください。本物は必ず、この中に残っています。',love:2,work:2,money:2},
+  {id:17,arcana:'星',num:'XVII',moon:'銀の三日月',elem:'水 × 木',keywords:['希望','願い','回復','導き'],icon:'⭐',msg:'あなたが諦めかけていたもの。\nまだ光は消えていません。',situation:'今のあなたは、疲れを抱えながらも、どこかで希望を手放していない部分があります。傷ついて、失望して、それでも「もしかしたら」と思い続けている——その柔らかい部分こそが、星のカードが照らしているあなたの本質です。',advice:'今月は、自分に優しくすることから始めてください。傷ついた心は急には癒えないけれど、確かに回復していきます。',love:4,work:4,money:4},
+  {id:18,arcana:'月',num:'XVIII',moon:'深藍の満月',elem:'水 × 水',keywords:['幻想','不安','夢','潜在世界'],icon:'🌕',msg:'今の不安は、現実ではなく\nあなたの心が作り出した影かもしれません。',situation:'今のあなたは、はっきりしない不安の中にいます。「何かが起きる気がする」「見えない何かが怖い」——漠然とした恐れが心を占めている状況かもしれません。月のカードは、その不安が必ずしも現実を映していないことを示しています。',advice:'今月は、頭の中の不安な声に従って行動するのではなく、一度立ち止まって「本当にそうなのか」を確認してみてください。',love:3,work:2,money:3},
+  {id:19,arcana:'太陽',num:'XIX',moon:'金の満月',elem:'金 × 火',keywords:['成功','喜び','活力','解放'],icon:'☀️',msg:'今のあなたには、\n本来の輝きを取り戻す流れが来ています。',situation:'今のあなたには、何かが解放されていく流れが来ています。ずっと曇っていたものが晴れ始める感覚、あるいはこれから晴れていく予感——太陽のカードはそれを告げています。',advice:'今月のあなたには、自分を隠す必要がありません。ありのままのあなたが、最も輝いています。それを受け取ってください。',love:5,work:5,money:5},
+  {id:20,arcana:'審判',num:'XX',moon:'白炎の昇月',elem:'火 × 金',keywords:['復活','覚醒','呼び声','再起'],icon:'🌅',msg:'あなたに、呼びかける声が聞こえますか。\nそれはずっと前から、あなたを待っていました。',situation:'今のあなたは、過去のどこかを手放して新しい自分へと変わるタイミングに立っています。昔の失敗、古い傷、ずっと引きずってきた後悔——それらを裁くのは他の誰でもなく、あなた自身です。自分を赦すことから、次の章が始まります。',advice:'今月は、自分を許す言葉を一つ、心の中で声に出してみてください。その一言が、新しい扉を開きます。',love:4,work:4,money:4},
+  {id:21,arcana:'世界',num:'XXI',moon:'五輝月',elem:'全属性',keywords:['完成','統合','循環','到達'],icon:'🌍',msg:'あなたは今、\n一つの長い旅の終わりと始まりの境界線に立っています。',situation:'今のあなたは、長い時間をかけて積み重ねてきたことが、ある種の完成に近づいています。終わりではなく、統合——これまでの経験がつながって、一つの形になっていく感覚があるはずです。',advice:'今月のあなたには、遠慮なく全てを受け取ってください。それだけのものを、あなたはすでに積み重ねています。',love:5,work:5,money:5}
+];
+var MONTHLY_OBA=[
+  {phase:'新月',phaseIcon:'🌑',theme:'静寂が芽吹く月',themeMsg:'星が「待て」と言っている。焦るより、今は種を蒔く準備をするとき。',flow:'今月のあんたには、じっとしている勇気が必要や。星がな、「まだ動くな」って言うてるのが聞こえへんか？ 無理に前に進もうとすると、かえって大事なものを見落とす。\n\n内側から何かが変わり始める予感——それはあんたの感覚が正しい。人間関係でも、仕事でも、今月は「選ぶ」より「受け取る」姿勢が吉やで。\n\n月末になるにつれ、ずっとモヤがかかってたことが急に晴れる日が来る。そこまでは、ゆっくり自分のペースで。',luckyLabels:[{msg:'月のエネルギーが最も満ちる日。思い切って動いた行動が、しっかり実る。'},{msg:'人との縁が結ばれやすい。会いたい人に連絡するなら、この日や。'}],cautionLabel:{msg:'焦って動くと空回り。体も疲れやすいから、早めに休むこと。'},obaMsg:'あんたな、自分では気づいてへんやろうけど——最近、ちゃんと頑張ってるで。誰も褒めてくれへんくても、星はちゃんと見てるから。\n\nただな、一つだけ言わせてもらうわ。あんたはずっと「準備ができてから」って先延ばしにしてることがある。星は今月、そこに気づかせるために動いてるねん。怖くてもええ、不完全でもええ——あと一歩、踏み出してみ。'},
+  {phase:'三日月',phaseIcon:'🌒',theme:'扉を開ける月',themeMsg:'新しい何かが始まる予兆が漂っている。チャンスは「気づいた人」にしか来ない。',flow:'三日月は「始まり」の月や。今月のあんたには、今まで避けてきた何かに向き合う機会が訪れる。怖いと思うなら、それはチャンスのサインやで。\n\n人間関係に小さな変化が起きやすい。新しい出会いは、意外な場所から。古い縁が復活することもある——どちらも大切に受け取ること。\n\n三日月の光は細くても、確かに照らしてる。小さな一歩が、月末には大きな流れに変わっとる。',luckyLabels:[{msg:'三日月が力を増す日。新しいことを始めるには最高のタイミング。'},{msg:'直感が冴える日。なんとなく気になったことを、素直に行動に移してみ。'}],cautionLabel:{msg:'人の言葉に振り回されやすい時期。自分の軸だけは、ぶらさんといてや。'},obaMsg:'あんたが今悩んでることな、実はもう答えは出てるんやで。ただ、勇気がなくて動けへんだけちゃうか？ おばあちゃんには全部見えてるんやから、隠さんでええよ。\n\n星がな、今月のあんたに言うてることがある。「信じてみ」って。何を信じるんかって？ それはあんた自身のことや。自分を信じて動いた結果が、今月の末に答えを出してくれる。'},
+  {phase:'上弦の月',phaseIcon:'🌓',theme:'決断の月',themeMsg:'半分欠けた月が映すのは、迷いと行動の境界線。決める力が、今月の鍵。',flow:'上弦の月は「選択」を迫ってくる。今月のあんたは、ずっと先送りにしてきた何かを、決めなあかん局面に立たされる。これは星の意地悪やない——成長のための「試験」や。\n\n仕事や目標においては、中途半端な状態を抜け出す転機が来る。どちらかを選ぶことで、もう一方への未練が消えていく——それが今月の流れやで。\n\n上弦の月の後半は、物事が加速する。前半の「迷い」を乗り越えたあんたには、思わぬ追い風が吹いてくる。',luckyLabels:[{msg:'決断を下すには最適な日。ためらいを捨てて、腹を決めて動いてみ。'},{msg:'努力が形になる日。コツコツやってきたことが、ようやく評価される。'}],cautionLabel:{msg:'八方美人になりやすい日。全員に良い顔しようとすると、全員に嘘をつくことになるで。'},obaMsg:'おばあちゃん、あんたの顔を見ればわかるわ。今「どうしよう」って迷ってること、あるやろ。二つのうちどっちかを選ばなあかんやつ。\n\n正直に言うわ。あんたはもう、心の中で答え出てるんやで。怖いから確認したくて、ぐるぐるしてるだけや。その「怖い方」が正解やと、おばあちゃんは思う。楽な方を選ぶことが、必ずしも幸せにつながるとは限らへん——星はそれを、今月教えようとしてる。'},
+  {phase:'十三夜月',phaseIcon:'🌔',theme:'豊かさを受け取る月',themeMsg:'満月の一歩手前。今まで蒔いた種が、実り始める予感がする月。',flow:'今月のあんたには、これまでの頑張りが「形」になって戻ってくる流れがある。期待していなかったところから、嬉しい知らせが届くこともあるで。\n\n人間関係において、ずっと気になってた人との距離が縮まるきっかけが生まれやすい。受け身でいると通り過ぎる——ちゃんと自分から動くことや。\n\nただ、全てが順調に見える時ほど、足元をすくわれやすい。浮かれすぎず、地に足をつけて受け取ること。',luckyLabels:[{msg:'豊かさのエネルギーが流れ込む日。感謝の気持ちを誰かに伝えてみ。'},{msg:'人脈が広がる日。新しい場所に顔を出すと、予想外の縁がつながる。'}],cautionLabel:{msg:'油断が招くミスに注意。調子がいい時こそ、確認をおろそかにしたらあかん。'},obaMsg:'あんたな、最近「なんか報われへん」って思うこと、あったんとちゃう？ おばあちゃんにはわかるんや。でもな、それは全部無駄じゃなかった。\n\n今月の星はな、あんたに「受け取り上手」になることを教えようとしてる。謙遜しすぎて「いえ、大したことないです」って言ってしまうやろ。褒められたら「ありがとう」って素直に言えるようになり。幸せは、受け取る練習をした人のところに来るんやから。'},
+  {phase:'満月',phaseIcon:'🌕',theme:'真実が照らされる月',themeMsg:'満月は隠れたものを暴く。今月は、ごまかしが効かない——でもそれが、本当の解放につながる。',flow:'満月の月は、全てが明るみに出る。今まで蓋をしてきた感情や、見て見ぬふりをしてきた問題が、急に浮き上がってくることがあるで。怖くない——これが本当の意味での「浄化」や。\n\n人間関係では、誤解が解けたり、逆に本音がぶつかり合う出来事が起きやすい。どちらにせよ、月末には「すっきり」する感覚があるはず。\n\n満月の力は強烈やから、感情が揺れやすい時期でもある。揺れていいんや。揺れた後に、本当の自分の答えが見えてくる。',luckyLabels:[{msg:'満月パワーが最高潮。大事な話し合いや決断は、この日に持ってくると吉。'},{msg:'直感が最も鋭い日。夢や直感に素直に従ってみ。答えが降りてくる。'}],cautionLabel:{msg:'感情が高ぶりやすい。言わなくていいことを言ってしまう前に、一呼吸置くことや。'},obaMsg:'あんた、今月は何かが「終わる」感じがするかもしれへん。でもな、それは怖いことやない——終わることで、次が始まるんや。\n\n満月はな、見たくないものも全部照らしてしまう。でも、おばあちゃんが思うに、あんたが本当に恐れてるのは「失うこと」やなくて、「変わること」やと思う。変わることを、今月の星は背中を押してくれてる。勇気を持って、手放してみ。'},
+  {phase:'十六夜月',phaseIcon:'🌖',theme:'内省と手放しの月',themeMsg:'ゆっくりと欠けていく月のように、今は「足す」より「引く」季節。',flow:'今月は「引き算」の月や。何かを手に入れようとするより、今あるものを見直し、不要なものを手放す流れが吉と出てる。人間関係もそう——疲れる縁を、静かに整理していくとき。\n\n仕事や目標においては、無理に前進するより、今月の成果を振り返り、次への準備をする方が実りが大きい。焦りは禁物や。\n\n十六夜の月はな、「満ちた後の知恵」を持ってる。今月のあんたには、経験から学んだことを活かす局面が来る。',luckyLabels:[{msg:'整理整頓が吉。部屋を片付けると、頭の中も整理される不思議な日や。'},{msg:'過去の縁が意味を持つ日。久しぶりの連絡が、思わぬ展開につながる。'}],cautionLabel:{msg:'新しいことを始めるには不向きな時期。今は守りを固めること。'},obaMsg:'おばあちゃんが見てきた中でな、一番損してる人って、全部一人で抱えてしまう人やねん。あんた、そのタイプやろ。「迷惑かけたくない」って、助けを求めることを諦めてへんか？\n\n今月はな、素直に「助けて」って言える練習をしてみ。それが弱さやなくて、本当の強さやから。星はな、あんたが一人で戦うのをやめたとき、一番大きな力を貸してくれる。'},
+  {phase:'下弦の月',phaseIcon:'🌗',theme:'手放しと再生の月',themeMsg:'月の光が半分になったとき、人は本当に必要なものを知る。',flow:'下弦の月は「終わりに向かう」エネルギーを持ってる。でも怖くない——これは「再生のための終わり」やから。今月は、古いパターンや思い込みを手放す絶好の機会が巡ってくる。\n\n特に「もう変わらへんと思ってた」ことに変化が起き始める。長く続いた状況に、突然出口が見えることがあるで。\n\n月末には、「これでよかった」という解放感が訪れる。今月の流れに逆らわず、手放すことを恐れなければ——次のサイクルでの大きな飛躍につながっていく。',luckyLabels:[{msg:'古いものを断つに最適な日。思い切って手放した分だけ、新しいものが入ってくる。'},{msg:'癒しの日。自分を労わることに集中して。疲れてた心が、不思議と軽くなる。'}],cautionLabel:{msg:'執着が判断を曇らせやすい。「もったいない」より「もっといい未来」を選ぶ勇気を。'},obaMsg:'あんた、ずっと手放せへんものがあるんやろ。おばあちゃんにはわかるわ。それは人やったり、夢やったり、思い込みやったり——。\n\n一つだけ聞いてみ。それを握りしめてて、今のあんたは幸せか？ 答えが「いいえ」やったら、今月がその答えを出す時や。手放した後の空白が怖い——でも、その空白にこそ、次の幸せが入ってくる。'},
+  {phase:'有明月',phaseIcon:'🌘',theme:'夜明け前の静寂の月',themeMsg:'一番暗い夜の後に、必ず夜明けが来る。今月はその「直前」に立っているあなたへ。',flow:'有明月は「夜明け前」の月や。今月のあんたは、長く続いた試練が終わりに近づいてる感覚があるかもしれへん。もう少しだけ、辛抱するとき。\n\n「もうダメや」と思うタイミングほど、実は転機の直前やったりする。星はそれを知ってるから、今月は特にあんたを見守ってる。\n\n月末近くに、ずっと待ってた「変化のサイン」が届く。それを見逃さないように、アンテナを張っておくことや。今は力を蓄える時期——次のサイクルのための準備が、着々と整ってるで。',luckyLabels:[{msg:'夜明けのエネルギーが最も強い日。長く悩んでたことに、急に答えが見えてくる。'},{msg:'縁が動く日。諦めていた人や機会が、思わぬ形で戻ってくることがある。'}],cautionLabel:{msg:'焦りが最大の敵になる日。「まだか」と思うほど遅くなる——星のタイミングを信じること。'},obaMsg:'おばあちゃんな、あんたのこと、ちゃんと心配してるんやで。最近しんどいことが続いてたやろ。一人でずっと抱えてきたんやろうなって、星を見てたらわかった。\n\n聞いてや。あんたがしんどいのはな、弱いからやない——感じる力が強いんや。全部受け取ってしまうから、傷つくんや。でも、その感受性こそが、あんたの一番の才能でもある。もうすぐ、星があんたの重荷を下ろしてくれる日が来る。それまでは、自分を責めんといてや。'}
+];
+var MIKAGE_PATTERNS=[
+  {moon:'新月',moonIcon:'🌑',elem:'木',elemIcon:'🌿',title:'静かな芽吹きの魂',titleEn:'New Moon · Wood',catchLabel:'「内側で世界を育てる人」',catchCopy:'未完成な何かに、ずっと惹かれています。完成させなくてもいい——そう思っていても、気になり続ける。',catchNote:'新月と木の気が重なるあなたへ',personality:'あなたは外から見ると穏やかで落ち着いていますが、内側ではかなり強い理想と欲求不満を抱えています。「誰かに認めてもらいたい」という気持ちが確かにある——でも、それを口に出すことが恥ずかしくてできない。結果、いつも静かに頑張っているのに、なぜか正当に評価されないと感じることがあります。\n\n一人でいる時間がないと心が削れていきます。人と過ごすことは好きでも、長時間誰かといると、じわじわとエネルギーが奪われる感覚があります。疲れているのに「大丈夫」と言ってしまう癖があります。\n\nアイデアや夢はたくさんあるのに、「完璧な準備が整ってから」と思ううちに、何も始まらない——そういう経験を何度も繰り返してきたはずです。始める直前に、別の「もっといいアイデア」が浮かんでしまうことも。',destiny:'あなたの人生のテーマは「見せることへの勇気」です。才能はある。感性もある。でもそれを世界に出す直前で止まってしまう——この繰り返しがあなたの人生に何度も現れています。\n\nその原因は、外にあるのではなく、あなた自身の中の「まだ足りない」という声です。この声はあなたを守るためのものですが、今はあなたを縛っています。\n\n木は根を張るほど高く伸びます。今の静かな準備は無駄ではありません。でも今必要なのは、もっと準備することではなく、「まだ完成していなくてもいい」という許可を自分に出すことです。',phaseStatus:'「準備が実りに変わる直前」',phaseBody:'最近、何かが揃いきれていない感覚があるかもしれません。でもそれは不足ではなく、次の段階への移行期です。あなたがずっと準備してきたものが、もうすぐ形になります。',compat:{moon:'満月',moonIcon:'🌕',elem:'火',elemIcon:'🔥',type:'存在感が強く、あなたを自然に引き出してくれる人',detail:'満月×火の気を持つ人は、あなたが一人で抱えているものを自然に引き出す力があります。最初は圧倒されるかもしれませんが、その人のそばにいる時、あなたは普段より饒舌になり、自分でも気づいていなかった言葉が出てきます。'}},
+  {moon:'新月',moonIcon:'🌑',elem:'火',elemIcon:'🔥',title:'闇に宿る炎の意志',titleEn:'New Moon · Fire',catchLabel:'「見えない場所で燃える人」',catchCopy:'全力か、ゼロか——あなたの内側はいつもそういう温度です。中間がない。',catchNote:'新月と火の気が重なるあなたへ',personality:'外見は落ち着いていますが、内側では常に何かが燃えています。その温度差に、あなた自身が驚くことさえあります。人から見ると「穏やか」なのに、一人になると感情が溢れてくる——その差を持て余してきたはずです。\n\n全力か、ゼロか——という傾向があります。中間でうまくやることが苦手で、「どうせやるなら完璧に」という思考が、始めることを遅らせます。\n\n誰かを深く信頼した時の熱量は並外れています。でも、その信頼が裏切られた時のダメージも、他の人より深く長く残ります。',destiny:'あなたの人生のテーマは「情熱を示すタイミングを選ぶこと」です。燃える力はある。でもいつ、どこで、誰に向けて示すかの選択が、あなたの運命を大きく分けます。\n\nこれまでの人生で、情熱を出しすぎて傷ついた経験があるはずです。その経験がブレーキになっていますが、そのブレーキを完全にかけ続けることも正解ではありません。\n\n新月の闇の中でこそ炎は最も美しい。あなたの情熱が最も必要とされている場所は、まだあなたが知らない場所にあります。',phaseStatus:'「着火の直前」',phaseBody:'今のあなたの内側には、着火待ちのエネルギーが積み上がっています。一つの小さなきっかけが、大きな流れに変わる時期です。',compat:{moon:'三日月',moonIcon:'🌒',elem:'水',elemIcon:'💧',type:'静かにそばにいて、あなたの炎の温度を安定させてくれる人',detail:'三日月×水の気を持つ人は、あなたの炎を消すことなく、燃え方を穏やかにしてくれる力があります。激しく燃えすぎている時、その人のそばにいると自然と落ち着ける。'}},
+  {moon:'新月',moonIcon:'🌑',elem:'土',elemIcon:'🌍',title:'大地に還る魂の根',titleEn:'New Moon · Earth',catchLabel:'「誰かの支えになりすぎる人」',catchCopy:'あなたが疲れていることに、誰も気づいていません。気づいてほしいのに、言えない。',catchNote:'新月と土の気が重なるあなたへ',personality:'あなたはいつも「頼りになる人」として見られています。でも本当は、そのポジションに疲れることがあります。「助けて」と言えず、「大丈夫」を繰り返す——そのパターンを長い間続けてきたはずです。\n\n人のために動くことは自然にできます。でも自分のために動くことが、なぜか後回しになります。\n\n感情を外に出すのが苦手です。特に、弱さや寂しさを見せることへの抵抗があります。',destiny:'あなたの人生のテーマは「受け取ること」です。与えることは上手にできる。でも受け取ることが苦手——この非対称が、あなたの人間関係に微妙な歪みを生み出してきました。\n\n誰かに頼ることや、助けてもらうことへの罪悪感があるはずです。でも大地も雨を受け取らなければ乾いてしまいます。受け取ることは弱さではなく、循環の始まりです。',phaseStatus:'「自分を取り戻す時期」',phaseBody:'長い間誰かのために使ってきたエネルギーが、今のあなたには必要です。誰かの期待に応えることより、自分が本当に望むことに少しだけ正直になる練習を始める時期に来ています。',compat:{moon:'満月',moonIcon:'🌕',elem:'水',elemIcon:'💧',type:'あなたの沈黙の中にある言葉を、自然に引き出してくれる人',detail:'満月×水の気を持つ人は、あなたが言葉にしていない感情を感じ取ることができます。「話さなくてもわかってもらえる」という感覚を、この人のそばで初めて経験するかもしれません。'}},
+  {moon:'新月',moonIcon:'🌑',elem:'金',elemIcon:'✨',title:'磨かれゆく光の核',titleEn:'New Moon · Metal',catchLabel:'「本物だけを信じたい人」',catchCopy:'妥協したくない。でも、その基準の高さが、あなた自身を追い詰めています。',catchNote:'新月と金の気が重なるあなたへ',personality:'あなたは偽物を見分ける目を持っています。表面的な話や、本質のない関係に時間を使うことに苦痛を感じます。その基準の高さが、あなたを孤独にすることがあります。\n\n自分自身にも同じ基準を適用するため、できていないことへの批判が厳しくなります。「まだまだ」「これではダメ」という内声が、努力をしても止まらない。\n\nその完璧主義が、同時にあなたの才能の源でもあります。あなたが作るもの、選ぶもの、関わるものには、他の人にはない本物の質があります。',destiny:'あなたの人生のテーマは「不完全の中にある美しさを見ること」です。本物を求める姿勢は正しい。でも本物は、完成してから現れるとは限りません。\n\n磨かれる前から金は金です。今のあなたが思う「まだ足りない」は、外から見ると十分以上です。\n\n今まで諦めてきたこと、手放してきたこと——それらはすべて、あなたをより純粋にするための必要な過程でした。',phaseStatus:'「磨きが完成形に近づく時期」',phaseBody:'長い時間をかけて磨いてきたものが、もうすぐ本来の輝きを見せる段階に入っています。完璧でなくていい——今の状態を世界に見せることが、次のステージへの入口です。',compat:{moon:'三日月',moonIcon:'🌒',elem:'木',elemIcon:'🌿',type:'あなたのペースを崩さず、ゆっくりと理解しようとする人',detail:'三日月×木の気を持つ人は、あなたの高い基準を否定せず、むしろ敬意を持って近づいてきます。急かさず、ゆっくりと関係を育てることを知っているこの人は、あなたが最も深く信頼できるタイプです。'}},
+  {moon:'新月',moonIcon:'🌑',elem:'水',elemIcon:'💧',title:'深淵に眠る予言者',titleEn:'New Moon · Water',catchLabel:'「言葉にならないものを感じる人」',catchCopy:'あなたの直感は、ほとんどの場合、正しい。でもそれを信じる勇気がまだない。',catchNote:'新月と水の気が重なるあなたへ',personality:'あなたは論理より先に答えを知っていることがあります。「なぜかわからないけれど確信がある」——そういう経験を何度も持ってきたはずです。\n\nその感知力の代償として、他者の感情を自分のものとして引き受けやすい面があります。誰かが怒っていると、自分が怒られたように感じる。職場や人混みから帰ると、どっと疲れる理由はここにあります。\n\n人混みや感情の激しい場所が苦手なのは、弱さではありません。あなたの感知能力は、静かな環境でこそ最大限に機能します。',destiny:'あなたの人生のテーマは「内なる声を世界に届けること」です。感じ取ることはできる。でも、それを言葉にして外に出すことへの恐れがある——この葛藤があなたの人生に何度も現れています。\n\n「こんなことを言ったら変だと思われる」という恐れが、あなたの最も貴重なものを封じ込めています。\n\n月が最も暗い新月の夜でも、水は静かに深く流れています。',phaseStatus:'「流れが来ている時期」',phaseBody:'今のあなたの周囲では、見えないところで大きな動きが起きています。それを感じ取っているはずです。その感知を信頼してください。',compat:{moon:'半月',moonIcon:'🌓',elem:'土',elemIcon:'🌍',type:'あなたの感性を「おかしい」と言わず、ただ受け入れてくれる人',detail:'半月×土の気を持つ人は、あなたが直感で感じたことを否定せず、そのままを受け止める穏やかさを持っています。説明しなくても「そういうものだね」と言ってくれる——その安心感があなたを解放します。'}},
+  {moon:'三日月',moonIcon:'🌒',elem:'木',elemIcon:'🌿',title:'伸びゆく若葉の志',titleEn:'Crescent · Wood',catchLabel:'「常に一つ先を見ている人」',catchCopy:'今いる場所より、次の場所が気になっています。だから今の良さが見えにくい。',catchNote:'三日月と木の気が重なるあなたへ',personality:'成長への意欲が常にあります。今の自分に満足できず、「もっとよくなれるはず」という感覚がいつもついてきます。その向上心が時に、今ある良いものを見えにくくします。\n\n比較癖があります。他の人が自分より進んでいるように見えると、焦りや焦燥感が来る。\n\n学ぶことが好きです。でも学んだことをなかなかアウトプットできない——「まだ足りない」という感覚が、発信することを難しくしています。',destiny:'あなたの人生のテーマは「今の豊かさを受け取ること」です。先を見る力は才能です。でも先を見すぎて、今この瞬間を生きることが難しくなる——この傾向がありました。\n\n木は一日で育ちません。でも毎日、見えない速度で育ち続けています。今のあなたも同じです。\n\nあなたが「もう少し先」と言い続ける間にも、今という瞬間は過ぎていきます。',phaseStatus:'「一段上に上がる直前」',phaseBody:'最近、何かが変わりそうな予感があるとしたら、それは正しい感覚です。努力が形になるまでのラスト一歩にいます。',compat:{moon:'満月',moonIcon:'🌕',elem:'土',elemIcon:'🌍',type:'「今のあなたで十分だ」と自然に感じさせてくれる人',detail:'満月×土の気を持つ人は、焦りを外側から否定せず、ただその場にいるだけで「今のままでいい」という感覚を与えてくれます。'}},
+  {moon:'三日月',moonIcon:'🌒',elem:'火',elemIcon:'🔥',title:'宵の炎、夢の予兆',titleEn:'Crescent · Fire',catchLabel:'「情熱の向き先を探している人」',catchCopy:'熱くなれる。でもどこに向ければいいかが、まだ定まっていない。',catchNote:'三日月と火の気が重なるあなたへ',personality:'何かに火がつくと、全力で向かいます。その集中力と熱量は本物です。でも、その対象がすぐに変わってしまうことがあります。\n\nやりたいことはある。でもどれが「本当にやりたいこと」なのかがわからない——この問いが長い間あなたについてきているはずです。\n\nいくつかのことを同時に進めるマルチタスクは得意です。でも深く一つに集中した時の力が、まだ発揮されていません。',destiny:'あなたの人生のテーマは「情熱そのものと仲良くなること」です。向き先より先に、情熱という感覚そのものを信頼することが大切です。\n\n「これだ」と感じた瞬間を否定しない練習が必要です。完璧な向き先が見つかってから動くのではなく、動きながら向き先を見つける——それがあなたのタイプの人間の正しいやり方です。',phaseStatus:'「点火の瞬間を待っている時期」',phaseBody:'あなたの情熱が向かうべき対象が、今まさに現れようとしています。最近出会った人、触れたもの、気になっていること——その中に、あなたの次の炎の源があります。',compat:{moon:'新月',moonIcon:'🌑',elem:'土',elemIcon:'🌍',type:'あなたの熱量を受け止めながら、冷静にそばにいてくれる人',detail:'新月×土の気を持つ人は、あなたが燃えていても慌てず、静かにそばにいてくれます。あなたの炎が強くなっても動じない——そのどっしりとした安心感が、あなたの情熱を長続きさせます。'}},
+  {moon:'三日月',moonIcon:'🌒',elem:'土',elemIcon:'🌍',title:'確かな一歩の大地',titleEn:'Crescent · Earth',catchLabel:'「焦らず着実に進む人」',catchCopy:'ゆっくりに見えて、気づいたら一番遠くにいます。そういうタイプです。',catchNote:'三日月と土の気が重なるあなたへ',personality:'あなたは派手ではありませんが、確実に前進する力を持っています。コツコツ続けることができる——これは才能ですが、本人はそれを当たり前だと思っていることが多いです。\n\nでも本当は、変化や新しいことへの怖さが内側にあります。内側では結構びくびくしているのに、外には出さない。その強さが誤解されることもあります。\n\n少しずつ積み重ねることが得意ですが、その努力を他人に見せることが苦手です。',destiny:'あなたの人生のテーマは「自分の速度を信頼すること」です。他の人より遅く動いているように見えても、あなたが積み上げているものの質は違います。\n\n大地は急いで豊かにはなりません。でも時間をかけた大地は、どんな種でも育てる力を持ちます。あなたのペースは正しい。急がなくていい——それが今のあなたへの月のメッセージです。',phaseStatus:'「努力が形になる時期」',phaseBody:'長い時間をかけて積み上げてきたものが、そろそろ見える形になってくる段階です。他の人から認められることが増えてくるかもしれません。',compat:{moon:'三日月',moonIcon:'🌒',elem:'火',elemIcon:'🔥',type:'あなたの行動を後押しし、動き出すきっかけをくれる人',detail:'三日月×火の気を持つ人は、あなたの慎重さを批判せず、でもそっと「行こう」と引き出してくれる力があります。'}},
+  {moon:'三日月',moonIcon:'🌒',elem:'金',elemIcon:'✨',title:'宵星の如き鋭感',titleEn:'Crescent · Metal',catchLabel:'「完成していない自分が気になる人」',catchCopy:'誰よりもセンスがあるのに、それを自分では信じられていません。',catchNote:'三日月と金の気が重なるあなたへ',personality:'美意識と感性が高く、本物を見分ける目があります。でもその目が、自分自身にも向かっていて、「まだこれでは足りない」という感覚が常につきまとっています。\n\n自分の作ったもの、書いたもの、言ったことを後から何度も見直して、「もっとよかったはずなのに」と思うことがあるはずです。\n\n他者に評価されても、「本当にわかっているのだろうか」という疑いが消えない。',destiny:'あなたの人生のテーマは「未完成の美しさを受け入れること」です。完璧を追い続けるエネルギーが、あなたの最大の力でもあり、最大の足かせでもあります。\n\n金は研磨されると輝きますが、研磨される前から金は金です。今のあなたの状態を、もう少し信頼してください。',phaseStatus:'「才能が認められ始める時期」',phaseBody:'今まで内側に留めてきたものを、少しずつ外に出すことへの怖さが減ってきています。その変化に従って動いてください。',compat:{moon:'半月',moonIcon:'🌓',elem:'水',elemIcon:'💧',type:'あなたの感性を素直に「すごい」と言ってくれる人',detail:'半月×水の気を持つ人は、あなたの作るものや言葉の価値を直感的に理解します。技術的な説明がなくても「これはいいものだ」とわかる人——その評価があなたの完璧主義を少し緩めてくれます。'}},
+  {moon:'三日月',moonIcon:'🌒',elem:'水',elemIcon:'💧',title:'流れ始めた予感の川',titleEn:'Crescent · Water',catchLabel:'「変化の気配を先に感じる人」',catchCopy:'まだ誰も気づいていない変化を、あなたはもう感じています。でも確信が持てない。',catchNote:'三日月と水の気が重なるあなたへ',personality:'空気が変わる前に、それを感じ取ることができます。職場の雰囲気、関係の変化、社会の流れ——それらを言葉にする前に体で知っている、という経験がよくあります。\n\n感受性が高いため、他者の否定的な感情に影響されやすい面があります。誰かが不機嫌だと、自分が何かしたのかと考えてしまう——その癖に長い間悩まされてきたはずです。\n\n変化を察知するのは早いですが、そこから行動に移すのに時間がかかることがあります。',destiny:'あなたの人生のテーマは「直感で行動する練習」です。感じることはできる。でも、それを論理的に確認してからでないと動けない——この確認欲求が、チャンスを逃す原因になることがあります。\n\n水は行き先を分析してから流れません。あなたも時に、分析より先に動く練習をすることで、本来の能力が開花します。',phaseStatus:'「流れに乗るべき時期」',phaseBody:'今あなたの周囲で起きていることは、あなたが感じている通りの方向に向かっています。考える前に動いてみてください。',compat:{moon:'満月',moonIcon:'🌕',elem:'木',elemIcon:'🌿',type:'あなたの感覚を「変だ」と言わず、好奇心を持って聞いてくれる人',detail:'満月×木の気を持つ人は、あなたが感じた「何かがおかしい」という直感を、面白がって聞いてくれます。否定も過度な共感もなく、ただ好奇心を持って聞いてくれる人のそばで、あなたの感知能力は伸びていきます。'}},
+  {moon:'半月',moonIcon:'🌓',elem:'木',elemIcon:'🌿',title:'決断の枝、分かれ道',titleEn:'Half Moon · Wood',catchLabel:'「どちらも正しいと思える人」',catchCopy:'決められない。それはあなたの繊細さの証明です。どちらも本当に見えているから。',catchNote:'半月と木の気が重なるあなたへ',personality:'物事を多面的に見る能力があります。どちらの意見にも一理あると感じ、どちらかに決めることが難しい——そういう場面が多いはずです。\n\nグループの中では自然と調整役になります。誰かが対立していると、その間に入って双方の言いたいことを言葉にしてあげる——そういう役割を担うことが多いはずです。\n\n「失敗したくない」という思いが、決断をさらに遅らせています。',destiny:'あなたの人生のテーマは「選択することが前進である」と知ることです。どちらを選んでも失うものがある——その認識が、あなたを迷わせてきました。\n\nでも、選ばないことにもコストがあります。半月はどちらかを選ぶことで、次の形に進みます。\n\n木の根は、選んだ土地でどこまでも深く張っていきます。どちらを選んでも、あなたの本質は変わりません。',phaseStatus:'「選択の時期」',phaseBody:'今のあなたは何かを選ばなければならない状況に近づいています。その選択を恐れないでください。選んだ先に、次の扉があります。',compat:{moon:'新月',moonIcon:'🌑',elem:'火',elemIcon:'🔥',type:'あなたがどちらを選んでも、背中を押してくれる人',detail:'新月×火の気を持つ人は、あなたの迷いを見守りながら、「どちらでも、あなたが決めたならいい」と言える強さを持っています。'}},
+  {moon:'半月',moonIcon:'🌓',elem:'火',elemIcon:'🔥',title:'迷いの中の灼熱',titleEn:'Half Moon · Fire',catchLabel:'「情熱と理性の間で揺れる人」',catchCopy:'感情的になりたくない。でも感情は、本当の答えを知っています。',catchNote:'半月と火の気が重なるあなたへ',personality:'頭では「落ち着いて判断しなければ」とわかっています。でも心の奥では「もう決まっている」と感じている——そのギャップに苦しむことがあります。\n\n傷つくことへの恐れが、行動のブレーキになっています。「動きたい」という気持ちと「傷つきたくない」という気持ちが常に拮抗していて、その間で身動きが取れなくなることがあります。\n\n自分の感情を「弱さ」と捉えている節があります。感情的になることを恥ずかしいと思い、抑えようとする。でもその感情の強さこそが、あなたの炎の源です。',destiny:'あなたの人生のテーマは「情熱に理性をつなぐこと」です。感情だけで動くのが怖い。かといって理性だけで動くと後悔する——その両方の経験をあなたはしてきました。\n\n火は制御されることで、暖かさに変わります。あなたの感情と理性は、どちらかが正しいのではなく、両方が必要です。\n\n半月は光と影を持ちながらも美しい。あなたの迷いや葛藤は、弱さではなく、深さの証拠です。',phaseStatus:'「決断の時期」',phaseBody:'今のあなたには、長い間保留にしてきた何かを決める時期が来ています。感情と理性、両方を感じた上で、自分が最も生きやすい方向を選んでください。',compat:{moon:'半月',moonIcon:'🌓',elem:'土',elemIcon:'🌍',type:'あなたの感情的な部分を安全に受け止めてくれる人',detail:'半月×土の気を持つ人は、あなたが感情的になっても動じず、ただ静かにそばにいてくれます。「落ち着いて」という言葉より、その存在だけで落ち着かせてくれる——そういう人です。'}},
+  {moon:'半月',moonIcon:'🌓',elem:'土',elemIcon:'🌍',title:'大地の均衡を守る者',titleEn:'Half Moon · Earth',catchLabel:'「全体のバランスを取ろうとする人」',catchCopy:'あなたがいることで、その場の空気が整っています。でも自分のことは後回しになっています。',catchNote:'半月と土の気が重なるあなたへ',personality:'あなたは自然とグループのバランスを保とうとします。誰かが偏ったことを言うと、反対側の視点を補いたくなる。その調整力は本物の才能ですが、自分の意見が後回しになりがちです。\n\n「全体がうまくいくこと」を優先するあまり、「自分はどうしたいか」がわからなくなっていることがあります。\n\n「もし自分が自分のために動いたら、周りはどう思うか」という恐れが、行動を止めています。',destiny:'あなたの人生のテーマは「自分自身もバランスの一部に入れること」です。全体を整えることはできる。でも自分の必要を無視し続けると、整えてきたものが崩れ始めます。\n\n土は外から何かが足されなければ、いずれ枯れます。あなた自身が必要としているものを受け取ること——それが、あなたの調整力を長く保つために必要なことです。',phaseStatus:'「自分に向き合う時期」',phaseBody:'今のあなたに必要なのは、誰かのためではなく、自分のために時間とエネルギーを使うことです。それは利己的ではありません。自分を整えることが、周囲をより良く整える力につながります。',compat:{moon:'満月',moonIcon:'🌕',elem:'火',elemIcon:'🔥',type:'あなたが自分自身を後回しにしていることを、優しく指摘してくれる人',detail:'満月×火の気を持つ人は、あなたが自分のことを忘れそうになっている時に、「あなたはどうしたい？」と聞いてくれます。'}},
+  {moon:'半月',moonIcon:'🌓',elem:'金',elemIcon:'✨',title:'天秤の上の純金',titleEn:'Half Moon · Metal',catchLabel:'「手放すものと残すものを選ぶ人」',catchCopy:'捨てることが怖くない。でも、残すべきものを間違えたくない。',catchNote:'半月と金の気が重なるあなたへ',personality:'不要なものを見分ける目があります。物でも、人間関係でも、習慣でも、「これはもう必要ない」と感じる瞬間が他の人より早く来ます。その選別の速さが、時に「冷たい」「執着がない」と見られることがあります。\n\nしかし、その選別に迷う時があります。「これは捨てるべきか、残すべきか」という判断を間違えたくないという恐れが、選択を遅らせることがあります。\n\n決断した後に「本当によかったのか」と考え続けてしまうことがあります。',destiny:'あなたの人生のテーマは「選択の後を信頼すること」です。何かを選んだ後、「本当によかったのか」と考え続けてしまうことがあります。\n\n金は溶かされて形を変えても、金であることは変わりません。あなたが何を選んでも、あなたの本質は変わりません。選択の正しさは、選んだ後にどう生きるかで決まります。',phaseStatus:'「整理と再構築の時期」',phaseBody:'今のあなたは、不要なものを手放し、本当に大切なものを再認識する時期にいます。その選別の過程は孤独に見えることもありますが、それを経た先に、本当に必要なものだけが残ります。',compat:{moon:'新月',moonIcon:'🌑',elem:'水',elemIcon:'💧',type:'あなたの選択を否定せず、静かに見守ってくれる人',detail:'新月×水の気を持つ人は、あなたが何かを手放す決断をしても、「本当にいいの？」と問い直したりしません。あなたの選択を信頼して、静かにそばにいてくれます。'}},
+  {moon:'半月',moonIcon:'🌓',elem:'水',elemIcon:'💧',title:'潮目に立つ感知者',titleEn:'Half Moon · Water',catchLabel:'「感じすぎて動けなくなる人」',catchCopy:'気づきすぎることが、あなたの足を止めています。情報量が多すぎて、動けない。',catchNote:'半月と水の気が重なるあなたへ',personality:'空気を読みすぎてしまいます。相手の表情、声のトーン、場の雰囲気——それらすべてが情報として入ってきて、処理しきれなくなることがあります。\n\nでもシャットダウンすると、今度は自分の感覚もわからなくなる——そのジレンマがあります。決断を迷うのは、感じることが多すぎるからです。\n\n誰かが怒っていると、「私のせい？」と考えてしまう。場の空気が悪いと、「私が何かした？」と感じてしまう。その責任の取りすぎが、あなたを疲弊させています。',destiny:'あなたの人生のテーマは「流れに任せること」です。すべてを分析してから動こうとするため、流れが過ぎていくことがあります。\n\nあなたの感知能力は、分析ではなく行動の中で最もよく機能します。動きながら感じ、感じながら調整する——そのリズムを覚えることが、あなたの人生を大きく変えます。',phaseStatus:'「静かな転換期」',phaseBody:'今のあなたの周囲では、表面には見えない変化が進んでいます。その変化を感じ取っているはずです。分析より先に、その流れに乗ってみてください。',compat:{moon:'三日月',moonIcon:'🌒',elem:'木',elemIcon:'🌿',type:'あなたのペースを乱さず、自然に前進させてくれる人',detail:'三日月×木の気を持つ人は、急かさず、でも着実に成長していく人です。この人のそばにいると、あなたも自然に一歩ずつ動ける感覚になります。'}},
+  {moon:'満月',moonIcon:'🌕',elem:'木',elemIcon:'🌿',title:'満開の樹、誰かの宿',titleEn:'Full Moon · Wood',catchLabel:'「誰かの居場所になる人」',catchCopy:'あなたのそばは、なぜか安心します。でもあなた自身は、疲れていませんか。',catchNote:'満月と木の気が重なるあなたへ',personality:'その場にいるだけで空気が柔らかくなり、人が自然と集まってくる引力があります。あなた自身はそれを自覚していないことが多いですが、確実に存在しています。\n\nでも時に「私のことは誰も聞いてくれない」という寂しさを感じることもあります。自分のことを話すと「重い」と思われそうで、うまく打ち明けられない——そういう孤独があります。\n\nすべての人を受け入れようとするため、自分のエネルギーが消耗することがあります。',destiny:'あなたの人生のテーマは「自分の光を守りながら照らすこと」です。満ちた月は美しいですが、照らし続ければ欠けていきます。\n\n与えることと受け取ることの循環が、あなたの光を長く保ちます。今、あなたに必要なのは「受け取る勇気」です。誰かに頼ること、助けを求めること——それはあなたの価値を下げません。\n\n木が実を結び、その実がまた種になるように、あなたの善意は必ず巡り巡って戻ってきます。',phaseStatus:'「収穫と循環の時期」',phaseBody:'長い間与えてきたエネルギーが、今返ってくる時期です。受け取ることへの遠慮をしているなら、今こそそれを手放してください。',compat:{moon:'新月',moonIcon:'🌑',elem:'金',elemIcon:'✨',type:'あなたが「いつもと違う自分」を見せても、変わらずにいてくれる人',detail:'新月×金の気を持つ人は、あなたの「いい人」の面だけでなく、疲れている時の本音も、そのまま受け止める深さを持っています。'}},
+  {moon:'満月',moonIcon:'🌕',elem:'火',elemIcon:'🔥',title:'天に燃ゆる覚醒の炎',titleEn:'Full Moon · Fire',catchLabel:'「存在だけで場を変える人」',catchCopy:'あなたが本気を出した時、誰も止められません。でもその力を、まだ出し惜しみしています。',catchNote:'満月と火の気が重なるあなたへ',personality:'カリスマ性があります。意識しなくても、あなたが話し始めると場の注目が集まる——そういう力があります。その力の大きさを自分でも持て余すことがあります。\n\n燃え尽き症候群に注意が必要です。全力で向かい続けていると、ある日突然動けなくなることがあります。頑張りすぎてから、急に何もしたくなくなる——そのサイクルを繰り返してきたはずです。\n\n「もっとやれる」という自己期待が高く、自分に休む許可を出すのが苦手です。',destiny:'あなたの人生のテーマは「持続可能な情熱の使い方」です。短期間で燃え上がって消えるより、長く燃え続けることが本当の力です。\n\n炎を大きく燃やす方法は知っている。でも小さく、長く燃やし続ける方法を身につけることが、あなたの次の課題です。\n\n満月の今、あなたの魅力と影響力は最高点に達しています。',phaseStatus:'「最高潮の時期」',phaseBody:'今のあなたの運気と魅力は最高点に近いところにいます。このエネルギーを分散させず、最も重要な一つのことに集中させてください。',compat:{moon:'半月',moonIcon:'🌓',elem:'水',elemIcon:'💧',type:'あなたの炎が強すぎる時に、自然と温度を下げてくれる人',detail:'半月×水の気を持つ人は、あなたの熱量に圧倒されることなく、「少し休もう」と自然に言える人です。強制ではなく、ただその人といると自然とペースが落ち着く——そういう調整が、あなたには必要です。'}},
+  {moon:'満月',moonIcon:'🌕',elem:'土',elemIcon:'🌍',title:'豊穣の大地、収穫の時',titleEn:'Full Moon · Earth',catchLabel:'「長い年月かけて豊かさを育ててきた人」',catchCopy:'あなたが積み上げてきたものが、今実ろうとしています。受け取る準備はできていますか。',catchNote:'満月と土の気が重なるあなたへ',personality:'誠実さ、一貫性、粘り強さ——これらを当たり前のようにこなしてきましたが、これは才能です。周囲からは「安定している」「ブレない」と見られています。\n\n「こんなに安定してうまくいっているのに、なぜか物足りない」——そういう感覚を時々感じることがあるはずです。それは贅沢な悩みではなく、大地が次の季節を感じ取っているサインです。\n\n感謝を受け取りすぎず、「それほどでも」と謙遜してきたはずです。',destiny:'あなたの人生のテーマは「豊かさを受け取り、分かち合うこと」です。長い時間かけて蓄えてきたもの——経験でも、信頼でも、知識でも——を、もっと積極的に世界に向けて出す時期が来ています。\n\n大地は豊かになると、その豊かさを隣の土地にも広げます。今のあなたには、その力があります。自分だけで抱えず、分かち合うことで、あなたの豊かさはさらに増えていきます。',phaseStatus:'「収穫の時期」',phaseBody:'長い時間をかけて育ててきたものが、今まさに実る時です。謙遜せず、その実りを素直に受け取ってください。それを認めることが、次の豊かな季節への始まりです。',compat:{moon:'三日月',moonIcon:'🌒',elem:'金',elemIcon:'✨',type:'あなたの積み上げてきたものを、本当に価値があると認めてくれる人',detail:'三日月×金の気を持つ人は、本物を見分ける目を持っています。あなたが「それほどでも」と思っていることに、この人は「これは本物だ」と言います。'}},
+  {moon:'満月',moonIcon:'🌕',elem:'金',elemIcon:'✨',title:'完成した光の結晶',titleEn:'Full Moon · Metal',catchLabel:'「完成した輝きを恐れている人」',catchCopy:'あなたの準備は、もうとっくに終わっています。出ることへの恐れが、あなたを引き止めています。',catchNote:'満月と金の気が重なるあなたへ',personality:'ここまでの道のりで、相当な磨きをかけてきました。才能だけでなく、その才能を使う覚悟も、失敗から学ぶ力も、すでに備わっています。でも「もう少し」という感覚がまだある。\n\n「完成したと思ったら、また新しい課題が見えた」——このサイクルを繰り返してきたはずです。実は、出ることへの恐れがあります。\n\n自分の輝きを他者に見せることへの照れや恐れがあるかもしれません。',destiny:'あなたの人生のテーマは「輝くことへの許可を自分に出すこと」です。磨きは終わった。次は、その光を世界に見せることです。\n\n磨かれた金は、光の中に出て初めて輝きます。暗いところに置いていては、その価値は誰にも届きません。今のあなたに必要なのは、もっと磨くことではなく、舞台の中央に立つ勇気です。',phaseStatus:'「舞台に立つ時期」',phaseBody:'あなたの準備は完成しています。今踏み出す一歩が、あなたのこれまでの積み重ねを一気に形にします。恐れではなく、ここまでやってきた自分への信頼を持って前に出てください。',compat:{moon:'満月',moonIcon:'🌕',elem:'木',elemIcon:'🌿',type:'あなたの輝きを、素直に「美しい」と言ってくれる人',detail:'満月×木の気を持つ人は、あなたの輝きに嫉妬するのではなく、純粋に「すごい」と思える温かさを持っています。その人の前で輝くことへの恐れが消える体験が、あなたの人生を変えます。'}},
+  {moon:'満月',moonIcon:'🌕',elem:'水',elemIcon:'💧',title:'月海に満ちる叡智',titleEn:'Full Moon · Water',catchLabel:'「今夜だけわかることがある人」',catchCopy:'あなたの感知能力は今、最高点にあります。感じていることを信頼してください。',catchNote:'満月と水の気が重なるあなたへ',personality:'感受性と直感力が頂点に達しています。誰かの本音、状況の本質、来るべき変化——それらがクリアに見えている状態です。その鮮明さが、時に重荷になります。\n\n感情の満ち潮が来ている時期です。喜びも悲しみも、普段より強く感じます。泣きたくないのに涙が出る、理由もなく幸せな気持ちになる——そういう経験が最近あるかもしれません。\n\n人の言葉の裏を読みすぎることがあります。「この人は本当はこう思っているのでは」と考えすぎて、実際には存在しない問題を作り出してしまうことがあります。',destiny:'あなたの人生のテーマは「感じていることを語ること」です。今あなたの中に満ちている洞察は、あなた一人に留めておくには惜しいものです。\n\n満月の水は、月光を受けて最も美しく輝きます。あなたの叡智も、誰かに伝えることでその真価を発揮します。\n\nその言葉は、必要な人のところへ届きます。あなたが語ることを待っている人が、今この瞬間にも存在しています。',phaseStatus:'「叡智が満ちる時期」',phaseBody:'今のあなたには、普段見えないものが見えています。その洞察を信頼し、言葉にして外に出す練習をしてください。あなたが語ることを待っている人がいます。',compat:{moon:'新月',moonIcon:'🌑',elem:'土',elemIcon:'🌍',type:'あなたの深い感受性に、動じずに寄り添ってくれる人',detail:'新月×土の気を持つ人は、あなたが感情的になっても、流されることなくそばにいてくれます。「あなたの感じていることは正しい」と、静かな存在で示してくれる人——その安定が、あなたの感受性を守ります。'}}
+];
 
 /* ============================================================
    Init
