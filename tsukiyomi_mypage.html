@@ -441,9 +441,9 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* Background is provided by #fortune-bg (z-index:7990) with stars */
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
 .fortune-screen.active{display:flex;flex-direction:column}
-#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
-#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:1.4rem 1rem 3rem}
-#screen-fortune-loading.active{align-items:center;justify-content:center}
+#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:0.7rem 1rem 3rem}
+#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:0.7rem 1rem 3rem}
+#screen-fortune-loading.active{align-items:center;justify-content:flex-start;padding-top:3.5rem}
 #screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
 .fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:3rem 1rem 5rem}
 
@@ -452,7 +452,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   width:100%;max-width:390px;
   background:linear-gradient(158deg,rgba(26,27,58,.97),rgba(11,9,30,.99));
   border:1px solid rgba(220,206,255,.16);border-radius:24px;
-  padding:2.5rem 1.8rem 2rem;text-align:center;
+  padding:1.4rem 1.6rem 1.6rem;text-align:center;
   position:relative;overflow:hidden;
   box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(220,206,255,.07);
   animation:payDoneIn .45s cubic-bezier(.34,1.2,.64,1) both;
@@ -460,7 +460,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 @keyframes payDoneIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .pay-done-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.5),rgba(76,42,133,.6),rgba(110,231,183,.5),transparent)}
 .pay-done-icon-wrap{
-  position:relative;width:72px;height:72px;margin:0 auto 1.3rem;
+  position:relative;width:64px;height:64px;margin:0 auto 0.9rem;
 }
 .pay-done-icon-wrap::before{
   content:'';position:absolute;inset:-12px;border-radius:50%;
@@ -468,7 +468,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   animation:orbPulse 2.5s ease-in-out infinite;
 }
 .pay-done-icon{
-  width:72px;height:72px;border-radius:50%;
+  width:64px;height:64px;border-radius:50%;
   background:radial-gradient(circle at 40% 35%,rgba(110,231,183,.22),rgba(76,42,133,.15));
   border:2px solid rgba(110,231,183,.45);
   display:flex;align-items:center;justify-content:center;
@@ -480,13 +480,13 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   color:var(--text);letter-spacing:.08em;margin-bottom:.35rem;
 }
 .pay-done-sub{
-  font-size:.76rem;color:var(--muted);letter-spacing:.1em;line-height:1.9;
-  margin-bottom:1.5rem;
+  font-size:.76rem;color:var(--muted);letter-spacing:.1em;line-height:1.8;
+  margin-bottom:1rem;
 }
-.pay-done-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(123,92,246,.25),transparent);margin:0 0 1.4rem}
+.pay-done-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(123,92,246,.25),transparent);margin:0 0 1rem}
 .pay-done-char-row{
   display:flex;align-items:center;justify-content:center;gap:.85rem;
-  margin-bottom:1.5rem;
+  margin-bottom:1.1rem;
   background:rgba(76,42,133,.07);border:1px solid rgba(220,206,255,.1);
   border-radius:14px;padding:.85rem 1.1rem;
 }
@@ -517,13 +517,13 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;
   color:var(--purL);letter-spacing:.12em;margin-bottom:.4rem;
 }
-.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.5rem;min-height:1.8em}
+.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.2rem;min-height:1.8em}
 .fl-bar-wrap{background:rgba(30,20,60,.5);border-radius:4px;height:3px;overflow:hidden;margin:0 auto;max-width:240px}
 .fl-bar{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);width:0;transition:width .2s ease;border-radius:4px}
 
 /* Mikage loading — 陰陽紋章 */
 .fl-mikage-emblem{
-  position:relative;width:88px;height:88px;margin:0 auto 1.2rem;
+  position:relative;width:88px;height:88px;margin:0 auto 1rem;
   display:flex;align-items:center;justify-content:center;
 }
 .fl-mikage-emblem::before,.fl-mikage-emblem::after{
@@ -547,7 +547,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
 /* Oba loading — 月相 + 星 */
 .fl-oba-moon-wrap{
-  position:relative;width:96px;height:96px;margin:0 auto 1.2rem;
+  position:relative;width:96px;height:96px;margin:0 auto 1rem;
   display:flex;align-items:center;justify-content:center;
 }
 .fl-oba-moon{
@@ -602,7 +602,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 #fortune-stars-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 
 /* Payment card */
-.pay-card{width:100%;max-width:390px;background:linear-gradient(158deg,rgba(26,27,58,.95),rgba(11,9,30,.98));border:1px solid var(--card-border);border-radius:20px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
+.pay-card{width:100%;max-width:390px;background:linear-gradient(158deg,rgba(26,27,58,.95),rgba(11,9,30,.98));border:1px solid var(--card-border);border-radius:20px;padding:1.2rem 1.4rem 1.4rem;position:relative;overflow:hidden}
 .pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(220,206,255,.32),rgba(76,42,133,.55),rgba(220,206,255,.32),transparent)}
 .pay-char-row{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem}
 .pay-char-orb{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(123,92,246,.4)}
