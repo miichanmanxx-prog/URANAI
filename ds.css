@@ -1,0 +1,173 @@
+/* ================================================================
+   ds.css — 月詠み占い Design System
+   Theme: 「月と運命の占い館」
+   All pages link this file.
+   ================================================================ */
+
+/* ── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --ink:   #0B091E;   /* deepest bg  */
+  --inkP:  #1A1B3A;   /* elevated bg — dark navy (spec: 濃紺) */
+  --navy:  #0D0F28;
+
+  /* Purple brand family */
+  --pur:   #4C2A85;   /* main purple (spec: #4C2A85) */
+  --purM:  #7B5CF6;   /* mid-purple for gradients */
+  --purL:  #DCCEFF;   /* moonlight accent (spec: #DCCEFF) */
+  --purD:  #2E1860;   /* deep purple */
+  --aux:   #EDE9FF;   /* silver-white auxiliary (spec: #EDE9FF) */
+
+  /* Legacy gold — logo / minor accents only */
+  --gold:  #D4AF37;
+  --goldL: #E8C84A;
+  --goldD: #8B6914;
+  --goldP: #F5E090;
+
+  /* Text */
+  --text:  #EDE9FF;   /* primary (spec: silver-white) */
+  --muted: #9B92C8;   /* secondary */
+  --dim:   #5A5488;   /* tertiary / disabled */
+
+  /* Status */
+  --ok:    #6EE7B7;
+  --err:   #F87171;
+  --warn:  #FBBF24;
+  --info:  #60A5FA;
+
+  /* Character accents — all purple-family */
+  --mikage-acc: #7C8FE8;   /* 陰陽師ミカゲ   紫青 / 霊気 */
+  --oba-acc:    #C4B8FF;   /* 星詠みおばあちゃん 銀薄紫 / 占星術 */
+  --luna-acc:   #DCCEFF;   /* タロット女子ルナ 月光 / 魔法陣 */
+
+  /* Card system */
+  --card-bg:     linear-gradient(158deg, rgba(26,27,58,.9), rgba(11,9,30,.97));
+  --card-border: rgba(220,206,255,.13);
+  --card-radius: 20px;
+  --card-shadow: 0 16px 48px rgba(0,0,0,.52), inset 0 1px 0 rgba(220,206,255,.06);
+
+  /* Button */
+  --btn-grad: linear-gradient(115deg, #2E1860 0%, #4C2A85 35%, #7B5CF6 62%, #4C2A85 100%);
+  --btn-glow: 0 4px 24px rgba(76,42,133,.42);
+  --btn-radius: 9999px;
+
+  /* Common border */
+  --border: rgba(220,206,255,.13);
+  --border-strong: rgba(220,206,255,.25);
+}
+
+/* ── Shared page body / background ────────────────────────────── */
+body {
+  background: radial-gradient(ellipse at 50% -5%, #1E0B38 0%, var(--ink) 58%);
+}
+
+/* ── Primary button ────────────────────────────────────────────── */
+.ds-btn {
+  display: block;
+  width: 100%;
+  padding: .9rem 2rem;
+  background: var(--btn-grad);
+  background-size: 220% auto;
+  color: var(--text);
+  font-family: 'Noto Serif JP', serif;
+  font-size: .84rem;
+  font-weight: 400;
+  letter-spacing: .15em;
+  border: none;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  animation: ds-shine 4s linear infinite;
+  box-shadow: var(--btn-glow);
+  -webkit-appearance: none;
+  touch-action: manipulation;
+  transition: transform .2s, box-shadow .2s;
+}
+.ds-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(76,42,133,.55); }
+.ds-btn:active { transform: translateY(0); }
+.ds-btn:disabled { opacity: .42; cursor: not-allowed; animation: none; }
+
+/* ── Ghost / outline button ────────────────────────────────────── */
+.ds-btn-ghost {
+  display: block;
+  width: 100%;
+  padding: .78rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(220,206,255,.22);
+  color: var(--purL);
+  font-family: 'Noto Serif JP', serif;
+  font-size: .78rem;
+  letter-spacing: .12em;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  -webkit-appearance: none;
+  transition: background .22s, border-color .22s;
+}
+.ds-btn-ghost:hover { background: rgba(220,206,255,.07); border-color: rgba(220,206,255,.38); }
+
+/* ── Glass card ─────────────────────────────────────────────────── */
+.ds-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+.ds-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(220,206,255,.32), rgba(76,42,133,.55), rgba(220,206,255,.32), transparent);
+  pointer-events: none;
+}
+
+/* ── Typography utilities ───────────────────────────────────────── */
+.ds-eyebrow {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: .58rem;
+  letter-spacing: .28em;
+  color: var(--purL);
+  text-transform: uppercase;
+  opacity: .82;
+}
+.ds-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: .06em;
+  color: var(--text);
+}
+.ds-headline em { font-style: italic; color: var(--purL); }
+
+/* ── Divider ────────────────────────────────────────────────────── */
+.ds-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(220,206,255,.16), transparent); }
+
+/* ── Input focus ring (utility) ─────────────────────────────────── */
+.ds-input-focus:focus {
+  border-color: rgba(123,92,246,.55) !important;
+  box-shadow: 0 0 0 3px rgba(76,42,133,.14) !important;
+  outline: none;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────── */
+@keyframes ds-shine {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes ds-pulse {
+  0%, 100% { box-shadow: var(--btn-glow); }
+  50%       { box-shadow: 0 6px 40px rgba(76,42,133,.65), 0 0 70px rgba(123,92,246,.22); }
+}
+@keyframes ds-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes ds-glow {
+  0%, 100% { opacity: .55; }
+  50%       { opacity: 1; }
+}

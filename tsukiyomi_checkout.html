@@ -5,18 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>鑑定お申し込み | 月詠み占い</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds.css">
 <script src="https://js.stripe.com/v3/" async></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#07081C;
+  --ink:#0B091E;--inkP:#1A1B3A;
   --gold:#D4AF37;--goldL:#E8C84A;
-  --pur:#7B5EA7;--purL:#C084FC;
-  --text:#E8EAF6;--muted:#8890B8;--dim:#505878;
+  --pur:#4C2A85;--purM:#7B5CF6;--purL:#DCCEFF;--purD:#2E1860;
+  --text:#EDE9FF;--muted:#9B92C8;--dim:#5A5488;
   --err:#F87171;--ok:#6EE7B7;
-  --char-accent:rgba(139,92,246,1);
-  --char-accent-dim:rgba(139,92,246,.18);
-  --char-accent-border:rgba(139,92,246,.38);
+  --char-accent:rgba(123,92,246,1);
+  --char-accent-dim:rgba(76,42,133,.18);
+  --char-accent-border:rgba(123,92,246,.38);
 }
 html{scroll-behavior:smooth}
 body{
@@ -47,7 +48,7 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 .co-hd{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0 .8rem}
 .co-back{background:none;border:none;color:var(--muted);font-family:'Noto Serif JP',serif;font-size:.78rem;letter-spacing:.06em;cursor:pointer;-webkit-appearance:none;padding:0;transition:color .2s}
 .co-back:hover{color:var(--purL)}
-.co-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;background:linear-gradient(135deg,var(--gold),var(--goldL));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em}
+.co-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--purL);letter-spacing:.05em}
 
 /* ─── STEP ─── */
 .steps{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:1.5rem}
@@ -76,17 +77,17 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 
 /* ─── PLAN CARD ─── */
 .plan-card{position:relative;overflow:hidden;
-  background:linear-gradient(160deg,rgba(14,9,40,.97),rgba(8,5,22,.99));
-  border:1px solid rgba(212,175,55,.22);border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);padding:1.5rem 1.5rem 1.4rem;margin-bottom:1rem}
-.plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent)}
+  background:linear-gradient(160deg,rgba(26,27,58,.9),rgba(11,9,30,.97));
+  border:1px solid rgba(220,206,255,.13);border-radius:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);padding:1.5rem 1.5rem 1.4rem;margin-bottom:1rem}
+.plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(220,206,255,.3),rgba(76,42,133,.5),transparent)}
 .plan-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .plan-bdg{font-family:'Playfair Display',serif;font-size:.54rem;letter-spacing:.2em;font-style:italic;text-transform:uppercase;color:var(--char-accent);border:1px solid var(--char-accent-border);background:var(--char-accent-dim);border-radius:20px;padding:.2rem .7rem}
 .plan-price-box{text-align:right}
-.plan-price{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:600;color:var(--gold);line-height:1}
+.plan-price{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:600;color:var(--purL);line-height:1}
 .plan-tax{font-size:.56rem;color:var(--dim);margin-top:.12rem}
 .plan-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:rgba(220,210,245,.88);letter-spacing:.1em;margin-bottom:.85rem}
-.plan-div{height:1px;margin-bottom:.85rem;background:linear-gradient(90deg,rgba(212,175,55,.18),rgba(139,92,246,.12),transparent)}
+.plan-div{height:1px;margin-bottom:.85rem;background:linear-gradient(90deg,rgba(220,206,255,.18),rgba(123,92,246,.12),transparent)}
 .plan-items{list-style:none}
 .plan-items li{display:flex;align-items:flex-start;gap:.6rem;font-size:.74rem;color:rgba(185,180,220,.82);letter-spacing:.04em;padding:.28rem 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.7}
 .plan-items li:last-child{border-bottom:none}
@@ -99,7 +100,7 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 .ov{font-size:.75rem;color:rgba(200,195,235,.85);letter-spacing:.06em}
 .order-div{height:1px;background:rgba(139,92,246,.12);margin:.35rem 0}
 .order-total .ol{color:var(--muted)}
-.order-total-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold)}
+.order-total-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--purL)}
 
 /* ─── PAYMENT SECTION ─── */
 .pay-hd{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
@@ -163,10 +164,10 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
 .success-ov.show{opacity:1;pointer-events:auto}
 .success-inner{text-align:center;max-width:360px;animation:successIn .5s ease}
 .success-icon{width:88px;height:88px;border-radius:50%;overflow:hidden;margin:0 auto 1.1rem;animation:float 3.5s ease-in-out infinite;
-  border:2px solid rgba(212,175,55,.55);
-  box-shadow:0 0 32px rgba(212,175,55,.45),0 0 12px rgba(212,175,55,.3)}
+  border:2px solid rgba(220,206,255,.45);
+  box-shadow:0 0 32px rgba(76,42,133,.55),0 0 12px rgba(123,92,246,.3)}
 .success-icon img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)}
-.success-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;letter-spacing:.18em;color:var(--gold);margin-bottom:.35rem}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;letter-spacing:.18em;color:var(--purL);margin-bottom:.35rem}
 .success-sub{font-size:.67rem;letter-spacing:.18em;color:var(--purL);font-style:italic;margin-bottom:1.6rem}
 .success-msg{font-size:.76rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:1.4rem}
 .success-spinner{width:28px;height:28px;border-radius:50%;border:2px solid rgba(139,92,246,.2);border-top-color:var(--purL);animation:spin .9s linear infinite;margin:0 auto 1.2rem}
@@ -187,8 +188,8 @@ body.page-out{opacity:0!important;transition:opacity .3s ease!important;animatio
   flex-direction:column;align-items:center;justify-content:center;padding:2rem;
 }
 .lreq-inner{text-align:center;max-width:360px}
-.lreq-moon{font-size:3rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(212,175,55,.5))}
-.lreq-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.14em;color:var(--gold);margin-bottom:.4rem}
+.lreq-moon{font-size:3rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(76,42,133,.6))}
+.lreq-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.14em;color:var(--purL);margin-bottom:.4rem}
 .lreq-sub{font-size:.62rem;letter-spacing:.2em;color:var(--purL);margin-bottom:1.8rem;font-style:italic}
 .lreq-msg{font-size:.78rem;color:var(--muted);line-height:2;letter-spacing:.06em;margin-bottom:2rem}
 .lreq-btn{display:inline-block;padding:.9rem 2.4rem;background:linear-gradient(115deg,rgba(70,30,130,.92),rgba(139,92,246,.9),rgba(180,120,255,.92),rgba(139,92,246,.9));background-size:240% auto;animation:btnShine 4s linear infinite;color:#F0EAF8;font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.16em;font-weight:400;border:1px solid rgba(180,140,255,.35);border-radius:50px;text-decoration:none;cursor:pointer;box-shadow:0 4px 28px rgba(139,92,246,.38)}
