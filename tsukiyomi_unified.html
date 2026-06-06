@@ -1268,6 +1268,7 @@ body.page-out{opacity:0 !important}
 'use strict';
 var params=new URLSearchParams(location.search),SHOP_ID=params.get('shop_id')||null,IS_STORE=!!SHOP_ID;
 var ST={menu:'personality',charKey:null,planId:null};
+var _pendingFortune=false;
 var PHASES=[{icon:'🌑',name:'新月',mean:'始まりとリセットの象徴',msg:'内側に種を蒔く、静かな力が宿るとき'},{icon:'🌒',name:'三日月',mean:'新しい意図が芽吹くとき',msg:'小さな光が、やがて満月へと育ちます'},{icon:'🌓',name:'上弦の月',mean:'行動と決断を促すエネルギー',msg:'迷いを手放し、前へ踏み出すタイミング'},{icon:'🌔',name:'十三夜',mean:'夢が形になりはじめる予兆',msg:'あなたの望みが、現実に近づいています'},{icon:'🌕',name:'満月',mean:'感情が満ちるタイミング',msg:'心の奥に隠れていた真実が、今夜あふれ出す'},{icon:'🌖',name:'寝待月',mean:'手放しと解放の時期',msg:'執着を解き放つことで、新しい扉が開きます'},{icon:'🌗',name:'下弦の月',mean:'内省と整理のタイミング',msg:'過去を静かに振り返り、本質へ向かう月'},{icon:'🌘',name:'鎮静の月',mean:'次の循環の準備期間',msg:'深い静寂の中に、次の導きが宿っています'}];
 var ELEMS=[{a:'🐺',en:'WATER / Deep',p:'♆',t:'深淵',k:'直感 ・ 神秘 ・ 共感力'},{a:'🦅',en:'AIR / Sharp',p:'♅',t:'鋭敏',k:'知性 ・ 自由 ・ 探求心'},{a:'🦁',en:'FIRE / Bold',p:'♂',t:'情熱',k:'勇気 ・ 行動力 ・ カリスマ'},{a:'🌿',en:'EARTH / Calm',p:'♀',t:'安定',k:'忍耐 ・ 誠実 ・ 創造性'},{a:'🦋',en:'AIR / Airy',p:'☿',t:'颯爽',k:'表現力 ・ 感受性 ・ 美意識'},{a:'🌊',en:'WATER / Flow',p:'☽',t:'流水',k:'柔軟性 ・ 共感 ・ 癒し'},{a:'🔥',en:'FIRE / Flame',p:'☉',t:'炎',k:'情熱 ・ 独創性 ・ 強さ'},{a:'🌸',en:'EARTH / Bloom',p:'♃',t:'開花',k:'優しさ ・ 包容力 ・ 豊かさ'}];
 var PERS=[{i:'あなたは水のように深く、静かな内側に広大な世界を持っています。感情の機微を敏感に感じ取り、言葉にならない空気を読む力は誰もが追いつけないほどです。',k:'あなたが誰にも話したことのない、本当の自分の姿は──',b:'実はあなた自身も気づいていないほど強い「引力」を持っています。その力が最も発揮されるのは、あなたが素直に自分を開いた瞬間です。月が照らすこの時期、その開き方を学ぶ最大のチャンスが訪れています。'},{i:'あなたの頭の中では、いつも何かが動いています。人よりも早く物事を把握し、新しい視点でアイデアを生み出す能力は、生まれながらの才能です。',k:'あなたがまだ誰にも打ち明けていない、本当の夢は──',b:'自由への渇望と、人とのつながりへの願望。その両方を同時に満たす生き方が、実はすでにあなたの目の前に現れています。'},{i:'あなたの中には、炎のような情熱と、それを制御する強い意志が共存しています。行動力と決断力は、周囲の人が密かに羨む資質です。',k:'あなたが今、最も強く望んでいることは──',b:'その情熱の向け先が定まったとき、あなたは誰も止められない存在になります。月が照らすのは、その正しい方向です。'},{i:'あなたは大地のように揺るぎない安定感を持っています。信頼され、頼られることが多いあなたの周りには、自然と人が集まります。',k:'あなたが本当は疲れていることは──',b:'その頼もしさの陰に、誰にも見せない繊細さを隠していませんか。月は今、そのやさしさを守るためのエネルギーの使い方を伝えています。'},{i:'あなたは風のように自由で、美しいものへの感性が際立っています。あなたが作り出す雰囲気や言葉は、人の心に深く残ります。',k:'あなたが気づかぬうちに惹きつけているのは──',b:'その繊細さが最大の武器になる時期が到来しています。今こそ、あなた本来の輝きを解き放つとき。'},{i:'あなたは流れる水のように、状況に応じて自分を変えられる柔軟性を持っています。共感力が高く、人の痛みを自分のことのように感じます。',k:'あなたが今いちばん手放せないものは──',b:'その癒しの力は、あなた自身も誰かに癒されることを必要としています。手放すべきものと受け取るべきものが明らかになる瞬間が近づいています。'},{i:'あなたは太陽のように、存在するだけで周囲を明るくします。独自の視点と創造力は、あなたを他の誰とも違う唯一無二の存在にします。',k:'あなたが本当に輝ける場所は──',b:'その輝きを恐れて、わざと自分を小さく見せてしまうことはありませんか。月が教えるのは、あなたの本来の大きさを受け入れる方法です。'},{i:'あなたは大地に咲く花のように、周囲に豊かさをもたらします。包容力と温かさは、傷ついた人を自然と引き寄せ、癒す力があります。',k:'あなたが誰かのために我慢していることは──',b:'その優しさが搾取されていませんか。月の光は今、あなた自身の幸福を最優先にすることの重要性を強く示しています。'}];
@@ -1537,6 +1538,7 @@ function submitForm(){
     if(!(document.getElementById('f-consult').value||'').trim()){showFormErr('ご相談内容を入力してください');return}
     if(!ST.planId){showFormErr('鑑定プランを選択してください');return}
     var ch=CHARS[ST.charKey],plan=ch.plans.find(function(p){return p.id===ST.planId});
+    _pendingFortune=true;
     updSteps(3);
     openModal();
     return;
@@ -2817,10 +2819,20 @@ document.addEventListener('keydown', function(e) {
     closeLegalModal();
   }
 });
-function goCheckout(plan){openModal('reg');}
+function goCheckout(plan){
+  if(plan&&!ST.planId)ST.planId=plan;
+  _pendingFortune=true;
+  openModal('reg');
+}
 /* ── モーダル制御 ─────────────────────────────── */
 function openModal(view){
   view=view||'reg';
+  /* 結果画面から開いた場合は鑑定完了後に結果へ戻る */
+  var resEl=document.getElementById('scr-result');
+  if(resEl&&!resEl.classList.contains('hidden')){
+    _pendingFortune=true;
+    if(!ST.planId)ST.planId='basic';
+  }
   var card=document.getElementById('modal-card');
   if(card){card.classList.remove('view-reg','view-login');card.classList.add('view-'+view);}
   document.querySelectorAll('.modal-view-err').forEach(function(e){e.style.display='none';});
@@ -2879,7 +2891,13 @@ function doRegister(){
     moonMessage:moon.moonMessage,personalityType:moon.personalityType,
     personalityKeyword:moon.personalityKeyword});
   closeModal();
-  fadeToPage('tsukiyomi_mypage.html');
+  if(_pendingFortune){
+    _pendingFortune=false;
+    if(IS_STORE)updSteps(4);
+    show('scr-loading');runLoad(function(){renderResult()});
+  }else{
+    fadeToPage('tsukiyomi_mypage.html');
+  }
 }
 function doLoginSwitch(){modalSwitchView('login');}
 /* ── ログイン ──────────────────────────────────── */
@@ -2900,7 +2918,8 @@ function doLogin(){
       moonMessage:moon.moonMessage,personalityType:moon.personalityType,
       personalityKeyword:moon.personalityKeyword});
     closeModal();
-    fadeToPage('tsukiyomi_mypage.html');
+    if(_pendingFortune){_pendingFortune=false;if(IS_STORE)updSteps(4);show('scr-loading');runLoad(function(){renderResult()});}
+    else{fadeToPage('tsukiyomi_mypage.html');}
     return;
   }
   /* Check registered users in localStorage */
@@ -2910,7 +2929,8 @@ function doLogin(){
     stored.token='tok_'+Math.random().toString(36).slice(2)+Date.now();
     setAuth(stored);
     closeModal();
-    fadeToPage('tsukiyomi_mypage.html');
+    if(_pendingFortune){_pendingFortune=false;if(IS_STORE)updSteps(4);show('scr-loading');runLoad(function(){renderResult()});}
+    else{fadeToPage('tsukiyomi_mypage.html');}
     return;
   }
   showErr('メールアドレスまたはパスワードが正しくありません');
