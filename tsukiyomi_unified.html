@@ -640,6 +640,64 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
   radial-gradient(1px 1px at 96% 58%,rgba(180,160,255,.4),transparent);
   animation:lunaTwinkle 4.2s ease-in-out infinite;animation-delay:2.1s}
 @keyframes lunaTwinkle{0%,100%{opacity:.3}50%{opacity:1}}
+/* ── ルナ 有料プラン 演出 ── */
+.luna-ceremony{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.4rem 1rem;gap:1.5rem;width:100%;max-width:540px;margin:0 auto}
+.luna-shuffle-deck{position:relative;width:140px;height:175px}
+.luna-shuffle-card{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+.luna-shuffle-card:nth-child(1){transform:rotate(-17deg) translate(-26px,3px)}
+.luna-shuffle-card:nth-child(2){transform:rotate(-4deg) translate(-6px,0)}
+.luna-shuffle-card:nth-child(3){transform:rotate(11deg) translate(20px,-3px)}
+.luna-shuffle-card.gathered:nth-child(1){transform:rotate(-2deg) translate(-3px,1px)}
+.luna-shuffle-card.gathered:nth-child(2){transform:rotate(0) translate(0,0)}
+.luna-shuffle-card.gathered:nth-child(3){transform:rotate(2deg) translate(3px,-1px)}
+.luna-ceremony-msg{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:rgba(220,210,245,.85);letter-spacing:.08em;text-align:center;min-height:1.6em}
+.luna-ceremony-sub{font-size:.66rem;color:rgba(180,160,255,.52);letter-spacing:.1em;text-align:center;font-style:italic}
+.luna-ai-load-wrap{width:220px}
+.luna-ai-load-lbl{text-align:center;font-size:.54rem;color:rgba(180,140,255,.48);letter-spacing:.14em;margin-bottom:.38rem}
+.luna-ai-load-bg{background:rgba(30,20,60,.5);border-radius:3px;height:2px;overflow:hidden}
+.luna-ai-load-fill{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);border-radius:3px;width:0;transition:width .2s ease}
+/* ── ルナ 有料結果セクション ── */
+.luna-unlocked-section{width:100%;max-width:540px;margin-top:.85rem}
+.luna-unlocked-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(180,140,255,.17);border-radius:16px;padding:1.15rem 1.35rem;position:relative;overflow:hidden}
+.luna-unlocked-glass::before{content:'';position:absolute;top:0;left:0;right:0;height:38%;background:radial-gradient(ellipse at 50% 0%,rgba(126,109,255,.06),transparent 70%);pointer-events:none}
+.luna-ai-badge{display:inline-flex;align-items:center;font-size:.49rem;letter-spacing:.14em;color:rgba(180,140,255,.78);background:rgba(126,109,255,.1);border:1px solid rgba(126,109,255,.18);border-radius:20px;padding:.16rem .52rem;margin-bottom:.6rem}
+.luna-paid-hd{margin-bottom:.7rem}
+.luna-paid-lbl{font-size:.49rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(180,140,255,.58);font-style:italic;margin-bottom:.16rem}
+.luna-paid-title{font-family:'Cormorant Garamond',serif;font-size:1.04rem;color:rgba(220,210,245,.9);letter-spacing:.07em}
+.luna-paid-body{font-size:.81rem;color:rgba(200,185,240,.8);line-height:1.94;letter-spacing:.04em}
+.luna-paid-body p{margin-bottom:.55rem}
+.luna-paid-body p:last-child{margin-bottom:0}
+.luna-paid-body-love{font-size:.81rem;color:rgba(235,205,250,.82);line-height:1.94;letter-spacing:.04em}
+.luna-paid-body-love p{margin-bottom:.55rem}
+.luna-paid-body-love p:last-child{margin-bottom:0}
+.luna-turning-tag{display:inline-block;font-size:.57rem;letter-spacing:.1em;color:rgba(220,206,255,.82);background:rgba(126,109,255,.11);border:1px solid rgba(126,109,255,.2);border-radius:11px;padding:.18rem .65rem;margin-bottom:.52rem}
+.luna-action-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.42rem}
+.luna-action-item{display:flex;align-items:flex-start;gap:.42rem;font-size:.8rem;color:rgba(200,185,240,.82);line-height:1.64}
+.luna-action-do::before{content:'✦';color:rgba(220,206,255,.62);font-size:.64rem;margin-top:.2rem;flex-shrink:0}
+.luna-action-dont::before{content:'✕';color:rgba(255,148,168,.62);font-size:.64rem;margin-top:.2rem;flex-shrink:0}
+.luna-paid-char-wrap{width:100%;max-width:540px;margin-top:.85rem}
+.luna-paid-char-glass{background:linear-gradient(158deg,rgba(20,12,52,.96),rgba(8,5,28,.98));border:1px solid rgba(212,175,55,.13);border-radius:18px;padding:1.35rem 1.45rem;text-align:center;position:relative;overflow:hidden}
+.luna-paid-char-text{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:rgba(220,210,245,.88);line-height:2.18;letter-spacing:.05em;white-space:pre-wrap;text-align:left;font-style:italic}
+/* ── ミカゲ 有料結果 ── */
+.mk-unlocked-section{width:100%;max-width:540px;margin-top:.85rem}
+.mk-unlocked-card{background:linear-gradient(158deg,rgba(18,10,44,.96),rgba(8,5,28,.98));border:1px solid rgba(139,92,246,.18);border-radius:16px;padding:1.15rem 1.35rem;position:relative;overflow:hidden}
+.mk-unlocked-card::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.06),transparent 68%);pointer-events:none}
+.mk-unlocked-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+.mk-unlocked-ico{font-size:.95rem}
+.mk-unlocked-lbl{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:rgba(180,150,255,.9);letter-spacing:.06em}
+.mk-unlocked-body{font-size:.81rem;color:rgba(200,185,240,.8);line-height:1.94;letter-spacing:.04em}
+.mk-unlocked-body p{margin-bottom:.62rem}
+.mk-unlocked-body p:last-child{margin-bottom:0}
+/* おばあちゃん 有料結果 */
+.oba-unlocked-section{width:100%;max-width:540px;margin-top:.85rem}
+.oba-unlocked-card{background:linear-gradient(158deg,rgba(10,18,52,.96),rgba(6,10,28,.98));border:1px solid rgba(100,160,230,.18);border-radius:16px;padding:1.15rem 1.35rem;position:relative;overflow:hidden}
+.oba-unlocked-card::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;background:radial-gradient(ellipse at 50% 0%,rgba(100,160,230,.06),transparent 68%);pointer-events:none}
+.oba-unlocked-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+.oba-unlocked-ico{font-size:.95rem}
+.oba-unlocked-lbl{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:rgba(150,195,255,.9);letter-spacing:.06em}
+.oba-unlocked-body{font-size:.81rem;color:rgba(190,210,245,.8);line-height:1.94;letter-spacing:.04em}
+.oba-unlocked-body p{margin-bottom:.62rem}
+.oba-unlocked-body p:last-child{margin-bottom:0}
 /* ── 共通バナー（glassmorphism premium） ── */
 .mk-banner{width:100%;max-width:540px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.4rem;position:relative;overflow:hidden}
 .mk-banner-ava{width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
@@ -1791,6 +1849,7 @@ function drawP(){
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
   var pat=MIKAGE_PATTERNS[seed%20];
   var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
+  if(ST.planId==='basic'||ST.planId==='detail'){drawPPaid(pat,name,ST.planId);return;}
 
   /* ── トップビジュアル */
   var spritePos=getMikageSpritePos(pat.moon,pat.elem);
@@ -1967,6 +2026,44 @@ function drawP(){
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
+function mkUnlockedSec(ico,label,text){
+  var body=text.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  return'<div class="mk-unlocked-section mk-scroll-fade">'+
+    '<div class="mk-unlocked-card">'+
+      '<div class="mk-unlocked-hd"><span class="mk-unlocked-ico">'+ico+'</span><span class="mk-unlocked-lbl">'+esc(label)+'</span></div>'+
+      '<div class="mk-unlocked-body">'+body+'</div>'+
+    '</div></div>';
+}
+function drawPPaid(pat,name,planId){
+  var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
+  var spritePos=getMikageSpritePos(pat.moon,pat.elem);
+  var topVisual='<div class="mv-wrap mk-scroll-fade" style="margin-top:0"><div class="mk-emblem-wrap"><div class="mk-emblem-frame"><div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div></div></div><p class="mv-tag">月相 × 五行</p><p class="mv-title">'+esc(pat.title)+'</p><p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p></div>';
+  var card1='<div class="mk-section mk-scroll-fade"><div class="mk-catch-card"><p class="mk-catch-lbl">✦ 一言診断 ✦</p><p class="mk-catch-intro">あなたは</p><p class="mk-catch-label">'+esc(pat.catchLabel)+'</p><div class="mk-catch-divider"></div><p class="mk-catch-copy">'+esc(pat.catchCopy)+'</p><p class="mk-catch-note">'+esc(pat.catchNote)+'</p></div></div>';
+  var secs='';
+  secs+=mkUnlockedSec('🌿','基本の性格',pat.personality);
+  secs+=mkUnlockedSec('🌙','人生のテーマ',pat.destiny);
+  secs+=mkUnlockedSec('✦','今のあなたの運気',pat.phaseStatus+'\n\n'+pat.phaseBody);
+  if(planId==='detail'){
+    var cp=pat.compat;
+    var compatText=cp.moonIcon+' '+cp.moon+' × '+cp.elemIcon+' '+cp.elem+'——'+cp.type+'\n\n'+cp.detail;
+    secs+=mkUnlockedSec('💞','相性の良い相手の特徴',compatText);
+    var hidden='あなたの表の姿「'+pat.catchLabel+'」の裏側に——。\n\n誰にも見せていない感情の層があります。人前では'+pat.catchCopy.replace(/。.*$/,'')+' という側面を見せていますが、一人になると全く違うエネルギーが現れます。\n\nその内側に秘めた力は、人を突き動かすほどの強さを持っています。それを封じ込め続けることが、今のあなたの消耗源になっています。';
+    secs+=mkUnlockedSec('🌑','裏の性格',hidden);
+    var talent=pat.moon+'と'+pat.elem+'のエネルギーを持つあなたには、まだ気づいていない特別な才能があります。\n\n「場の本質を瞬時に掴む力」と「言葉にならないものを形にする能力」——この二つが、あなたの隠れた才能です。特にプレッシャーのかかった状況で突然発揮されます。\n\n'+esc(pat.titleEn)+'——このキーワードが示すように、あなたの才能は磨かれるほどに深みを増します。まだ誰も、その本当の輝きを見ていません。';
+    secs+=mkUnlockedSec('✨','隠れた才能',talent);
+    var mikageMsg='月は正直です。\n\nあなたが「'+pat.title+'」として生まれてきた意味を、ミカゲは五行の流れの中に読み取りました。\n\n'+pat.elem+'の気が今のあなたに語りかけているのは——「始まりは内側から」という古い真理です。外に答えを探す前に、あなたの内側にある静かな知恵に耳を傾けてください。\n\n月が照らす今この瞬間が、あなたの転換点です。';
+    secs+=mkUnlockedSec('🌙','陰陽師ミカゲより',mikageMsg);
+  }else{
+    var advice='今の'+pat.moon+'の時期に、'+pat.elem+'のエネルギーを持つあなたに伝えたい開運の鍵があります。\n\n'+pat.phaseBody+'\n\n'+pat.compat.type+'——このような人との縁を大切に育てることで、あなたの運気はさらに高まります。今月は小さな行動を積み重ねることが、大きな変化への入口になります。';
+    secs+=mkUnlockedSec('✦','開運アドバイス',advice);
+  }
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
+    topVisual+card1+secs+
+    topBtn()+'<div style="height:2rem"></div></div>';
+  setTimeout(initScrollFade,80);
+}
 /* ── 星読みのおばあちゃん 月相8パターン ──────────────── */
 var MONTHLY_OBA=[
   /* 0: 新月 */
@@ -2100,6 +2197,7 @@ function drawM(){
   var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
   var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
+  if(ST.planId==='basic'||ST.planId==='detail'){drawMPaid(pat,name,ST.planId,yr,mo,td,dm,ld1,ld2,cd1);return;}
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
@@ -2209,8 +2307,55 @@ function drawM(){
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
+function obaUnlockedSec(ico,label,html){
+  return'<div class="oba-unlocked-section mk-scroll-fade">'+
+    '<div class="oba-unlocked-card">'+
+      '<div class="oba-unlocked-hd"><span class="oba-unlocked-ico">'+ico+'</span><span class="oba-unlocked-lbl">'+esc(label)+'</span></div>'+
+      '<div class="oba-unlocked-body">'+html+'</div>'+
+    '</div></div>';
+}
+function drawMPaid(pat,name,planId,yr,mo,td,dm,ld1,ld2,cd1){
+  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星読みのおばあちゃん','月と星を読む古き案内人');
+  var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
+  var legend='<div class="oba-legend mk-scroll-fade"><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(52,211,153,.6)"></div>強運日</div><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(139,92,246,.6)"></div>注意日</div></div>';
+  var themeSection='<div class="oba-section mk-scroll-fade"><div class="oba-theme-wrap"><div class="oba-theme-label">今月のテーマ</div><div class="oba-theme-title">'+esc(pat.theme)+'</div><div class="oba-theme-sub">'+esc(pat.themeMsg)+'</div></div></div>';
+  var flowHtml=pat.flow.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  var flowSec=obaUnlockedSec('🌊','今月の流れ',flowHtml);
+  var luckyHtml='';
+  pat.luckyLabels.forEach(function(lk,i){
+    var dn=i===0?ld1:ld2;
+    luckyHtml+='<div style="margin-bottom:.88rem"><div class="oba-day-tag lucky">✦ '+(mo+1)+'月'+dn+'日（強運日）</div><p class="oba-day-msg">'+esc(lk.msg)+'</p></div>';
+  });
+  var luckySec=obaUnlockedSec('✦','強運日',luckyHtml);
+  var cautionHtml='<div class="oba-day-tag caution">⚠ '+(mo+1)+'月'+cd1+'日（注意日）</div><p class="oba-day-msg">'+esc(pat.cautionLabel.msg)+'</p>';
+  var cautionSec=obaUnlockedSec('⚠','注意日と過ごし方',cautionHtml);
+  var msgHtml=pat.obaMsg.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  var msgPrefix='<p style="font-size:.7rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+' へ —</p>';
+  var msgSec=obaUnlockedSec('💌','おばあちゃんより',msgPrefix+msgHtml);
+  var secs='';
+  if(planId==='detail'){
+    var turningDay=((ld1+ld2)/2)|0;
+    var turningHtml='<p>今月の最大の転機は、<strong style="color:rgba(220,200,255,.95)">'+(mo+1)+'月'+turningDay+'日前後</strong>に訪れます。</p><p>この日を境に、今まで動かなかったものが急に動き始める可能性があります。特に人間関係と仕事の両面でサプライズな展開があるかもしれません。</p><p>前後3日間は特に意識して、アンテナを張っておくことや。</p>';
+    secs+=obaUnlockedSec('⏱','転機の日付ズバリ',turningHtml);
+    var loveWorkHtml='<p><strong style="color:rgba(220,200,255,.95)">恋愛:</strong> '+esc(pat.theme)+'の今月、あなたの恋愛運は「行動した人が勝つ」流れの中にあります。待ちの姿勢を崩して自分から動いた時に縁が結ばれます。</p><p><strong style="color:rgba(220,200,255,.95)">仕事:</strong> 今月は「準備より実行」が正解です。完璧を求めすぎず、まず形にすることで評価が上がります。思い切って動いた人が一番成長できる月やで。</p>';
+    secs+=obaUnlockedSec('💞','恋愛・仕事の急所',loveWorkHtml);
+    var nextHtml='<p>今月の'+esc(pat.theme)+'が終わった後、来月はエネルギーが転換します。今月行動したことが、来月の実りとして戻ってくる時期です。</p><p>来月のキーワードは「受け取ること」。今月積み重ねたものを素直に受け取る準備を今からしておくことや。感謝の気持ちを持って、人の親切を素直に受け入れる練習をしてみてや。</p>';
+    secs+=obaUnlockedSec('🌙','来月の動き方',nextHtml);
+  }else{
+    var adviceHtml='<p>今月の'+esc(pat.phase)+'の時期、星が伝えている開運のポイントをまとめておくわ。</p><p>'+esc(pat.themeMsg)+'</p><p>強運日（'+(mo+1)+'月'+ld1+'日・'+ld2+'日）を意識して、その日に向けての準備を今日から少しずつ始めてみ。思い切った行動が、大きな変化につながっていくで。</p>';
+    secs+=obaUnlockedSec('✦','開運アドバイス',adviceHtml);
+  }
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
+    '<p class="ph-lead mk-scroll-fade" style="margin-bottom:.5rem">── '+yr+'年'+(mo+1)+'月の星の動き ──</p>'+
+    cal+legend+themeSection+flowSec+luckySec+cautionSec+msgSec+secs+
+    topBtn()+'<div style="height:2rem"></div></div>';
+  setTimeout(initScrollFade,80);
+}
 function mTab(nm,el){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('on')});if(el)el.classList.add('on');var p=document.getElementById('tp-'+nm);if(p)p.classList.add('on')}
 var LUNA_CARD_IMGS=['0.png','I.png','II.png','III.png','IV.png','V.png','VI.png','VII.png','VIII.png','IX.png','X.png','XI.png','XII.png','XIII.png','XIV.png','XV.png','XVI.png','XVII.png','XVIII.png','XIX.png','XX.png','XXI.png'];
+var LUNA_DRAW_MSGS=['カードの声を読み解いています…','運命の流れを紐解いています…','月の導きを受信しています…','星の配置を確認しています…','あなたの未来を読み解いています…'];
 function lunaStars(n){var s='';for(var i=1;i<=5;i++)s+='<span class="luna-star-'+(i<=n?'on':'off')+'">&#9670;</span>';return'<div class="luna-stars-row">'+s+'</div>'}
 function lunaReveal(){
   var el=document.getElementById('luna-tap-card');
@@ -2220,7 +2365,11 @@ function lunaReveal(){
   var fi=document.getElementById('luna-front-img');
   if(fi)fi.src=LUNA_CARD_IMGS[idx];
   el.classList.add('flipping');
-  setTimeout(function(){drawTR(ST._lunaCard)},950);
+  if(ST.planId==='basic'||ST.planId==='detail'){
+    setTimeout(function(){lunaStartPaidFlow(ST._lunaCard,ST.planId)},950);
+  }else{
+    setTimeout(function(){drawTR(ST._lunaCard)},950);
+  }
 }
 function drawT(){
   var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
@@ -2408,6 +2557,144 @@ function drawTR(idx){
     '<div class="res-wrap">'+banner+
     '<div class="back-btn" onclick="drawT()">← カードを引き直す</div>'+
     cardVis+msgSection+fortuneSection+sitSection+loveSection+advSection+lunaCharSection+ctaSection+
+    topBtn()+'<div style="height:2rem"></div></div>';
+  setTimeout(initScrollFade,80);
+}
+
+/* ── ルナ 有料コンテンツ生成 ── */
+function generateLunaContent(tc,name){
+  var k=tc.keywords;
+  var elemBase=tc.elem.split(' × ')[0];
+  var wk=(tc.id%3)+2;
+  var mon=new Date().getMonth()+1;
+  return{
+    situation:tc.situation,
+    essence:'「'+tc.arcana+'」が示す問題の本質は、'+k[0]+'と'+k[1]+'のエネルギーの不均衡にあります。\n\n今の状況の根本には、'+tc.moon+'の月が映し出す——「'+k[0]+'」を求めながら、「'+k[2]+'」を恐れるという複雑な感情が眠っています。\n\nこのカードは、あなたがこれまで自分でも気づかなかった心の核心部分を照らしています。表面に見えている問題は、本質ではありません。月が照らしているのは、あなたの内側にある「まだ選んでいない選択」です。',
+    love:LUNA_LOVE[tc.id],
+    future:'「'+tc.arcana+'」の導きによれば、今から3〜6週間以内に、'+k[0]+'に関わる流れが動き始めます。\n\n最初の変化は小さく、見過ごしてしまいそうなサインとして現れます。でも月はそれを見落とさないよう、今あなたに伝えています。\n\n'+tc.moon+'の周期が一回り終わる頃には、今抱えている問題の答えが、自然と目の前に現れているでしょう。',
+    turning:'今から'+wk+'週間以内に、'+k[1]+'に関わる出来事が起きます。それがあなたの転機のサインです。見逃さずに、しっかり受け取ってください。',
+    doList:[
+      k[0]+'を意識した行動を、小さなことから始める',
+      elemBase+'のエネルギーを取り入れる（自然の中で過ごす、深呼吸をする）',
+      '今感じている直感を、言葉にして書き出してみる',
+      'アドバイスを信頼して、一歩だけ踏み出してみる'
+    ],
+    dontList:[
+      'すぐに答えを出そうと急ぐこと——今はまだ、見守る時期',
+      '周りの意見を優先しすぎて、自分の感覚を後回しにすること',
+      '恐れから目を背けて、現状維持を選び続けること'
+    ],
+    advice:tc.advice,
+    lunaMsg:name+'さんへ。\n\n「'+tc.arcana+'」がここに現れたのは、偶然ではありません。\n'+tc.moon+'の月明かりの中で、このカードはあなたの今この瞬間を、静かに映し出しています。\n\n「'+k[0]+'」と「'+k[1]+'」——\nこのふたつの言葉の間で、\nあなたの心はずっと揺れていたはずです。\n\nでもね、月はすべてを知っています。\nあなたが一人で抱えてきたこと、\n誰にも言えなかったこと——\nそれをぜんぶ、受け取っています。\n\n今夜のカードは「進んでいい」と言っています。\nあなたの感じている通りで、大丈夫。\n\n月明かりの中で、ルナより'
+  };
+}
+function lunaUnlockedSec(en,jp,text,isLove){
+  var body=text.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
+  return'<div class="luna-unlocked-section mk-scroll-fade">'+
+    '<div class="luna-unlocked-glass">'+
+      '<div class="luna-ai-badge">✦ AI鑑定</div>'+
+      '<div class="luna-paid-hd"><div class="luna-paid-lbl">'+esc(en)+'</div><div class="luna-paid-title">'+esc(jp)+'</div></div>'+
+      '<div class="luna-paid-body'+(isLove?' luna-paid-body-love':'')+'">'+body+'</div>'+
+    '</div></div>';
+}
+function lunaTurningSec(text){
+  var mon=new Date().getMonth()+1;
+  return'<div class="luna-unlocked-section mk-scroll-fade">'+
+    '<div class="luna-unlocked-glass">'+
+      '<div class="luna-ai-badge">✦ AI鑑定</div>'+
+      '<div class="luna-paid-hd"><div class="luna-paid-lbl">Turning Point</div><div class="luna-paid-title">1ヶ月以内の転機</div></div>'+
+      '<div class="luna-turning-tag">⏱ '+mon+'月の転機予告</div>'+
+      '<div class="luna-paid-body"><p>'+esc(text)+'</p></div>'+
+    '</div></div>';
+}
+function lunaActionSec(en,jp,items,isDont){
+  var list=items.map(function(t){return'<li class="luna-action-item '+(isDont?'luna-action-dont':'luna-action-do')+'">'+esc(t)+'</li>'}).join('');
+  return'<div class="luna-unlocked-section mk-scroll-fade">'+
+    '<div class="luna-unlocked-glass">'+
+      '<div class="luna-ai-badge">✦ AI鑑定</div>'+
+      '<div class="luna-paid-hd"><div class="luna-paid-lbl">'+esc(en)+'</div><div class="luna-paid-title">'+esc(jp)+'</div></div>'+
+      '<ul class="luna-action-list">'+list+'</ul>'+
+    '</div></div>';
+}
+function lunaPaidCharSec(name,msg){
+  return'<div class="luna-paid-char-wrap mk-scroll-fade">'+
+    '<div class="luna-paid-char-glass">'+
+      '<div class="luna-char-deco">── Luna から '+esc(name)+' さんへ ──</div>'+
+      '<p class="luna-paid-char-text">'+msg.split('\n').map(function(l){return esc(l)}).join('\n')+'</p>'+
+      '<div class="luna-char-sign-wrap"><div class="luna-char-sign">タロット女子ルナ \U0001f319</div></div>'+
+    '</div></div>';
+}
+function lunaStartPaidFlow(idx,planId){
+  var tc=LUNA_CARDS[idx];
+  var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  show('scr-result');
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="luna-ceremony" id="luna-cer">'+
+      '<div class="luna-shuffle-deck" id="luna-deck">'+
+        '<img src="ura.png" class="luna-shuffle-card" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.52))" alt="">'+
+        '<img src="ura.png" class="luna-shuffle-card" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.52))" alt="">'+
+        '<img src="ura.png" class="luna-shuffle-card" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.52))" alt="">'+
+      '</div>'+
+      '<p class="luna-ceremony-msg" id="luna-cer-msg">月があなたのカードを選んでいます…</p>'+
+      '<p class="luna-ceremony-sub">深く息を吸って、心を静かに</p>'+
+    '</div></div>';
+  var msgs=LUNA_DRAW_MSGS,mi=0;
+  var me=document.getElementById('luna-cer-msg');
+  var iv=setInterval(function(){mi=(mi+1)%msgs.length;if(me)me.textContent=msgs[mi]},880);
+  setTimeout(function(){
+    document.querySelectorAll('#luna-deck .luna-shuffle-card').forEach(function(c){c.classList.add('gathered')});
+  },1300);
+  setTimeout(function(){
+    var cer=document.getElementById('luna-cer');
+    if(cer)cer.insertAdjacentHTML('beforeend',
+      '<div class="luna-ai-load-wrap"><div class="luna-ai-load-lbl">AI鑑定 生成中</div>'+
+      '<div class="luna-ai-load-bg"><div class="luna-ai-load-fill" id="luna-ai-bar"></div></div></div>');
+    var bar=document.getElementById('luna-ai-bar');
+    if(bar){var p=0;(function s(){p+=Math.random()*9+4;if(p>93)p=93;bar.style.width=p+'%';if(p<93)setTimeout(s,75+Math.random()*45)})();}
+  },2100);
+  setTimeout(function(){
+    clearInterval(iv);
+    var cer=document.getElementById('luna-cer');
+    if(!cer)return;
+    cer.innerHTML=
+      '<div style="width:138px;height:172px;margin:0 auto .9rem">'+
+        '<img src="'+LUNA_CARD_IMGS[tc.id]+'" style="width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 0 14px rgba(220,206,255,.5)) drop-shadow(0 0 32px rgba(126,109,255,.26))" alt="'+esc(tc.arcana)+'">'+
+      '</div>'+
+      '<p class="luna-ceremony-msg" style="font-size:1.26rem">'+esc(tc.arcana)+'</p>'+
+      '<p class="luna-ceremony-sub">'+esc(tc.num)+' · '+esc(tc.moon)+'</p>';
+  },3300);
+  setTimeout(function(){drawTRPaid(idx,planId)},4700);
+}
+function drawTRPaid(idx,planId){
+  var tc=LUNA_CARDS[idx];
+  var name=(document.getElementById('f-name').value||'あなた').trim();
+  var c=generateLunaContent(tc,name);
+  var banner=mkBanner('luna_tarot.png','rgba(200,100,220,1)','linear-gradient(135deg,rgba(35,15,65,.97),rgba(15,6,38,.99))','タロット / 月相オラクル','タロット女子ルナ','カードが映す心の案内役');
+  var kwHtml=tc.keywords.map(function(k){return'<span class="luna-kw">'+esc(k)+'</span>'}).join('');
+  var cardVis='<div class="luna-card-visual mk-scroll-fade"><div class="luna-numeral">'+esc(tc.num)+'</div><div class="luna-result-card-wrap"><img src="'+LUNA_CARD_IMGS[tc.id]+'" alt="'+esc(tc.arcana)+'" class="luna-result-card-img"></div><div class="luna-arcana-name">'+esc(tc.arcana)+'</div><div class="luna-div"></div><div class="luna-moon-nm">'+esc(tc.moon)+'</div><div class="luna-elem-nm">('+esc(tc.elem)+')</div><div class="luna-kw-wrap">'+kwHtml+'</div></div>';
+  var msgLines=tc.msg.split('\n').map(function(l){return esc(l.trim())}).join('<br>');
+  var msgSection='<div class="luna-msg-section mk-scroll-fade"><div class="luna-msg-deco">✶ ✶ ✶</div><p class="luna-msg-text">'+msgLines+'</p><div class="luna-msg-deco">✶ ✶ ✶</div></div>';
+  var fortuneSection='<div class="luna-fortune-wrap mk-scroll-fade"><div class="luna-fortune-glass"><div class="luna-fortune-title">今日の運勢</div><div class="luna-fortune-grid"><div class="luna-fortune-item"><div class="luna-fortune-label">恋愛運</div>'+lunaStars(tc.love)+'</div><div class="luna-fortune-item"><div class="luna-fortune-label">仕事運</div>'+lunaStars(tc.work)+'</div><div class="luna-fortune-item"><div class="luna-fortune-label">金運</div>'+lunaStars(tc.money)+'</div></div></div></div>';
+  var secs='';
+  if(planId==='basic'){
+    secs+=lunaUnlockedSec('Current State','今の現状',c.situation,false);
+    secs+=lunaUnlockedSec("Partner's Heart",'相手の感情（恋愛）',c.love,true);
+    secs+=lunaUnlockedSec('Advice','開運アドバイス',c.advice,false);
+  }else{
+    secs+=lunaUnlockedSec('Current State','今の現状',c.situation,false);
+    secs+=lunaUnlockedSec('Essence','問題の本質',c.essence,false);
+    secs+=lunaUnlockedSec("Partner's Heart",'相手の感情',c.love,true);
+    secs+=lunaUnlockedSec('Future Flow','未来の流れ',c.future,false);
+    secs+=lunaTurningSec(c.turning);
+    secs+=lunaActionSec('Action','やるべき行動',c.doList,false);
+    secs+=lunaActionSec("Don't",'NG行動',c.dontList,true);
+    secs+=lunaPaidCharSec(name,c.lunaMsg);
+  }
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="drawT()">← カードを引き直す</div>'+
+    cardVis+msgSection+fortuneSection+secs+
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
