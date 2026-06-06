@@ -604,15 +604,13 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .luna-char-sign{font-size:.72rem;color:rgba(180,140,255,.58);letter-spacing:.1em;text-align:right;font-style:italic}
 /* ── タロットカード 個別PNG（0.png〜XXI.png + ura.png） ── */
 /* 1枚引きカードUI */
-.luna-single-card{cursor:pointer;perspective:900px;width:175px;height:219px;margin:0 auto 1.4rem;animation:lunaPulse 3.5s ease-in-out infinite;position:relative;z-index:1}
-.luna-single-card.flipping{animation:none;pointer-events:none}
+.luna-single-card{cursor:pointer;perspective:900px;width:175px;height:219px;margin:0 auto 1.4rem;position:relative;z-index:1}
+.luna-single-card.flipping{pointer-events:none}
 .luna-flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .78s cubic-bezier(.4,0,.2,1)}
 .luna-single-card.flipping .luna-flip-inner{transform:rotateY(180deg)}
-.luna-sf-back,.luna-sf-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(10,6,30,.6)}
+.luna-sf-back,.luna-sf-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;align-items:center;justify-content:center}
 .luna-sf-front{transform:rotateY(180deg)}
-.luna-card-img{width:100%;height:100%;object-fit:contain;display:block}
-/* 引き用カードの金縁 */
-.luna-single-card::after{content:'';position:absolute;inset:-1px;border-radius:13px;border:1px solid rgba(212,175,55,.28);pointer-events:none;z-index:2}
+.luna-card-img{width:100%;height:100%;object-fit:contain;display:block;animation:lunaCardGlow 3.5s ease-in-out infinite}
 /* 結果カード */
 .luna-result-card-wrap{width:100%;max-width:210px;margin:0 auto 1.2rem;animation:lunaFloatA 4.2s ease-in-out infinite}
 .luna-result-card-img{width:100%;height:auto;display:block;object-fit:contain;animation:lunaCardGlow 3.5s ease-in-out infinite}
