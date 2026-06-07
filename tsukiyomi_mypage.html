@@ -20,6 +20,9 @@
 }
 
 html{scroll-behavior:smooth}
+/* Body scroll lock while fortune overlay is visible (iOS/Android fix) */
+body.fortune-open{overflow:hidden;height:100vh;touch-action:none}
+body.fortune-open .fortune-screen{touch-action:pan-y}
 body{
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%);
   color:var(--text);
@@ -440,7 +443,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* ── FORTUNE FLOW SCREENS ── */
 /* Background is provided by #fortune-bg (z-index:7990) with stars */
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
-.fortune-screen.active{display:flex;flex-direction:column}
+.fortune-screen.active{display:flex;flex-direction:column;overscroll-behavior:contain}
 #screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
 #screen-payment-done.active{align-items:center;justify-content:center;padding:2rem 1rem}
 #screen-fortune-loading.active{align-items:center;justify-content:center}
@@ -1393,9 +1396,11 @@ function buildFortuneStars() {
 function showFortuneBg() {
   buildFortuneStars();
   document.getElementById('fortune-bg').style.display = 'block';
+  document.body.classList.add('fortune-open');
 }
 function hideFortuneBg() {
   document.getElementById('fortune-bg').style.display = 'none';
+  document.body.classList.remove('fortune-open');
 }
 
 /* ── Payment screen ──────────────────────────────────────────── */
