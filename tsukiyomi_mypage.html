@@ -444,15 +444,15 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* Background is provided by #fortune-bg (z-index:7990) with stars */
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
 .fortune-screen.active{display:flex;flex-direction:column;overscroll-behavior:contain}
-#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;padding:2.5rem 1rem 5rem}
-#screen-payment-done.active{align-items:center;justify-content:flex-start;padding:2rem 1rem}
+#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2.5rem 1rem 5rem}
+#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2rem 1rem}
 #screen-fortune-loading.active{align-items:center;justify-content:center}
 #screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
 .fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:4.5rem 1rem 5rem}
 
 /* ── PAYMENT DONE SCREEN ── */
 .pay-done-card{
-  width:100%;max-width:390px;
+  width:100%;max-width:390px;margin:0 auto;
   background:linear-gradient(158deg,rgba(26,27,58,.97),rgba(11,9,30,.99));
   border:1px solid rgba(220,206,255,.16);border-radius:24px;
   padding:2.5rem 1.8rem 2rem;text-align:center;
@@ -605,7 +605,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 #fortune-stars-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 
 /* Payment card */
-.pay-card{width:100%;max-width:390px;background:linear-gradient(158deg,rgba(26,27,58,.95),rgba(11,9,30,.98));border:1px solid var(--card-border);border-radius:20px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
+.pay-card{width:100%;max-width:390px;margin:0 auto;background:linear-gradient(158deg,rgba(26,27,58,.95),rgba(11,9,30,.98));border:1px solid var(--card-border);border-radius:20px;padding:2rem 1.6rem 1.6rem;position:relative;overflow:hidden}
 .pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(220,206,255,.32),rgba(76,42,133,.55),rgba(220,206,255,.32),transparent)}
 .pay-char-row{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem}
 .pay-char-orb{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(123,92,246,.4)}
