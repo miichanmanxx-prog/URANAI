@@ -21,7 +21,7 @@
 
 html{scroll-behavior:smooth}
 /* Body scroll lock while fortune overlay is visible (iOS/Android fix) */
-body.fortune-open{overflow:hidden;touch-action:none}
+body.fortune-open{overflow:hidden}
 body.fortune-open .fortune-screen{touch-action:pan-y}
 body{
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%);
@@ -443,11 +443,11 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* ── FORTUNE FLOW SCREENS ── */
 /* Background is provided by #fortune-bg (z-index:7990) with stars */
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
-.fortune-screen.active{display:flex;flex-direction:column;overscroll-behavior:contain;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#screen-payment.active{align-items:center;padding:2.5rem 1rem 8rem}
-#screen-payment-done.active{align-items:center;justify-content:flex-start;padding:2.5rem 1rem 6rem}
-#screen-fortune-loading.active{overflow-y:hidden;align-items:center;justify-content:center;padding:0}
-#screen-fortune-result.active{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.fortune-screen.active{display:flex;flex-direction:column;overscroll-behavior:contain}
+#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:2.5rem 1rem 3rem}
+#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:2.5rem 1rem 3rem}
+#screen-fortune-loading.active{overflow:hidden;align-items:center;justify-content:center}
+#screen-fortune-result.active{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;height:100vh}
 .fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:4.5rem 1rem 10rem}
 
 /* ── PAYMENT DONE SCREEN ── */
