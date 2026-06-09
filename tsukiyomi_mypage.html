@@ -439,7 +439,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .bottom-spacer{height:3rem}
 
 /* ─── 占い共通オーバーレイ画面の基本形 ─── */
-.fortune-screen{display:none!important;position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100dvh!important;background:#0B091E!important;color:var(--text)!important;z-index:9000!important;overflow:hidden!important;margin:0!important;padding:0!important;box-sizing:border-box!important;transform:none!important}
+.fortune-screen{display:none!important;position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100dvh!important;background:#0B091E!important;color:var(--text)!important;z-index:9000!important;overflow:hidden!important;margin:0!important;padding:0!important;box-sizing:border-box!important;transform:none!important;opacity:1!important}
 /* 決済・決済完了・占い結果 — 上端起点のブロックスクロール1本化 */
 #screen-payment.active,#screen-payment-done.active,#screen-fortune-result.active{display:block!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
 /* ローディング — flex中央固定・スクロール禁止・最前面 */
@@ -459,9 +459,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   padding:2.5rem 1.8rem 2rem;text-align:center;
   position:relative;overflow:hidden;
   box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(220,206,255,.07);
-  animation:payDoneIn .45s cubic-bezier(.34,1.2,.64,1) both;
 }
-@keyframes payDoneIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .pay-done-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.5),rgba(76,42,133,.6),rgba(110,231,183,.5),transparent)}
 .pay-done-icon-wrap{
   position:relative;width:72px;height:72px;margin:0 auto 1.3rem;
