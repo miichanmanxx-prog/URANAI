@@ -22,7 +22,6 @@
 html{scroll-behavior:smooth}
 /* Body scroll lock while fortune overlay is visible (iOS/Android fix) */
 body.fortune-open{overflow:hidden}
-body.fortune-open .fortune-screen{touch-action:pan-y}
 body{
   background:radial-gradient(ellipse at 50% -5%,#1E0B38 0%,var(--ink) 55%);
   color:var(--text);
@@ -443,12 +442,18 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* ── FORTUNE FLOW SCREENS ── */
 /* Background is provided by #fortune-bg (z-index:7990) with stars */
 .fortune-screen{display:none;position:fixed;inset:0;z-index:8000}
-.fortune-screen.active{display:flex;flex-direction:column;overscroll-behavior:contain}
-#screen-payment.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:2.5rem 1rem 3rem}
-#screen-payment-done.active{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:flex-start;padding:2.5rem 1rem 3rem}
-#screen-fortune-loading.active{overflow:hidden;align-items:center;justify-content:center}
-#screen-fortune-result.active{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;height:100vh}
-.fortune-result-inner{width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:4.5rem 1rem 10rem}
+/* Loading — flex centered, no scroll needed */
+#screen-fortune-loading{overflow:hidden}
+#screen-fortune-loading.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#screen-fortune-loading .fl-wrap{width:100%;max-width:400px;padding:2rem;text-align:center;margin:0 auto}
+/* Payment / Payment-done — block scroll container */
+#screen-payment,#screen-payment-done{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#screen-payment.active,#screen-payment-done.active{display:block}
+#screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%;max-width:480px;margin:0 auto;padding:2rem 1.25rem 4rem;box-sizing:border-box}
+/* Result — block scroll container */
+#screen-fortune-result{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#screen-fortune-result.active{display:block}
+.fortune-result-inner{width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:3rem 1.25rem 6rem}
 
 /* ── PAYMENT DONE SCREEN ── */
 .pay-done-card{
@@ -832,6 +837,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
 <!-- ── Payment Screen ── -->
 <div class="fortune-screen" id="screen-payment">
+  <div class="fortune-screen-inner">
   <div class="pay-card">
     <div class="pay-char-row">
       <div class="pay-char-orb"><img id="pay-char-img" src="" alt=""></div>
@@ -876,10 +882,12 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <button class="pay-btn" id="pay-submit-btn" onclick="executePayment()">決済して鑑定を受ける</button>
     <button class="pay-back-btn" onclick="closePaymentScreen()">← 戻る</button>
   </div>
+  </div><!-- /.fortune-screen-inner -->
 </div>
 
 <!-- ── Payment Complete Screen ── -->
 <div class="fortune-screen" id="screen-payment-done">
+  <div class="fortune-screen-inner">
   <div class="pay-done-card">
     <div class="pay-done-icon-wrap">
       <div class="pay-done-icon">✓</div>
@@ -897,6 +905,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <button class="pay-done-start-btn" onclick="startFortuneFromDone()">鑑定を開始する →</button>
     <button class="pay-back-btn" onclick="closePaymentDone()">← マイページへ戻る</button>
   </div>
+  </div><!-- /.fortune-screen-inner -->
 </div>
 
 <!-- ── Fortune Loading Screen ── -->
