@@ -445,9 +445,9 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 /* ローディング — flex中央固定・スクロール禁止・最前面 */
 #screen-fortune-loading.active{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;z-index:9500!important;background:radial-gradient(circle at 50% 40%,#2E1860 0%,#0B091E 100%)!important;background-size:cover!important}
 /* 決済・決済完了 インナー */
-#screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%!important;max-width:480px!important;margin:0 auto!important;padding:3rem 1.25rem 6rem 1.25rem!important;box-sizing:border-box!important}
+#screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%!important;max-width:480px!important;margin:0 auto!important;padding:4rem 1.25rem 6rem 1.25rem!important;box-sizing:border-box!important}
 /* 結果 インナー */
-.fortune-result-inner{width:100%!important;max-width:600px!important;margin:0 auto!important;padding:3rem 1.25rem 8rem 1.25rem!important;box-sizing:border-box!important}
+.fortune-result-inner{width:100%!important;max-width:600px!important;margin:0 auto!important;padding:4rem 1.25rem 8rem 1.25rem!important;box-sizing:border-box!important}
 /* ローディング インナー */
 #screen-fortune-loading .fl-wrap{width:100%!important;max-width:400px!important;padding:2rem!important;text-align:center!important;margin:0 auto!important}
 
@@ -1403,9 +1403,13 @@ function showFortuneBg() {
   document.getElementById('fortune-bg').style.display = 'block';
   document.body.classList.add('fortune-open');
 }
-function hideFortuneBg() {
+function _closeAllScreens() {
+  document.querySelectorAll('.fortune-screen.active').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('fortune-bg').style.display = 'none';
   document.body.classList.remove('fortune-open');
+}
+function hideFortuneBg() {
+  _closeAllScreens();
 }
 
 /* ── Payment screen ──────────────────────────────────────────── */
@@ -1424,6 +1428,7 @@ function showPaymentScreen(charKey, price) {
   });
   document.getElementById('card-errors').textContent = '';
   showFortuneBg();
+  document.querySelectorAll('.fortune-screen.active').forEach(function(s){ s.classList.remove('active'); });
   var _sp = document.getElementById('screen-payment');
   _sp.scrollTop = 0;
   _sp.classList.add('active');
@@ -1433,8 +1438,7 @@ function showPaymentScreen(charKey, price) {
   }, 80);
 }
 function closePaymentScreen() {
-  document.getElementById('screen-payment').classList.remove('active');
-  hideFortuneBg();
+  _closeAllScreens();
 }
 
 /* ── Card input formatters ───────────────────────────────────── */
@@ -1505,13 +1509,13 @@ function showPaymentComplete(charKey, plan) {
   document.getElementById('done-char-img').src = ci.img;
   document.getElementById('done-char-name').textContent = ci.name;
   document.getElementById('done-plan-badge').textContent = plan === 100 ? '基本鑑定 ¥100' : '深読み鑑定 ¥500';
+  document.querySelectorAll('.fortune-screen.active').forEach(function(s){ s.classList.remove('active'); });
   var _sd = document.getElementById('screen-payment-done');
   _sd.scrollTop = 0;
   _sd.classList.add('active');
 }
 function closePaymentDone() {
-  document.getElementById('screen-payment-done').classList.remove('active');
-  hideFortuneBg();
+  _closeAllScreens();
 }
 function startFortuneFromDone() {
   document.getElementById('screen-payment-done').classList.remove('active');
@@ -1523,6 +1527,7 @@ function startFortuneFromDone() {
    ============================================================ */
 function startFortuneLoading(charKey, plan) {
   showFortuneBg();
+  document.querySelectorAll('.fortune-screen.active').forEach(function(s){ s.classList.remove('active'); });
   var el = document.getElementById('screen-fortune-loading');
   el.classList.add('active');
 
@@ -1584,11 +1589,11 @@ function runLoadingBar(msgs, charKey, plan) {
 }
 
 function showFortuneResult(charKey, plan) {
-  document.getElementById('screen-fortune-loading').classList.remove('active');
   document.getElementById('screen-fortune-loading').innerHTML = '';
+  document.querySelectorAll('.fortune-screen.active').forEach(function(s){ s.classList.remove('active'); });
   var resEl = document.getElementById('screen-fortune-result');
-  resEl.classList.add('active');
   resEl.scrollTop = 0;
+  resEl.classList.add('active');
   var inner = document.getElementById('fortune-result-inner');
   if (charKey === 'mikage') inner.innerHTML = buildMikageResult(plan);
   else if (charKey === 'oba') inner.innerHTML = buildObaResult(plan);
@@ -1602,9 +1607,8 @@ function showFortuneResult(charKey, plan) {
 }
 
 function closeFortuneResult() {
-  document.getElementById('screen-fortune-result').classList.remove('active');
   document.getElementById('screen-fortune-result').scrollTop = 0;
-  hideFortuneBg();
+  _closeAllScreens();
 }
 
 function initFortuneFade() {
