@@ -439,11 +439,11 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .bottom-spacer{height:3rem}
 
 /* ─── 占い共通オーバーレイ画面の基本形 ─── */
-.fortune-screen{display:none!important;position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100dvh!important;background:#0B091E!important;color:var(--text)!important;z-index:9000!important;overflow:hidden!important;margin:0!important;padding:0!important;box-sizing:border-box!important}
+.fortune-screen{display:none!important;position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100dvh!important;background:#0B091E!important;color:var(--text)!important;z-index:9000!important;overflow:hidden!important;margin:0!important;padding:0!important;box-sizing:border-box!important;transform:none!important}
 /* 決済・決済完了・占い結果 — 上端起点のブロックスクロール1本化 */
 #screen-payment.active,#screen-payment-done.active,#screen-fortune-result.active{display:block!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
 /* ローディング — flex中央固定・スクロール禁止・最前面 */
-#screen-fortune-loading.active{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;height:100dvh!important;z-index:9500!important;background:radial-gradient(circle at 50% 40%,#2E1860 0%,#0B091E 100%)!important}
+#screen-fortune-loading.active{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;height:100dvh!important;z-index:9500!important;background:radial-gradient(circle at 50% 40%,#2E1860 0%,#0B091E 100%)!important;background-size:cover!important}
 /* 決済・決済完了 インナー */
 #screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%!important;max-width:480px!important;margin:0 auto!important;padding:3rem 1.25rem 6rem 1.25rem!important;box-sizing:border-box!important}
 /* 結果 インナー */
@@ -654,8 +654,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .res-back-btn:hover{background:rgba(76,42,133,.25);border-color:rgba(220,206,255,.35)}
 
 /* Shared result styles */
-.mk-scroll-fade{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
-.mk-scroll-fade.in{opacity:1;transform:translateY(0)}
+.mk-scroll-fade{opacity:0;transition:opacity .65s ease}
+.mk-scroll-fade.in{opacity:1}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .mk-banner{width:100%;max-width:480px;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-radius:18px;margin-bottom:1.2rem;position:relative;overflow:hidden}
 .mk-banner-ava{width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;animation:mkfloat 4.2s ease-in-out infinite}
@@ -1435,7 +1435,8 @@ function showPaymentScreen(charKey, price) {
   setTimeout(function(){
     var n = document.getElementById('pay-card-name');
     if (n) n.focus();
-  }, 80);
+    _sp.scrollTop = 0;
+  }, 50);
 }
 function closePaymentScreen() {
   _closeAllScreens();
@@ -1513,6 +1514,7 @@ function showPaymentComplete(charKey, plan) {
   var _sd = document.getElementById('screen-payment-done');
   _sd.scrollTop = 0;
   _sd.classList.add('active');
+  setTimeout(function(){ _sd.scrollTop = 0; }, 50);
 }
 function closePaymentDone() {
   _closeAllScreens();
@@ -1594,6 +1596,7 @@ function showFortuneResult(charKey, plan) {
   var resEl = document.getElementById('screen-fortune-result');
   resEl.scrollTop = 0;
   resEl.classList.add('active');
+  setTimeout(function(){ resEl.scrollTop = 0; }, 50);
   var inner = document.getElementById('fortune-result-inner');
   if (charKey === 'mikage') inner.innerHTML = buildMikageResult(plan);
   else if (charKey === 'oba') inner.innerHTML = buildObaResult(plan);
