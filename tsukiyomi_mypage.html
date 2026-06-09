@@ -438,19 +438,18 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
 .bottom-spacer{height:3rem}
 
-/* ── FORTUNE FLOW SCREENS ── */
-/* 共通: 非表示・全画面固定・スクロールバー生成禁止 */
-.fortune-screen{display:none!important;position:fixed;inset:0!important;width:100%!important;height:100vh!important;background:#0B091E;color:var(--text);z-index:8000;overflow:hidden!important}
-/* 決済・決済完了・結果 — 上端起点のブロックスクロール */
+/* ─── 占い共通オーバーレイ画面の基本形 ─── */
+.fortune-screen{display:none!important;position:fixed!important;inset:0!important;width:100%!important;height:100vh!important;background:#0B091E!important;color:var(--text)!important;z-index:9000!important;overflow:hidden!important;margin:0!important;padding:0!important;box-sizing:border-box!important}
+/* 決済・決済完了・占い結果 — 上端起点のブロックスクロール1本化 */
 #screen-payment.active,#screen-payment-done.active,#screen-fortune-result.active{display:block!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
-/* ローディング — flex中央固定・スクロール禁止 */
-#screen-fortune-loading{background:radial-gradient(circle at 50% 40%,#2E1860 0%,#0B091E 100%)!important;background-size:cover!important;z-index:9500!important}
-#screen-fortune-loading.active{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important}
-#screen-fortune-loading .fl-wrap{width:100%;max-width:400px;padding:2rem;text-align:center;margin:0 auto!important}
+/* ローディング — flex中央固定・スクロール禁止・最前面 */
+#screen-fortune-loading.active{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;z-index:9500!important;background:radial-gradient(circle at 50% 40%,#2E1860 0%,#0B091E 100%)!important;background-size:cover!important}
 /* 決済・決済完了 インナー */
-#screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%;max-width:480px;margin:0 auto!important;padding:3rem 1.25rem 6rem 1.25rem!important;box-sizing:border-box}
+#screen-payment .fortune-screen-inner,#screen-payment-done .fortune-screen-inner{width:100%!important;max-width:480px!important;margin:0 auto!important;padding:3rem 1.25rem 6rem 1.25rem!important;box-sizing:border-box!important}
 /* 結果 インナー */
-.fortune-result-inner{width:100%;max-width:600px;margin:0 auto!important;display:block;padding:3rem 1.25rem 8rem 1.25rem!important;box-sizing:border-box}
+.fortune-result-inner{width:100%!important;max-width:600px!important;margin:0 auto!important;padding:3rem 1.25rem 8rem 1.25rem!important;box-sizing:border-box!important}
+/* ローディング インナー */
+#screen-fortune-loading .fl-wrap{width:100%!important;max-width:400px!important;padding:2rem!important;text-align:center!important;margin:0 auto!important}
 
 /* ── PAYMENT DONE SCREEN ── */
 .pay-done-card{
