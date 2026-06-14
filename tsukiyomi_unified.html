@@ -165,6 +165,27 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .load-bar{height:100%;width:0;border-radius:1px;background:linear-gradient(90deg,var(--purL),var(--gold),var(--goldL));transition:width .08s linear}
 .load-phase{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold);letter-spacing:.15em;margin-top:.5rem;text-align:center}
 .load-sub{font-size:.68rem;color:var(--muted);letter-spacing:.1em;font-style:italic;margin-top:.25rem;text-align:center}
+/* ── キャラ別ローディング（mypage共通） ── */
+.fl-wrap{text-align:center;width:100%;max-width:360px;padding:0 1.5rem}
+.fl-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--purL);letter-spacing:.12em;margin-bottom:.4rem}
+.fl-msg{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:1.5rem;min-height:1.8em}
+.fl-bar-wrap{background:rgba(30,20,60,.5);border-radius:4px;height:3px;overflow:hidden;margin:0 auto;max-width:240px}
+.fl-bar{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);width:0;transition:width .2s ease;border-radius:4px}
+/* Mikage loading — 陰陽紋章 */
+.fl-mikage-emblem{position:relative;width:88px;height:88px;margin:0 auto 1.4rem;display:flex;align-items:center;justify-content:center}
+.fl-reiki-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(139,92,246,.5);animation:reikiExpand 1.6s ease-out infinite}
+.fl-reiki-ring:nth-child(2){width:80px;height:80px;animation-delay:.6s}
+.fl-reiki-ring:nth-child(3){width:110px;height:110px;animation-delay:1.2s}
+@keyframes reikiExpand{0%{opacity:.6;transform:scale(.7)}100%{opacity:0;transform:scale(1.5)}}
+/* Oba loading — 月相 + 星 */
+.fl-oba-moon-wrap{position:relative;width:96px;height:96px;margin:0 auto 1.2rem;display:flex;align-items:center;justify-content:center}
+.fl-oba-moon{font-size:2.8rem;position:relative;z-index:2;animation:obaMoonFloat 3s ease-in-out infinite}
+.fl-oba-star{position:absolute;font-size:.95rem;animation:obaSpark linear infinite;top:50%;left:50%;transform-origin:0 0}
+@keyframes obaMoonFloat{0%,100%{transform:scale(1);opacity:.78}50%{transform:scale(1.18);opacity:1}}
+@keyframes obaSpark{0%{opacity:0;transform:scale(0) rotate(0)}30%{opacity:.9}100%{opacity:0;transform:scale(1.2) rotate(360deg) translate(var(--tx),var(--ty))}}
+/* Mikage glyph */
+.fl-mikage-glyph{font-size:3.2rem;z-index:1;line-height:1;animation:mkglyph 6s linear infinite;filter:drop-shadow(0 0 14px rgba(123,92,246,.7)) drop-shadow(0 0 28px rgba(76,42,133,.4))}
+@keyframes mkglyph{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 /* RESULT */
 .res-wrap{width:100%;max-width:540px;display:flex;flex-direction:column;align-items:center;padding-top:5.5rem}
 .back-btn{display:flex;align-items:center;gap:.5rem;align-self:flex-start;font-size:.7rem;color:var(--purL);opacity:.68;cursor:pointer;letter-spacing:.08em;margin-bottom:1.6rem;transition:opacity .2s}
@@ -1103,19 +1124,8 @@ body.page-out{opacity:0 !important}
 </section>
 
 <!-- STAGE 4: LOADING -->
-<section id="scr-loading" class="stage hidden" style="justify-content:center;align-items:center">
-  <div style="text-align:center;display:flex;flex-direction:column;align-items:center">
-    <div style="position:relative;width:120px;height:120px;margin:0 auto 2rem">
-      <div class="moon-gfx moon-load" style="position:relative;z-index:2"></div>
-      <div class="moon-ring" style="width:152px;height:152px"></div>
-      <div class="moon-ring" style="width:188px;height:188px;animation-delay:.45s;border-color:rgba(123,94,167,.1)"></div>
-    </div>
-    <span id="l-ico" style="font-size:2.2rem;display:block;margin-bottom:.3rem;animation:breathe 2s ease-in-out infinite">🌕</span>
-    <div id="l-phase" class="load-phase">満月</div>
-    <div id="l-sub"   class="load-sub">感情が満ちるタイミング</div>
-    <p   id="l-msg"   class="load-msg">月と交信中…</p>
-    <div class="load-bar-w"><div class="load-bar" id="l-bar"></div></div>
-  </div>
+<section id="scr-loading" class="stage hidden" style="justify-content:center;align-items:center;flex-direction:column">
+  <div id="l-inner" style="width:100%;max-width:400px;text-align:center"></div>
 </section>
 
 <!-- STAGE 5: RESULT -->
@@ -1498,12 +1508,24 @@ function submitForm(){
   show('scr-loading');runLoad(function(){renderResult()});
 }
 function runLoad(cb){
-  var idx=phaseIdx(getBirthVal('f-birth')),ph=PHASES[idx];
-  document.getElementById('l-ico').textContent=ph.icon;document.getElementById('l-phase').textContent=ph.name;document.getElementById('l-sub').textContent=ph.mean;
-  var msgs=['月と交信中…','あなたの星を読み解いています…','月明かりが答えを導いています…','鑑定書を紡いでいます…'],mi=0,mel=document.getElementById('l-msg');
-  mel.textContent=msgs[0];var iv=setInterval(function(){mi=(mi+1)%msgs.length;mel.textContent=msgs[mi]},820);
-  var bar=document.getElementById('l-bar');bar.style.width='0';var pct=0;
-  function step(){pct+=Math.random()*8+3;if(pct>=100)pct=100;bar.style.width=pct+'%';if(pct<100)setTimeout(step,75+Math.random()*50);else{clearInterval(iv);setTimeout(cb,500)}}step();
+  var el=document.getElementById('l-inner');
+  var msgs;
+  if(ST.menu==='personality'){
+    msgs=['陰陽の気を読み解いています…','運命の流れを探っています…','五行の智慧を紐解いています…','あなたへの神託を紡いでいます…'];
+    el.innerHTML='<div class="fl-wrap"><div class="fl-mikage-emblem"><div class="fl-reiki-ring"></div><div class="fl-reiki-ring"></div><span class="fl-mikage-glyph">☯</span></div><p class="fl-title">陰陽鑑定中</p><p class="fl-msg" id="fl-msg">'+msgs[0]+'</p><div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div></div>';
+  }else if(ST.menu==='monthly'){
+    msgs=['星々の導きを受信しています…','今月の運命を読み解いています…','天の星座配置を確認しています…','あなたへのメッセージを届けます…'];
+    var starHtml='';var angles=[0,60,120,180,240,300,330];
+    for(var i=0;i<angles.length;i++){var rad=angles[i]*Math.PI/180;var tx=(Math.cos(rad)*52).toFixed(0);var ty=(Math.sin(rad)*52).toFixed(0);var dur=(2.2+Math.random()*1.5).toFixed(2);var del=(Math.random()*2).toFixed(2);starHtml+='<span class="fl-oba-star" style="--tx:'+tx+'px;--ty:'+ty+'px;animation-duration:'+dur+'s;animation-delay:'+del+'s">⭐</span>';}
+    el.innerHTML='<div class="fl-wrap"><div class="fl-oba-moon-wrap"><span class="fl-oba-moon">🌕</span>'+starHtml+'</div><p class="fl-title">星読み鑑定中</p><p class="fl-msg" id="fl-msg">'+msgs[0]+'</p><div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div></div>';
+  }else{
+    msgs=['カードが語りかけています…','月の光があなたへのメッセージを紡いでいます…','タロットの真実が浮かび上がります…','運命の答えを届けます…'];
+    el.innerHTML='<div class="fl-wrap"><p style="font-size:2.5rem;margin-bottom:1rem;animation:mkfloat 2s ease-in-out infinite">🌙</p><p class="fl-title">タロット鑑定中</p><p class="fl-msg" id="fl-msg">'+msgs[0]+'</p><div class="fl-bar-wrap"><div class="fl-bar" id="fl-bar"></div></div></div>';
+  }
+  var mi=0,mel=document.getElementById('fl-msg');
+  var iv=setInterval(function(){mi=(mi+1)%msgs.length;if(mel)mel.textContent=msgs[mi]},860);
+  var bar=document.getElementById('fl-bar');var pct=0;
+  (function step(){pct+=Math.random()*7+3;if(pct>=100)pct=100;bar.style.width=pct+'%';if(pct<100)setTimeout(step,80+Math.random()*55);else{clearInterval(iv);setTimeout(cb,600);}})();
 }
 function renderResult(){show('scr-result');if(ST.menu==='personality')drawP();else if(ST.menu==='monthly')drawM();else drawT()}
 function menuNav(cur){var others=['personality','monthly','tarot'].filter(function(m){return m!==cur});return'<div class="around"><div class="around-t">✦ 別の視点でも占ってみる ✦</div>'+others.map(function(m){var mt=MENU_META[m];return'<div class="around-btn" onclick="ST.menu=\''+m+'\';renderResult()"><span class="a-ico">'+mt.ico+'</span><span class="a-lbl">'+mt.lbl+'</span><span class="a-arr">›</span></div>'}).join('')+'</div>'}
