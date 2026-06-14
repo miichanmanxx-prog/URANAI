@@ -314,71 +314,22 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mv-icons{font-size:3rem;line-height:1;margin-bottom:.8rem;position:relative;z-index:1;filter:drop-shadow(0 0 18px rgba(212,175,55,.45));animation:mkfloat 4.2s ease-in-out infinite}
 .mv-x{font-size:1.1rem;color:rgba(212,175,55,.48);margin:0 .5rem;vertical-align:middle}
 /* ── 月相×五行スプライトアイコン ── */
-.mk-sprite-icon{
-  width:148px;height:185px;
-  background-image:url('image1.png');
-  background-size:514% 411.2%;
-  background-repeat:no-repeat;
-  display:block;position:relative;z-index:1;
-}
+.mk-sprite-icon{width:150px;height:150px;display:block;object-fit:cover;object-position:center;transform:none;border-radius:12px;border:1px solid rgba(255,215,0,.2);box-shadow:0 0 20px rgba(147,112,219,.4)}
 /* ── 神秘紋章UI ── */
 .mk-emblem-wrap{
-  position:relative;width:148px;
+  position:relative;width:fit-content;
   margin:0 auto 1.7rem;
   animation:mkfloat 4.2s ease-in-out infinite;
-}
-/* 外周発光リング */
-.mk-emblem-wrap::before{
-  content:'';position:absolute;
-  inset:-11px;border-radius:22px;
-  border:1px solid rgba(212,175,55,.1);
-  box-shadow:0 0 26px rgba(100,48,200,.26),0 0 52px rgba(100,48,200,.09);
-  pointer-events:none;z-index:0;
-}
-/* 外周の第二リング（より遠く・薄く） */
-.mk-emblem-wrap::after{
-  content:'';position:absolute;
-  inset:-22px;border-radius:28px;
-  border:1px solid rgba(212,175,55,.05);
-  box-shadow:0 0 40px rgba(80,30,160,.15);
-  pointer-events:none;z-index:0;
 }
 /* 金縁フレーム本体 */
 .mk-emblem-frame{
   position:relative;
-  border-radius:14px;
-  border:1px solid rgba(212,175,55,.36);
+  border-radius:0;
+  border:none;
   overflow:hidden;
-  background:radial-gradient(ellipse at 46% 26%,rgba(52,20,100,.9),rgba(11,6,30,.97) 66%);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  box-shadow:
-    0 0 28px rgba(88,38,158,.36),
-    0 0 56px rgba(88,38,158,.13),
-    inset 0 0 20px rgba(75,32,148,.13);
+  background:transparent;
+  width:150px;height:150px;
 }
-/* 上部ゴールドシマーライン */
-.mk-emblem-frame::before{
-  content:'';position:absolute;
-  top:0;left:5%;right:5%;height:1px;z-index:4;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(212,175,55,.55) 28%,rgba(212,175,55,.72) 50%,rgba(212,175,55,.55) 72%,transparent);
-}
-/* 微粒子光（金×紫） */
-.mk-emblem-frame::after{
-  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;
-  background:
-    radial-gradient(circle 1.5px at 12% 8%,  rgba(212,175,55,.9),  transparent 100%),
-    radial-gradient(circle 1px  at 85% 6%,  rgba(195,162,255,.75), transparent 100%),
-    radial-gradient(circle 1.5px at 92% 29%, rgba(212,175,55,.7),  transparent 100%),
-    radial-gradient(circle 1px  at 5%  46%, rgba(180,138,255,.68), transparent 100%),
-    radial-gradient(circle 1.5px at 79% 88%, rgba(212,175,55,.72), transparent 100%),
-    radial-gradient(circle 1px  at 19% 85%, rgba(195,162,255,.62), transparent 100%),
-    radial-gradient(circle 1px  at 46% 3%,  rgba(212,175,55,.55), transparent 100%),
-    radial-gradient(circle 1.5px at 4%  69%, rgba(195,162,255,.58),transparent 100%),
-    radial-gradient(circle 1px  at 96% 57%, rgba(212,175,55,.52), transparent 100%),
-    radial-gradient(circle 1px  at 54% 97%, rgba(195,162,255,.62), transparent 100%);
-  animation:mkParticle 5.5s ease-in-out infinite;
-}
-@keyframes mkParticle{0%,100%{opacity:.38}50%{opacity:.95}}
 .mv-tag{font-family:'Playfair Display',serif;font-size:.55rem;letter-spacing:.28em;color:var(--purL);text-transform:uppercase;opacity:.78;margin-bottom:.75rem;position:relative;z-index:1}
 .mv-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--gold);letter-spacing:.1em;line-height:1.5;margin-bottom:.4rem;position:relative;z-index:1;text-shadow:0 0 34px rgba(212,175,55,.55)}
 .mv-title-en{font-family:'Playfair Display',serif;font-size:.6rem;color:var(--purL);letter-spacing:.2em;opacity:.65;position:relative;z-index:1}
@@ -1834,17 +1785,12 @@ function initScrollFade(){
    container: 148×185px / background-size: 515% 412%
    → bg renders at 762.2×762.2px (縦横比保持)
    → 各セル152.4×190.6px → コンテナより大きい → 境界の白線をクリップ */
-function getMikageSpritePos(moon,elem){
-  var rowMap={新月:0,三日月:1,半月:2,満月:3};
-  var colMap={木:0,火:1,土:2,金:3,水:4};
-  var r=rowMap[moon]!==undefined?rowMap[moon]:0;
-  var c=colMap[elem]!==undefined?colMap[elem]:0;
-  var bw=148*5.14,bh=185*4.112;
-  var cw=bw/5,ch=bh/4;
-  var ox=(cw-148)/2,oy=(ch-185)/2;
-  var px=(c*cw+ox)/(bw-148)*100;
-  var py=(r*ch+oy)/(bh-185)*100;
-  return px.toFixed(2)+'% '+py.toFixed(2)+'%';
+function getMikageImageFilename(moon,elem){
+  var moonNum={新月:1,三日月:2,半月:3,満月:4};
+  var elemPfx={木:'T',火:'F',土:'S',金:'G',水:'W'};
+  var n=moonNum[moon]||1;
+  var p=elemPfx[elem]||'T';
+  return p+n+'.png';
 }
 function drawP(){
   var name=(document.getElementById('f-name').value||'あなた').trim();
@@ -1855,12 +1801,12 @@ function drawP(){
   if(ST.planId==='basic'||ST.planId==='detail'){drawPPaid(pat,name,ST.planId);return;}
 
   /* ── トップビジュアル */
-  var spritePos=getMikageSpritePos(pat.moon,pat.elem);
+  var moonImg=getMikageImageFilename(pat.moon,pat.elem);
   var topVisual=
     '<div class="mv-wrap mk-scroll-fade" style="margin-top:0">'+
       '<div class="mk-emblem-wrap">'+
         '<div class="mk-emblem-frame">'+
-          '<div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div>'+
+          '<img class="mk-sprite-icon" src="'+moonImg+'" alt="'+esc(pat.moon)+' \xd7 '+esc(pat.elem)+'">'+
         '</div>'+
       '</div>'+
       '<p class="mv-tag">月相 × 五行</p>'+
@@ -2039,8 +1985,8 @@ function mkUnlockedSec(ico,label,text){
 }
 function drawPPaid(pat,name,planId){
   var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
-  var spritePos=getMikageSpritePos(pat.moon,pat.elem);
-  var topVisual='<div class="mv-wrap mk-scroll-fade" style="margin-top:0"><div class="mk-emblem-wrap"><div class="mk-emblem-frame"><div class="mk-sprite-icon" style="background-position:'+spritePos+'"></div></div></div><p class="mv-tag">月相 × 五行</p><p class="mv-title">'+esc(pat.title)+'</p><p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p></div>';
+  var moonImg=getMikageImageFilename(pat.moon,pat.elem);
+  var topVisual='<div class="mv-wrap mk-scroll-fade" style="margin-top:0"><div class="mk-emblem-wrap"><div class="mk-emblem-frame"><img class="mk-sprite-icon" src="'+moonImg+'" alt="'+esc(pat.moon)+' \xd7 '+esc(pat.elem)+'"></div></div><p class="mv-tag">月相 × 五行</p><p class="mv-title">'+esc(pat.title)+'</p><p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p></div>';
   var card1='<div class="mk-section mk-scroll-fade"><div class="mk-catch-card"><p class="mk-catch-lbl">✦ 一言診断 ✦</p><p class="mk-catch-intro">あなたは</p><p class="mk-catch-label">'+esc(pat.catchLabel)+'</p><div class="mk-catch-divider"></div><p class="mk-catch-copy">'+esc(pat.catchCopy)+'</p><p class="mk-catch-note">'+esc(pat.catchNote)+'</p></div></div>';
   var secs='';
   secs+=mkUnlockedSec('🌿','基本の性格',pat.personality);
