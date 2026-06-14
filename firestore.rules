@@ -7,17 +7,14 @@ service cloud.firestore {
     //  ヘルパー関数
     // ================================================================
 
-    // Firebase Authentication でログイン済みか
     function isAuthenticated() {
       return request.auth != null;
     }
 
-    // 自分自身のドキュメントか
     function isOwner(uid) {
       return isAuthenticated() && request.auth.uid == uid;
     }
 
-    // カスタムクレームで role を確認
     function hasRole(role) {
       return isAuthenticated()
         && request.auth.token.get('role', '') == role;
@@ -32,7 +29,11 @@ service cloud.firestore {
         && request.auth.token.get('shopId', '') == shopId;
     }
 
-    // 書き込み時に不要なフィールドが混入していないか検証
+    function isStore(storeId) {
+      return isAuthenticated()
+        && request.auth.token.get('storeId', '') == storeId;
+    }
+
     function onlyFields(fields) {
       return request.resource.data.keys().hasOnly(fields);
     }
@@ -42,60 +43,81 @@ service cloud.firestore {
     //  /users/{uid}
     // ================================================================
     match /users/{uid} {
-      // 本人のみ読み取り可能（管理者も可）
       allow read: if isOwner(uid) || isAdmin();
 
-      // 本人のみ作成可能（初回登録時）
-      // uid・email・createdAt 以外の管理フィールドは書き込み不可
       allow create: if isOwner(uid)
-        && onlyFields(['name', 'email', 'birthDate', 'gender',
-                       'memberSince', 'plan', 'createdAt']);
+        && onlyFields(['createdAt', 'lastLogin']);
 
-      // 本人は安全なフィールドのみ更新可能
-      // plan・email・role などの特権フィールドは変更不可
       allow update: if isOwner(uid)
-        && onlyFields(['name', 'birthDate', 'gender', 'updatedAt'])
+        && onlyFields(['lastLogin', 'updatedAt'])
         && !request.resource.data.diff(resource.data).affectedKeys()
-            .hasAny(['email', 'plan', 'role', 'createdAt', 'uid']);
+            .hasAny(['createdAt', 'uid']);
 
-      // 削除は管理者のみ
       allow delete: if isAdmin();
-
-      // ────────────────────────────────────────────────
-      //  月相プロフィール（バックエンド生成・読み取り専用）
-      //  /users/{uid}/moonProfile/{doc}
-      // ────────────────────────────────────────────────
-      match /moonProfile/{doc} {
-        allow read:   if isOwner(uid) || isAdmin();
-        allow write:  if isAdmin(); // バックエンドのみ書き込み
-      }
-
-      // ────────────────────────────────────────────────
-      //  鑑定履歴
-      //  /users/{uid}/readings/{readingId}
-      // ────────────────────────────────────────────────
-      match /readings/{readingId} {
-        allow read:   if isOwner(uid) || isAdmin();
-        // 鑑定結果はバックエンド（Cloud Functions）が書き込む
-        allow create: if isAdmin();
-        allow update: if isAdmin();
-        allow delete: if isAdmin();
-      }
     }
 
     // ================================================================
-    //  店舗
-    //  /shops/{shopId}
+    //  店舗情報
+    //  /stores/{storeId}
     // ================================================================
-    match /shops/{shopId} {
-      // 該当店舗のオーナーと管理者が読み取り可能
-      allow read: if isShop(shopId) || isAdmin();
-
-      // 作成・削除は管理者のみ
+    match /stores/{storeId} {
+      allow read: if isStore(storeId) || isAdmin();
       allow create: if isAdmin();
       allow delete: if isAdmin();
+      allow update: if isAdmin()
+        || (isStore(storeId)
+            && onlyFields(['email', 'updatedAt'])
+            && !request.resource.data.diff(resource.data).affectedKeys()
+                .hasAny(['createdAt', 'isActive', 'ownerName']));
+    }
 
-      // 更新：店舗は限定フィールドのみ変更可（管理者は全フィールド）
+    // ================================================================
+    //  QRリンク
+    //  /qrLinks/{token}
+    // ================================================================
+    match /qrLinks/{token} {
+      // 未認証ユーザーもトークン検索可能（占いページからの参照用）
+      allow read: if true;
+      // 管理者または自店舗のみ発行可能
+      allow create: if isAdmin()
+        || (isStore(request.resource.data.storeId)
+            && onlyFields(['token', 'storeId', 'createdAt', 'isActive']));
+      allow update: if isAdmin()
+        || isStore(resource.data.storeId);
+      allow delete: if isAdmin();
+    }
+
+    // ================================================================
+    //  占いセッション
+    //  /fortuneSessions/{sessionId}
+    // ================================================================
+    match /fortuneSessions/{sessionId} {
+      // 未認証ユーザーでも作成可能（占いページから記録）
+      allow create: if onlyFields(['userId', 'source', 'storeId', 'selectedFortune', 'createdAt']);
+      allow read: if isAdmin()
+        || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    // ================================================================
+    //  決済履歴
+    //  /payments/{paymentId}
+    // ================================================================
+    match /payments/{paymentId} {
+      // 管理者は全件閲覧、店舗は自店舗分のみ
+      allow read: if isAdmin()
+        || (isAuthenticated() && isStore(resource.data.storeId));
+      // 書き込みはバックエンド（Webhook）のみ
+      allow write: if isAdmin();
+    }
+
+    // ================================================================
+    //  既存コレクション（後方互換）
+    // ================================================================
+    match /shops/{shopId} {
+      allow read: if isShop(shopId) || isAdmin();
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
       allow update: if isAdmin()
         || (isShop(shopId)
             && onlyFields(['contactEmail', 'contactPhone', 'updatedAt'])
@@ -103,81 +125,30 @@ service cloud.firestore {
                 .hasAny(['sales', 'payout', 'status', 'bank',
                          'account', 'shopId', 'createdAt']));
 
-      // ────────────────────────────────────────────────
-      //  取引履歴
-      //  /shops/{shopId}/transactions/{txId}
-      // ────────────────────────────────────────────────
       match /transactions/{txId} {
-        allow read:   if isShop(shopId) || isAdmin();
-        // 取引はバックエンドのみ作成
-        allow write:  if isAdmin();
+        allow read: if isShop(shopId) || isAdmin();
+        allow write: if isAdmin();
       }
-
-      // ────────────────────────────────────────────────
-      //  日別売上集計（バックエンド集計結果）
-      //  /shops/{shopId}/dailySales/{dateId}
-      // ────────────────────────────────────────────────
       match /dailySales/{dateId} {
-        allow read:  if isShop(shopId) || isAdmin();
+        allow read: if isShop(shopId) || isAdmin();
         allow write: if isAdmin();
       }
-
-      // ────────────────────────────────────────────────
-      //  振込記録
-      //  /shops/{shopId}/payouts/{payoutId}
-      // ────────────────────────────────────────────────
       match /payouts/{payoutId} {
-        allow read:  if isShop(shopId) || isAdmin();
+        allow read: if isShop(shopId) || isAdmin();
         allow write: if isAdmin();
       }
     }
 
-    // ================================================================
-    //  AI鑑定師キャラクター
-    //  /characters/{charId}
-    // ================================================================
-    match /characters/{charId} {
-      // 認証済みユーザー（一般・店舗）は読み取り可能
-      // ただしAIプロンプトフィールドは管理者のみ
-      allow read: if isAuthenticated()
-        && (isAdmin()
-            || !('prompt' in resource.data)
-            || request.resource == null);  // 一般ユーザーはpromptフィールドを除いて取得
-
-      // 管理者のみ変更可能
-      allow write: if isAdmin();
-    }
-
-    // ================================================================
-    //  占いメニュー
-    //  /menus/{menuId}
-    // ================================================================
-    match /menus/{menuId} {
-      // 有効なメニューは認証済みユーザーが読み取り可能
-      allow read: if isAuthenticated()
-        && (resource.data.status == true || isAdmin() || isShop('*'));
-
-      // 管理者のみ変更可能
-      allow write: if isAdmin();
-    }
-
-    // ================================================================
-    //  決済セッション（Stripe連携）
-    //  /checkoutSessions/{sessionId}
-    // ================================================================
     match /checkoutSessions/{sessionId} {
-      // 本人と管理者のみ閲覧
       allow read: if isAuthenticated()
         && (request.auth.uid == resource.data.uid || isAdmin());
-
-      // 作成はバックエンドのみ（クライアントから直接作成不可）
       allow create: if false;
       allow update: if isAdmin();
       allow delete: if isAdmin();
     }
 
     // ================================================================
-    //  その他すべてのドキュメントは拒否（デフォルト・フェイルセーフ）
+    //  デフォルト拒否
     // ================================================================
     match /{document=**} {
       allow read, write: if false;

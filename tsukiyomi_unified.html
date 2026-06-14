@@ -2791,7 +2791,9 @@ document.addEventListener('keydown', function(e) {
 function goCheckout(plan){
   if(plan&&!ST.planId)ST.planId=plan;
   _pendingFortune=true;
-  openModal('reg');
+  saveFortuneSession(ST.menu||'personality',function(){
+    openModal('reg');
+  });
 }
 /* ── モーダル制御 ─────────────────────────────── */
 function openModal(view){
@@ -2905,6 +2907,80 @@ function doLogin(){
   showErr('メールアドレスまたはパスワードが正しくありません');
 }
 
+/* ── Firebase / Firestore 連携 ──────────────────────────────── */
+/* 🔧 Firebase コンソールで取得した設定値に書き換えてください   */
+var FIREBASE_CONFIG = {
+  apiKey:            'YOUR_API_KEY',
+  authDomain:        'YOUR_PROJECT.firebaseapp.com',
+  projectId:         'YOUR_PROJECT_ID',
+  storageBucket:     'YOUR_PROJECT.appspot.com',
+  messagingSenderId: 'YOUR_SENDER_ID',
+  appId:             'YOUR_APP_ID'
+};
+
+var _db = null;
+
+function initFirebase(){
+  if(_db)return;
+  if(typeof firebase==='undefined')return;
+  if(FIREBASE_CONFIG.projectId==='YOUR_PROJECT_ID')return;
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    _db=firebase.firestore();
+  }catch(e){_db=null;}
+}
+
+/* URLパラメータ ?ref=TOKEN を解析し storeId を localStorage に保存 */
+function detectQRToken(){
+  var params=new URLSearchParams(window.location.search);
+  var token=params.get('ref');
+  if(!token){
+    if(!localStorage.getItem('storeId'))localStorage.setItem('source','direct');
+    return;
+  }
+  if(!_db){localStorage.setItem('source','direct');return;}
+  _db.collection('qrLinks').doc(token).get().then(function(doc){
+    if(doc.exists&&doc.data().isActive){
+      localStorage.setItem('storeId',doc.data().storeId);
+      localStorage.setItem('qrToken',token);
+      localStorage.setItem('source','store');
+    }else{
+      localStorage.removeItem('storeId');
+      localStorage.setItem('source','direct');
+    }
+  }).catch(function(){localStorage.setItem('source','direct');});
+}
+
+/* 占いセッションを fortuneSessions コレクションに記録 */
+function saveFortuneSession(menuType,cb){
+  var storeId=localStorage.getItem('storeId')||null;
+  var source=localStorage.getItem('source')||'direct';
+  var uid=(typeof firebase!=='undefined'&&firebase.auth&&firebase.auth().currentUser)
+    ?firebase.auth().currentUser.uid:'anonymous';
+  var sessionData={
+    userId:uid,
+    source:source,
+    storeId:storeId,
+    selectedFortune:menuType,
+    createdAt:(_db&&firebase.firestore)?firebase.firestore.FieldValue.serverTimestamp():new Date()
+  };
+  if(!_db){
+    var localId='local_'+Date.now();
+    localStorage.setItem('sessionId',localId);
+    if(cb)cb(localId);return;
+  }
+  _db.collection('fortuneSessions').add(sessionData).then(function(ref){
+    localStorage.setItem('sessionId',ref.id);
+    if(cb)cb(ref.id);
+  }).catch(function(){
+    var fallId='fallback_'+Date.now();
+    localStorage.setItem('sessionId',fallId);
+    if(cb)cb(fallId);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){initFirebase();detectQRToken();});
+
 function mkBanner(imgSrc,color,bg,label,charName,sub){
   var ac=color.replace('1)','0.28)'),acG=color.replace('1)','0.13)'),acA=color.replace('1)','0.38)');
   return '<div class="mk-banner" style="background:'+bg+';border:1px solid '+ac+'">'+
@@ -2918,5 +2994,9 @@ function mkBanner(imgSrc,color,bg,label,charName,sub){
   '</div>';
 }
 </script>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </body>
 </html>

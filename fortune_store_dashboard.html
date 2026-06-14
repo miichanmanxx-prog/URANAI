@@ -412,8 +412,8 @@ body{
     <div class="login-err" id="login-err">店舗IDまたはパスワードが正しくありません。</div>
 
     <div class="fg">
-      <label class="flbl" for="l-shopid">店舗ID</label>
-      <input class="finp" type="text" id="l-shopid" placeholder="例：tokyo001" autocomplete="username">
+      <label class="flbl" for="l-shopid">メールアドレス</label>
+      <input class="finp" type="email" id="l-shopid" placeholder="例：shop@example.com" autocomplete="username">
     </div>
     <div class="fg" style="margin-bottom:1.5rem">
       <label class="flbl" for="l-pw">パスワード</label>
@@ -506,6 +506,35 @@ body{
 'use strict';
 
 /* ============================================================
+   FIREBASE CONFIG
+   🔧 Firebase コンソールで取得した設定値に書き換えてください
+   ============================================================ */
+var FIREBASE_CONFIG = {
+  apiKey:            'YOUR_API_KEY',
+  authDomain:        'YOUR_PROJECT.firebaseapp.com',
+  projectId:         'YOUR_PROJECT_ID',
+  storageBucket:     'YOUR_PROJECT.appspot.com',
+  messagingSenderId: 'YOUR_SENDER_ID',
+  appId:             'YOUR_APP_ID'
+};
+
+var _db = null;
+var _auth = null;
+
+function initFirebase(){
+  if(_db)return;
+  if(typeof firebase==='undefined')return;
+  if(FIREBASE_CONFIG.projectId==='YOUR_PROJECT_ID')return;
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    _db=firebase.firestore();
+    _auth=firebase.auth();
+  }catch(e){_db=null;_auth=null;}
+}
+
+document.addEventListener('DOMContentLoaded',function(){initFirebase();});
+
+/* ============================================================
    STARS
    ============================================================ */
 (function(){
@@ -544,36 +573,37 @@ var DEFAULT_RANK  = [];
 var DEFAULT_TX    = [];
 
 function doLogin() {
-  var shopId = (document.getElementById('l-shopid').value || '').trim().toLowerCase();
+  var email  = (document.getElementById('l-shopid').value || '').trim();
   var pw     = (document.getElementById('l-pw').value     || '').trim();
   var errEl  = document.getElementById('login-err');
   var btn    = document.querySelector('#screen-login .btn-gold');
-  if (!shopId || !pw) { errEl.classList.add('show'); return; }
+  if (!email || !pw) { errEl.classList.add('show'); return; }
   if(btn)btn.disabled=true;
 
-  fetch('/api/shop/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ shopId: shopId, password: pw }),
-  }).then(function(r) {
-    if (!r.ok) throw new Error();
-    return r.json();
-  }).then(function(data) {
-    loginSuccess(shopId, data.name || shopId);
-  }).catch(function() {
-    /* API未接続時のフォールバック認証 */
-    var TEMP_CREDS = { 'admin': 'tsuki2026' };
-    if (TEMP_CREDS[shopId] && TEMP_CREDS[shopId] === pw) {
-      loginSuccess(shopId, '管理者');
-      return;
-    }
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      loginSuccess(shopId, shopId + '（ローカル）');
-      return;
-    }
-    errEl.classList.add('show');
-    if(btn)btn.disabled=false;
-  });
+  /* Firebase Auth が有効な場合はメール/パスワードでログイン */
+  if(_auth){
+    _auth.signInWithEmailAndPassword(email, pw).then(function(uc){
+      return uc.user.getIdTokenResult(true);
+    }).then(function(token){
+      var storeId   = token.claims.storeId;
+      var storeName = token.claims.storeName || storeId;
+      if(!storeId) throw new Error('not-store');
+      loginSuccess(storeId, storeName);
+    }).catch(function(){
+      errEl.classList.add('show');
+      if(btn)btn.disabled=false;
+    });
+    return;
+  }
+
+  /* Firebase 未設定時の仮認証（開発・デモ用） */
+  var TEMP_CREDS = { 'admin': 'tsuki2026' };
+  if(TEMP_CREDS[email] && TEMP_CREDS[email] === pw){
+    loginSuccess('demo', 'デモ店舗');
+    return;
+  }
+  errEl.classList.add('show');
+  if(btn)btn.disabled=false;
 }
 
 function loginSuccess(shopId, shopName) {
@@ -588,20 +618,76 @@ function loginSuccess(shopId, shopName) {
 }
 
 function loadDashboardData(period) {
-  Promise.all([
-    fetch('/api/shop/metrics?period='+period+'&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_KPI}),
-    fetch('/api/shop/payout-status?period='+period+'&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_PAY}),
-    fetch('/api/shop/daily-sales?days=7&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_DAILY}),
-    fetch('/api/shop/character-ranking?shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_RANK}),
-    fetch('/api/shop/transactions?limit=5&shopId='+state.shopId).then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return DEFAULT_TX}),
-  ]).then(function(results) {
-    MOCK_KPI[period]    = results[0];
-    MOCK_PAYOUT[period] = results[1];
-    DAILY_SALES         = results[2];
-    MOCK_RANK           = results[3];
-    MOCK_TX             = results[4];
+  if(!_db || state.shopId === 'demo'){
     renderDashboard(period);
+    return;
+  }
+
+  var now   = new Date();
+  var start;
+  if(period === 'today'){
+    start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  } else if(period === 'week'){
+    start = new Date(now.getTime() - 7*24*60*60*1000);
+  } else {
+    start = new Date(now.getFullYear(), now.getMonth(), 1);
+  }
+
+  _db.collection('payments')
+    .where('storeId','==',state.shopId)
+    .where('status','==','paid')
+    .where('createdAt','>=',start)
+    .orderBy('createdAt','desc')
+    .get().then(function(snap){
+      var payments=[];
+      snap.forEach(function(doc){payments.push(Object.assign({id:doc.id},doc.data()));});
+      _applyPayments(payments,period);
+    }).catch(function(){renderDashboard(period);});
+}
+
+function _applyPayments(payments, period){
+  var total  = payments.reduce(function(s,p){return s+(p.amount||0);},0);
+  var count  = payments.length;
+  var basic  = payments.filter(function(p){return p.planType==='basic'||p.amount===100;}).length;
+  var detail = payments.filter(function(p){return p.planType==='detail'||p.amount===500;}).length;
+
+  MOCK_KPI[period] = {
+    sales: total, count: count,
+    avg: count ? Math.round(total/count) : 0,
+    newUsers: payments.filter(function(p){return p.source==='store';}).length,
+    trendSales: '--', trendDir: 'up'
+  };
+
+  /* 直近7日の日別売上 */
+  var byDay = {};
+  payments.slice().reverse().forEach(function(p){
+    var d = (p.createdAt && p.createdAt.toDate) ? p.createdAt.toDate() : new Date(p.createdAt);
+    var key = (d.getMonth()+1)+'/'+(d.getDate());
+    byDay[key] = (byDay[key]||0) + (p.amount||0);
   });
+  DAILY_SALES = Object.keys(byDay).slice(-7).map(function(k){return {date:k,val:byDay[k]};});
+
+  /* 直近5件の取引 */
+  MOCK_TX = payments.slice(0,5).map(function(p){
+    var d=(p.createdAt&&p.createdAt.toDate)?p.createdAt.toDate():new Date(p.createdAt);
+    return {
+      date: d.toLocaleDateString('ja-JP'),
+      plan: p.planType||'--',
+      amt:  p.amount||0,
+      src:  p.source==='store'?'QR流入':'直接'
+    };
+  });
+
+  /* キャラ別集計 */
+  var charMap={};
+  payments.forEach(function(p){
+    var k=p.selectedFortune||'不明';
+    charMap[k]=(charMap[k]||0)+1;
+  });
+  MOCK_RANK = Object.keys(charMap).map(function(k){return{name:k,uses:charMap[k]};})
+    .sort(function(a,b){return b.uses-a.uses;});
+
+  renderDashboard(period);
 }
 
 /* Enter キー対応 */
@@ -612,6 +698,7 @@ document.addEventListener('keydown', function(e){
 });
 
 function doLogout() {
+  if(_auth) _auth.signOut().catch(function(){});
   state.shopId = null;
   document.getElementById('screen-dash').classList.add('hidden');
   document.getElementById('screen-login').classList.remove('hidden');
@@ -742,11 +829,22 @@ function renderTransactions() {
 
 /* ---- QR CODE ---- */
 function renderQR() {
-  var shopId = state.shopId || '';
+  var storeId = state.shopId || '';
+  var token   = _generateQRToken(storeId);
   var baseUrl = window.location.origin || '';
-  var url = baseUrl + '/tsukiyomi_unified.html?shop_id=' + shopId;
-  var qrSvg = buildMockQR(shopId);
+  var url     = baseUrl + '/tsukiyomi_unified.html?ref=' + token;
 
+  /* Firestoreへ保存 */
+  if(_db && storeId !== 'demo'){
+    _db.collection('qrLinks').doc(token).set({
+      token:     token,
+      storeId:   storeId,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      isActive:  true
+    }).catch(function(e){console.warn('QR save failed',e);});
+  }
+
+  var qrSvg = buildMockQR(token);
   document.getElementById('qr-card').innerHTML =
     '<div class="qr-box">'+qrSvg+'</div>'+
     '<div class="qr-body">'+
@@ -758,6 +856,12 @@ function renderQR() {
       '</div>'+
       '<p style="font-size:.58rem;color:var(--dim);margin-top:.65rem;letter-spacing:.06em">店内に印刷して設置してください。来店したお客様が読み取り、占いを利用できます。</p>'+
     '</div>';
+}
+
+function _generateQRToken(storeId){
+  var t=Date.now().toString(36).toUpperCase();
+  var r=Math.random().toString(36).slice(2,6).toUpperCase();
+  return storeId.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,6)+'_'+t+'_'+r;
 }
 
 /* ---- QR SVG ---- */
@@ -811,5 +915,9 @@ function downloadQR(){
   URL.revokeObjectURL(a.href);
 }
 </script>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </body>
 </html>

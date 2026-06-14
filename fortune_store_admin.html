@@ -291,8 +291,8 @@ tr:hover td{background:rgba(76,42,133,.07)}
     <h1 class="login-title">管理者ログイン</h1>
     <div class="login-err" id="login-err">IDまたはパスワードが正しくありません。</div>
     <div class="fg">
-      <label class="flbl">管理者ID</label>
-      <input class="finp" type="text" id="l-id" placeholder="admin" autocomplete="username">
+      <label class="flbl">メールアドレス</label>
+      <input class="finp" type="email" id="l-id" placeholder="admin@example.com" autocomplete="username">
     </div>
     <div class="fg" style="margin-bottom:1.5rem">
       <label class="flbl">パスワード</label>
@@ -566,6 +566,35 @@ tr:hover td{background:rgba(76,42,133,.07)}
 <script>
 'use strict';
 
+/* ============================================================
+   FIREBASE CONFIG
+   🔧 Firebase コンソールで取得した設定値に書き換えてください
+   ============================================================ */
+var FIREBASE_CONFIG = {
+  apiKey:            'YOUR_API_KEY',
+  authDomain:        'YOUR_PROJECT.firebaseapp.com',
+  projectId:         'YOUR_PROJECT_ID',
+  storageBucket:     'YOUR_PROJECT.appspot.com',
+  messagingSenderId: 'YOUR_SENDER_ID',
+  appId:             'YOUR_APP_ID'
+};
+
+var _db   = null;
+var _auth = null;
+
+function initFirebase(){
+  if(_db)return;
+  if(typeof firebase==='undefined')return;
+  if(FIREBASE_CONFIG.projectId==='YOUR_PROJECT_ID')return;
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    _db=firebase.firestore();
+    _auth=firebase.auth();
+  }catch(e){_db=null;_auth=null;}
+}
+
+document.addEventListener('DOMContentLoaded',function(){initFirebase();});
+
 /* ============================================================  STARS  ============================================================ */
 (function(){
   var sf=document.getElementById('stars');
@@ -587,54 +616,124 @@ var appState={ period:'month', currentSection:'overview' };
 
 /* ============================================================  LOGIN  ============================================================ */
 function doLogin(){
-  var id=(document.getElementById('l-id').value||'').trim();
+  var email=(document.getElementById('l-id').value||'').trim();
   var pw=(document.getElementById('l-pw').value||'').trim();
   var err=document.getElementById('login-err');
   var btn=document.querySelector('#screen-login .btn-gold');
+  if(!email||!pw){err.classList.add('show');return;}
   if(btn)btn.disabled=true;
-  fetch('/api/admin/auth/login',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({id:id,password:pw}),
-  }).then(function(r){
-    if(!r.ok)throw new Error();
-    return r.json();
-  }).then(function(){
+
+  /* Firebase Auth でログイン → admin ロール確認 */
+  if(_auth){
+    _auth.signInWithEmailAndPassword(email,pw).then(function(uc){
+      return uc.user.getIdTokenResult(true);
+    }).then(function(token){
+      if(token.claims.role!=='admin')throw new Error('not-admin');
+      _adminLoginSuccess(email);
+    }).catch(function(){
+      err.classList.add('show');
+      if(btn)btn.disabled=false;
+    });
+    return;
+  }
+
+  /* Firebase 未設定時: localhost のみ通過 */
+  if(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'){
     err.classList.remove('show');
-    document.getElementById('sb-user').textContent=id+' (admin)';
-    document.getElementById('screen-login').classList.add('hidden');
-    document.getElementById('screen-admin').classList.remove('hidden');
-    loadAllData();
-  }).catch(function(){
-    /* API未接続時はlocalhost環境のみ管理画面を表示（開発用） */
-    if(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'){
-      err.classList.remove('show');
-      document.getElementById('sb-user').textContent=id+' (admin)';
-      document.getElementById('screen-login').classList.add('hidden');
-      document.getElementById('screen-admin').classList.remove('hidden');
-      renderAll();
-      return;
-    }
-    err.classList.add('show');
-    if(btn)btn.disabled=false;
-  });
+    _adminLoginSuccess(email);
+    return;
+  }
+  err.classList.add('show');
+  if(btn)btn.disabled=false;
+}
+
+function _adminLoginSuccess(id){
+  document.getElementById('sb-user').textContent=id;
+  document.getElementById('screen-login').classList.add('hidden');
+  document.getElementById('screen-admin').classList.remove('hidden');
+  loadAllData();
 }
 
 function loadAllData(){
+  if(!_db){renderAll();return;}
+
   Promise.all([
-    fetch('/api/admin/shops').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
-    fetch('/api/admin/characters').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
-    fetch('/api/admin/menus').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
-    fetch('/api/admin/history').then(function(r){if(!r.ok)throw new Error();return r.json()}).catch(function(){return[]}),
+    /* 店舗一覧 */
+    _db.collection('stores').get().then(function(snap){
+      var arr=[];snap.forEach(function(doc){arr.push(Object.assign({id:doc.id},doc.data()));});return arr;
+    }).catch(function(){return[];}),
+    /* 全決済履歴 */
+    _db.collection('payments').where('status','==','paid').orderBy('createdAt','desc').limit(200)
+      .get().then(function(snap){
+        var arr=[];snap.forEach(function(doc){arr.push(Object.assign({id:doc.id},doc.data()));});return arr;
+      }).catch(function(){return[];}),
+    /* QRリンク一覧 */
+    _db.collection('qrLinks').get().then(function(snap){
+      var arr=[];snap.forEach(function(doc){arr.push(Object.assign({id:doc.id},doc.data()));});return arr;
+    }).catch(function(){return[];}),
   ]).then(function(results){
-    SHOPS=results[0];CHARS_DATA=results[1];MENUS_DATA=results[2];HISTORY_DATA=results[3];
+    var stores   = results[0];
+    var payments = results[1];
+    var qrLinks  = results[2];
+    _buildAdminState(stores, payments, qrLinks);
     renderAll();
+  });
+}
+
+function _buildAdminState(stores, payments, qrLinks){
+  /* SHOPS: 既存の SHOPS 配列フォーマットへ変換 */
+  SHOPS = stores.map(function(s){
+    var storePays = payments.filter(function(p){return p.storeId===s.id;});
+    var sales = storePays.reduce(function(sum,p){return sum+(p.amount||0);},0);
+    return {
+      id:     s.id,
+      name:   s.name||s.id,
+      sales:  sales,
+      payout: Math.round(sales*0.7),
+      status: 'pending'
+    };
+  });
+
+  /* 全体KPI */
+  var totalSales = payments.reduce(function(s,p){return s+(p.amount||0);},0);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var todayPays = payments.filter(function(p){
+    var d=(p.createdAt&&p.createdAt.toDate)?p.createdAt.toDate():new Date(p.createdAt||0);
+    return d>=today;
+  });
+  var monthStart = new Date(today.getFullYear(),today.getMonth(),1);
+  var monthPays = payments.filter(function(p){
+    var d=(p.createdAt&&p.createdAt.toDate)?p.createdAt.toDate():new Date(p.createdAt||0);
+    return d>=monthStart;
+  });
+
+  /* グローバル変数へ格納 (renderOverview で参照) */
+  window._ADMIN_KPI = {
+    totalSales:    totalSales,
+    todaySales:    todayPays.reduce(function(s,p){return s+(p.amount||0);},0),
+    monthSales:    monthPays.reduce(function(s,p){return s+(p.amount||0);},0),
+    totalCount:    payments.length,
+    directCount:   payments.filter(function(p){return p.source==='direct';}).length,
+    storeCount:    payments.filter(function(p){return p.source==='store';}).length,
+  };
+
+  /* HISTORY_DATA */
+  HISTORY_DATA = payments.slice(0,50).map(function(p){
+    var d=(p.createdAt&&p.createdAt.toDate)?p.createdAt.toDate():new Date(p.createdAt||0);
+    return {
+      date:    d.toLocaleDateString('ja-JP'),
+      plan:    p.planType||'--',
+      amt:     p.amount||0,
+      storeId: p.storeId||'直接',
+      src:     p.source==='store'?'QR流入':'直接'
+    };
   });
 }
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&!document.getElementById('screen-login').classList.contains('hidden'))doLogin();
 });
 function doLogout(){
+  if(_auth)_auth.signOut().catch(function(){});
   document.getElementById('screen-admin').classList.add('hidden');
   document.getElementById('screen-login').classList.remove('hidden');
   document.getElementById('l-pw').value='';
@@ -954,5 +1053,9 @@ function kpi(ico,lbl,val,sub){
 }
 function fmt(n){ return n.toLocaleString('ja-JP'); }
 </script>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </body>
 </html>
