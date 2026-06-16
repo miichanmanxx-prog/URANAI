@@ -909,13 +909,13 @@ body.page-out{opacity:0 !important}
       <div class="fcard-check hidden">✓</div>
     </div>
 
-    <!-- 星読みのおばちゃん × 月間運勢 -->
+    <!-- 星詠みのチヨ × 月間運勢 -->
     <div class="fcard" data-m="monthly" onclick="selMenu(this,'monthly')"
          style="background:linear-gradient(150deg,#3A2A5A,#1A1030);border:1px solid rgba(212,160,255,.22);border-radius:22px;padding:1.8rem 1.6rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;-webkit-tap-highlight-color:transparent">
       <div style="text-align:center;margin-bottom:1.2rem">
-        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(212,160,255,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s"><img src="hoshiyomi_baba.png" alt="星読みのおばちゃん" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
+        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(212,160,255,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s"><img src="hoshiyomi_baba.png" alt="星詠みのチヨ" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
         <p style="font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:#D4A0FF;text-transform:uppercase;font-style:italic;margin-bottom:.3rem;opacity:.8">Astrology / 星座占い</p>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">星読みのおばちゃん</h3>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">星詠みのチヨ</h3>
         <p style="font-size:.65rem;color:#D4A0FF;letter-spacing:.06em;opacity:.85">親しみやすく ・ ズバッと直球</p>
       </div>
       <div style="height:1px;background:linear-gradient(to right,transparent,rgba(212,160,255,.25),transparent);margin-bottom:1rem"></div>
@@ -1052,8 +1052,8 @@ body.page-out{opacity:0 !important}
     <div class="char-card" data-c="oba" onclick="selChar('oba')">
       <div class="cc-check">✓</div>
       <div class="cc-body">
-        <span class="cc-emoji"><img src="hoshiyomi_baba.png" alt="星読みのおばちゃん"></span><p class="cc-tag">Astrology / 星座占い</p>
-        <h3 class="cc-name">星読みのおばちゃん</h3>
+        <span class="cc-emoji"><img src="hoshiyomi_baba.png" alt="星詠みのチヨ"></span><p class="cc-tag">Astrology / 星座占い</p>
+        <h3 class="cc-name">星詠みのチヨ</h3>
         <p class="cc-desc">ズバッと本音を言うで！星の動きはうそつかへん。あなたの悩み、ちゃんと受け止めるわ。</p>
         <div class="cc-prices"><div class="ppill"><span class="ppill-l">基本</span><span class="ppill-v">100</span><span class="ppill-y">円</span></div><div class="ppill"><span class="ppill-l">詳細</span><span class="ppill-v">300</span><span class="ppill-y">円</span></div></div>
       </div>
@@ -1371,7 +1371,7 @@ var LUNA_CARDS=[
    advice:'今月のあなたには、遠慮なく全てを受け取ってください。それだけのものを、あなたはすでに積み重ねています。',
    love:5,work:5,money:5}
 ];
-var CHARS={mikage:{e:'🌙',img:'mikage.png',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',img:'hoshiyomi_baba.png',n:'星読みのおばちゃん',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',img:'luna_tarot.png',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
+var CHARS={mikage:{e:'🌙',img:'mikage.png',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',img:'hoshiyomi_baba.png',n:'星詠みのチヨ',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',img:'luna_tarot.png',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
 var MENU_META={personality:{ico:'🌙',lbl:'あなたの本当の性格'},monthly:{ico:'✨',lbl:'今月、何が起きるか'},tarot:{ico:'🃏',lbl:'こころの本音'}};
 var MOON_ICONS=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
 var DOWS=['日','月','火','水','木','金','土'];
