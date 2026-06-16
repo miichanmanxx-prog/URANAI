@@ -432,7 +432,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-menu-list li{font-size:.71rem;color:var(--muted);line-height:1.78;padding:.07rem 0;display:flex;align-items:flex-start;gap:.42rem;letter-spacing:.03em}
 .mk-menu-list li::before{content:'✦';color:var(--gold);opacity:.55;font-size:.52rem;flex-shrink:0;margin-top:.22rem}
 @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-/* 星詠みのチヨ result screen — grid calendar */
+/* 星詠みのステラ result screen — grid calendar */
 /* ── calendar container ── */
 .oba-cal-outer{width:100%;max-width:540px}
 .oba-cal-glass{background:linear-gradient(158deg,rgba(18,12,44,.93),rgba(8,6,24,.96));border:1px solid rgba(123,94,167,.22);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
@@ -661,7 +661,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#1E0B38 0%,var(--ink) 55%);f
 .mk-unlocked-body{font-size:.81rem;color:rgba(200,185,240,.8);line-height:1.94;letter-spacing:.04em}
 .mk-unlocked-body p{margin-bottom:.62rem}
 .mk-unlocked-body p:last-child{margin-bottom:0}
-/* チヨ 有料結果 */
+/* ステラ 有料結果 */
 .oba-unlocked-section{width:100%;max-width:540px;margin-top:.85rem}
 .oba-unlocked-card{background:linear-gradient(158deg,rgba(10,18,52,.96),rgba(6,10,28,.98));border:1px solid rgba(100,160,230,.18);border-radius:16px;padding:1.15rem 1.35rem;position:relative;overflow:hidden}
 .oba-unlocked-card::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;background:radial-gradient(ellipse at 50% 0%,rgba(100,160,230,.06),transparent 68%);pointer-events:none}
@@ -909,13 +909,13 @@ body.page-out{opacity:0 !important}
       <div class="fcard-check hidden">✓</div>
     </div>
 
-    <!-- 星詠みのチヨ × 月間運勢 -->
+    <!-- 星詠みのステラ × 月間運勢 -->
     <div class="fcard" data-m="monthly" onclick="selMenu(this,'monthly')"
          style="background:linear-gradient(150deg,#3A2A5A,#1A1030);border:1px solid rgba(212,160,255,.22);border-radius:22px;padding:1.8rem 1.6rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;-webkit-tap-highlight-color:transparent">
       <div style="text-align:center;margin-bottom:1.2rem">
-        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(212,160,255,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s"><img src="hoshiyomi_baba.png" alt="星詠みのチヨ" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
+        <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(212,160,255,.4);margin:0 auto .75rem;box-shadow:0 0 28px rgba(212,160,255,.3);animation:breathe 4s ease-in-out infinite;animation-delay:.55s"><img src="hoshiyomi_baba.png" alt="星詠みのステラ" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12)"></div>
         <p style="font-family:'Playfair Display',serif;font-size:.56rem;letter-spacing:.22em;color:#D4A0FF;text-transform:uppercase;font-style:italic;margin-bottom:.3rem;opacity:.8">Astrology / 星座占い</p>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">星詠みのチヨ</h3>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;letter-spacing:.1em;color:var(--text);margin-bottom:.15rem;line-height:1.2">星詠みのステラ</h3>
         <p style="font-size:.65rem;color:#D4A0FF;letter-spacing:.06em;opacity:.85">親しみやすく ・ ズバッと直球</p>
       </div>
       <div style="height:1px;background:linear-gradient(to right,transparent,rgba(212,160,255,.25),transparent);margin-bottom:1rem"></div>
@@ -1052,8 +1052,8 @@ body.page-out{opacity:0 !important}
     <div class="char-card" data-c="oba" onclick="selChar('oba')">
       <div class="cc-check">✓</div>
       <div class="cc-body">
-        <span class="cc-emoji"><img src="hoshiyomi_baba.png" alt="星詠みのチヨ"></span><p class="cc-tag">Astrology / 星座占い</p>
-        <h3 class="cc-name">星詠みのチヨ</h3>
+        <span class="cc-emoji"><img src="hoshiyomi_baba.png" alt="星詠みのステラ"></span><p class="cc-tag">Astrology / 星座占い</p>
+        <h3 class="cc-name">星詠みのステラ</h3>
         <p class="cc-desc">ズバッと本音を言うで！星の動きはうそつかへん。あなたの悩み、ちゃんと受け止めるわ。</p>
         <div class="cc-prices"><div class="ppill"><span class="ppill-l">基本</span><span class="ppill-v">100</span><span class="ppill-y">円</span></div><div class="ppill"><span class="ppill-l">詳細</span><span class="ppill-v">300</span><span class="ppill-y">円</span></div></div>
       </div>
@@ -1371,7 +1371,7 @@ var LUNA_CARDS=[
    advice:'今月のあなたには、遠慮なく全てを受け取ってください。それだけのものを、あなたはすでに積み重ねています。',
    love:5,work:5,money:5}
 ];
-var CHARS={mikage:{e:'🌙',img:'mikage.png',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',img:'hoshiyomi_baba.png',n:'星詠みのチヨ',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',img:'luna_tarot.png',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
+var CHARS={mikage:{e:'🌙',img:'mikage.png',n:'陰陽師ミカゲ',s:'五行思想 / 落ち着いた和風口調',plans:[{id:'basic',n:'基本鑑定',d:'五行による現状診断と基本的なアドバイス',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'深層まで読み解く本格的な五行・天体鑑定',p:500,b:'人気'}]},oba:{e:'⭐',img:'hoshiyomi_baba.png',n:'星詠みのステラ',s:'星座占い / 親しみやすい口調',plans:[{id:'basic',n:'基本鑑定',d:'今月の星の流れと気をつけること',p:100,b:''},{id:'detail',n:'詳細鑑定',d:'あなたのホロスコープを徹底分析',p:300,b:'人気'}]},luna:{e:'🃏',img:'luna_tarot.png',n:'タロット女子ルナ',s:'タロット / 月相オラクル',plans:[{id:'basic',n:'基本鑑定',d:'今日の運勢・現状・開運アドバイス',p:100,b:''},{id:'detail',n:'深読み鑑定',d:'月相オラクルで運命の深層まで読み解く',p:500,b:'人気'}]}};
 var MENU_META={personality:{ico:'🌙',lbl:'あなたの本当の性格'},monthly:{ico:'✨',lbl:'今月、何が起きるか'},tarot:{ico:'🃏',lbl:'こころの本音'}};
 var MOON_ICONS=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
 var DOWS=['日','月','火','水','木','金','土'];
@@ -2035,7 +2035,7 @@ function drawPPaid(pat,name,planId){
     topBtn()+'<div style="height:2rem"></div></div>';
   setTimeout(initScrollFade,80);
 }
-/* ── 星詠みのチヨ 月相8パターン ──────────────── */
+/* ── 星詠みのステラ 月相8パターン ──────────────── */
 var MONTHLY_OBA=[
   /* 0: 新月 */
   {phase:'新月',phaseIcon:'🌑',
@@ -2058,7 +2058,7 @@ var MONTHLY_OBA=[
      {msg:'直感が冴える日。なんとなく気になったことを、素直に行動に移してみ。'}
    ],
    cautionLabel:{msg:'人の言葉に振り回されやすい時期。自分の軸だけは、ぶらさんといてや。'},
-   obaMsg:'あんたが今悩んでることな、実はもう答えは出てるんやで。ただ、勇気がなくて動けへんだけちゃうか？ チヨには全部見えてるんやから、隠さんでええよ。\n\n星がな、今月のあんたに言うてることがある。「信じてみ」って。何を信じるんかって？ それはあんた自身のことや。自分を信じて動いた結果が、今月の末に答えを出してくれる。'},
+   obaMsg:'あんたが今悩んでることな、実はもう答えは出てるんやで。ただ、勇気がなくて動けへんだけちゃうか？ ステラには全部見えてるんやから、隠さんでええよ。\n\n星がな、今月のあんたに言うてることがある。「信じてみ」って。何を信じるんかって？ それはあんた自身のことや。自分を信じて動いた結果が、今月の末に答えを出してくれる。'},
   /* 2: 上弦の月 */
   {phase:'上弦の月',phaseIcon:'🌓',
    theme:'決断の月',
@@ -2069,7 +2069,7 @@ var MONTHLY_OBA=[
      {msg:'努力が形になる日。コツコツやってきたことが、ようやく評価される。'}
    ],
    cautionLabel:{msg:'八方美人になりやすい日。全員に良い顔しようとすると、全員に嘘をつくことになるで。'},
-   obaMsg:'チヨ、あんたの顔を見ればわかるわ。今「どうしよう」って迷ってること、あるやろ。二つのうちどっちかを選ばなあかんやつ。\n\n正直に言うわ。あんたはもう、心の中で答え出てるんやで。怖いから確認したくて、ぐるぐるしてるだけや。その「怖い方」が正解やと、チヨは思う。楽な方を選ぶことが、必ずしも幸せにつながるとは限らへん——星はそれを、今月教えようとしてる。'},
+   obaMsg:'ステラ、あんたの顔を見ればわかるわ。今「どうしよう」って迷ってること、あるやろ。二つのうちどっちかを選ばなあかんやつ。\n\n正直に言うわ。あんたはもう、心の中で答え出てるんやで。怖いから確認したくて、ぐるぐるしてるだけや。その「怖い方」が正解やと、ステラは思う。楽な方を選ぶことが、必ずしも幸せにつながるとは限らへん——星はそれを、今月教えようとしてる。'},
   /* 3: 十三夜月 */
   {phase:'十三夜月',phaseIcon:'🌔',
    theme:'豊かさを受け取る月',
@@ -2080,7 +2080,7 @@ var MONTHLY_OBA=[
      {msg:'人脈が広がる日。新しい場所に顔を出すと、予想外の縁がつながる。'}
    ],
    cautionLabel:{msg:'油断が招くミスに注意。調子がいい時こそ、確認をおろそかにしたらあかん。'},
-   obaMsg:'あんたな、最近「なんか報われへん」って思うこと、あったんとちゃう？ チヨにはわかるんや。でもな、それは全部無駄じゃなかった。\n\n今月の星はな、あんたに「受け取り上手」になることを教えようとしてる。謙遜しすぎて「いえ、大したことないです」って言ってしまうやろ。褒められたら「ありがとう」って素直に言えるようになり。幸せは、受け取る練習をした人のところに来るんやから。'},
+   obaMsg:'あんたな、最近「なんか報われへん」って思うこと、あったんとちゃう？ ステラにはわかるんや。でもな、それは全部無駄じゃなかった。\n\n今月の星はな、あんたに「受け取り上手」になることを教えようとしてる。謙遜しすぎて「いえ、大したことないです」って言ってしまうやろ。褒められたら「ありがとう」って素直に言えるようになり。幸せは、受け取る練習をした人のところに来るんやから。'},
   /* 4: 満月 */
   {phase:'満月',phaseIcon:'🌕',
    theme:'真実が照らされる月',
@@ -2091,7 +2091,7 @@ var MONTHLY_OBA=[
      {msg:'直感が最も鋭い日。夢や直感に素直に従ってみ。答えが降りてくる。'}
    ],
    cautionLabel:{msg:'感情が高ぶりやすい。言わなくていいことを言ってしまう前に、一呼吸置くことや。'},
-   obaMsg:'あんた、今月は何かが「終わる」感じがするかもしれへん。でもな、それは怖いことやない——終わることで、次が始まるんや。\n\n満月はな、見たくないものも全部照らしてしまう。でも、チヨが思うに、あんたが本当に恐れてるのは「失うこと」やなくて、「変わること」やと思う。変わることを、今月の星は背中を押してくれてる。勇気を持って、手放してみ。'},
+   obaMsg:'あんた、今月は何かが「終わる」感じがするかもしれへん。でもな、それは怖いことやない——終わることで、次が始まるんや。\n\n満月はな、見たくないものも全部照らしてしまう。でも、ステラが思うに、あんたが本当に恐れてるのは「失うこと」やなくて、「変わること」やと思う。変わることを、今月の星は背中を押してくれてる。勇気を持って、手放してみ。'},
   /* 5: 十六夜月 */
   {phase:'十六夜月',phaseIcon:'🌖',
    theme:'内省と手放しの月',
@@ -2102,7 +2102,7 @@ var MONTHLY_OBA=[
      {msg:'過去の縁が意味を持つ日。久しぶりの連絡が、思わぬ展開につながる。'}
    ],
    cautionLabel:{msg:'新しいことを始めるには不向きな時期。今は守りを固めること。'},
-   obaMsg:'チヨが見てきた中でな、一番損してる人って、全部一人で抱えてしまう人やねん。あんた、そのタイプやろ。「迷惑かけたくない」って、助けを求めることを諦めてへんか？\n\n今月はな、素直に「助けて」って言える練習をしてみ。それが弱さやなくて、本当の強さやから。星はな、あんたが一人で戦うのをやめたとき、一番大きな力を貸してくれる。'},
+   obaMsg:'ステラが見てきた中でな、一番損してる人って、全部一人で抱えてしまう人やねん。あんた、そのタイプやろ。「迷惑かけたくない」って、助けを求めることを諦めてへんか？\n\n今月はな、素直に「助けて」って言える練習をしてみ。それが弱さやなくて、本当の強さやから。星はな、あんたが一人で戦うのをやめたとき、一番大きな力を貸してくれる。'},
   /* 6: 下弦の月 */
   {phase:'下弦の月',phaseIcon:'🌗',
    theme:'手放しと再生の月',
@@ -2113,7 +2113,7 @@ var MONTHLY_OBA=[
      {msg:'癒しの日。自分を労わることに集中して。疲れてた心が、不思議と軽くなる。'}
    ],
    cautionLabel:{msg:'執着が判断を曇らせやすい。「もったいない」より「もっといい未来」を選ぶ勇気を。'},
-   obaMsg:'あんた、ずっと手放せへんものがあるんやろ。チヨにはわかるわ。それは人やったり、夢やったり、思い込みやったり——。\n\n一つだけ聞いてみ。それを握りしめてて、今のあんたは幸せか？ 答えが「いいえ」やったら、今月がその答えを出す時や。手放した後の空白が怖い——でも、その空白にこそ、次の幸せが入ってくる。'},
+   obaMsg:'あんた、ずっと手放せへんものがあるんやろ。ステラにはわかるわ。それは人やったり、夢やったり、思い込みやったり——。\n\n一つだけ聞いてみ。それを握りしめてて、今のあんたは幸せか？ 答えが「いいえ」やったら、今月がその答えを出す時や。手放した後の空白が怖い——でも、その空白にこそ、次の幸せが入ってくる。'},
   /* 7: 有明月 */
   {phase:'有明月',phaseIcon:'🌘',
    theme:'夜明け前の静寂の月',
@@ -2124,7 +2124,7 @@ var MONTHLY_OBA=[
      {msg:'縁が動く日。諦めていた人や機会が、思わぬ形で戻ってくることがある。'}
    ],
    cautionLabel:{msg:'焦りが最大の敵になる日。「まだか」と思うほど遅くなる——星のタイミングを信じること。'},
-   obaMsg:'チヨな、あんたのこと、ちゃんと心配してるんやで。最近しんどいことが続いてたやろ。一人でずっと抱えてきたんやろうなって、星を見てたらわかった。\n\n聞いてや。あんたがしんどいのはな、弱いからやない——感じる力が強いんや。全部受け取ってしまうから、傷つくんや。でも、その感受性こそが、あんたの一番の才能でもある。もうすぐ、星があんたの重荷を下ろしてくれる日が来る。それまでは、自分を責めんといてや。'}
+   obaMsg:'ステラな、あんたのこと、ちゃんと心配してるんやで。最近しんどいことが続いてたやろ。一人でずっと抱えてきたんやろうなって、星を見てたらわかった。\n\n聞いてや。あんたがしんどいのはな、弱いからやない——感じる力が強いんや。全部受け取ってしまうから、傷つくんや。でも、その感受性こそが、あんたの一番の才能でもある。もうすぐ、星があんたの重荷を下ろしてくれる日が来る。それまでは、自分を責めんといてや。'}
 ];
 function buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1){
   var ref=new Date(2024,0,11);
@@ -2167,7 +2167,7 @@ function drawM(){
   var ld1=(seed%12)+5; if(ld1>dm)ld1=dm-3;
   var ld2=(seed%7)+20; if(ld2>dm)ld2=dm-1; if(ld2===ld1)ld2=(ld2%dm)+1;
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
-  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星詠みのチヨ','月と星を読む古き案内人');
+  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星詠みのステラ','月と星を読む古き案内人');
   if(ST.planId==='basic'||ST.planId==='detail'){drawMPaid(pat,name,ST.planId,yr,mo,td,dm,ld1,ld2,cd1);return;}
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
@@ -2219,7 +2219,7 @@ function drawM(){
   var msgHtml=msgParas.map(function(p){return'<p class="oba-msg-p">'+esc(p.trim())+'</p>'}).join('');
   var msgCard='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-card">'+
-      '<div class="oba-card-hd"><div class="oba-card-label">Message from チヨ</div><div class="oba-card-title">チヨより</div></div>'+
+      '<div class="oba-card-hd"><div class="oba-card-label">Message from ステラ</div><div class="oba-card-title">ステラより</div></div>'+
       '<div class="oba-card-body">'+
         '<p style="font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+'へ —</p>'+
         '<div class="oba-msg-wrap">'+msgHtml+'<div class="oba-msg-veil"></div><div class="oba-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
@@ -2233,7 +2233,7 @@ function drawM(){
       '<p class="mk-reg-headline">あんたの"運命の深層"を<br>読む内容になります。</p>'+
       '<div class="mk-reg-text">'+
         '<p>今月起きることの「理由」と、<br>その先にある「転機の正確な日付」。</p>'+
-        '<p class="mk-reg-sign">チヨが全部、<br>ズバリ言うてあげる。</p>'+
+        '<p class="mk-reg-sign">ステラが全部、<br>ズバリ言うてあげる。</p>'+
       '</div>'+
       '<p class="mk-reg-rule">━━━━━━━━━━━━</p>'+
       '<p class="mk-menu-lbl">✦ 鑑定メニュー ✦</p>'+
@@ -2254,12 +2254,12 @@ function drawM(){
           '<span class="mk-menu-badge">深読み</span>'+
           '<div class="mk-menu-price-row">'+
             '<span class="mk-menu-price gold">500<span class="yen">円</span></span>'+
-            '<span class="mk-menu-name">チヨの深読み</span>'+
+            '<span class="mk-menu-name">ステラの深読み</span>'+
           '</div>'+
           '<ul class="mk-menu-list">'+
             '<li>今月の流れ 全文</li>'+
             '<li>強運日・注意日の全詳細</li>'+
-            '<li>チヨメッセージ 全文</li>'+
+            '<li>ステラメッセージ 全文</li>'+
             '<li>転機の日付ズバリ</li>'+
             '<li>恋愛・仕事の急所</li>'+
             '<li>来月の動き方</li>'+
@@ -2286,7 +2286,7 @@ function obaUnlockedSec(ico,label,html){
     '</div></div>';
 }
 function drawMPaid(pat,name,planId,yr,mo,td,dm,ld1,ld2,cd1){
-  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星詠みのチヨ','月と星を読む古き案内人');
+  var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星詠みのステラ','月と星を読む古き案内人');
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade"><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(52,211,153,.6)"></div>強運日</div><div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(139,92,246,.6)"></div>注意日</div></div>';
   var themeSection='<div class="oba-section mk-scroll-fade"><div class="oba-theme-wrap"><div class="oba-theme-label">今月のテーマ</div><div class="oba-theme-title">'+esc(pat.theme)+'</div><div class="oba-theme-sub">'+esc(pat.themeMsg)+'</div></div></div>';
@@ -2302,7 +2302,7 @@ function drawMPaid(pat,name,planId,yr,mo,td,dm,ld1,ld2,cd1){
   var cautionSec=obaUnlockedSec('⚠','注意日と過ごし方',cautionHtml);
   var msgHtml=pat.obaMsg.split('\n\n').filter(function(p){return p.trim()}).map(function(p){return'<p>'+esc(p.trim())+'</p>'}).join('');
   var msgPrefix='<p style="font-size:.7rem;color:var(--muted);font-style:italic;margin-bottom:.7rem;text-align:center;letter-spacing:.06em">— '+esc(name)+' へ —</p>';
-  var msgSec=obaUnlockedSec('💌','チヨより',msgPrefix+msgHtml);
+  var msgSec=obaUnlockedSec('💌','ステラより',msgPrefix+msgHtml);
   var secs='';
   if(planId==='detail'){
     var turningDay=((ld1+ld2)/2)|0;
