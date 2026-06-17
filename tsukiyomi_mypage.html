@@ -968,7 +968,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   }
   #edit-sheet{
     flex:none;width:100%;max-width:520px;
-    max-height:88dvh;overflow-y:auto;
+    /* max-height・overflow-y 廃止 → カード内スクロールバーを消去、bodyスクロールに一本化 */
+    overflow-y:visible;
     background:linear-gradient(160deg,#1A1B3A 0%,#0D0E26 100%);
     border:1px solid rgba(220,206,255,.12);border-radius:22px;
     padding:0 1.8rem 2.5rem;
