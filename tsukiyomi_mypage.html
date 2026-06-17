@@ -798,6 +798,96 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .luna-ai-load-fill{height:100%;background:linear-gradient(90deg,#7E6DFF,#DCCEFF);border-radius:3px;width:0;transition:width .2s ease}
 @keyframes lunaFloatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @keyframes lunaCardGlow{0%,100%{filter:drop-shadow(0 6px 22px rgba(0,0,0,.58)) drop-shadow(0 0 8px rgba(220,206,255,.3)) drop-shadow(0 0 20px rgba(126,109,255,.14))}50%{filter:drop-shadow(0 6px 22px rgba(0,0,0,.58)) drop-shadow(0 0 14px rgba(220,206,255,.5)) drop-shadow(0 0 34px rgba(126,109,255,.26))}}
+
+/* ── 編集ボタン ── */
+.mp-header-right{display:flex;align-items:center;gap:.45rem}
+.mp-edit-btn{
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:rgba(123,92,246,.1);border:1px solid rgba(123,92,246,.28);
+  color:var(--purL);font-size:.95rem;border-radius:50%;cursor:pointer;
+  transition:background .2s,border-color .2s,transform .2s;
+  -webkit-appearance:none;touch-action:manipulation;flex-shrink:0;
+}
+.mp-edit-btn:hover{background:rgba(123,92,246,.2);border-color:rgba(123,92,246,.5);transform:rotate(30deg)}
+
+/* ── 編集モーダル ── */
+#edit-modal{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(6,4,20,.72);backdrop-filter:blur(8px);
+  display:none;align-items:flex-end;justify-content:center;
+}
+#edit-modal.open{display:flex}
+#edit-sheet{
+  width:100%;max-height:92dvh;overflow-y:auto;
+  background:linear-gradient(160deg,#1A1B3A 0%,#0D0E26 100%);
+  border:1px solid rgba(220,206,255,.12);
+  border-radius:22px 22px 0 0;
+  padding:0 1.4rem 3rem;
+  transform:translateY(100%);
+  transition:transform .36s cubic-bezier(.32,0,.12,1);
+}
+#edit-modal.open #edit-sheet{transform:translateY(0)}
+@media(min-width:600px){
+  #edit-modal{align-items:center}
+  #edit-sheet{
+    max-width:560px;border-radius:22px;max-height:90dvh;
+    transform:scale(.93) translateY(14px);opacity:0;
+    transition:transform .28s ease,opacity .28s ease;
+  }
+  #edit-modal.open #edit-sheet{transform:scale(1) translateY(0);opacity:1}
+}
+.edit-handle{width:44px;height:4px;background:rgba(220,206,255,.2);border-radius:2px;margin:1rem auto .4rem}
+@media(min-width:600px){.edit-handle{display:none}}
+.edit-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 1.1rem;border-bottom:1px solid rgba(220,206,255,.1);margin-bottom:1.5rem}
+.edit-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:.1em;color:var(--purL)}
+.edit-close{background:none;border:none;color:var(--muted);font-size:1.25rem;cursor:pointer;padding:.2rem .5rem;line-height:1;-webkit-appearance:none}
+.edit-close:hover{color:var(--text)}
+
+/* フォーム汎用 */
+.ef-g{margin-bottom:1.25rem}
+.ef-lbl{display:block;font-size:.63rem;letter-spacing:.14em;color:var(--purL);margin-bottom:.48rem;opacity:.85}
+.ef-lbl .req{color:var(--gold);margin-left:.3rem;font-size:.58rem}
+.ef-inp{
+  width:100%;padding:.76rem 1rem;
+  background:rgba(6,7,26,.82);border:1px solid rgba(123,94,167,.22);border-radius:10px;
+  color:var(--text);font-family:'Noto Serif JP',serif;font-size:.84rem;
+  outline:none;transition:border-color .25s,box-shadow .25s;
+  -webkit-appearance:none;box-sizing:border-box;
+}
+.ef-inp:focus{border-color:rgba(123,92,246,.55);box-shadow:0 0 0 3px rgba(76,42,133,.14)}
+.ef-inp::placeholder{color:var(--dim)}
+.ef-inp[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6) sepia(1) hue-rotate(210deg);cursor:pointer}
+.ef-inp[type=time]::-webkit-calendar-picker-indicator{filter:invert(.6) sepia(1) hue-rotate(210deg);cursor:pointer}
+.ef-err{font-size:.66rem;color:var(--err);margin-top:.32rem;display:none;letter-spacing:.04em}
+.ef-err.show{display:block}
+
+/* 性別タイル */
+.ef-gender-row{display:flex;gap:.5rem}
+.ef-gender-tile{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:.28rem;
+  padding:.7rem .4rem;background:rgba(6,7,26,.72);border:1px solid rgba(123,94,167,.2);
+  border-radius:10px;cursor:pointer;font-size:.72rem;color:var(--muted);
+  letter-spacing:.04em;transition:all .2s;text-align:center;
+  -webkit-tap-highlight-color:transparent;user-select:none;
+}
+.ef-gender-tile input{display:none}
+.ef-gender-tile .gico{font-size:1.15rem}
+.ef-gender-tile.sel{border-color:var(--purM);background:rgba(123,92,246,.14);color:var(--purL);box-shadow:0 0 12px rgba(123,92,246,.22)}
+
+/* お悩みタイル */
+.ef-div{height:1px;background:linear-gradient(to right,transparent,rgba(220,206,255,.1),transparent);margin:1.3rem 0 1.1rem}
+.ef-cat-lbl{font-size:.6rem;letter-spacing:.14em;color:var(--gold);margin-bottom:.42rem;font-family:'Playfair Display',serif;font-style:italic}
+.ef-concern-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.4rem;margin-bottom:.75rem}
+@media(min-width:600px){.ef-concern-grid{grid-template-columns:repeat(3,1fr)}}
+.ef-concern-tile{
+  display:flex;align-items:center;gap:.38rem;padding:.58rem .7rem;
+  background:rgba(6,7,26,.72);border:1px solid rgba(123,94,167,.2);border-radius:9px;
+  cursor:pointer;font-size:.72rem;color:var(--muted);letter-spacing:.04em;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;user-select:none;
+}
+.ef-concern-tile .cico{font-size:.95rem;flex-shrink:0}
+.ef-concern-tile.sel{border-color:var(--gold);background:rgba(212,175,55,.1);color:var(--goldP);box-shadow:0 0 10px rgba(212,175,55,.16)}
+
 </style>
 </head>
 <body>
@@ -915,7 +1005,10 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     <a href="tsukiyomi_unified.html" style="text-decoration:none">
       <span class="mp-logo">月詠み占い</span>
     </a>
-    <button class="mp-logout-btn" onclick="handleLogout()">ログアウト</button>
+    <div class="mp-header-right">
+      <button class="mp-edit-btn" onclick="openEditModal()" aria-label="登録情報を編集">⚙</button>
+      <button class="mp-logout-btn" onclick="handleLogout()">ログアウト</button>
+    </div>
   </header>
 
   <!-- Moon Symbol -->
@@ -1153,6 +1246,107 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
   <div class="bottom-spacer"></div>
 </div><!-- /page -->
+
+<!-- ═══════════════════════════════════════════════
+     登録情報編集モーダル
+     ═══════════════════════════════════════════════ -->
+<div id="edit-modal" onclick="onEditModalBg(event)" role="dialog" aria-modal="true" aria-label="登録情報の編集">
+  <div id="edit-sheet">
+
+    <div class="edit-handle"></div>
+
+    <div class="edit-head">
+      <p class="edit-title">✦ 登録情報の編集</p>
+      <button class="edit-close" onclick="closeEditModal()" aria-label="閉じる">✕</button>
+    </div>
+
+    <form id="edit-form" onsubmit="return false">
+
+      <!-- ① 名前 -->
+      <div class="ef-g">
+        <label class="ef-lbl" for="ef-name">お名前<span class="req">必須</span></label>
+        <input class="ef-inp" type="text" id="ef-name" placeholder="例：さくら" maxlength="40" autocomplete="name">
+        <p class="ef-err" id="ef-name-err">お名前を入力してください</p>
+      </div>
+
+      <!-- ② 生年月日 -->
+      <div class="ef-g">
+        <label class="ef-lbl" for="ef-birth">生年月日<span class="req">必須</span></label>
+        <input class="ef-inp" type="date" id="ef-birth" min="1920-01-01" max="2015-12-31">
+        <p class="ef-err" id="ef-birth-err">生年月日を入力してください</p>
+      </div>
+
+      <!-- ③ 性別 -->
+      <div class="ef-g">
+        <label class="ef-lbl">性別<span class="req">必須</span></label>
+        <div class="ef-gender-row">
+          <label class="ef-gender-tile" id="ef-gf" data-val="female">
+            <input type="radio" name="ef-gender" value="female">
+            <span class="gico">♀</span><span>女性</span>
+          </label>
+          <label class="ef-gender-tile" id="ef-gm" data-val="male">
+            <input type="radio" name="ef-gender" value="male">
+            <span class="gico">♂</span><span>男性</span>
+          </label>
+          <label class="ef-gender-tile" id="ef-go" data-val="other">
+            <input type="radio" name="ef-gender" value="other">
+            <span class="gico">✧</span><span>その他</span>
+          </label>
+        </div>
+        <p class="ef-err" id="ef-gender-err">性別を選択してください</p>
+      </div>
+
+      <div class="ef-div"></div>
+
+      <!-- ④ 出生時間 -->
+      <div class="ef-g">
+        <label class="ef-lbl" for="ef-birthtime">出生時間 <span style="color:var(--dim);font-size:.58rem">任意</span></label>
+        <input class="ef-inp" type="time" id="ef-birthtime">
+      </div>
+
+      <!-- ⑤ 出生地 -->
+      <div class="ef-g">
+        <label class="ef-lbl" for="ef-birthplace">出生地 <span style="color:var(--dim);font-size:.58rem">任意</span></label>
+        <input class="ef-inp" type="text" id="ef-birthplace" placeholder="例：東京都渋谷区" maxlength="60">
+      </div>
+
+      <div class="ef-div"></div>
+
+      <!-- ⑥ お悩みカテゴリー -->
+      <div class="ef-g">
+        <label class="ef-lbl">お悩みカテゴリー <span style="color:var(--dim);font-size:.58rem">任意・複数選択可</span></label>
+
+        <p class="ef-cat-lbl">💕 恋愛</p>
+        <div class="ef-concern-grid">
+          <div class="ef-concern-tile" data-concern="片思い"   onclick="toggleConcern(this)"><span class="cico">🌷</span>片思い</div>
+          <div class="ef-concern-tile" data-concern="恋人あり" onclick="toggleConcern(this)"><span class="cico">💑</span>恋人あり</div>
+          <div class="ef-concern-tile" data-concern="復縁希望" onclick="toggleConcern(this)"><span class="cico">🌙</span>復縁希望</div>
+          <div class="ef-concern-tile" data-concern="結婚希望" onclick="toggleConcern(this)"><span class="cico">💍</span>結婚希望</div>
+        </div>
+
+        <p class="ef-cat-lbl">💼 仕事</p>
+        <div class="ef-concern-grid">
+          <div class="ef-concern-tile" data-concern="転職"     onclick="toggleConcern(this)"><span class="cico">🔄</span>転職</div>
+          <div class="ef-concern-tile" data-concern="独立"     onclick="toggleConcern(this)"><span class="cico">🦅</span>独立</div>
+          <div class="ef-concern-tile" data-concern="人間関係" onclick="toggleConcern(this)"><span class="cico">🤝</span>人間関係</div>
+        </div>
+
+        <p class="ef-cat-lbl">✨ 金運</p>
+        <div class="ef-concern-grid">
+          <div class="ef-concern-tile" data-concern="貯金"     onclick="toggleConcern(this)"><span class="cico">🏦</span>貯金</div>
+          <div class="ef-concern-tile" data-concern="投資"     onclick="toggleConcern(this)"><span class="cico">📈</span>投資</div>
+          <div class="ef-concern-tile" data-concern="副業"     onclick="toggleConcern(this)"><span class="cico">💡</span>副業</div>
+        </div>
+      </div>
+
+      <!-- 保存ボタン -->
+      <button type="button" class="acc-confirm-btn" onclick="saveEditForm()" id="ef-save-btn">
+        登録情報を保存する
+      </button>
+
+    </form>
+  </div>
+</div>
 
 <script>
 /* ============================================================
@@ -2015,6 +2209,125 @@ var MIKAGE_PATTERNS=[
   renderUserInfo();
   renderHistory();
 })();
+
+/* ============================================================
+   登録情報編集モーダル
+   ============================================================ */
+function openEditModal(){
+  var auth = getAuth() || {};
+
+  /* ── プリフィル ── */
+  document.getElementById('ef-name').value       = auth.name       || USER.name || '';
+  document.getElementById('ef-birth').value      = auth.birthDate  || '';
+  document.getElementById('ef-birthtime').value  = auth.birthTime  || '';
+  document.getElementById('ef-birthplace').value = auth.birthPlace || '';
+
+  /* 性別 */
+  document.querySelectorAll('.ef-gender-tile').forEach(function(t){
+    t.classList.remove('sel');
+    var r = t.querySelector('input[type=radio]');
+    if(r) r.checked = false;
+  });
+  var gMap = {female:'ef-gf', male:'ef-gm', other:'ef-go'};
+  if(auth.gender && gMap[auth.gender]){
+    var gt = document.getElementById(gMap[auth.gender]);
+    if(gt){ gt.classList.add('sel'); var gr = gt.querySelector('input'); if(gr) gr.checked = true; }
+  }
+
+  /* お悩み */
+  var saved = auth.concerns || [];
+  document.querySelectorAll('.ef-concern-tile').forEach(function(t){
+    t.classList.toggle('sel', saved.indexOf(t.getAttribute('data-concern')) >= 0);
+  });
+
+  /* エラークリア */
+  ['ef-name-err','ef-birth-err','ef-gender-err'].forEach(function(id){
+    document.getElementById(id).classList.remove('show');
+  });
+  var btn = document.getElementById('ef-save-btn');
+  btn.textContent = '登録情報を保存する';
+  btn.disabled = false;
+
+  document.body.style.overflow = 'hidden';
+  document.getElementById('edit-modal').classList.add('open');
+  /* フォーカス先 */
+  setTimeout(function(){ document.getElementById('ef-name').focus(); }, 100);
+}
+
+function closeEditModal(){
+  document.getElementById('edit-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function onEditModalBg(e){
+  if(e.target === document.getElementById('edit-modal')) closeEditModal();
+}
+
+/* 性別タイル選択 */
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.ef-gender-tile').forEach(function(tile){
+    tile.addEventListener('click', function(){
+      document.querySelectorAll('.ef-gender-tile').forEach(function(t){ t.classList.remove('sel'); });
+      this.classList.add('sel');
+      var r = this.querySelector('input[type=radio]');
+      if(r) r.checked = true;
+      document.getElementById('ef-gender-err').classList.remove('show');
+    });
+  });
+});
+
+function toggleConcern(tile){
+  tile.classList.toggle('sel');
+}
+
+function saveEditForm(){
+  var name   = document.getElementById('ef-name').value.trim();
+  var birth  = document.getElementById('ef-birth').value;
+  var gSel   = document.querySelector('.ef-gender-tile.sel input[type=radio]');
+  var gender = gSel ? gSel.value : '';
+
+  /* バリデーション */
+  var ok = true;
+  var nameErr = document.getElementById('ef-name-err');
+  var birthErr = document.getElementById('ef-birth-err');
+  var genderErr = document.getElementById('ef-gender-err');
+  nameErr.classList.toggle('show', !name);   if(!name)   ok = false;
+  birthErr.classList.toggle('show', !birth); if(!birth)  ok = false;
+  genderErr.classList.toggle('show', !gender); if(!gender) ok = false;
+  if(!ok){ return; }
+
+  /* お悩み収集 */
+  var concerns = [];
+  document.querySelectorAll('.ef-concern-tile.sel').forEach(function(t){
+    concerns.push(t.getAttribute('data-concern'));
+  });
+
+  /* localStorage 更新 */
+  var auth = getAuth() || {};
+  auth.name       = name;
+  auth.birthDate  = birth;
+  auth.gender     = gender;
+  auth.birthTime  = document.getElementById('ef-birthtime').value;
+  auth.birthPlace = document.getElementById('ef-birthplace').value.trim();
+  auth.concerns   = concerns;
+  try{ localStorage.setItem('tsukiyomi_auth', JSON.stringify(auth)); }catch(e){}
+
+  /* DOM即時反映 */
+  USER.name = name;
+  renderUserInfo();
+
+  /* 保存フィードバック → モーダルを閉じる */
+  var btn = document.getElementById('ef-save-btn');
+  btn.textContent = '✓ 保存しました';
+  btn.disabled = true;
+  setTimeout(function(){ closeEditModal(); }, 820);
+}
+
+/* Esc キー */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.getElementById('edit-modal').classList.contains('open'))
+    closeEditModal();
+});
 </script>
 </body>
 </html>
