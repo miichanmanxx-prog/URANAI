@@ -2862,13 +2862,9 @@ function doRegister(){
     moonMessage:moon.moonMessage,personalityType:moon.personalityType,
     personalityKeyword:moon.personalityKeyword});
   closeModal();
-  if(_pendingFortune){
-    _pendingFortune=false;
-    if(IS_STORE)updSteps(4);
-    show('scr-loading');runLoad(function(){renderResult()});
-  }else{
-    fadeToPage('tsukiyomi_mypage.html');
-  }
+  // 会員登録後は結果画面ではなくマイページへ遷移
+  _pendingFortune = false;
+  fadeToPage('tsukiyomi_mypage.html');
 }
 function doLoginSwitch(){modalSwitchView('login');}
 /* ── ログイン ──────────────────────────────────── */
