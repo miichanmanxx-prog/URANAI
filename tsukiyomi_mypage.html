@@ -949,8 +949,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
    ══════════════════════════════════════════════════════ */
 #settings-screen{
   display:none;
-  position:relative;z-index:1; /* .nb blobs(z-index:0)より手前 */
-  min-height:100vh;
+  position:fixed;inset:0;z-index:200;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
   /* 夜空グラデーション背景 */
   background:
     radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.22) 0%, transparent 48%),
@@ -959,6 +959,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     radial-gradient(ellipse at 30% 90%, rgba(30,10,80,.18)  0%, transparent 50%),
     linear-gradient(168deg, #0E0A2A 0%, #09071D 52%, #060516 100%);
   padding:0 1rem 5rem;
+  box-sizing:border-box;
 }
 /* フェードイン */
 @keyframes screenFadeIn{
