@@ -269,6 +269,11 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   display:flex;align-items:center;justify-content:center;
   font-size:1.85rem;animation:float 4s ease-in-out infinite;
   box-shadow:0 0 18px rgba(123,92,246,.25),inset 0 0 8px rgba(123,92,246,.08);
+  overflow:hidden;
+}
+.user-moon-orb img{
+  width:50px;height:50px;border-radius:50%;object-fit:cover;
+  filter:brightness(.88) contrast(.82) saturate(.72);
 }
 .user-info-col{flex:1;min-width:0}
 .user-greeting{font-size:.6rem;letter-spacing:.2em;color:var(--muted);font-style:italic;margin-bottom:.15rem;text-transform:uppercase}
@@ -1508,11 +1513,55 @@ function fadeToPage(url){
    ============================================================ */
 var USER = {name:'さくら', email:'', memberSince:'2026.05', plan:'none'};
 var USER_MOON = {
+  _phaseKey:'mangetu',
   moonIcon:'🌕', moonPhase:'満月', moonEmoji:'🌕',
-  moonMessage:'内側に宿る光が、あなたの道を照らしています。',
-  personalityType:'豊かな感性の引き寄せ人',
-  personalityKeyword:'感受性が高く、人を惹きつける魅力があります。'
+  personalityType:'豊かな感性で人を惹きつける人'
 };
+
+/* ── 月相データ ── */
+var MOON_PHASES = {
+  shingetu: {
+    img:'shingetu.png', phase:'新月', phaseEn:'New Moon',
+    personality:'静かな直感で未来を照らす人', emoji:'🌑',
+    msgs:['静かに、しかし確かに運気が動き始めています。',
+          '内なる声に従うことで、新しい道が開けます。',
+          '今は準備の時。焦らず自分を整えていきましょう。']
+  },
+  mikaduki: {
+    img:'mikaduki.png', phase:'三日月', phaseEn:'Crescent Moon',
+    personality:'希望を育て運命を動かす人', emoji:'🌙',
+    msgs:['運気は上昇中。新しい挑戦が実りやすい時期です。',
+          '希望の光が射し込んでいます。一歩踏み出して。',
+          '対人運が活発化。素敵な縁が近づいています。']
+  },
+  mangetu: {
+    img:'mangetu.png', phase:'満月', phaseEn:'Full Moon',
+    personality:'豊かな感性で人を惹きつける人', emoji:'🌕',
+    msgs:['豊かなエネルギーが満ちています。人との縁が深まる予感。',
+          '感性が研ぎ澄まされています。直感を信じて動いて。',
+          '今は願いが形になりやすい流れです。']
+  },
+  hangetu: {
+    img:'hangetu.png', phase:'半月', phaseEn:'Half Moon',
+    personality:'挑戦と成長を繰り返す人', emoji:'🌓',
+    msgs:['今は心を整える時。焦らず流れを待ちましょう。',
+          '内側を深める時期。静かな充実が訪れます。',
+          '試練の先に大きな実りが待っています。']
+  }
+};
+
+/* 生年月日から月相タイプを算出 */
+function calcMoonPhaseFromDate(dateStr) {
+  if (!dateStr) return 'mangetu';
+  var d = new Date(dateStr);
+  if (isNaN(d.getTime())) return 'mangetu';
+  var ref = new Date('2000-01-06T00:00:00Z'); /* 既知の新月 */
+  var phase = (((d - ref) / 86400000) % 29.53059 + 29.53059) % 29.53059;
+  if (phase < 7.38)  return 'shingetu';
+  if (phase < 14.77) return 'mikaduki';
+  if (phase < 22.15) return 'mangetu';
+  return 'hangetu';
+}
 
 /* ============================================================
    History data
@@ -1623,14 +1672,21 @@ function buildStars() {
    Render user info
    ============================================================ */
 function renderUserInfo() {
-  document.getElementById('user-moon-orb').textContent     = USER_MOON.moonEmoji || USER_MOON.moonIcon;
+  var pd = MOON_PHASES[USER_MOON._phaseKey] || MOON_PHASES.mangetu;
+
+  /* ユーザー月相アイコン → 月相画像 */
+  var orbEl = document.getElementById('user-moon-orb');
+  if (orbEl) orbEl.innerHTML = '<img src="' + pd.img + '" alt="' + pd.phase + '">';
+
   document.getElementById('user-name-display').textContent = USER.name || 'ゲスト';
-  document.getElementById('user-moon-label').textContent   = (USER_MOON.moonPhase || '満月') + ' / Moon Phase';
-  document.getElementById('user-personality').textContent  = USER_MOON.personalityType || '';
+  document.getElementById('user-moon-label').textContent   = pd.phase + ' / ' + pd.phaseEn;
+  document.getElementById('user-personality').textContent  = pd.personality;
   document.getElementById('user-since-chip').textContent   = (USER.memberSince || '').replace(/-/g,'.') + 'から';
   document.getElementById('user-email-chip').textContent   = USER.email || '';
-  var msgEl = document.getElementById('user-moon-msg');
-  if (msgEl) msgEl.innerHTML = USER_MOON.moonMessage || '内側に宿る光が、あなたの道を照らしています。';
+
+  /* トップ月画像 → 月相画像に同期 */
+  var moonImgEl = document.getElementById('mp-moon-img');
+  if (moonImgEl) moonImgEl.src = pd.img;
 
   /* Stats */
   var countEl = document.getElementById('stat-count');
@@ -1642,10 +1698,60 @@ function renderUserInfo() {
     lastEl.textContent = last;
   }
   if (planEl) planEl.textContent = USER.plan === 'premium' ? '有料' : '無料';
+}
 
-  /* Sync moon symbol emoji */
-  var symEl = document.getElementById('mp-symbol-emoji');
-  if (symEl) symEl.textContent = USER_MOON.moonEmoji || '🌙';
+/* ============================================================
+   現状メッセージ生成
+   ============================================================ */
+
+/* Gemini APIキー（空文字 = ローカル静的メッセージを使用） */
+var GEMINI_API_KEY = '';
+
+function _localStatusMsg(phaseKey, fortuneCount, lastDateStr) {
+  var pd = MOON_PHASES[phaseKey] || MOON_PHASES.mangetu;
+  var seed = fortuneCount + (lastDateStr ? parseInt(lastDateStr.replace(/\D/g,''), 10) % 97 : 0);
+  return '🌙 ' + pd.msgs[seed % pd.msgs.length];
+}
+
+function _fetchGeminiMsg(phaseKey, fortuneCount, lastDateStr, recentSummary) {
+  if (!GEMINI_API_KEY) return Promise.resolve(null);
+  var payload = {
+    moonPhase: phaseKey, fortuneCount: fortuneCount,
+    lastFortuneDate: lastDateStr || '', recentFortuneSummary: recentSummary || ''
+  };
+  var prompt = '占いアプリ「月詠み占い」ユーザーへ20〜40文字の運勢メッセージを生成してください。' +
+    '前向きで安心感があり、月の神秘を感じさせる表現で。不安を煽らないこと。' +
+    'ユーザー情報: ' + JSON.stringify(payload) + '\nメッセージのみ返答してください。';
+  return fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GEMINI_API_KEY,
+    {method:'POST', headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})}
+  ).then(function(r){ return r.json(); })
+   .then(function(data){
+     return (data.candidates && data.candidates[0] &&
+             data.candidates[0].content && data.candidates[0].content.parts &&
+             data.candidates[0].content.parts[0].text.trim()) || null;
+   }).catch(function(){ return null; });
+}
+
+function generateAndRenderStatusMsg() {
+  var msgEl = document.getElementById('user-moon-msg');
+  if (!msgEl) return;
+  var phaseKey    = USER_MOON._phaseKey || 'mangetu';
+  var count       = HISTORY_ALL.length;
+  var lastDate    = count ? HISTORY_ALL[0].date : '';
+  var recentSumm  = count ? HISTORY_ALL[0].reading : '';
+
+  /* まずローカルメッセージを即表示 */
+  msgEl.innerHTML = _localStatusMsg(phaseKey, count, lastDate);
+
+  /* Geminiキーがあれば非同期でAI生成に差し替え */
+  if (GEMINI_API_KEY) {
+    msgEl.innerHTML = '<span style="opacity:.45;font-size:.72rem">✦ メッセージを生成中…</span>';
+    _fetchGeminiMsg(phaseKey, count, lastDate, recentSumm).then(function(txt){
+      msgEl.innerHTML = txt ? '🌙 ' + txt : _localStatusMsg(phaseKey, count, lastDate);
+    });
+  }
 }
 
 /* ============================================================
@@ -2339,17 +2445,18 @@ var MIKAGE_PATTERNS=[
   if (auth.name)        USER.name        = auth.name;
   if (auth.memberSince) USER.memberSince = auth.memberSince;
   if (auth.email)       USER.email       = auth.email;
+  if (auth.plan)        USER.plan        = auth.plan;
 
-  if (auth.moonIcon)           USER_MOON.moonIcon           = auth.moonIcon;
-  if (auth.moonPhase)          USER_MOON.moonPhase          = auth.moonPhase;
-  if (auth.moonEmoji)          USER_MOON.moonEmoji          = auth.moonEmoji;
-  if (auth.personalityType)    USER_MOON.personalityType    = auth.personalityType;
-  if (auth.personalityKeyword) USER_MOON.personalityKeyword = auth.personalityKeyword;
-  USER_MOON.moonMessage = 'あなたは<em>' + USER_MOON.moonPhase + '</em>のエネルギーの中にいます。' +
-    (auth.moonMessage ? auth.moonMessage : '内側に宿る光が、あなたの道を照らしています。');
+  /* 生年月日から月相タイプを算出 */
+  var phaseKey = calcMoonPhaseFromDate(auth.birthDate);
+  USER_MOON._phaseKey       = phaseKey;
+  USER_MOON.moonPhase       = MOON_PHASES[phaseKey].phase;
+  USER_MOON.moonEmoji       = MOON_PHASES[phaseKey].emoji;
+  USER_MOON.personalityType = MOON_PHASES[phaseKey].personality;
 
   renderUserInfo();
   renderHistory();
+  generateAndRenderStatusMsg();
 })();
 
 /* ============================================================
