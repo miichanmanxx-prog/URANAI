@@ -945,29 +945,39 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .mp-edit-btn:hover{background:rgba(123,92,246,.2);border-color:rgba(123,92,246,.5);transform:rotate(30deg)}
 
 /* ══════════════════════════════════════════════════════
-   編集モーダル — 月夜の神殿 × グラスモーフィズム
+   編集モーダル — <dialog> ベース × グラスモーフィズム
    ══════════════════════════════════════════════════════ */
-#edit-modal{
-  display:none;
-  width:100%;height:100dvh;    /* ビューポート固定 */
-  overflow-y:auto;             /* ここだけスクロール（二重スクロール解消） */
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding:2rem 1rem 3.5rem;
-  /* 夜空グラデーション */
-  background:
-    radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.22) 0%, transparent 48%),
-    radial-gradient(ellipse at 78% 78%, rgba(44,18,110,.26) 0%, transparent 46%),
-    radial-gradient(ellipse at 54%  4%, rgba(90,45,170,.15) 0%, transparent 42%),
-    radial-gradient(ellipse at 30% 90%, rgba(30,10,80,.18)  0%, transparent 50%),
-    linear-gradient(168deg, #0E0A2A 0%, #09071D 52%, #060516 100%);
-}
-#edit-modal.open{display:flex}
 
-/* グラスモーフィズムカード（スマホ・PC共通） */
+/* dialog ブラウザデフォルトをリセット */
+#edit-modal{
+  border:none;
+  padding:0;
+  background:transparent;
+  /* ブラウザが margin:auto で中央配置してくれる */
+  width:min(480px, calc(100% - 2rem));
+  max-width:100%;
+  max-height:none;
+  color:var(--text);
+}
+@media(min-width:600px){
+  #edit-modal{ width:min(520px, calc(100% - 2rem)); }
+}
+
+/* 背景オーバーレイ（::backdrop に集約） */
+#edit-modal::backdrop{
+  background:
+    radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 78% 78%, rgba(44,18,110,.28) 0%, transparent 48%),
+    rgba(6,3,18,.84);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+
+/* グラスモーフィズムカード */
 #edit-sheet{
-  width:100%;max-width:480px;
+  width:100%;
+  max-height:90vh;             /* シート内スクロール（単一） */
+  overflow-y:auto;
   background:rgba(255,255,255,.07);
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
@@ -981,14 +991,12 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
   animation:editCardIn .3s ease both;
 }
 @media(min-width:600px){
-  #edit-sheet{ max-width:520px; padding:0 2rem 3rem; }
+  #edit-sheet{ padding:0 2rem 3rem; }
 }
 @keyframes editCardIn{
   from{transform:scale(.94) translateY(16px);opacity:0}
   to  {transform:scale(1)   translateY(0);   opacity:1}
 }
-.edit-handle{width:44px;height:4px;background:rgba(220,206,255,.22);border-radius:2px;margin:1rem auto .4rem}
-@media(min-width:600px){.edit-handle{display:none}}
 .edit-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 1.1rem;border-bottom:1px solid rgba(220,206,255,.1);margin-bottom:1.5rem}
 .edit-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:.1em;color:var(--purL)}
 .edit-close{background:none;border:none;color:var(--muted);font-size:1.25rem;cursor:pointer;padding:.2rem .5rem;line-height:1;-webkit-appearance:none}
@@ -1404,10 +1412,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 <!-- ═══════════════════════════════════════════════
      登録情報編集モーダル
      ═══════════════════════════════════════════════ -->
-<div id="edit-modal" onclick="onEditModalBg(event)" role="dialog" aria-modal="true" aria-label="登録情報の編集">
+<dialog id="edit-modal" aria-label="登録情報の編集">
   <div id="edit-sheet">
-
-    <div class="edit-handle"></div>
 
     <div class="edit-head">
       <p class="edit-title">✦ 登録情報の編集</p>
@@ -1500,7 +1506,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 
     </form>
   </div>
-</div>
+</dialog>
 
 <script>
 /* ============================================================
@@ -2504,24 +2510,20 @@ function openEditModal(){
   btn.textContent = '登録情報を保存する';
   btn.disabled = false;
 
-  /* position:fixed 不使用: .page を隠してモーダルを表示 */
-  window.scrollTo(0, 0);
-  var page = document.querySelector('.page');
-  if(page) page.style.display = 'none';
-  document.getElementById('edit-modal').classList.add('open');
+  /* <dialog>.showModal() — 背景スクロール自動ロック、top-layer に表示 */
+  document.getElementById('edit-modal').showModal();
   setTimeout(function(){ document.getElementById('ef-name').focus(); }, 60);
 }
 
 function closeEditModal(){
-  document.getElementById('edit-modal').classList.remove('open');
-  var page = document.querySelector('.page');
-  if(page) page.style.display = '';
-  window.scrollTo(0, 0);
+  /* <dialog>.close() — ネイティブクローズ */
+  document.getElementById('edit-modal').close();
 }
 
-function onEditModalBg(e){
-  if(e.target === document.getElementById('edit-modal')) closeEditModal();
-}
+/* ::backdrop クリックで閉じる（e.target が dialog 自身 = backdrop クリック） */
+document.getElementById('edit-modal').addEventListener('click', function(e){
+  if(e.target === this) closeEditModal();
+});
 
 /* 性別タイル選択 */
 document.addEventListener('DOMContentLoaded', function(){
@@ -2583,11 +2585,7 @@ function saveEditForm(){
   setTimeout(function(){ closeEditModal(); }, 820);
 }
 
-/* Esc キー */
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape' && document.getElementById('edit-modal').classList.contains('open'))
-    closeEditModal();
-});
+/* Esc キー — <dialog> がネイティブで処理するため手動リスナー不要 */
 
 /* 月まわりの星パーティクル生成 */
 (function(){
