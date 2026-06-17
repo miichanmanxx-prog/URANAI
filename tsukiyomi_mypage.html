@@ -945,39 +945,51 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 .mp-edit-btn:hover{background:rgba(123,92,246,.2);border-color:rgba(123,92,246,.5);transform:rotate(30deg)}
 
 /* ══════════════════════════════════════════════════════
-   編集モーダル — <dialog> ベース × グラスモーフィズム
+   設定画面（登録情報の編集）— 独立ページ × グラスモーフィズム
    ══════════════════════════════════════════════════════ */
-
-/* dialog ブラウザデフォルトをリセット */
-#edit-modal{
-  border:none;
-  padding:0;
-  background:transparent;
-  /* ブラウザが margin:auto で中央配置してくれる */
-  width:min(480px, calc(100% - 2rem));
-  max-width:100%;
-  max-height:none;
-  color:var(--text);
-}
-@media(min-width:600px){
-  #edit-modal{ width:min(520px, calc(100% - 2rem)); }
-}
-
-/* 背景オーバーレイ（::backdrop に集約） */
-#edit-modal::backdrop{
+#settings-screen{
+  display:none;
+  position:relative;z-index:1; /* .nb blobs(z-index:0)より手前 */
+  min-height:100vh;
+  /* 夜空グラデーション背景 */
   background:
-    radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 78% 78%, rgba(44,18,110,.28) 0%, transparent 48%),
-    rgba(6,3,18,.84);
-  backdrop-filter:blur(5px);
-  -webkit-backdrop-filter:blur(5px);
+    radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 78% 78%, rgba(44,18,110,.26) 0%, transparent 46%),
+    radial-gradient(ellipse at 54%  4%, rgba(90,45,170,.15) 0%, transparent 42%),
+    radial-gradient(ellipse at 30% 90%, rgba(30,10,80,.18)  0%, transparent 50%),
+    linear-gradient(168deg, #0E0A2A 0%, #09071D 52%, #060516 100%);
+  padding:0 1rem 5rem;
 }
+/* フェードイン */
+@keyframes screenFadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+#settings-screen.active{
+  display:block;
+  animation:screenFadeIn .22s ease both;
+}
+
+/* 設定画面ヘッダー */
+.settings-header{
+  max-width:480px;margin:0 auto;
+  padding:1.2rem 0 .8rem;
+  display:flex;align-items:center;
+}
+.settings-back-btn{
+  background:none;border:none;
+  color:var(--muted);font-family:'Noto Serif JP',serif;
+  font-size:.76rem;letter-spacing:.1em;
+  cursor:pointer;padding:.4rem 0;
+  -webkit-appearance:none;
+  transition:color .2s;
+}
+.settings-back-btn:hover{color:var(--purL)}
 
 /* グラスモーフィズムカード */
-#edit-sheet{
-  width:100%;
-  max-height:90vh;             /* シート内スクロール（単一） */
-  overflow-y:auto;
+.settings-card{
+  width:calc(100% - 2rem);max-width:460px;
+  margin:0 auto;
   background:rgba(255,255,255,.07);
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
@@ -988,13 +1000,13 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
     0 20px 60px rgba(0,0,0,.5),
     0 0 48px rgba(100,55,200,.14),
     inset 0 1px 0 rgba(255,255,255,.10);
-  animation:editCardIn .3s ease both;
+  animation:settingsCardIn .28s ease both;
 }
 @media(min-width:600px){
-  #edit-sheet{ padding:0 2rem 3rem; }
+  .settings-card{max-width:520px;padding:0 2rem 3rem;}
 }
-@keyframes editCardIn{
-  from{transform:scale(.94) translateY(16px);opacity:0}
+@keyframes settingsCardIn{
+  from{transform:scale(.95) translateY(12px);opacity:0}
   to  {transform:scale(1)   translateY(0);   opacity:1}
 }
 .edit-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 1.1rem;border-bottom:1px solid rgba(220,206,255,.1);margin-bottom:1.5rem}
@@ -1157,7 +1169,7 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 </div>
 
 <!-- ── Main Page ── -->
-<div class="page">
+<div class="page" id="mypage-screen">
 
   <!-- Header -->
   <header class="mp-header">
@@ -1410,14 +1422,20 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 </div><!-- /page -->
 
 <!-- ═══════════════════════════════════════════════
-     登録情報編集モーダル
+     設定画面（登録情報の編集）
      ═══════════════════════════════════════════════ -->
-<dialog id="edit-modal" aria-label="登録情報の編集">
-  <div id="edit-sheet">
+<div id="settings-screen">
+
+  <!-- ヘッダー：戻るボタン -->
+  <div class="settings-header">
+    <button class="settings-back-btn" onclick="closeEditModal()">← マイページへ戻る</button>
+  </div>
+
+  <!-- グラスモーフィズムカード -->
+  <div class="settings-card" id="settings-card">
 
     <div class="edit-head">
       <p class="edit-title">✦ 登録情報の編集</p>
-      <button class="edit-close" onclick="closeEditModal()" aria-label="閉じる">✕</button>
     </div>
 
     <form id="edit-form" onsubmit="return false">
@@ -1505,8 +1523,8 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
       </button>
 
     </form>
-  </div>
-</dialog>
+  </div><!-- /settings-card -->
+</div><!-- /settings-screen -->
 
 <script>
 /* ============================================================
@@ -2510,20 +2528,23 @@ function openEditModal(){
   btn.textContent = '登録情報を保存する';
   btn.disabled = false;
 
-  /* <dialog>.showModal() — 背景スクロール自動ロック、top-layer に表示 */
-  document.getElementById('edit-modal').showModal();
+  /* 画面切替：マイページを隠し設定画面を表示 */
+  document.getElementById('mypage-screen').style.display = 'none';
+  var ss = document.getElementById('settings-screen');
+  ss.classList.remove('active');
+  void ss.offsetWidth; /* reflow でアニメーションを毎回発火 */
+  ss.classList.add('active');
+  window.scrollTo(0, 0);
   setTimeout(function(){ document.getElementById('ef-name').focus(); }, 60);
 }
 
 function closeEditModal(){
-  /* <dialog>.close() — ネイティブクローズ */
-  document.getElementById('edit-modal').close();
+  /* 画面切替：設定画面を隠しマイページを表示 */
+  document.getElementById('settings-screen').classList.remove('active');
+  document.getElementById('settings-screen').style.display = 'none';
+  document.getElementById('mypage-screen').style.display = '';
+  window.scrollTo(0, 0);
 }
-
-/* ::backdrop クリックで閉じる（e.target が dialog 自身 = backdrop クリック） */
-document.getElementById('edit-modal').addEventListener('click', function(e){
-  if(e.target === this) closeEditModal();
-});
 
 /* 性別タイル選択 */
 document.addEventListener('DOMContentLoaded', function(){
