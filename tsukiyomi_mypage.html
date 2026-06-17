@@ -944,44 +944,50 @@ body.page-out{opacity:0 !important;transform:translateY(-5px) !important;
 }
 .mp-edit-btn:hover{background:rgba(123,92,246,.2);border-color:rgba(123,92,246,.5);transform:rotate(30deg)}
 
-/* ── 編集フォーム（position:fixed 不使用・show/hide 方式） ── */
+/* ══════════════════════════════════════════════════════
+   編集モーダル — 月夜の神殿 × グラスモーフィズム
+   ══════════════════════════════════════════════════════ */
 #edit-modal{
   display:none;
-  width:100%;min-height:100dvh;
-  flex-direction:column;align-items:stretch;
-  /* body と同じ宇宙背景をそのまま継続 */
+  width:100%;height:100dvh;    /* ビューポート固定 */
+  overflow-y:auto;             /* ここだけスクロール（二重スクロール解消） */
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:2rem 1rem 3.5rem;
+  /* 夜空グラデーション */
+  background:
+    radial-gradient(ellipse at 22% 18%, rgba(108,55,210,.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 78% 78%, rgba(44,18,110,.26) 0%, transparent 46%),
+    radial-gradient(ellipse at 54%  4%, rgba(90,45,170,.15) 0%, transparent 42%),
+    radial-gradient(ellipse at 30% 90%, rgba(30,10,80,.18)  0%, transparent 50%),
+    linear-gradient(168deg, #0E0A2A 0%, #09071D 52%, #060516 100%);
 }
 #edit-modal.open{display:flex}
 
-/* モバイル: 全画面スクロール */
+/* グラスモーフィズムカード（スマホ・PC共通） */
 #edit-sheet{
-  width:100%;max-width:480px;margin:0 auto;
-  padding:0 1.25rem 4rem;flex:1;
+  width:100%;max-width:480px;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:28px;
+  padding:0 1.5rem 2.5rem;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.5),
+    0 0 48px rgba(100,55,200,.14),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  animation:editCardIn .3s ease both;
 }
-
-/* PC: 中央カード */
 @media(min-width:600px){
-  #edit-modal{
-    align-items:center;justify-content:center;
-    padding:2rem 1rem;
-    background:radial-gradient(ellipse at 50% -10%,rgba(26,11,46,.97) 0%,rgba(11,9,30,.95) 60%);
-  }
-  #edit-sheet{
-    flex:none;width:100%;max-width:520px;
-    /* max-height・overflow-y 廃止 → カード内スクロールバーを消去、bodyスクロールに一本化 */
-    overflow-y:visible;
-    background:linear-gradient(160deg,#1A1B3A 0%,#0D0E26 100%);
-    border:1px solid rgba(220,206,255,.12);border-radius:22px;
-    padding:0 1.8rem 2.5rem;
-    box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 60px rgba(76,42,133,.2);
-    animation:editCardIn .26s ease both;
-  }
+  #edit-sheet{ max-width:520px; padding:0 2rem 3rem; }
 }
 @keyframes editCardIn{
-  from{transform:scale(.93) translateY(14px);opacity:0}
+  from{transform:scale(.94) translateY(16px);opacity:0}
   to  {transform:scale(1)   translateY(0);   opacity:1}
 }
-.edit-handle{width:44px;height:4px;background:rgba(220,206,255,.2);border-radius:2px;margin:1rem auto .4rem}
+.edit-handle{width:44px;height:4px;background:rgba(220,206,255,.22);border-radius:2px;margin:1rem auto .4rem}
 @media(min-width:600px){.edit-handle{display:none}}
 .edit-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 1.1rem;border-bottom:1px solid rgba(220,206,255,.1);margin-bottom:1.5rem}
 .edit-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:.1em;color:var(--purL)}
