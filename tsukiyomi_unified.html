@@ -1511,6 +1511,15 @@ function submitForm(){
     var _p=MIKAGE_PATTERNS[_s%20];
     _mikageFortunePromise=fetchMikageFortune(_p.moon,_p.elem,name);
   }
+  if(ST.menu==='monthly'){
+    var _si=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+    var _pi=MONTHLY_OBA[phaseIdx(birth)];
+    var _now=new Date(),_mo=_now.getMonth(),_dm=new Date(_now.getFullYear(),_mo+1,0).getDate();
+    var _ld1=(_si%12)+5; if(_ld1>_dm)_ld1=_dm-3;
+    var _ld2=(_si%7)+20; if(_ld2>_dm)_ld2=_dm-1; if(_ld2===_ld1)_ld2=(_ld2%_dm)+1;
+    var _cd1=(_si%8)+11; if(_cd1>_dm)_cd1=_dm-4; if(_cd1===_ld1)_cd1=(_cd1%_dm)+1; if(_cd1===_ld2)_cd1=((_cd1+1)%_dm)+1;
+    _stellaFortunePromise=fetchStellaFortune(_pi.phase,_mo+1,name,_ld1,_ld2,_cd1);
+  }
   show('scr-loading');runLoad(function(){renderResult()});
 }
 function runLoad(cb){
@@ -1544,6 +1553,28 @@ function fetchMikageFortune(moon,elem,name){
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({character:'mikage',moon:moon,elem:elem,name:name})
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
+var _stellaFortunePromise=null;
+function fetchStellaFortune(phase,month,name,ld1,ld2,cd1){
+  return fetch(FORTUNE_API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({character:'stella',phase:phase,month:month,name:name,ld1:ld1,ld2:ld2,cd1:cd1})
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
+var _lunaFortunePromise=null;
+function fetchLunaFortune(arcana,moon,elem,keywords,name){
+  return fetch(FORTUNE_API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({character:'luna',arcana:arcana,moon:moon,elem:elem,keywords:keywords,name:name})
   }).then(function(r){
     if(!r.ok)throw new Error('HTTP '+r.status);
     return r.json();
@@ -2191,7 +2222,7 @@ function buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1){
     '</div>'+
   '</div>';
 }
-function drawM(){
+async function drawM(){
   var name=(document.getElementById('f-name').value||'あんた').trim();
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
@@ -2204,6 +2235,23 @@ function drawM(){
   var cd1=(seed%8)+11; if(cd1>dm)cd1=dm-4; if(cd1===ld1)cd1=(cd1%dm)+1; if(cd1===ld2)cd1=((cd1+1)%dm)+1;
   var banner=mkBanner('hoshiyomi_baba.png','rgba(100,160,230,1)','linear-gradient(135deg,rgba(10,18,52,.96),rgba(6,10,28,.98))','星座占い / 月間運勢','星詠みのステラ','月と星を読む古き案内人');
   if(ST.planId==='basic'||ST.planId==='detail'){drawMPaid(pat,name,ST.planId,yr,mo,td,dm,ld1,ld2,cd1);return;}
+
+  /* ── Gemini 生成結果を取得（失敗時は静的パターンへフォールバック） ── */
+  var r=pat;
+  try{
+    var sfetched=await(_stellaFortunePromise||fetchStellaFortune(pat.phase,mo+1,name,ld1,ld2,cd1));
+    if(sfetched&&sfetched.theme)r={
+      phase:pat.phase,phaseIcon:pat.phaseIcon,
+      theme:sfetched.theme,
+      themeMsg:sfetched.themeMsg,
+      flow:sfetched.flow,
+      luckyLabels:[{msg:sfetched.luckyMsg1||pat.luckyLabels[0].msg},{msg:sfetched.luckyMsg2||pat.luckyLabels[1].msg}],
+      cautionLabel:{msg:sfetched.cautionMsg||pat.cautionLabel.msg},
+      obaMsg:sfetched.obaMsg
+    };
+  }catch(e){/* 静的パターンで表示 */}
+  _stellaFortunePromise=null;
+
   var cal=buildObaCalendar(yr,mo,td,dm,ld1,ld2,cd1);
   var legend='<div class="oba-legend mk-scroll-fade">'+
     '<div class="oba-leg-item"><div class="oba-leg-dot" style="background:rgba(212,175,55,.6)"></div>今日</div>'+
@@ -2213,11 +2261,11 @@ function drawM(){
   var themeSection='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-theme-wrap">'+
       '<div class="oba-theme-label">今月のテーマ</div>'+
-      '<div class="oba-theme-title">'+esc(pat.theme)+'</div>'+
-      '<div class="oba-theme-sub">'+esc(pat.themeMsg)+'</div>'+
+      '<div class="oba-theme-title">'+esc(r.theme)+'</div>'+
+      '<div class="oba-theme-sub">'+esc(r.themeMsg)+'</div>'+
     '</div>'+
   '</div>';
-  var flowParas=pat.flow.split('\n\n').filter(function(p){return p.trim()});
+  var flowParas=r.flow.split('\n\n').filter(function(p){return p.trim()});
   var flowHtml=flowParas.map(function(p){return'<p class="oba-fade-p">'+esc(p.trim())+'</p>'}).join('');
   var flowCard='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-card">'+
@@ -2228,7 +2276,7 @@ function drawM(){
     '</div>'+
   '</div>';
   var luckyHtml='';
-  pat.luckyLabels.forEach(function(lk,i){
+  r.luckyLabels.forEach(function(lk,i){
     var dayNum=i===0?ld1:ld2;
     luckyHtml+='<div style="margin-bottom:.88rem">'+
       '<div class="oba-day-tag lucky">✦ '+(mo+1)+'月'+dayNum+'日（強運日）</div>'+
@@ -2246,11 +2294,11 @@ function drawM(){
       '<div class="oba-card-hd"><div class="oba-card-label">Caution</div><div class="oba-card-title">注意日</div></div>'+
       '<div class="oba-card-body">'+
         '<div class="oba-day-tag caution">⚠ '+(mo+1)+'月'+cd1+'日（注意日）</div>'+
-        '<p class="oba-day-msg">'+esc(pat.cautionLabel.msg)+'</p>'+
+        '<p class="oba-day-msg">'+esc(r.cautionLabel.msg)+'</p>'+
       '</div>'+
     '</div>'+
   '</div>';
-  var msgParas=pat.obaMsg.split('\n\n').filter(function(p){return p.trim()});
+  var msgParas=r.obaMsg.split('\n\n').filter(function(p){return p.trim()});
   var msgHtml=msgParas.map(function(p){return'<p class="oba-msg-p">'+esc(p.trim())+'</p>'}).join('');
   var msgCard='<div class="oba-section mk-scroll-fade">'+
     '<div class="oba-card">'+
@@ -2371,6 +2419,10 @@ function lunaReveal(){
   var fi=document.getElementById('luna-front-img');
   if(fi)fi.src=LUNA_CARD_IMGS[idx];
   el.classList.add('flipping');
+  /* カードが確定したタイミングでGemini APIを呼び出し（950msのアニメーション中に並行フェッチ） */
+  var _lname=(document.getElementById('f-name').value||'あなた').trim();
+  var _ltc=LUNA_CARDS[idx];
+  _lunaFortunePromise=fetchLunaFortune(_ltc.arcana,_ltc.moon,_ltc.elem,_ltc.keywords,_lname);
   if(ST.planId==='basic'||ST.planId==='detail'){
     setTimeout(function(){lunaStartPaidFlow(ST._lunaCard,ST.planId)},950);
   }else{
@@ -2399,7 +2451,7 @@ function drawT(){
     '</div>'+
     topBtn()+'<div style="height:2rem"></div></div>';
 }
-function drawTR(idx){
+async function drawTR(idx){
   var tc=LUNA_CARDS[idx];
   var lv=LUNA_LOVE[idx];
   var name=(document.getElementById('f-name').value||'あなた').trim();
@@ -2417,7 +2469,31 @@ function drawTR(idx){
       '<div class="luna-elem-nm">('+esc(tc.elem)+')</div>'+
       '<div class="luna-kw-wrap">'+kwHtml+'</div>'+
     '</div>';
-  var msgLines=tc.msg.split('\n').map(function(l){return esc(l.trim())}).join('<br>');
+
+  /* ── カードを即表示、APIレスポンス待機中はプレースホルダー ── */
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="drawT()">← カードを引き直す</div>'+
+    cardVis+
+    '<div style="text-align:center;padding:3rem 1rem 2rem;color:rgba(200,180,255,.65);font-size:.85rem;letter-spacing:.14em">月の声を読み解いています…</div>'+
+    '</div>';
+
+  /* ── Gemini 生成結果を取得（失敗時は静的パターンへフォールバック） ── */
+  var staticLunaMsg=name+'さんへ。\n\n今夜、「'+tc.arcana+'」があなたのもとを訪れました。\n'+tc.moon+'の夜に引くべきカードは、\nいつも必然で導かれるものです。\n\n「'+tc.keywords[0]+'」と「'+tc.keywords[1]+'」——\nこのふたつの言葉が、今のあなたへの\n月からのメッセージです。\n\nこのカードが伝えているのは、\n答えはすでにあなたの中にある——ということ。\n\n続きを読んだ時、\nあなた自身が何かを思い出すはずです。';
+  var msgText=tc.msg,sitText=tc.situation,advText=tc.advice,loveText=lv,lunaMsgText=staticLunaMsg;
+  try{
+    var lfetched=await(_lunaFortunePromise||fetchLunaFortune(tc.arcana,tc.moon,tc.elem,tc.keywords,name));
+    if(lfetched&&lfetched.msg){
+      msgText=lfetched.msg;
+      sitText=lfetched.situation||tc.situation;
+      advText=lfetched.advice||tc.advice;
+      loveText=lfetched.loveReading||lv;
+      lunaMsgText=lfetched.lunaMessage||staticLunaMsg;
+    }
+  }catch(e){/* 静的パターンで表示 */}
+  _lunaFortunePromise=null;
+
+  var msgLines=msgText.split('\n').map(function(l){return esc(l.trim())}).join('<br>');
   var msgSection=
     '<div class="luna-msg-section mk-scroll-fade">'+
       '<div class="luna-msg-deco">✶ ✶ ✶</div>'+
@@ -2453,7 +2529,7 @@ function drawTR(idx){
         '</div>'+
         '<div class="luna-section-body">'+
           '<div class="luna-blur-wrap">'+
-            '<p class="luna-body-p">'+esc(tc.situation)+'</p>'+
+            '<p class="luna-body-p">'+esc(sitText)+'</p>'+
             '<div class="luna-blur-veil"></div>'+
             '<div class="luna-cta-hint">✦ 続きを視るには登録が必要です ✦</div>'+
           '</div>'+
@@ -2475,7 +2551,7 @@ function drawTR(idx){
         '</div>'+
         '<div class="luna-love-body">'+
           '<div class="luna-love-blur-wrap">'+
-            '<p class="luna-body-p" style="color:rgba(235,205,250,.82)">'+esc(lv)+'</p>'+
+            '<p class="luna-body-p" style="color:rgba(235,205,250,.82)">'+esc(loveText)+'</p>'+
             '<div class="luna-love-veil"></div>'+
             '<div class="luna-love-cta-hint">✦ 相手の本音は、続きに ✦</div>'+
           '</div>'+
@@ -2491,20 +2567,19 @@ function drawTR(idx){
         '</div>'+
         '<div class="luna-section-body">'+
           '<div class="luna-blur-wrap">'+
-            '<p class="luna-body-p">'+esc(tc.advice)+'</p>'+
+            '<p class="luna-body-p">'+esc(advText)+'</p>'+
             '<div class="luna-blur-veil"></div>'+
             '<div class="luna-cta-hint">✦ 続きを視るには登録が必要です ✦</div>'+
           '</div>'+
         '</div>'+
       '</div>'+
     '</div>';
-  var lunaMsg=name+'さんへ。\n\n今夜、「'+tc.arcana+'」があなたのもとを訪れました。\n'+tc.moon+'の夜に引くべきカードは、\nいつも必然で導かれるものです。\n\n「'+tc.keywords[0]+'」と「'+tc.keywords[1]+'」——\nこのふたつの言葉が、今のあなたへの\n月からのメッセージです。\n\nこのカードが伝えているのは、\n答えはすでにあなたの中にある——ということ。\n\n続きを読んだ時、\nあなた自身が何かを思い出すはずです。';
   var lunaCharSection=
     '<div class="luna-char-msg mk-scroll-fade">'+
       '<div class="luna-char-glass">'+
         '<div class="luna-char-deco">── Luna からあなたへ ──</div>'+
         '<div class="luna-char-blur-wrap">'+
-          '<p class="luna-char-text">'+esc(lunaMsg)+'</p>'+
+          '<p class="luna-char-text">'+esc(lunaMsgText)+'</p>'+
           '<div class="luna-char-veil"></div>'+
           '<div class="luna-char-cta">✦ 運命の続きを解読する ✦</div>'+
         '</div>'+
