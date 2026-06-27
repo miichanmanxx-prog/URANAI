@@ -1505,6 +1505,12 @@ function submitForm(){
     openModal();
     return;
   }
+  /* ローディングアニメーション中にGemini APIを並行フェッチ */
+  if(ST.menu==='personality'){
+    var _s=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
+    var _p=MIKAGE_PATTERNS[_s%20];
+    _mikageFortunePromise=fetchMikageFortune(_p.moon,_p.elem,name);
+  }
   show('scr-loading');runLoad(function(){renderResult()});
 }
 function runLoad(cb){
@@ -1530,6 +1536,20 @@ function runLoad(cb){
 function renderResult(){show('scr-result');if(ST.menu==='personality')drawP();else if(ST.menu==='monthly')drawM();else drawT()}
 function menuNav(cur){var others=['personality','monthly','tarot'].filter(function(m){return m!==cur});return'<div class="around"><div class="around-t">✦ 別の視点でも占ってみる ✦</div>'+others.map(function(m){var mt=MENU_META[m];return'<div class="around-btn" onclick="ST.menu=\''+m+'\';renderResult()"><span class="a-ico">'+mt.ico+'</span><span class="a-lbl">'+mt.lbl+'</span><span class="a-arr">›</span></div>'}).join('')+'</div>'}
 function topBtn(){return'<div style="width:100%;margin-top:1rem"><button class="btn-outline" onclick="show(\'scr-top\')">← トップへ戻る</button></div>'}
+/* ── Gemini Cloud Functions 呼び出し ─────────────────── */
+var FORTUNE_API_URL='https://asia-northeast1-uranai-f98c6.cloudfunctions.net/getFortune';
+var _mikageFortunePromise=null;
+function fetchMikageFortune(moon,elem,name){
+  return fetch(FORTUNE_API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({character:'mikage',moon:moon,elem:elem,name:name})
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
+
 /* ── 陰陽師ミカゲ 月相×五行 20パターン v2 ──────────── */
 var MIKAGE_PATTERNS=[
   /* 新月 × 木 */
@@ -1814,7 +1834,7 @@ function getMikageImageFilename(moon,elem){
   var p=elemPfx[elem]||'T';
   return p+n+'.png';
 }
-function drawP(){
+async function drawP(){
   var name=(document.getElementById('f-name').value||'あなた').trim();
   var birth=getBirthVal('f-birth');
   var seed=(name+birth).split('').reduce(function(a,c){return a+c.charCodeAt(0)},0);
@@ -1822,7 +1842,22 @@ function drawP(){
   var banner=mkBanner('mikage.png','rgba(139,92,246,1)','linear-gradient(135deg,rgba(22,12,52,.96),rgba(10,6,28,.98))','五行思想 / 性格鑑定','陰陽師ミカゲ','運命の流れを視る陰陽師');
   if(ST.planId==='basic'||ST.planId==='detail'){drawPPaid(pat,name,ST.planId);return;}
 
-  /* ── トップビジュアル */
+  /* ── API レスポンス待機中のプレースホルダー ── */
+  document.getElementById('result-inner').innerHTML=
+    '<div class="res-wrap">'+banner+
+    '<div class="back-btn" onclick="show(\'scr-top\')">← 最初に戻る</div>'+
+    '<div style="text-align:center;padding:4rem 1rem 2rem;color:rgba(200,180,255,.65);font-size:.85rem;letter-spacing:.14em">星が語りかけています…</div>'+
+    '</div>';
+
+  /* ── Gemini 生成結果を取得（失敗時は静的パターンへフォールバック） ── */
+  var r=pat;
+  try{
+    var fetched=await(_mikageFortunePromise||fetchMikageFortune(pat.moon,pat.elem,name));
+    if(fetched&&fetched.title)r=fetched;
+  }catch(e){/* 静的パターンで表示 */}
+  _mikageFortunePromise=null;
+
+  /* ── トップビジュアル（画像は pat で固定） */
   var moonImg=getMikageImageFilename(pat.moon,pat.elem);
   var topVisual=
     '<div class="mv-wrap mk-scroll-fade" style="margin-top:0">'+
@@ -1832,7 +1867,7 @@ function drawP(){
         '</div>'+
       '</div>'+
       '<p class="mv-tag">月相 × 五行</p>'+
-      '<p class="mv-title">'+esc(pat.title)+'</p>'+
+      '<p class="mv-title">'+esc(r.title)+'</p>'+
       '<p class="mv-title-en">'+esc(pat.moon)+' · '+esc(pat.elem)+'</p>'+
     '</div>';
 
@@ -1842,10 +1877,10 @@ function drawP(){
       '<div class="mk-catch-card">'+
         '<p class="mk-catch-lbl">✦ 一言診断 ✦</p>'+
         '<p class="mk-catch-intro">あなたは</p>'+
-        '<p class="mk-catch-label">'+esc(pat.catchLabel)+'</p>'+
+        '<p class="mk-catch-label">'+esc(r.catchLabel)+'</p>'+
         '<div class="mk-catch-divider"></div>'+
-        '<p class="mk-catch-copy">'+esc(pat.catchCopy)+'</p>'+
-        '<p class="mk-catch-note">'+esc(pat.catchNote)+'</p>'+
+        '<p class="mk-catch-copy">'+esc(r.catchCopy)+'</p>'+
+        '<p class="mk-catch-note">'+esc(r.catchNote||(pat.moon+'と'+pat.elem+'の気が重なるあなたへ'))+'</p>'+
       '</div>'+
     '</div>';
 
@@ -1859,7 +1894,7 @@ function drawP(){
           '<span class="mk-read-lock">🔒</span>'+
         '</div>'+
         '<div class="mk-read-body">'+
-          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.personality)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
+          '<div class="mk-fade-wrap">'+mkFadeParagraphs(r.personality)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
         '<div class="mk-read-unlock" onclick="openModal()" style="cursor:pointer">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
@@ -1878,7 +1913,7 @@ function drawP(){
           '<span class="mk-read-lock">🔒</span>'+
         '</div>'+
         '<div class="mk-read-body">'+
-          '<div class="mk-fade-wrap">'+mkFadeParagraphs(pat.destiny)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
+          '<div class="mk-fade-wrap">'+mkFadeParagraphs(r.destiny)+'<div class="mk-fade-veil"></div><div class="mk-cta-hint">✦ 続きは会員登録後にお読みいただけます ✦</div></div>'+
         '</div>'+
         '<div class="mk-read-unlock" onclick="openModal()" style="cursor:pointer">'+
           '<span class="mk-read-unlock-ico">🔓</span>'+
@@ -1897,15 +1932,15 @@ function drawP(){
         '</div>'+
         '<div class="mk-phase-inner">'+
           '<div class="mk-phase-status">'+
-            '<p class="mk-phase-status-txt">今のあなたは '+esc(pat.phaseStatus)+' にいます</p>'+
+            '<p class="mk-phase-status-txt">今のあなたは '+esc(r.phaseStatus)+' にいます</p>'+
           '</div>'+
-          '<p class="mk-phase-body">'+esc(pat.phaseBody)+'</p>'+
+          '<p class="mk-phase-body">'+esc(r.phaseBody)+'</p>'+
         '</div>'+
       '</div>'+
     '</div>';
 
   /* ── カード⑤ 相性（一部ぼかし） */
-  var cp=pat.compat;
+  var cp=r.compat||pat.compat;
   var card5=
     '<div class="mk-section mk-scroll-fade">'+
       '<div class="mk-compat-card">'+
@@ -1916,8 +1951,8 @@ function drawP(){
         '</div>'+
         '<div class="mk-compat-body">'+
           '<div class="mk-compat-tags">'+
-            '<span class="mk-compat-tag">'+cp.moonIcon+' '+esc(cp.moon)+'</span>'+
-            '<span class="mk-compat-tag">'+cp.elemIcon+' '+esc(cp.elem)+'</span>'+
+            '<span class="mk-compat-tag">'+(cp.moonIcon||'🌙')+' '+esc(cp.moon)+'</span>'+
+            '<span class="mk-compat-tag">'+(cp.elemIcon||'✦')+' '+esc(cp.elem)+'</span>'+
           '</div>'+
           '<p class="mk-compat-type">'+esc(cp.type)+'</p>'+
           '<div class="mk-compat-fade">'+
